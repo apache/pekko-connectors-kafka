@@ -190,10 +190,7 @@ lazy val core = project
         "com.typesafe.akka" %% "akka-discovery" % akkaVersion % Provided,
         "org.apache.kafka" % "kafka-clients" % kafkaVersion
       ),
-    mimaPreviousArtifacts := Set(
-        organization.value %% name.value % previousStableVersion.value
-          .getOrElse(throw new Error("Unable to determine previous version"))
-      ),
+    mimaPreviousArtifacts := Set.empty, //temporarily disable mima checks
     mimaBinaryIssueFilters += ProblemFilters.exclude[Problem]("akka.kafka.internal.*")
   )
 
@@ -213,10 +210,7 @@ lazy val testkit = project
         "junit" % "junit" % "4.13.2" % Provided,
         "org.junit.jupiter" % "junit-jupiter-api" % JupiterKeys.junitJupiterVersion.value % Provided
       ),
-    mimaPreviousArtifacts := Set(
-        organization.value %% name.value % previousStableVersion.value
-          .getOrElse(throw new Error("Unable to determine previous version"))
-      ),
+    mimaPreviousArtifacts := Set.empty, //temporarily disable mima checks
     mimaBinaryIssueFilters += ProblemFilters.exclude[Problem]("akka.kafka.testkit.internal.*")
   )
 
@@ -232,10 +226,7 @@ lazy val clusterSharding = project
     libraryDependencies ++= Seq(
         "com.typesafe.akka" %% "akka-cluster-sharding-typed" % akkaVersion
       ),
-    mimaPreviousArtifacts := Set(
-        organization.value %% name.value % previousStableVersion.value
-          .getOrElse(throw new Error("Unable to determine previous version"))
-      )
+    mimaPreviousArtifacts := Set.empty//temporarily disable mima checks
   )
 
 lazy val tests = project
