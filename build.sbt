@@ -226,7 +226,7 @@ lazy val clusterSharding = project
     libraryDependencies ++= Seq(
         "com.typesafe.akka" %% "akka-cluster-sharding-typed" % akkaVersion
       ),
-    mimaPreviousArtifacts := Set.empty//temporarily disable mima checks
+    mimaPreviousArtifacts := Set.empty //temporarily disable mima checks
   )
 
 lazy val tests = project
