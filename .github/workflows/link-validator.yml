@@ -16,8 +16,9 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 100
 
-      - name: Fetch tags
-        run: git fetch --depth=100 origin +refs/tags/*:refs/tags/*
+      # temporarily disable git tag fetch (it fails because there are no tags)
+      #- name: Fetch tags
+      #  run: git fetch --depth=100 origin +refs/tags/*:refs/tags/*
 
       - name: Set up JDK 11
         uses: olafurpg/setup-scala@v13
