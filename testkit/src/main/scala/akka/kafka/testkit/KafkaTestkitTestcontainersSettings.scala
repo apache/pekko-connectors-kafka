@@ -39,8 +39,7 @@ final class KafkaTestkitTestcontainersSettings private (
       new Consumer[GenericContainer[_]]() {
         override def accept(arg: GenericContainer[_]): Unit = ()
       },
-    val configureSchemaRegistry: GenericContainer[_] => Unit = _ => ()
-) {
+    val configureSchemaRegistry: GenericContainer[_] => Unit = _ => ()) {
 
   /**
    * Java Api
@@ -156,8 +155,8 @@ final class KafkaTestkitTestcontainersSettings private (
    * Replaces the default Kafka testcontainers configuration logic
    */
   def withConfigureKafkaConsumer(
-      configureKafkaConsumer: java.util.function.Consumer[java.util.Collection[AlpakkaKafkaContainer]]
-  ): KafkaTestkitTestcontainersSettings = copy(configureKafkaConsumer = configureKafkaConsumer)
+      configureKafkaConsumer: java.util.function.Consumer[java.util.Collection[AlpakkaKafkaContainer]])
+      : KafkaTestkitTestcontainersSettings = copy(configureKafkaConsumer = configureKafkaConsumer)
 
   /**
    * Replaces the default Kafka testcontainers configuration logic
@@ -177,8 +176,8 @@ final class KafkaTestkitTestcontainersSettings private (
    * Replaces the default ZooKeeper testcontainers configuration logic
    */
   def withConfigureZooKeeperConsumer(
-      configureZooKeeperConsumer: java.util.function.Consumer[GenericContainer[_]]
-  ): KafkaTestkitTestcontainersSettings =
+      configureZooKeeperConsumer: java.util.function.Consumer[GenericContainer[_]])
+      : KafkaTestkitTestcontainersSettings =
     copy(configureZooKeeperConsumer = configureZooKeeperConsumer)
 
   /**
@@ -186,8 +185,8 @@ final class KafkaTestkitTestcontainersSettings private (
    * Replaces the default schema registry testcontainers configuration logic
    */
   def withConfigureSchemaRegistry(
-      configureSchemaRegistry: GenericContainer[_] => Unit
-  ): KafkaTestkitTestcontainersSettings = copy(configureSchemaRegistry = configureSchemaRegistry)
+      configureSchemaRegistry: GenericContainer[_] => Unit): KafkaTestkitTestcontainersSettings =
+    copy(configureSchemaRegistry = configureSchemaRegistry)
 
   /**
    * Use Schema Registry container.
@@ -247,25 +246,25 @@ final class KafkaTestkitTestcontainersSettings private (
         configureKafkaConsumer,
       configureZooKeeper: GenericContainer[_] => Unit = configureZooKeeper,
       configureZooKeeperConsumer: java.util.function.Consumer[GenericContainer[_]] = configureZooKeeperConsumer,
-      configureSchemaRegistry: GenericContainer[_] => Unit = configureSchemaRegistry
-  ): KafkaTestkitTestcontainersSettings =
+      configureSchemaRegistry: GenericContainer[_] => Unit = configureSchemaRegistry)
+      : KafkaTestkitTestcontainersSettings =
     new KafkaTestkitTestcontainersSettings(zooKeeperImage,
-                                           zooKeeperImageTag,
-                                           kafkaImage,
-                                           kafkaImageTag,
-                                           schemaRegistryImage,
-                                           schemaRegistryImageTag,
-                                           numBrokers,
-                                           internalTopicsReplicationFactor,
-                                           useSchemaRegistry,
-                                           containerLogging,
-                                           clusterStartTimeout,
-                                           readinessCheckTimeout,
-                                           configureKafka,
-                                           configureKafkaConsumer,
-                                           configureZooKeeper,
-                                           configureZooKeeperConsumer,
-                                           configureSchemaRegistry)
+      zooKeeperImageTag,
+      kafkaImage,
+      kafkaImageTag,
+      schemaRegistryImage,
+      schemaRegistryImageTag,
+      numBrokers,
+      internalTopicsReplicationFactor,
+      useSchemaRegistry,
+      containerLogging,
+      clusterStartTimeout,
+      readinessCheckTimeout,
+      configureKafka,
+      configureKafkaConsumer,
+      configureZooKeeper,
+      configureZooKeeperConsumer,
+      configureSchemaRegistry)
 
   override def toString: String =
     "KafkaTestkitTestcontainersSettings(" +
@@ -317,17 +316,17 @@ object KafkaTestkitTestcontainersSettings {
     val readinessCheckTimeout = config.getDuration("readiness-check-timeout").asScala
 
     new KafkaTestkitTestcontainersSettings(zooKeeperImage,
-                                           zooKeeperImageTag,
-                                           kafkaImage,
-                                           kafkaImageTag,
-                                           schemaRegistryImage,
-                                           schemaRegistryImageTag,
-                                           numBrokers,
-                                           internalTopicsReplicationFactor,
-                                           useSchemaRegistry,
-                                           containerLogging,
-                                           clusterStartTimeout,
-                                           readinessCheckTimeout)
+      zooKeeperImageTag,
+      kafkaImage,
+      kafkaImageTag,
+      schemaRegistryImage,
+      schemaRegistryImageTag,
+      numBrokers,
+      internalTopicsReplicationFactor,
+      useSchemaRegistry,
+      containerLogging,
+      clusterStartTimeout,
+      readinessCheckTimeout)
   }
 
   /**

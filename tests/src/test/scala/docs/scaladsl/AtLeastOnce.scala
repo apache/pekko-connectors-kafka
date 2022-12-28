@@ -6,14 +6,14 @@
 package docs.scaladsl
 
 // #oneToMany
-import akka.{Done, NotUsed}
-import akka.kafka.ConsumerMessage.{CommittableOffset, CommittableOffsetBatch}
+import akka.{ Done, NotUsed }
+import akka.kafka.ConsumerMessage.{ CommittableOffset, CommittableOffsetBatch }
 import akka.kafka.ProducerMessage.Envelope
 import akka.kafka.scaladsl.Consumer.DrainingControl
-import akka.kafka.{ProducerMessage, Subscriptions}
-import akka.kafka.scaladsl.{Committer, Consumer, Producer}
+import akka.kafka.{ ProducerMessage, Subscriptions }
+import akka.kafka.scaladsl.{ Committer, Consumer, Producer }
 import akka.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import akka.stream.scaladsl.{Keep, Sink}
+import akka.stream.scaladsl.{ Keep, Sink }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.apache.kafka.clients.producer.ProducerRecord
 
@@ -38,16 +38,12 @@ class AtLeastOnce extends DocsSpecBase with TestcontainersKafkaLike {
       // #oneToMany
       Consumer
         .committableSource(consumerSettings, Subscriptions.topics(topic1))
-        .map(
-          msg =>
-            ProducerMessage.multi(
-              immutable.Seq(
-                new ProducerRecord(topic2, msg.record.key, msg.record.value),
-                new ProducerRecord(topic3, msg.record.key, msg.record.value)
-              ),
-              msg.committableOffset
-            )
-        )
+        .map(msg =>
+          ProducerMessage.multi(
+            immutable.Seq(
+              new ProducerRecord(topic2, msg.record.key, msg.record.value),
+              new ProducerRecord(topic3, msg.record.key, msg.record.value)),
+            msg.committableOffset))
         .via(Producer.flexiFlow(producerSettings))
         .map(_.passThrough)
         .toMat(Committer.sink(committerSettings))(DrainingControl.apply)
@@ -61,7 +57,7 @@ class AtLeastOnce extends DocsSpecBase with TestcontainersKafkaLike {
     awaitProduce(produce(topic1, 1 to 10))
     Await.result(control.drainAndShutdown(), 5.seconds) should be(Done)
     Await.result(control2.shutdown(), 5.seconds) should be(Done)
-    result.futureValue should have size (20)
+    result.futureValue should have size 20
   }
 
   "At-Least-Once One To Conditional" should "work" in assertAllStagesStopped {
@@ -86,17 +82,14 @@ class AtLeastOnce extends DocsSpecBase with TestcontainersKafkaLike {
               ProducerMessage.multi(
                 immutable.Seq(
                   new ProducerRecord(topic2, msg.record.key, msg.record.value),
-                  new ProducerRecord(topic3, msg.record.key, msg.record.value)
-                ),
-                msg.committableOffset
-              )
+                  new ProducerRecord(topic3, msg.record.key, msg.record.value)),
+                msg.committableOffset)
             else if (ignore(msg.record.value))
               ProducerMessage.passThrough(msg.committableOffset)
             else
               ProducerMessage.single(
                 new ProducerRecord(topic4, msg.record.key, msg.record.value),
-                msg.committableOffset
-              )
+                msg.committableOffset)
           out
         })
         .via(Producer.flexiFlow(producerSettings))
@@ -113,7 +106,7 @@ class AtLeastOnce extends DocsSpecBase with TestcontainersKafkaLike {
     awaitProduce(produce(topic1, 1 to 10))
     Await.result(control.drainAndShutdown(), 5.seconds) should be(Done)
     Await.result(control2.shutdown(), 5.seconds) should be(Done)
-    result.futureValue should have size (10)
+    result.futureValue should have size 10
   }
 
   it should "support `withOffsetContext`" in assertAllStagesStopped {
@@ -137,15 +130,12 @@ class AtLeastOnce extends DocsSpecBase with TestcontainersKafkaLike {
               ProducerMessage.multi(
                 immutable.Seq(
                   new ProducerRecord(topic2, record.key, record.value),
-                  new ProducerRecord(topic3, record.key, record.value)
-                )
-              )
+                  new ProducerRecord(topic3, record.key, record.value)))
             else if (ignore(record.value))
               ProducerMessage.passThrough()
             else
               ProducerMessage.single(
-                new ProducerRecord(topic4, record.key, record.value)
-              )
+                new ProducerRecord(topic4, record.key, record.value))
           out
         })
         .via(Producer.flowWithContext(producerSettings))
@@ -160,7 +150,7 @@ class AtLeastOnce extends DocsSpecBase with TestcontainersKafkaLike {
     awaitProduce(produce(topic1, 1 to 10))
     Await.result(control.drainAndShutdown(), 5.seconds) should be(Done)
     Await.result(control2.shutdown(), 5.seconds) should be(Done)
-    result.futureValue should have size (10)
+    result.futureValue should have size 10
   }
 
   it should "support batching of offsets `withOffsetContext`" in assertAllStagesStopped {
@@ -175,8 +165,7 @@ class AtLeastOnce extends DocsSpecBase with TestcontainersKafkaLike {
           val key = records.head.key()
           val value = records.map(_.value()).mkString(",")
           ProducerMessage.single(
-            new ProducerRecord(topic2, key, value)
-          )
+            new ProducerRecord(topic2, key, value))
         }
         .mapContext(CommittableOffsetBatch(_))
         .via(Producer.flowWithContext(producerDefaults))
@@ -191,6 +180,6 @@ class AtLeastOnce extends DocsSpecBase with TestcontainersKafkaLike {
     awaitProduce(produce(topic1, 1 to 10))
     control.drainAndShutdown().futureValue shouldBe Done
     control2.shutdown().futureValue shouldBe Done
-    result.futureValue should have size (2)
+    result.futureValue should have size 2
   }
 }

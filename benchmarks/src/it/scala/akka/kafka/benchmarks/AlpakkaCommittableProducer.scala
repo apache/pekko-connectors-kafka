@@ -5,7 +5,7 @@
 
 package akka.kafka.benchmarks
 
-import akka.kafka.benchmarks.BenchmarksBase.{topic_100_100, topic_100_5000}
+import akka.kafka.benchmarks.BenchmarksBase.{ topic_100_100, topic_100_5000 }
 import akka.kafka.benchmarks.Timed.runPerfTest
 import akka.kafka.benchmarks.app.RunTestCommand
 
@@ -18,8 +18,7 @@ class AlpakkaCommittableProducer extends BenchmarksBase() {
     runPerfTest(
       cmd,
       AlpakkaCommittableSinkFixtures.composedSink(cmd),
-      AlpakkaCommittableSinkBenchmarks.run
-    )
+      AlpakkaCommittableSinkBenchmarks.run)
   }
 
   it should "bench composed sink with 5000b messages" in {
@@ -27,8 +26,7 @@ class AlpakkaCommittableProducer extends BenchmarksBase() {
     runPerfTest(
       cmd,
       AlpakkaCommittableSinkFixtures.composedSink(cmd),
-      AlpakkaCommittableSinkBenchmarks.run
-    )
+      AlpakkaCommittableSinkBenchmarks.run)
   }
 
   it should "bench `Producer.committableSink` with 100b messages" in {
@@ -36,8 +34,7 @@ class AlpakkaCommittableProducer extends BenchmarksBase() {
     runPerfTest(
       cmd,
       AlpakkaCommittableSinkFixtures.producerSink(cmd),
-      AlpakkaCommittableSinkBenchmarks.run
-    )
+      AlpakkaCommittableSinkBenchmarks.run)
   }
 
   it should "bench `Producer.committableSink` with 5000b messages" in {
@@ -45,7 +42,6 @@ class AlpakkaCommittableProducer extends BenchmarksBase() {
     runPerfTest(
       cmd,
       AlpakkaCommittableSinkFixtures.producerSink(cmd),
-      AlpakkaCommittableSinkBenchmarks.run
-    )
+      AlpakkaCommittableSinkBenchmarks.run)
   }
 }

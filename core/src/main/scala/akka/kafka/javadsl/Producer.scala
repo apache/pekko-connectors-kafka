@@ -9,9 +9,9 @@ import java.util.concurrent.CompletionStage
 import akka.annotation.ApiMayChange
 import akka.kafka.ConsumerMessage.Committable
 import akka.kafka.ProducerMessage._
-import akka.kafka.{scaladsl, CommitterSettings, ConsumerMessage, ProducerSettings}
-import akka.stream.javadsl.{Flow, FlowWithContext, Sink}
-import akka.{japi, Done, NotUsed}
+import akka.kafka.{ scaladsl, CommitterSettings, ConsumerMessage, ProducerSettings }
+import akka.stream.javadsl.{ Flow, FlowWithContext, Sink }
+import akka.{ japi, Done, NotUsed }
 import org.apache.kafka.clients.producer.ProducerRecord
 
 import scala.annotation.nowarn
@@ -47,8 +47,7 @@ object Producer {
   @Deprecated
   def plainSink[K, V](
       settings: ProducerSettings[K, V],
-      producer: org.apache.kafka.clients.producer.Producer[K, V]
-  ): Sink[ProducerRecord[K, V], CompletionStage[Done]] =
+      producer: org.apache.kafka.clients.producer.Producer[K, V]): Sink[ProducerRecord[K, V], CompletionStage[Done]] =
     plainSink(settings.withProducer(producer))
 
   /**
@@ -71,8 +70,7 @@ object Producer {
    */
   @Deprecated
   def committableSink[K, V, IN <: Envelope[K, V, ConsumerMessage.Committable]](
-      settings: ProducerSettings[K, V]
-  ): Sink[IN, CompletionStage[Done]] = {
+      settings: ProducerSettings[K, V]): Sink[IN, CompletionStage[Done]] = {
     @nowarn("cat=deprecation")
     val sink: Sink[IN, CompletionStage[Done]] = scaladsl.Producer
       .committableSink(settings)
@@ -94,7 +92,6 @@ object Producer {
    *
    * - [[akka.kafka.ProducerMessage.PassThroughMessage PassThroughMessage]] does not publish anything, but commits the offset
    *
-   *
    * Note that there is always a risk that something fails after publishing but before
    * committing, so it is "at-least once delivery" semantics.
    *
@@ -105,8 +102,8 @@ object Producer {
   @Deprecated
   def committableSink[K, V](
       settings: ProducerSettings[K, V],
-      producer: org.apache.kafka.clients.producer.Producer[K, V]
-  ): Sink[Envelope[K, V, ConsumerMessage.Committable], CompletionStage[Done]] =
+      producer: org.apache.kafka.clients.producer.Producer[K, V])
+      : Sink[Envelope[K, V, ConsumerMessage.Committable], CompletionStage[Done]] =
     committableSink(settings.withProducer(producer))
 
   /**
@@ -126,8 +123,7 @@ object Producer {
    */
   def committableSink[K, V, IN <: Envelope[K, V, ConsumerMessage.Committable]](
       producerSettings: ProducerSettings[K, V],
-      committerSettings: CommitterSettings
-  ): Sink[IN, CompletionStage[Done]] =
+      committerSettings: CommitterSettings): Sink[IN, CompletionStage[Done]] =
     scaladsl.Producer
       .committableSink(producerSettings, committerSettings)
       .mapMaterializedValue(_.toJava)
@@ -151,8 +147,7 @@ object Producer {
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/880")
   def committableSinkWithOffsetContext[K, V, IN <: Envelope[K, V, _], C <: Committable](
       producerSettings: ProducerSettings[K, V],
-      committerSettings: CommitterSettings
-  ): Sink[akka.japi.Pair[IN, C], CompletionStage[Done]] =
+      committerSettings: CommitterSettings): Sink[akka.japi.Pair[IN, C], CompletionStage[Done]] =
     committableSink(producerSettings, committerSettings)
       .contramap(new akka.japi.function.Function[japi.Pair[IN, C], Envelope[K, V, C]] {
         override def apply(p: japi.Pair[IN, C]) = p.first.withPassThrough(p.second)
@@ -171,8 +166,7 @@ object Producer {
    */
   @Deprecated
   def flow[K, V, PassThrough](
-      settings: ProducerSettings[K, V]
-  ): Flow[Message[K, V, PassThrough], Result[K, V, PassThrough], NotUsed] = {
+      settings: ProducerSettings[K, V]): Flow[Message[K, V, PassThrough], Result[K, V, PassThrough], NotUsed] = {
     @nowarn("cat=deprecation")
     val flow = scaladsl.Producer
       .flow(settings)
@@ -197,8 +191,7 @@ object Producer {
    * be committed later in the flow.
    */
   def flexiFlow[K, V, PassThrough](
-      settings: ProducerSettings[K, V]
-  ): Flow[Envelope[K, V, PassThrough], Results[K, V, PassThrough], NotUsed] =
+      settings: ProducerSettings[K, V]): Flow[Envelope[K, V, PassThrough], Results[K, V, PassThrough], NotUsed] =
     scaladsl.Producer
       .flexiFlow(settings)
       .asJava
@@ -223,8 +216,7 @@ object Producer {
    */
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/880")
   def flowWithContext[K, V, C](
-      settings: ProducerSettings[K, V]
-  ): FlowWithContext[Envelope[K, V, NotUsed], C, Results[K, V, C], C, NotUsed] =
+      settings: ProducerSettings[K, V]): FlowWithContext[Envelope[K, V, NotUsed], C, Results[K, V, C], C, NotUsed] =
     scaladsl.Producer.flowWithContext(settings).asJava
 
   /**
@@ -243,8 +235,8 @@ object Producer {
   @Deprecated
   def flow[K, V, PassThrough](
       settings: ProducerSettings[K, V],
-      producer: org.apache.kafka.clients.producer.Producer[K, V]
-  ): Flow[Message[K, V, PassThrough], Result[K, V, PassThrough], NotUsed] =
+      producer: org.apache.kafka.clients.producer.Producer[K, V])
+      : Flow[Message[K, V, PassThrough], Result[K, V, PassThrough], NotUsed] =
     flow(settings.withProducer(producer))
 
   /**
@@ -269,8 +261,8 @@ object Producer {
   @Deprecated
   def flexiFlow[K, V, PassThrough](
       settings: ProducerSettings[K, V],
-      producer: org.apache.kafka.clients.producer.Producer[K, V]
-  ): Flow[Envelope[K, V, PassThrough], Results[K, V, PassThrough], NotUsed] =
+      producer: org.apache.kafka.clients.producer.Producer[K, V])
+      : Flow[Envelope[K, V, PassThrough], Results[K, V, PassThrough], NotUsed] =
     flexiFlow(settings.withProducer(producer))
 
   /**
@@ -298,8 +290,8 @@ object Producer {
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/880")
   def flowWithContext[K, V, C](
       settings: ProducerSettings[K, V],
-      producer: org.apache.kafka.clients.producer.Producer[K, V]
-  ): FlowWithContext[Envelope[K, V, NotUsed], C, Results[K, V, C], C, NotUsed] =
+      producer: org.apache.kafka.clients.producer.Producer[K, V])
+      : FlowWithContext[Envelope[K, V, NotUsed], C, Results[K, V, C], C, NotUsed] =
     flowWithContext(settings.withProducer(producer))
 
 }

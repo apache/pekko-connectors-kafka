@@ -12,7 +12,7 @@ import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 
 import scala.collection.immutable
 import scala.concurrent.duration._
-import scala.concurrent.{Await, Future}
+import scala.concurrent.{ Await, Future }
 
 class MultiConsumerSpec extends SpecBase with TestcontainersKafkaPerClassLike {
 
@@ -52,8 +52,8 @@ class MultiConsumerSpec extends SpecBase with TestcontainersKafkaPerClassLike {
       val seq2 = probe2.receiveWithin(1.seconds)
 
       val allReceived = seq1 ++ seq2
-      allReceived should have size (expectedCount)
-      allReceived should contain theSameElementsAs (expectedData)
+      allReceived should have size expectedCount
+      allReceived should contain theSameElementsAs expectedData
 
       // Consumers are not fair, most of the time one receives all
       // seq1 should not be Symbol("empty")
@@ -84,8 +84,8 @@ class MultiConsumerSpec extends SpecBase with TestcontainersKafkaPerClassLike {
       val (expectedData, expectedCount) = batchMessagesExpected(topics, batches, batchSize)
       probe1.request(expectedCount + 1)
       probe2.request(expectedCount + 1)
-      probe1.expectNextN(expectedCount) should contain theSameElementsAs (expectedData)
-      probe2.expectNextN(expectedCount) should contain theSameElementsAs (expectedData)
+      probe1.expectNextN(expectedCount) should contain theSameElementsAs expectedData
+      probe2.expectNextN(expectedCount) should contain theSameElementsAs expectedData
 
       probe1.expectNoMessage(1.seconds)
       probe2.expectNoMessage(1.seconds)
@@ -120,8 +120,8 @@ class MultiConsumerSpec extends SpecBase with TestcontainersKafkaPerClassLike {
       val (expectedData, expectedCount) = batchMessagesExpected(topics, batches, batchSize)
       probe1.request(expectedCount + 1)
       probe2.request(expectedCount + 1)
-      probe1.expectNextN(expectedCount) should contain theSameElementsAs (expectedData)
-      probe2.expectNextN(expectedCount) should contain theSameElementsAs (expectedData)
+      probe1.expectNextN(expectedCount) should contain theSameElementsAs expectedData
+      probe2.expectNextN(expectedCount) should contain theSameElementsAs expectedData
 
       probe1.expectNoMessage(1.seconds)
       probe2.expectNoMessage(1.seconds)

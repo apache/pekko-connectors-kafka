@@ -6,11 +6,11 @@
 package akka.kafka.internal
 import akka.actor.ActorRef
 import akka.annotation.InternalApi
-import akka.kafka.{AutoSubscription, ManualSubscription, Subscription}
+import akka.kafka.{ AutoSubscription, ManualSubscription, Subscription }
 import akka.kafka.Subscriptions._
 import akka.kafka.scaladsl.PartitionAssignmentHandler
 import akka.stream.stage.GraphStageLogic.StageActor
-import akka.stream.stage.{AsyncCallback, GraphStageLogic}
+import akka.stream.stage.{ AsyncCallback, GraphStageLogic }
 import org.apache.kafka.common.TopicPartition
 
 /**
@@ -31,16 +31,15 @@ private[kafka] trait SourceLogicSubscription {
   protected def sourceActor: StageActor
 
   protected def configureSubscription(partitionAssignedCB: AsyncCallback[Set[TopicPartition]],
-                                      partitionRevokedCB: AsyncCallback[Set[TopicPartition]]): Unit = {
+      partitionRevokedCB: AsyncCallback[Set[TopicPartition]]): Unit = {
 
     def rebalanceListener(autoSubscription: AutoSubscription): PartitionAssignmentHandler = {
       PartitionAssignmentHelpers.chain(
         addToPartitionAssignmentHandler(autoSubscription.partitionAssignmentHandler),
         new PartitionAssignmentHelpers.AsyncCallbacks(autoSubscription,
-                                                      sourceActor.ref,
-                                                      partitionAssignedCB,
-                                                      partitionRevokedCB)
-      )
+          sourceActor.ref,
+          partitionAssignedCB,
+          partitionRevokedCB))
     }
 
     subscription match {
@@ -48,18 +47,14 @@ private[kafka] trait SourceLogicSubscription {
         consumerActor.tell(
           KafkaConsumerActor.Internal.Subscribe(
             topics,
-            addToPartitionAssignmentHandler(rebalanceListener(sub))
-          ),
-          sourceActor.ref
-        )
+            addToPartitionAssignmentHandler(rebalanceListener(sub))),
+          sourceActor.ref)
       case sub @ TopicSubscriptionPattern(topics, _, _) =>
         consumerActor.tell(
           KafkaConsumerActor.Internal.SubscribePattern(
             topics,
-            addToPartitionAssignmentHandler(rebalanceListener(sub))
-          ),
-          sourceActor.ref
-        )
+            addToPartitionAssignmentHandler(rebalanceListener(sub))),
+          sourceActor.ref)
       case s: ManualSubscription => configureManualSubscription(s)
     }
   }

@@ -8,16 +8,16 @@ package akka.kafka.scaladsl
 import akka.actor.ActorRef
 import akka.annotation.ApiMayChange
 import akka.dispatch.ExecutionContexts
-import akka.kafka.ConsumerMessage.{CommittableMessage, CommittableOffset}
+import akka.kafka.ConsumerMessage.{ CommittableMessage, CommittableOffset }
 import akka.kafka._
 import akka.kafka.internal._
-import akka.stream.scaladsl.{Source, SourceWithContext}
-import akka.{Done, NotUsed}
+import akka.stream.scaladsl.{ Source, SourceWithContext }
+import akka.{ Done, NotUsed }
 import org.apache.kafka.clients.consumer.ConsumerRecord
-import org.apache.kafka.common.{Metric, MetricName, TopicPartition}
+import org.apache.kafka.common.{ Metric, MetricName, TopicPartition }
 
 import scala.concurrent.duration.FiniteDuration
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.{ ExecutionContext, Future }
 
 /**
  * Akka Stream connector for subscribing to Kafka topics.
@@ -171,7 +171,7 @@ object Consumer {
    * stronger than the "at-least once" semantics you get with Kafka's offset commit functionality.
    */
   def plainSource[K, V](settings: ConsumerSettings[K, V],
-                        subscription: Subscription): Source[ConsumerRecord[K, V], Control] =
+      subscription: Subscription): Source[ConsumerRecord[K, V], Control] =
     Source.fromGraph(new PlainSource[K, V](settings, subscription))
 
   /**
@@ -188,7 +188,7 @@ object Consumer {
    * instead of this API.
    */
   def committableSource[K, V](settings: ConsumerSettings[K, V],
-                              subscription: Subscription): Source[CommittableMessage[K, V], Control] =
+      subscription: Subscription): Source[CommittableMessage[K, V], Control] =
     Source.fromGraph(new CommittableSource[K, V](settings, subscription))
 
   /**
@@ -205,8 +205,7 @@ object Consumer {
   @ApiMayChange
   def sourceWithOffsetContext[K, V](
       settings: ConsumerSettings[K, V],
-      subscription: Subscription
-  ): SourceWithContext[ConsumerRecord[K, V], CommittableOffset, Control] =
+      subscription: Subscription): SourceWithContext[ConsumerRecord[K, V], CommittableOffset, Control] =
     Source
       .fromGraph(new SourceWithOffsetContext[K, V](settings, subscription))
       .asSourceWithContext(_._2)
@@ -231,8 +230,8 @@ object Consumer {
   def sourceWithOffsetContext[K, V](
       settings: ConsumerSettings[K, V],
       subscription: Subscription,
-      metadataFromRecord: ConsumerRecord[K, V] => String
-  ): SourceWithContext[ConsumerRecord[K, V], CommittableOffset, Control] =
+      metadataFromRecord: ConsumerRecord[K, V] => String)
+      : SourceWithContext[ConsumerRecord[K, V], CommittableOffset, Control] =
     Source
       .fromGraph(new SourceWithOffsetContext[K, V](settings, subscription, metadataFromRecord))
       .asSourceWithContext(_._2)
@@ -246,8 +245,7 @@ object Consumer {
   def commitWithMetadataSource[K, V](
       settings: ConsumerSettings[K, V],
       subscription: Subscription,
-      metadataFromRecord: ConsumerRecord[K, V] => String
-  ): Source[CommittableMessage[K, V], Control] =
+      metadataFromRecord: ConsumerRecord[K, V] => String): Source[CommittableMessage[K, V], Control] =
     Source.fromGraph(new CommittableSource[K, V](settings, subscription, metadataFromRecord))
 
   /**
@@ -255,7 +253,7 @@ object Consumer {
    * before being emitted downstream.
    */
   def atMostOnceSource[K, V](settings: ConsumerSettings[K, V],
-                             subscription: Subscription): Source[ConsumerRecord[K, V], Control] =
+      subscription: Subscription): Source[ConsumerRecord[K, V], Control] =
     committableSource[K, V](settings, subscription).mapAsync(1) { m =>
       m.committableOffset.commitInternal().map(_ => m.record)(ExecutionContexts.parasitic)
     }
@@ -268,8 +266,7 @@ object Consumer {
    */
   def plainPartitionedSource[K, V](
       settings: ConsumerSettings[K, V],
-      subscription: AutoSubscription
-  ): Source[(TopicPartition, Source[ConsumerRecord[K, V], NotUsed]), Control] =
+      subscription: AutoSubscription): Source[(TopicPartition, Source[ConsumerRecord[K, V], NotUsed]), Control] =
     Source.fromGraph(new PlainSubSource[K, V](settings, subscription, None, onRevoke = _ => ()))
 
   /**
@@ -285,8 +282,8 @@ object Consumer {
       settings: ConsumerSettings[K, V],
       subscription: AutoSubscription,
       getOffsetsOnAssign: Set[TopicPartition] => Future[Map[TopicPartition, Long]],
-      onRevoke: Set[TopicPartition] => Unit = _ => ()
-  ): Source[(TopicPartition, Source[ConsumerRecord[K, V], NotUsed]), Control] =
+      onRevoke: Set[TopicPartition] => Unit = _ => ())
+      : Source[(TopicPartition, Source[ConsumerRecord[K, V], NotUsed]), Control] =
     Source.fromGraph(new PlainSubSource[K, V](settings, subscription, Some(getOffsetsOnAssign), onRevoke))
 
   /**
@@ -296,22 +293,20 @@ object Consumer {
       settings: ConsumerSettings[K, V],
       subscription: AutoSubscription,
       getOffsetsOnAssign: Set[TopicPartition] => Future[Map[TopicPartition, Long]],
-      onRevoke: Set[TopicPartition] => Unit = _ => ()
-  ): Source[(TopicPartition, Source[CommittableMessage[K, V], NotUsed]), Control] =
+      onRevoke: Set[TopicPartition] => Unit = _ => ())
+      : Source[(TopicPartition, Source[CommittableMessage[K, V], NotUsed]), Control] =
     Source.fromGraph(
       new CommittableSubSource[K, V](settings,
-                                     subscription,
-                                     getOffsetsOnAssign = Some(getOffsetsOnAssign),
-                                     onRevoke = onRevoke)
-    )
+        subscription,
+        getOffsetsOnAssign = Some(getOffsetsOnAssign),
+        onRevoke = onRevoke))
 
   /**
    * The same as [[#plainPartitionedSource]] but with offset commit support.
    */
   def committablePartitionedSource[K, V](
       settings: ConsumerSettings[K, V],
-      subscription: AutoSubscription
-  ): Source[(TopicPartition, Source[CommittableMessage[K, V], NotUsed]), Control] =
+      subscription: AutoSubscription): Source[(TopicPartition, Source[CommittableMessage[K, V], NotUsed]), Control] =
     Source.fromGraph(new CommittableSubSource[K, V](settings, subscription))
 
   /**
@@ -320,8 +315,8 @@ object Consumer {
   def commitWithMetadataPartitionedSource[K, V](
       settings: ConsumerSettings[K, V],
       subscription: AutoSubscription,
-      metadataFromRecord: ConsumerRecord[K, V] => String
-  ): Source[(TopicPartition, Source[CommittableMessage[K, V], NotUsed]), Control] =
+      metadataFromRecord: ConsumerRecord[K, V] => String)
+      : Source[(TopicPartition, Source[CommittableMessage[K, V], NotUsed]), Control] =
     Source.fromGraph(new CommittableSubSource[K, V](settings, subscription, metadataFromRecord))
 
   /**
@@ -329,22 +324,20 @@ object Consumer {
    * a lot of manually assigned topic-partitions and want to keep only one kafka consumer.
    */
   def plainExternalSource[K, V](consumer: ActorRef,
-                                subscription: ManualSubscription): Source[ConsumerRecord[K, V], Control] =
+      subscription: ManualSubscription): Source[ConsumerRecord[K, V], Control] =
     Source.fromGraph(new ExternalPlainSource[K, V](consumer, subscription))
 
   /**
    * The same as [[#plainExternalSource]] but with offset commit support.
    */
   def committableExternalSource[K, V](consumer: ActorRef,
-                                      subscription: ManualSubscription,
-                                      groupId: String,
-                                      commitTimeout: FiniteDuration): Source[CommittableMessage[K, V], Control] =
+      subscription: ManualSubscription,
+      groupId: String,
+      commitTimeout: FiniteDuration): Source[CommittableMessage[K, V], Control] =
     Source.fromGraph(
       new ExternalCommittableSource[K, V](
         consumer,
         groupId,
         commitTimeout,
-        subscription
-      )
-    )
+        subscription))
 }

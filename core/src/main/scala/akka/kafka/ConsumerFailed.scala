@@ -25,10 +25,8 @@ class ConsumerFailed(msg: String) extends RuntimeException(msg) {
 class InitialPollFailed(val timeout: Long, val bootstrapServers: String)
     extends ConsumerFailed(
       s"Initial consumer poll($timeout) with bootstrap servers " +
-      s"$bootstrapServers did not succeed, correct address?"
-    )
+      s"$bootstrapServers did not succeed, correct address?")
 
 class WakeupsExceeded(val timeout: Long, val maxWakeups: Int, val wakeupTimeout: FiniteDuration)
     extends ConsumerFailed(
-      s"WakeupException limit exceeded during poll($timeout), stopping (max-wakeups = $maxWakeups, wakeup-timeout = ${wakeupTimeout.toCoarsest})."
-    )
+      s"WakeupException limit exceeded during poll($timeout), stopping (max-wakeups = $maxWakeups, wakeup-timeout = ${wakeupTimeout.toCoarsest}).")

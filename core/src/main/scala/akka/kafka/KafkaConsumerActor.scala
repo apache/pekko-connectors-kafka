@@ -5,9 +5,9 @@
 
 package akka.kafka
 
-import akka.actor.{ActorRef, NoSerializationVerificationNeeded, Props}
+import akka.actor.{ ActorRef, NoSerializationVerificationNeeded, Props }
 import akka.annotation.InternalApi
-import akka.kafka.internal.{KafkaConsumerActor => InternalKafkaConsumerActor}
+import akka.kafka.internal.{ KafkaConsumerActor => InternalKafkaConsumerActor }
 
 object KafkaConsumerActor {
 

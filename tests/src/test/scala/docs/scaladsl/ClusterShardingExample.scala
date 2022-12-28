@@ -8,19 +8,19 @@ package docs.scaladsl
 import akka.NotUsed
 import akka.actor.typed.scaladsl.Behaviors
 import akka.actor.typed.scaladsl.adapter._
-import akka.actor.typed.{ActorSystem, Behavior}
+import akka.actor.typed.{ ActorSystem, Behavior }
 import akka.cluster.sharding.external.ExternalShardAllocationStrategy
 import akka.cluster.sharding.typed.ClusterShardingSettings
-import akka.cluster.sharding.typed.scaladsl.{ClusterSharding, Entity, EntityTypeKey}
+import akka.cluster.sharding.typed.scaladsl.{ ClusterSharding, Entity, EntityTypeKey }
 import akka.kafka.cluster.sharding.KafkaClusterSharding
 import akka.kafka.scaladsl.Consumer
-import akka.kafka.{ConsumerRebalanceEvent, ConsumerSettings, Subscriptions}
-import akka.stream.scaladsl.{Flow, Sink}
-import org.apache.kafka.common.serialization.{ByteArrayDeserializer, StringDeserializer}
+import akka.kafka.{ ConsumerRebalanceEvent, ConsumerSettings, Subscriptions }
+import akka.stream.scaladsl.{ Flow, Sink }
+import org.apache.kafka.common.serialization.{ ByteArrayDeserializer, StringDeserializer }
 
 import scala.concurrent.Future
 import scala.concurrent.duration._
-import scala.util.{Failure, Success}
+import scala.util.{ Failure, Success }
 
 /**
  * This is compile-only code meant for documentation purposes.
@@ -49,8 +49,7 @@ object ClusterShardingExample {
       topic = "user-topic",
       entityIdExtractor = (msg: User) => msg.id,
       settings = ConsumerSettings(system.toClassic, new StringDeserializer, new StringDeserializer)
-        .withBootstrapServers(kafkaBootstrapServers)
-    )
+        .withBootstrapServers(kafkaBootstrapServers))
   // #message-extractor
 
   // #setup-cluster-sharding
@@ -64,8 +63,7 @@ object ClusterShardingExample {
         Entity(typeKey)(createBehavior = _ => userBehaviour())
           .withAllocationStrategy(new ExternalShardAllocationStrategy(system, typeKey.name))
           .withMessageExtractor(extractor)
-          .withSettings(ClusterShardingSettings(system))
-      )
+          .withSettings(ClusterShardingSettings(system)))
     case Failure(ex) => system.log.error("An error occurred while obtaining the message extractor", ex)
   }
   // #setup-cluster-sharding

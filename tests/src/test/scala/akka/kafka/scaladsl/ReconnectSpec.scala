@@ -7,13 +7,13 @@ package akka.kafka.scaladsl
 
 import akka.Done
 import akka.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import akka.stream.scaladsl.{Keep, Sink, Source, SourceQueueWithComplete, Tcp}
+import akka.stream.scaladsl.{ Keep, Sink, Source, SourceQueueWithComplete, Tcp }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
-import akka.stream.{KillSwitches, OverflowStrategy, UniqueKillSwitch}
+import akka.stream.{ KillSwitches, OverflowStrategy, UniqueKillSwitch }
 import org.apache.kafka.clients.producer.ProducerRecord
 
 import scala.concurrent.duration._
-import scala.concurrent.{Await, Future}
+import scala.concurrent.{ Await, Future }
 
 class ReconnectSpec extends SpecBase with TestcontainersKafkaLike {
 
@@ -148,9 +148,7 @@ class ReconnectSpec extends SpecBase with TestcontainersKafkaLike {
       _.handleWith(
         Tcp()
           .outgoingConnection(brokerContainers.head.getContainerIpAddress, kafkaPort)
-          .viaMat(KillSwitches.single)(Keep.right)
-      )
-    )
+          .viaMat(KillSwitches.single)(Keep.right)))
     (Await.result(proxyBinding, remainingOrDefault), proxyKsFut)
   }
 }

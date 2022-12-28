@@ -1,4 +1,4 @@
-import sbt.{Def, _}
+import sbt.{ Def, _ }
 import sbt.Keys._
 
 /**
@@ -13,6 +13,5 @@ object AutomaticModuleName {
   private val AutomaticModuleName = "Automatic-Module-Name"
 
   def settings(name: String): Seq[Def.Setting[Task[Seq[PackageOption]]]] = Seq(
-    Compile / packageBin / packageOptions += Package.ManifestAttributes(AutomaticModuleName → name)
-  )
+    Compile / packageBin / packageOptions += Package.ManifestAttributes(AutomaticModuleName -> name))
 }

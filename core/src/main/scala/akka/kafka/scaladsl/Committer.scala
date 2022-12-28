@@ -8,10 +8,10 @@ package akka.kafka.scaladsl
 import akka.annotation.ApiMayChange
 import akka.dispatch.ExecutionContexts
 import akka.kafka.CommitterSettings
-import akka.kafka.ConsumerMessage.{Committable, CommittableOffsetBatch}
+import akka.kafka.ConsumerMessage.{ Committable, CommittableOffsetBatch }
 import akka.kafka.internal.CommitCollectorStage
-import akka.stream.scaladsl.{Flow, FlowWithContext, Keep, Sink}
-import akka.{Done, NotUsed}
+import akka.stream.scaladsl.{ Flow, FlowWithContext, Keep, Sink }
+import akka.{ Done, NotUsed }
 
 import scala.concurrent.Future
 
@@ -52,8 +52,7 @@ object Committer {
    */
   @ApiMayChange
   def flowWithOffsetContext[E](
-      settings: CommitterSettings
-  ): FlowWithContext[E, Committable, NotUsed, CommittableOffsetBatch, NotUsed] = {
+      settings: CommitterSettings): FlowWithContext[E, Committable, NotUsed, CommittableOffsetBatch, NotUsed] = {
     val value = Flow[(E, Committable)]
       .map(_._2)
       .via(batchFlow(settings))

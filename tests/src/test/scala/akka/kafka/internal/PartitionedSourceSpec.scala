@@ -6,7 +6,7 @@
 package akka.kafka.internal
 
 import java.util.concurrent.atomic.AtomicReference
-import java.util.concurrent.{CountDownLatch, TimeUnit}
+import java.util.concurrent.{ CountDownLatch, TimeUnit }
 import java.util.function.UnaryOperator
 
 import akka.Done
@@ -14,7 +14,7 @@ import akka.actor.ActorSystem
 import akka.kafka.ConsumerMessage._
 import akka.kafka.scaladsl.Consumer
 import akka.kafka.tests.scaladsl.LogCapturing
-import akka.kafka.{ConsumerSettings, Subscriptions}
+import akka.kafka.{ ConsumerSettings, Subscriptions }
 import akka.stream.scaladsl._
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import akka.stream.testkit.scaladsl.TestSink
@@ -23,11 +23,11 @@ import com.typesafe.config.ConfigFactory
 import org.apache.kafka.clients.consumer._
 import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.serialization.StringDeserializer
-import org.scalatest.concurrent.{Eventually, IntegrationPatience, ScalaFutures}
+import org.scalatest.concurrent.{ Eventually, IntegrationPatience, ScalaFutures }
 import org.scalatest.flatspec.AnyFlatSpecLike
 import org.scalatest.matchers.should.Matchers
-import org.scalatest.{BeforeAndAfterAll, OptionValues}
-import org.slf4j.{Logger, LoggerFactory}
+import org.scalatest.{ BeforeAndAfterAll, OptionValues }
+import org.slf4j.{ Logger, LoggerFactory }
 
 import scala.concurrent.Future
 import scala.concurrent.duration._
@@ -49,10 +49,9 @@ class PartitionedSourceSpec(_system: ActorSystem)
   def this() =
     this(
       ActorSystem("PartitionedSourceSpec",
-                  ConfigFactory
-                    .parseString("""akka.stream.materializer.debug.fuzzing-mode = on""")
-                    .withFallback(ConfigFactory.load()))
-    )
+        ConfigFactory
+          .parseString("""akka.stream.materializer.debug.fuzzing-mode = on""")
+          .withFallback(ConfigFactory.load())))
 
   override def afterAll(): Unit =
     shutdown(system)
@@ -366,11 +365,11 @@ class PartitionedSourceSpec(_system: ActorSystem)
 
     val sink = Consumer
       .plainPartitionedManualOffsetSource(consumerSettings(dummy),
-                                          Subscriptions.topics(topic),
-                                          getOffsetsOnAssign,
-                                          onRevoke = { tp =>
-                                            revoked = revoked ++ tp
-                                          })
+        Subscriptions.topics(topic),
+        getOffsetsOnAssign,
+        onRevoke = { tp =>
+          revoked = revoked ++ tp
+        })
       .runWith(TestSink.probe)
 
     dummy.started.futureValue should be(Done)
@@ -473,8 +472,8 @@ class PartitionedSourceSpec(_system: ActorSystem)
 
     val sink = Consumer
       .committablePartitionedManualOffsetSource(consumerSettings(dummy),
-                                                Subscriptions.topics(topic),
-                                                getOffsetsOnAssign)
+        Subscriptions.topics(topic),
+        getOffsetsOnAssign)
       .runWith(TestSink.probe)
 
     dummy.started.futureValue should be(Done)
@@ -507,8 +506,8 @@ class PartitionedSourceSpec(_system: ActorSystem)
 
     val sink = Consumer
       .committablePartitionedManualOffsetSource(consumerSettings(dummy),
-                                                Subscriptions.topics(topic),
-                                                getOffsetsOnAssign)
+        Subscriptions.topics(topic),
+        getOffsetsOnAssign)
       .runWith(TestSink.probe)
 
     dummy.started.futureValue should be(Done)
@@ -548,8 +547,8 @@ class PartitionedSourceSpec(_system: ActorSystem)
 
     val sink = Consumer
       .committablePartitionedManualOffsetSource(consumerSettings(dummy),
-                                                Subscriptions.topics(topic),
-                                                getOffsetsOnAssign)
+        Subscriptions.topics(topic),
+        getOffsetsOnAssign)
       .runWith(TestSink.probe)
 
     dummy.started.futureValue should be(Done)
@@ -583,11 +582,11 @@ class PartitionedSourceSpec(_system: ActorSystem)
 
     val sink = Consumer
       .committablePartitionedManualOffsetSource(consumerSettings(dummy),
-                                                Subscriptions.topics(topic),
-                                                getOffsetsOnAssign,
-                                                onRevoke = { tp =>
-                                                  revoked = revoked ++ tp
-                                                })
+        Subscriptions.topics(topic),
+        getOffsetsOnAssign,
+        onRevoke = { tp =>
+          revoked = revoked ++ tp
+        })
       .runWith(TestSink.probe)
 
     dummy.started.futureValue should be(Done)

@@ -5,17 +5,17 @@
 
 package akka.kafka.internal
 
-import akka.actor.{ActorRef, Status, Terminated}
+import akka.actor.{ ActorRef, Status, Terminated }
 import akka.annotation.InternalApi
-import akka.kafka.Subscriptions.{Assignment, AssignmentOffsetsForTimes, AssignmentWithOffset}
-import akka.kafka.{ConsumerFailed, ManualSubscription}
+import akka.kafka.Subscriptions.{ Assignment, AssignmentOffsetsForTimes, AssignmentWithOffset }
+import akka.kafka.{ ConsumerFailed, ManualSubscription }
 import akka.stream.SourceShape
 import akka.stream.stage.GraphStageLogic.StageActor
-import akka.stream.stage.{AsyncCallback, GraphStageLogic, OutHandler}
+import akka.stream.stage.{ AsyncCallback, GraphStageLogic, OutHandler }
 import org.apache.kafka.common.TopicPartition
 
 import scala.annotation.tailrec
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.{ ExecutionContext, Future }
 
 /**
  * Internal API.
@@ -23,8 +23,7 @@ import scala.concurrent.{ExecutionContext, Future}
  * Shared GraphStageLogic for [[SingleSourceLogic]] and [[ExternalSingleSourceLogic]].
  */
 @InternalApi private abstract class BaseSingleSourceLogic[K, V, Msg](
-    val shape: SourceShape[Msg]
-) extends GraphStageLogic(shape)
+    val shape: SourceShape[Msg]) extends GraphStageLogic(shape)
     with PromiseControl
     with MetricsControl
     with StageIdLogging
@@ -108,11 +107,12 @@ import scala.concurrent.{ExecutionContext, Future}
     consumerActor.tell(KafkaConsumerActor.Internal.RequestMessages(requestId, tps), sourceActor.ref)
   }
 
-  setHandler(shape.out, new OutHandler {
-    override def onPull(): Unit = pump()
-    override def onDownstreamFinish(cause: Throwable): Unit =
-      performShutdown()
-  })
+  setHandler(shape.out,
+    new OutHandler {
+      override def onPull(): Unit = pump()
+      override def onDownstreamFinish(cause: Throwable): Unit =
+        performShutdown()
+    })
 
   override def postStop(): Unit = {
     onShutdown()

@@ -5,7 +5,7 @@
 
 package akka.kafka.internal
 import akka.annotation.InternalApi
-import akka.stream.stage.{AsyncCallback, GraphStageLogic}
+import akka.stream.stage.{ AsyncCallback, GraphStageLogic }
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.common.TopicPartition
 

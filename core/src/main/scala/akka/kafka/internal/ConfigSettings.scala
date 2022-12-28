@@ -8,7 +8,7 @@ package akka.kafka.internal
 import java.util
 
 import akka.annotation.InternalApi
-import com.typesafe.config.{Config, ConfigObject}
+import com.typesafe.config.{ Config, ConfigObject }
 
 import scala.annotation.tailrec
 import scala.jdk.CollectionConverters._
@@ -30,8 +30,8 @@ import akka.util.JavaDurationConverters._
         c.toConfig.getAnyRef(unprocessedKeys.head) match {
           case o: util.Map[_, _] =>
             collectKeys(c,
-                        processedKeys,
-                        unprocessedKeys.tail ::: o.keySet().asScala.toList.map(unprocessedKeys.head + "." + _))
+              processedKeys,
+              unprocessedKeys.tail ::: o.keySet().asScala.toList.map(unprocessedKeys.head + "." + _))
           case _ =>
             collectKeys(c, processedKeys + unprocessedKeys.head, unprocessedKeys.tail)
         }
@@ -43,7 +43,7 @@ import akka.util.JavaDurationConverters._
 
   def getPotentiallyInfiniteDuration(underlying: Config, path: String): Duration = underlying.getString(path) match {
     case "infinite" => Duration.Inf
-    case _ => underlying.getDuration(path).asScala
+    case _          => underlying.getDuration(path).asScala
   }
 
 }

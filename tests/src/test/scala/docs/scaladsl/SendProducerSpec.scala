@@ -7,15 +7,15 @@ package docs.scaladsl
 
 import akka.Done
 import akka.kafka.ProducerMessage.MultiResult
-import akka.kafka.scaladsl.{Consumer, SendProducer}
+import akka.kafka.scaladsl.{ Consumer, SendProducer }
 import akka.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import akka.kafka.{ConsumerSettings, ProducerMessage, Subscriptions}
-import akka.stream.scaladsl.{Keep, Sink}
-import org.apache.kafka.clients.producer.{ProducerRecord, RecordMetadata}
+import akka.kafka.{ ConsumerSettings, ProducerMessage, Subscriptions }
+import akka.stream.scaladsl.{ Keep, Sink }
+import org.apache.kafka.clients.producer.{ ProducerRecord, RecordMetadata }
 
 import scala.collection.immutable
 import scala.concurrent.duration._
-import scala.concurrent.{Await, Future}
+import scala.concurrent.{ Await, Future }
 
 class SendProducerSpec extends DocsSpecBase with TestcontainersKafkaLike {
 
@@ -74,11 +74,10 @@ class SendProducerSpec extends DocsSpecBase with TestcontainersKafkaLike {
     try {
       val envelope: ProducerMessage.Envelope[String, String, String] =
         ProducerMessage.multi(immutable.Seq(
-                                new ProducerRecord(topic1, "key", "value1"),
-                                new ProducerRecord(topic1, "key", "value2"),
-                                new ProducerRecord(topic1, "key", "value3")
-                              ),
-                              "context")
+            new ProducerRecord(topic1, "key", "value1"),
+            new ProducerRecord(topic1, "key", "value2"),
+            new ProducerRecord(topic1, "key", "value3")),
+          "context")
       val send: Future[ProducerMessage.Results[String, String, String]] = producer.sendEnvelope(envelope)
       // #multiMessage
       val result = send.futureValue

@@ -7,7 +7,7 @@ package akka.kafka.benchmarks
 
 import com.codahale.metrics.Meter
 import com.typesafe.scalalogging.LazyLogging
-import org.apache.kafka.clients.producer.{Callback, ProducerRecord, RecordMetadata}
+import org.apache.kafka.clients.producer.{ Callback, ProducerRecord, RecordMetadata }
 
 import scala.concurrent.duration._
 
@@ -30,8 +30,7 @@ object KafkaProducerBenchmarks extends LazyLogging {
         new ProducerRecord[Array[Byte], String](fixture.topic, partition, null, msg),
         new Callback {
           override def onCompletion(metadata: RecordMetadata, exception: Exception): Unit = meter.mark()
-        }
-      )
+        })
 
       if (i % logStep == 0) {
         val lastPartEnd = System.nanoTime()

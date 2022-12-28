@@ -9,7 +9,7 @@ import akka.Done
 import akka.kafka._
 import akka.kafka.scaladsl.Consumer.DrainingControl
 import akka.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import akka.stream.scaladsl.{Keep, Sink, Source}
+import akka.stream.scaladsl.{ Keep, Sink, Source }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.apache.kafka.clients.producer.ProducerRecord
 
@@ -76,7 +76,7 @@ class CommittableSinkSpec extends SpecBase with TestcontainersKafkaLike {
             source
               .map { message =>
                 ProducerMessage.single(new ProducerRecord(targetTopic, message.record.key(), message.record.value()),
-                                       message.committableOffset)
+                  message.committableOffset)
               }
               .toMat(Producer.committableSink(producerDefaults, committerDefaults))(Keep.right)
               .run()
@@ -103,9 +103,9 @@ class CommittableSinkSpec extends SpecBase with TestcontainersKafkaLike {
 
   def produceStringRoundRobin(topic: String, range: immutable.Seq[String]): Future[Done] =
     Source(range)
-    // NOTE: If no partition is specified but a key is present a partition will be chosen
-    // using a hash of the key. If neither key nor partition is present a partition
-    // will be assigned in a round-robin fashion.
+      // NOTE: If no partition is specified but a key is present a partition will be chosen
+      // using a hash of the key. If neither key nor partition is present a partition
+      // will be assigned in a round-robin fashion.
       .map(n => new ProducerRecord[String, String](topic, n))
       .runWith(Producer.plainSink(producerDefaults.withProducer(testProducer)))
 

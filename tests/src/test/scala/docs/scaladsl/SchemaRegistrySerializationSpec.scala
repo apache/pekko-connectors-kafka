@@ -12,19 +12,19 @@ import akka.kafka._
 import akka.kafka.scaladsl._
 import akka.kafka.testkit.KafkaTestkitTestcontainersSettings
 import akka.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
-import akka.stream.scaladsl.{Keep, Sink, Source}
+import akka.stream.scaladsl.{ Keep, Sink, Source }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import akka.stream.testkit.scaladsl.TestSink
 import io.confluent.kafka.serializers.KafkaAvroDeserializerConfig
 import org.apache.avro.specific.SpecificRecordBase
 import org.apache.avro.util.Utf8
-import org.apache.avro.{AvroRuntimeException, Schema}
+import org.apache.avro.{ AvroRuntimeException, Schema }
 import org.apache.kafka.common.TopicPartition
 
 import scala.collection.immutable
 import scala.concurrent.duration._
 // #imports
-import io.confluent.kafka.serializers.{AbstractKafkaAvroSerDeConfig, KafkaAvroDeserializer, KafkaAvroSerializer}
+import io.confluent.kafka.serializers.{ AbstractKafkaAvroSerDeConfig, KafkaAvroDeserializer, KafkaAvroSerializer }
 import org.apache.avro.specific.SpecificRecord
 // #imports
 import org.apache.kafka.clients.consumer.ConsumerConfig
@@ -50,8 +50,7 @@ class SchemaRegistrySerializationSpec extends DocsSpecBase with TestcontainersKa
 
     val kafkaAvroSerDeConfig = Map[String, Any](
       AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG -> schemaRegistryUrl,
-      KafkaAvroDeserializerConfig.SPECIFIC_AVRO_READER_CONFIG -> true.toString
-    )
+      KafkaAvroDeserializerConfig.SPECIFIC_AVRO_READER_CONFIG -> true.toString)
     // #serializer #de-serializer
 
     // #de-serializer
@@ -137,21 +136,21 @@ class SchemaRegistrySerializationSpec extends DocsSpecBase with TestcontainersKa
     val (control1, probe1) =
       Consumer
         .plainExternalSource[String, SpecificRecord](consumerActor,
-                                                     Subscriptions.assignment(new TopicPartition(topic, 0)))
+          Subscriptions.assignment(new TopicPartition(topic, 0)))
         .toMat(TestSink.probe)(Keep.both)
         .run()
 
     val (control2, probe2) =
       Consumer
         .plainExternalSource[String, SpecificRecord](consumerActor,
-                                                     Subscriptions.assignment(new TopicPartition(topic, 1)))
+          Subscriptions.assignment(new TopicPartition(topic, 1)))
         .toMat(TestSink.probe)(Keep.both)
         .run()
 
     val (thisStreamStaysAlive, probe3) =
       Consumer
         .plainExternalSource[String, SpecificRecord](consumerActor,
-                                                     Subscriptions.assignment(new TopicPartition(topic, 2)))
+          Subscriptions.assignment(new TopicPartition(topic, 2)))
         .toMat(TestSink.probe)(Keep.both)
         .run()
 
@@ -228,21 +227,21 @@ case class SampleAvroClass(var key: String, var name: String) extends SpecificRe
   def this() = this(null, null)
 
   override def get(i: Int): AnyRef = i match {
-    case 0 => key
-    case 1 => name
+    case 0     => key
+    case 1     => name
     case index => throw new AvroRuntimeException(s"Unknown index: $index")
   }
 
   override def put(i: Int, v: scala.Any): Unit = i match {
-    case 0 => key = asString(v)
-    case 1 => name = asString(v)
+    case 0     => key = asString(v)
+    case 1     => name = asString(v)
     case index => throw new AvroRuntimeException(s"Unknown index: $index")
   }
 
   private def asString(v: Any) =
     v match {
       case utf8: Utf8 => utf8.toString
-      case _ => v.asInstanceOf[String]
+      case _          => v.asInstanceOf[String]
     }
 
   override def getSchema: Schema = SampleAvroClass.SCHEMA$

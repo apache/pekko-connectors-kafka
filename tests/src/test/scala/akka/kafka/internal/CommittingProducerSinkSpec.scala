@@ -14,22 +14,22 @@ import akka.kafka.internal.KafkaConsumerActor.Internal
 import akka.kafka.scaladsl.Consumer.DrainingControl
 import akka.kafka.scaladsl.Producer
 import akka.kafka.testkit.ConsumerResultFactory
-import akka.kafka.testkit.scaladsl.{ConsumerControlFactory, Slf4jToAkkaLoggingAdapter}
+import akka.kafka.testkit.scaladsl.{ ConsumerControlFactory, Slf4jToAkkaLoggingAdapter }
 import akka.kafka.tests.scaladsl.LogCapturing
 import akka.kafka._
-import akka.stream.scaladsl.{Keep, Source}
+import akka.stream.scaladsl.{ Keep, Source }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
-import akka.stream.{ActorAttributes, Supervision}
-import akka.testkit.{TestKit, TestProbe}
+import akka.stream.{ ActorAttributes, Supervision }
+import akka.testkit.{ TestKit, TestProbe }
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.clients.producer._
 import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.serialization.StringSerializer
 import org.scalatest.BeforeAndAfterAll
-import org.scalatest.concurrent.{Eventually, IntegrationPatience, ScalaFutures}
+import org.scalatest.concurrent.{ Eventually, IntegrationPatience, ScalaFutures }
 import org.scalatest.flatspec.AnyFlatSpecLike
 import org.scalatest.matchers.should.Matchers
-import org.slf4j.{Logger, LoggerFactory}
+import org.slf4j.{ Logger, LoggerFactory }
 
 import scala.collection.immutable
 import scala.concurrent.duration._
@@ -69,8 +69,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
 
     val elements = immutable.Seq(
       consumer.message(partition, "value 1"),
-      consumer.message(partition, "value 2")
-    )
+      consumer.message(partition, "value 2"))
 
     val producer = new MockProducer[String, String](true, new StringSerializer, new StringSerializer)
     val producerSettings = ProducerSettings(system, new StringSerializer, new StringSerializer)
@@ -84,8 +83,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
       .map { msg =>
         ProducerMessage.single(
           new ProducerRecord("targetTopic", msg.record.key, msg.record.value),
-          msg.committableOffset
-        )
+          msg.committableOffset)
       }
       .toMat(Producer.committableSink(producerSettings, committerSettings))(DrainingControl.apply)
       .run()
@@ -97,7 +95,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
     consumer.actor.reply(Done)
 
     eventually {
-      producer.history.asScala should have size (2)
+      producer.history.asScala should have size 2
     }
     control.drainAndShutdown().futureValue shouldBe Done
   }
@@ -107,8 +105,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
 
     val elements = immutable.Seq(
       consumer.message(partition, "skip"),
-      consumer.message(partition, "send")
-    )
+      consumer.message(partition, "send"))
 
     val producer = new MockProducer[String, String](true, new StringSerializer, new StringSerializer)
     val producerSettings = ProducerSettings(system, new StringSerializer, new StringSerializer)
@@ -125,8 +122,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
         } else {
           ProducerMessage.single(
             new ProducerRecord("targetTopic", msg.record.key, msg.record.value),
-            msg.committableOffset
-          )
+            msg.committableOffset)
         }
       }
       .toMat(Producer.committableSink(producerSettings, committerSettings))(DrainingControl.apply)
@@ -139,7 +135,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
     consumer.actor.reply(Done)
 
     eventually {
-      producer.history.asScala should have size (1)
+      producer.history.asScala should have size 1
     }
     control.drainAndShutdown().futureValue shouldBe Done
   }
@@ -149,8 +145,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
 
     val elements = immutable.Seq(
       consumer.message(partition, "value 1"),
-      consumer.message(partition, "value 2")
-    )
+      consumer.message(partition, "value 2"))
 
     val producer = new MockProducer[String, String](true, new StringSerializer, new StringSerializer)
     val producerSettings = ProducerSettings(system, new StringSerializer, new StringSerializer)
@@ -163,8 +158,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
       .map { msg =>
         ProducerMessage.single(
           new ProducerRecord("targetTopic", msg.record.key, msg.record.value),
-          msg.committableOffset
-        )
+          msg.committableOffset)
       }
       .toMat(Producer.committableSink(producerSettings, committerSettings))(DrainingControl.apply)
       .run()
@@ -175,7 +169,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
     consumer.actor.reply(Done)
 
     eventually {
-      producer.history.asScala should have size (2)
+      producer.history.asScala should have size 2
     }
     control.drainAndShutdown().futureValue shouldBe Done
   }
@@ -185,8 +179,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
 
     val elements = immutable.Seq(
       consumer.message(partition, "value 1"),
-      consumer.message(partition, "value 2")
-    )
+      consumer.message(partition, "value 2"))
 
     val producer = new MockProducer[String, String](true, new StringSerializer, new StringSerializer)
     val producerSettings = ProducerSettings(system, new StringSerializer, new StringSerializer)
@@ -208,7 +201,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
     consumer.actor.reply(Done)
 
     eventually {
-      producer.history.asScala should have size (0)
+      producer.history.asScala should have size 0
     }
     control.drainAndShutdown().futureValue shouldBe Done
   }
@@ -218,8 +211,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
 
     val elements = immutable.Seq(
       consumer.message(partition, "value 1"),
-      consumer.message(partition, "value 2")
-    )
+      consumer.message(partition, "value 2"))
 
     val producerRecordsPerInput = 2
     val totalProducerRecords = elements.size * producerRecordsPerInput
@@ -236,12 +228,10 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
         ProducerMessage.multi(
           (1 to producerRecordsPerInput)
             .map(n => new ProducerRecord("targetTopic", msg.record.key, msg.record.value)),
-          msg.committableOffset
-        )
+          msg.committableOffset)
       }
       .toMat(
-        Producer.committableSink(producerSettings, committerSettings)
-      )(DrainingControl.apply)
+        Producer.committableSink(producerSettings, committerSettings))(DrainingControl.apply)
       .run()
 
     val commitMsg = consumer.actor.expectMsgClass(classOf[Internal.Commit])
@@ -290,8 +280,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
 
     val elements = immutable.Seq(
       consumer.message(partition, "value 1"),
-      consumer.message(partition, "value 2")
-    )
+      consumer.message(partition, "value 2"))
 
     val producer = new MockProducer[String, String](true, new StringSerializer, new StringSerializer)
     val producerSettings = ProducerSettings(system, new StringSerializer, new StringSerializer)
@@ -306,8 +295,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
       .map { msg =>
         ProducerMessage.single(
           new ProducerRecord("targetTopic", msg.record.key, msg.record.value),
-          msg.committableOffset
-        )
+          msg.committableOffset)
       }
       .toMat(Producer.committableSink(producerSettings, committerSettings))(DrainingControl.apply)
       .run()
@@ -318,7 +306,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
     consumer.actor.reply(Done)
 
     eventually {
-      producer.history.asScala should have size (2)
+      producer.history.asScala should have size 2
     }
     control.drainAndShutdown().futureValue shouldBe Done
   }
@@ -328,8 +316,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
 
     val elements = immutable.Seq(
       consumer.message(partition, "value 1"),
-      consumer.message(partition, "value 2")
-    )
+      consumer.message(partition, "value 2"))
 
     val producer = new MockProducer[String, String](true, new StringSerializer, new StringSerializer)
     val producerSettings = ProducerSettings(system, new StringSerializer, new StringSerializer)
@@ -343,8 +330,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
       .map { msg =>
         ProducerMessage.single(
           new ProducerRecord("targetTopic", msg.record.key, msg.record.value),
-          msg.committableOffset
-        )
+          msg.committableOffset)
       }
       .toMat(Producer.committableSink(producerSettings, committerSettings))(DrainingControl.apply)
       .run()
@@ -356,7 +342,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
     consumer.actor.reply(Done)
 
     eventually {
-      producer.history.asScala should have size (2)
+      producer.history.asScala should have size 2
     }
     control.drainAndShutdown().futureValue shouldBe Done
   }
@@ -366,8 +352,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
 
     val elements = immutable.Seq(
       consumer.message(partition, "value 1"),
-      consumer.message(partition, "value 2")
-    )
+      consumer.message(partition, "value 2"))
 
     val producer = new MockProducer[String, String](true, new StringSerializer, new StringSerializer)
     val producerSettings = ProducerSettings(system, new StringSerializer, new StringSerializer)
@@ -378,15 +363,15 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
     val control = Source(elements)
       .concat(Source.maybe) // keep the source alive
       .idleTimeout(50.millis)
-      .recoverWithRetries(1, {
-        case _ => Source.empty
-      })
+      .recoverWithRetries(1,
+        {
+          case _ => Source.empty
+        })
       .viaMat(ConsumerControlFactory.controlFlow())(Keep.right)
       .map { msg =>
         ProducerMessage.single(
           new ProducerRecord("targetTopic", msg.record.key, msg.record.value),
-          msg.committableOffset
-        )
+          msg.committableOffset)
       }
       .toMat(Producer.committableSink(producerSettings, committerSettings))(DrainingControl.apply)
       .run()
@@ -397,7 +382,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
     consumer.actor.reply(Done)
 
     eventually {
-      producer.history.asScala should have size (2)
+      producer.history.asScala should have size 2
     }
     control.drainAndShutdown().futureValue shouldBe Done
   }
@@ -407,8 +392,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
 
     val elements = immutable.Seq(
       consumer.message(partition, "value 1"),
-      consumer.message(partition, "value 2")
-    )
+      consumer.message(partition, "value 2"))
 
     val producer = new MockProducer[String, String](true, new StringSerializer, new StringSerializer)
     val producerSettings = ProducerSettings(system, new StringSerializer, new StringSerializer)
@@ -423,8 +407,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
       .map { msg =>
         ProducerMessage.single(
           new ProducerRecord("targetTopic", msg.record.key, msg.record.value),
-          msg.committableOffset
-        )
+          msg.committableOffset)
       }
       .toMat(Producer.committableSink(producerSettings, committerSettings))(DrainingControl.apply)
       .run()
@@ -435,7 +418,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
     consumer.actor.reply(Done)
 
     eventually {
-      producer.history.asScala should have size (2)
+      producer.history.asScala should have size 2
     }
     control.drainAndShutdown().failed.futureValue shouldBe a[java.util.concurrent.TimeoutException]
   }
@@ -445,8 +428,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
 
     val elements = immutable.Seq(
       consumer.message(partition, "value 1"),
-      consumer.message(partition, "value 2")
-    )
+      consumer.message(partition, "value 2"))
 
     // this producer does not auto complete messages
     val producer = new MockProducer[String, String](false, new StringSerializer, new StringSerializer)
@@ -460,8 +442,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
       .map { msg =>
         ProducerMessage.single(
           new ProducerRecord("targetTopic", msg.record.key, msg.record.value),
-          msg.committableOffset
-        )
+          msg.committableOffset)
       }
       .toMat(Producer.committableSink(producerSettings, committerSettings))(DrainingControl.apply)
       .run()
@@ -477,7 +458,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
     while (!producer.completeNext()) {}
 
     eventually {
-      producer.history.asScala should have size (2)
+      producer.history.asScala should have size 2
     }
     control.drainAndShutdown().failed.futureValue shouldBe an[akka.kafka.CommitTimeoutException]
   }
@@ -487,8 +468,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
 
     val elements = immutable.Seq(
       consumer.message(partition, "value 1"),
-      consumer.message(partition, "value 2")
-    )
+      consumer.message(partition, "value 2"))
 
     val producer = new MockProducer[String, String](false, new StringSerializer, new StringSerializer)
     val producerSettings = ProducerSettings(system, new StringSerializer, new StringSerializer)
@@ -501,14 +481,12 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
       .map { msg =>
         ProducerMessage.single(
           new ProducerRecord("targetTopic", msg.record.key, msg.record.value),
-          msg.committableOffset
-        )
+          msg.committableOffset)
       }
       .toMat(
         Producer
           .committableSink(producerSettings, committerSettings)
-          .withAttributes(ActorAttributes.supervisionStrategy(Supervision.resumingDecider))
-      )(DrainingControl.apply)
+          .withAttributes(ActorAttributes.supervisionStrategy(Supervision.resumingDecider)))(DrainingControl.apply)
       .run()
 
     // fail the first message
@@ -523,7 +501,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
     consumer.actor.reply(Done)
 
     eventually {
-      producer.history.asScala should have size (2)
+      producer.history.asScala should have size 2
     }
     control.drainAndShutdown().futureValue shouldBe Done
   }
@@ -533,8 +511,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
 
     val elements = immutable.Seq(
       consumer.message(partition, "value 1"),
-      consumer.message(partition, "value 2")
-    )
+      consumer.message(partition, "value 2"))
 
     val producer = new MockProducer[String, String](false, new StringSerializer, new StringSerializer)
     val producerSettings = ProducerSettings(system, new StringSerializer, new StringSerializer)
@@ -548,14 +525,12 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
       .map { msg =>
         ProducerMessage.single(
           new ProducerRecord("targetTopic", msg.record.key, msg.record.value),
-          msg.committableOffset
-        )
+          msg.committableOffset)
       }
       .toMat(
         Producer
           .committableSink(producerSettings, committerSettings)
-          .withAttributes(ActorAttributes.supervisionStrategy(Supervision.resumingDecider))
-      )(DrainingControl.apply)
+          .withAttributes(ActorAttributes.supervisionStrategy(Supervision.resumingDecider)))(DrainingControl.apply)
       .run()
 
     // fail the first message
@@ -572,7 +547,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
     consumer.actor.reply(Done)
 
     eventually {
-      producer.history.asScala should have size (2)
+      producer.history.asScala should have size 2
     }
     control.drainAndShutdown().futureValue shouldBe Done
   }
@@ -582,8 +557,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
 
     val elements = immutable.Seq(
       consumer.message(partition, "value 1"),
-      consumer.message(partition, "value 2")
-    )
+      consumer.message(partition, "value 2"))
 
     val producer = new MockProducer[String, String](true, new StringSerializer, new StringSerializer)
     val producerSettings = ProducerSettings(system, new StringSerializer, new StringSerializer)
@@ -596,8 +570,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
       .map { msg =>
         ProducerMessage.single(
           new ProducerRecord("targetTopic", msg.record.key, msg.record.value),
-          msg.committableOffset
-        )
+          msg.committableOffset)
       }
       .toMat(Producer.committableSink(producerSettings, committerSettings))(DrainingControl.apply)
       .run()
@@ -607,7 +580,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
     commitMsg.offsetAndMetadata.offset() shouldBe (consumer.startOffset + 2)
 
     eventually {
-      producer.history.asScala should have size (2)
+      producer.history.asScala should have size 2
     }
     control.drainAndShutdown().failed.futureValue shouldBe an[akka.kafka.CommitTimeoutException]
   }
@@ -617,8 +590,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
 
     val elements = immutable.Seq(
       consumer.message(partition, "value 1"),
-      consumer.message(partition, "value 2")
-    )
+      consumer.message(partition, "value 2"))
 
     val producer = new MockProducer[String, String](true, new StringSerializer, new StringSerializer)
     val producerSettings = ProducerSettings(system, new StringSerializer, new StringSerializer)
@@ -631,14 +603,12 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
       .map { msg =>
         ProducerMessage.single(
           new ProducerRecord("targetTopic", msg.record.key, msg.record.value),
-          msg.committableOffset
-        )
+          msg.committableOffset)
       }
       .toMat(
         Producer
           .committableSink(producerSettings, committerSettings)
-          .withAttributes(ActorAttributes.supervisionStrategy(Supervision.resumingDecider))
-      )(DrainingControl.apply)
+          .withAttributes(ActorAttributes.supervisionStrategy(Supervision.resumingDecider)))(DrainingControl.apply)
       .run()
 
     val commitMsg = consumer.actor.expectMsgClass(classOf[Internal.Commit])
@@ -646,7 +616,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
     commitMsg.offsetAndMetadata.offset() shouldBe (consumer.startOffset + 2)
 
     eventually {
-      producer.history.asScala should have size (2)
+      producer.history.asScala should have size 2
     }
 
     // commit failure is ignored
@@ -658,8 +628,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
 
     val elements = immutable.Seq(
       consumer.message(partition, "value 1"),
-      consumer.message(partition, "value 2")
-    )
+      consumer.message(partition, "value 2"))
 
     val producer = new MockProducer[String, String](true, new StringSerializer, new StringSerializer)
     val producerSettings = ProducerSettings(system, new StringSerializer, new StringSerializer)
@@ -675,20 +644,18 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
         if (msg eq elements(1)) throw new RuntimeException("error")
         ProducerMessage.single(
           new ProducerRecord("targetTopic", msg.record.key, msg.record.value),
-          msg.committableOffset
-        )
+          msg.committableOffset)
       }
       .toMat(
         Producer
           .committableSink(producerSettings, committerSettings)
-          .withAttributes(ActorAttributes.supervisionStrategy(Supervision.resumingDecider))
-      )(DrainingControl.apply)
+          .withAttributes(ActorAttributes.supervisionStrategy(Supervision.resumingDecider)))(DrainingControl.apply)
       .run()
 
     consumer.actor.expectNoMessage(10.millis)
 
     eventually {
-      producer.history.asScala should have size (1)
+      producer.history.asScala should have size 1
     }
 
     ScalaFutures.whenReady(control.drainAndShutdown().failed) { e =>
@@ -708,8 +675,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
       .map { msg =>
         ProducerMessage.single(
           new ProducerRecord("targetTopic", msg.record.key, msg.record.value),
-          msg.committableOffset
-        )
+          msg.committableOffset)
       }
       .toMat(Producer.committableSink(producerSettings, committerSettings))(DrainingControl.apply)
       .run()
@@ -730,8 +696,6 @@ object CommittingProducerSinkSpec {
         new ConsumerRecord(topic, partition, startOffset, "key", value),
         CommittableOffsetImpl(
           ConsumerResultFactory.partitionOffset(groupId, topic, partition, offset.getAndIncrement()),
-          "metadata"
-        )(fakeCommitter)
-      )
+          "metadata")(fakeCommitter))
   }
 }

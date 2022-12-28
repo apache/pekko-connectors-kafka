@@ -25,8 +25,7 @@ import org.slf4j.LoggerFactory
         throw new IllegalArgumentException(s"Couldn't find logger for [$loggerName].")
       case other =>
         throw new IllegalArgumentException(
-          s"Requires Logback logger for [$loggerName], it was a [${other.getClass.getName}]"
-        )
+          s"Requires Logback logger for [$loggerName], it was a [${other.getClass.getName}]")
     }
   }
 
@@ -34,8 +33,8 @@ import org.slf4j.LoggerFactory
     level.levelInt match {
       case ch.qos.logback.classic.Level.TRACE_INT => Level.TRACE
       case ch.qos.logback.classic.Level.DEBUG_INT => Level.DEBUG
-      case ch.qos.logback.classic.Level.INFO_INT => Level.INFO
-      case ch.qos.logback.classic.Level.WARN_INT => Level.WARN
+      case ch.qos.logback.classic.Level.INFO_INT  => Level.INFO
+      case ch.qos.logback.classic.Level.WARN_INT  => Level.WARN
       case ch.qos.logback.classic.Level.ERROR_INT => Level.ERROR
       case _ =>
         throw new IllegalArgumentException("Level " + level.levelStr + ", " + level.levelInt + " is unknown.")

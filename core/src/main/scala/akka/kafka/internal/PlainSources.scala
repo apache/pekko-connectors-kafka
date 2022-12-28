@@ -9,11 +9,11 @@ import akka.NotUsed
 import akka.actor.ActorRef
 import akka.annotation.InternalApi
 import akka.kafka.scaladsl.Consumer.Control
-import akka.kafka.{AutoSubscription, ConsumerSettings, ManualSubscription, Subscription}
+import akka.kafka.{ AutoSubscription, ConsumerSettings, ManualSubscription, Subscription }
 import akka.kafka.internal.SubSourceLogic._
 import akka.stream.SourceShape
 import akka.stream.scaladsl.Source
-import akka.stream.stage.{AsyncCallback, GraphStageLogic}
+import akka.stream.stage.{ AsyncCallback, GraphStageLogic }
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.common.TopicPartition
 
@@ -31,8 +31,7 @@ private[kafka] final class PlainSource[K, V](settings: ConsumerSettings[K, V], s
 @InternalApi
 private[kafka] final class ExternalPlainSource[K, V](consumer: ActorRef, subscription: ManualSubscription)
     extends KafkaSourceStage[K, V, ConsumerRecord[K, V]](
-      s"ExternalPlainSubSource ${subscription.renderStageAttribute}"
-    ) {
+      s"ExternalPlainSubSource ${subscription.renderStageAttribute}") {
   override protected def logic(shape: SourceShape[ConsumerRecord[K, V]]): GraphStageLogic with Control =
     new ExternalSingleSourceLogic[K, V, ConsumerRecord[K, V]](shape, consumer, subscription)
       with PlainMessageBuilder[K, V]
@@ -47,13 +46,11 @@ private[kafka] final class PlainSubSource[K, V](
     settings: ConsumerSettings[K, V],
     subscription: AutoSubscription,
     getOffsetsOnAssign: Option[Set[TopicPartition] => Future[Map[TopicPartition, Long]]],
-    onRevoke: Set[TopicPartition] => Unit
-) extends KafkaSourceStage[K, V, (TopicPartition, Source[ConsumerRecord[K, V], NotUsed])](
-      s"PlainSubSource ${subscription.renderStageAttribute}"
-    ) {
+    onRevoke: Set[TopicPartition] => Unit)
+    extends KafkaSourceStage[K, V, (TopicPartition, Source[ConsumerRecord[K, V], NotUsed])](
+      s"PlainSubSource ${subscription.renderStageAttribute}") {
   override protected def logic(
-      shape: SourceShape[(TopicPartition, Source[ConsumerRecord[K, V], NotUsed])]
-  ): GraphStageLogic with Control = {
+      shape: SourceShape[(TopicPartition, Source[ConsumerRecord[K, V], NotUsed])]): GraphStageLogic with Control = {
 
     val factory = new SubSourceStageLogicFactory[K, V, ConsumerRecord[K, V]] {
       def create(
@@ -62,21 +59,20 @@ private[kafka] final class PlainSubSource[K, V](
           consumerActor: ActorRef,
           subSourceStartedCb: AsyncCallback[SubSourceStageLogicControl],
           subSourceCancelledCb: AsyncCallback[(TopicPartition, SubSourceCancellationStrategy)],
-          actorNumber: Int
-      ): SubSourceStageLogic[K, V, ConsumerRecord[K, V]] =
+          actorNumber: Int): SubSourceStageLogic[K, V, ConsumerRecord[K, V]] =
         new SubSourceStageLogic[K, V, ConsumerRecord[K, V]](shape,
-                                                            tp,
-                                                            consumerActor,
-                                                            subSourceStartedCb,
-                                                            subSourceCancelledCb,
-                                                            actorNumber) with PlainMessageBuilder[K, V]
+          tp,
+          consumerActor,
+          subSourceStartedCb,
+          subSourceCancelledCb,
+          actorNumber) with PlainMessageBuilder[K, V]
     }
 
     new SubSourceLogic[K, V, ConsumerRecord[K, V]](shape,
-                                                   settings,
-                                                   subscription,
-                                                   getOffsetsOnAssign,
-                                                   onRevoke,
-                                                   subSourceStageLogicFactory = factory)
+      settings,
+      subscription,
+      getOffsetsOnAssign,
+      onRevoke,
+      subSourceStageLogicFactory = factory)
   }
 }

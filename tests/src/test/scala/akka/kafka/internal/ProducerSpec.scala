@@ -7,19 +7,19 @@ package akka.kafka.internal
 
 import java.util.concurrent.CompletableFuture
 import akka.actor.ActorSystem
-import akka.kafka.ConsumerMessage.{GroupTopicPartition, PartitionOffset, PartitionOffsetCommittedMarker}
+import akka.kafka.ConsumerMessage.{ GroupTopicPartition, PartitionOffset, PartitionOffsetCommittedMarker }
 import akka.kafka.ProducerMessage._
 import akka.kafka.scaladsl.Producer
 import akka.kafka.tests.scaladsl.LogCapturing
-import akka.kafka.{ConsumerMessage, ProducerMessage, ProducerSettings}
-import akka.stream.scaladsl.{Flow, Keep, Sink, Source}
+import akka.kafka.{ ConsumerMessage, ProducerMessage, ProducerSettings }
+import akka.stream.scaladsl.{ Flow, Keep, Sink, Source }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
-import akka.stream.testkit.scaladsl.{TestSink, TestSource}
-import akka.stream.{ActorAttributes, Supervision}
+import akka.stream.testkit.scaladsl.{ TestSink, TestSource }
+import akka.stream.{ ActorAttributes, Supervision }
 import akka.testkit.TestKit
-import akka.{Done, NotUsed}
+import akka.{ Done, NotUsed }
 import com.typesafe.config.ConfigFactory
-import org.apache.kafka.clients.consumer.{ConsumerGroupMetadata, OffsetAndMetadata}
+import org.apache.kafka.clients.consumer.{ ConsumerGroupMetadata, OffsetAndMetadata }
 import org.apache.kafka.clients.producer._
 import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.serialization.StringSerializer
@@ -34,9 +34,9 @@ import org.scalatest.flatspec.AnyFlatSpecLike
 import org.scalatest.matchers.should.Matchers
 
 import scala.concurrent.duration._
-import scala.concurrent.{Await, ExecutionContext, Future, Promise}
+import scala.concurrent.{ Await, ExecutionContext, Future, Promise }
 import scala.jdk.CollectionConverters._
-import scala.util.{Failure, Success, Try}
+import scala.util.{ Failure, Success, Try }
 
 class ProducerSpec(_system: ActorSystem)
     extends TestKit(_system)
@@ -48,10 +48,9 @@ class ProducerSpec(_system: ActorSystem)
   def this() =
     this(
       ActorSystem("ProducerSpec",
-                  ConfigFactory
-                    .parseString("""akka.stream.materializer.debug.fuzzing-mode = on""")
-                    .withFallback(ConfigFactory.load()))
-    )
+        ConfigFactory
+          .parseString("""akka.stream.materializer.debug.fuzzing-mode = on""")
+          .withFallback(ConfigFactory.load())))
 
   override def afterAll(): Unit = shutdown(system)
 
@@ -75,13 +74,12 @@ class ProducerSpec(_system: ActorSystem)
       .PartitionOffset(GroupTopicPartition(group, tuple._1.topic(), 1), tuple._2.offset())
     val partitionOffsetCommittedMarker =
       PartitionOffsetCommittedMarker(consumerMessage.key,
-                                     consumerMessage.offset,
-                                     committer,
-                                     fromPartitionedSource = false)
+        consumerMessage.offset,
+        committer,
+        fromPartitionedSource = false)
     ProducerMessage.Message(
       tuple._1,
-      partitionOffsetCommittedMarker
-    )
+      partitionOffsetCommittedMarker)
   }
 
   def result(r: Record, m: RecordMetadata) = Result(m, ProducerMessage.Message(r, NotUsed))
@@ -97,24 +95,21 @@ class ProducerSpec(_system: ActorSystem)
       .withEosCommitInterval(10.milliseconds)
 
   def testProducerFlow[P](mock: ProducerMock[K, V],
-                          closeOnStop: Boolean = true): Flow[Message[K, V, P], Result[K, V, P], NotUsed] = {
+      closeOnStop: Boolean = true): Flow[Message[K, V, P], Result[K, V, P], NotUsed] = {
     val pSettings = settings.withProducer(mock.mock).withCloseProducerOnStop(closeOnStop)
     Flow
       .fromGraph(
-        new DefaultProducerStage[K, V, P, Message[K, V, P], Result[K, V, P]](pSettings)
-      )
+        new DefaultProducerStage[K, V, P, Message[K, V, P], Result[K, V, P]](pSettings))
       .mapAsync(1)(identity)
   }
 
   def testTransactionProducerFlow[P](
       mock: ProducerMock[K, V],
-      closeOnStop: Boolean = true
-  ): Flow[Envelope[K, V, P], Results[K, V, P], NotUsed] = {
+      closeOnStop: Boolean = true): Flow[Envelope[K, V, P], Results[K, V, P], NotUsed] = {
     val pSettings = settings.withProducerFactory(_ => mock.mock).withCloseProducerOnStop(closeOnStop)
     Flow
       .fromGraph(
-        new TransactionalProducerStage[K, V, P](pSettings, "transactionalId")
-      )
+        new TransactionalProducerStage[K, V, P](pSettings, "transactionalId"))
       .mapAsync(1)(identity)
   }
 
@@ -151,7 +146,7 @@ class ProducerSpec(_system: ActorSystem)
 
   it should "work with a provided Producer" in {
     assertAllStagesStopped {
-      val input = 1 to 10 map { recordAndMetadata(_)._1 }
+      val input = (1 to 10).map { recordAndMetadata(_)._1 }
 
       val mockProducer = new MockProducer[String, String](true, new StringSerializer, new StringSerializer)
 
@@ -165,7 +160,7 @@ class ProducerSpec(_system: ActorSystem)
 
   it should "emit confirmation in same order as inputs" in {
     assertAllStagesStopped {
-      val input = 1 to 3 map recordAndMetadata
+      val input = (1 to 3).map(recordAndMetadata)
 
       val client = {
         val inputMap = input.toMap
@@ -187,7 +182,7 @@ class ProducerSpec(_system: ActorSystem)
   }
 
   it should "in case of source error complete emitted messages and push error" in assertAllStagesStopped {
-    val input = 1 to 10 map recordAndMetadata
+    val input = (1 to 10).map(recordAndMetadata)
 
     val client = {
       val inputMap = input.toMap
@@ -215,7 +210,7 @@ class ProducerSpec(_system: ActorSystem)
 
   it should "fail stream and force-close producer in callback on send failure" in {
     assertAllStagesStopped {
-      val input = 1 to 3 map recordAndMetadata
+      val input = (1 to 3).map(recordAndMetadata)
       val error = new Exception("Something wrong in kafka")
 
       val client = {
@@ -244,7 +239,7 @@ class ProducerSpec(_system: ActorSystem)
 
   it should "stop emitting messages after encountering a send failure" in {
     assertAllStagesStopped {
-      val input = 1 to 3 map recordAndMetadata
+      val input = (1 to 3).map(recordAndMetadata)
       val error = new Exception("Something wrong in kafka")
 
       val client = {
@@ -277,7 +272,7 @@ class ProducerSpec(_system: ActorSystem)
 
   it should "resume stream and gracefully close producer on send failure if specified by supervision-strategy" in {
     assertAllStagesStopped {
-      val input = 1 to 3 map recordAndMetadata
+      val input = (1 to 3).map(recordAndMetadata)
       val error = new Exception("Something wrong in kafka")
 
       val client = {
@@ -290,8 +285,7 @@ class ProducerSpec(_system: ActorSystem)
       val (source, sink) = TestSource
         .probe[Msg]
         .via(
-          testProducerFlow(client).withAttributes(ActorAttributes.withSupervisionStrategy(Supervision.resumingDecider))
-        )
+          testProducerFlow(client).withAttributes(ActorAttributes.withSupervisionStrategy(Supervision.resumingDecider)))
         .toMat(TestSink.probe)(Keep.both)
         .run()
 
@@ -311,7 +305,7 @@ class ProducerSpec(_system: ActorSystem)
 
   it should "fail stream on exception of producer send" in {
     assertAllStagesStopped {
-      val input = 1 to 3 map recordAndMetadata
+      val input = (1 to 3).map(recordAndMetadata)
 
       val client = new ProducerMock[K, V](ProducerMock.handlers.fail)
       val probe = Source(input.map(toMessage))
@@ -330,7 +324,7 @@ class ProducerSpec(_system: ActorSystem)
 
   it should "close client and complete in case of cancellation of outlet" in {
     assertAllStagesStopped {
-      val input = 1 to 3 map recordAndMetadata
+      val input = (1 to 3).map(recordAndMetadata)
 
       val client = {
         val inputMap = input.toMap
@@ -354,7 +348,7 @@ class ProducerSpec(_system: ActorSystem)
 
   it should "not close the producer if closeProducerOnStop is false" in {
     assertAllStagesStopped {
-      val input = 1 to 3 map recordAndMetadata
+      val input = (1 to 3).map(recordAndMetadata)
 
       val client = {
         val inputMap = input.toMap
@@ -376,7 +370,7 @@ class ProducerSpec(_system: ActorSystem)
 
   it should "not close the producer on failure if closeProducerOnStop is false" in {
     assertAllStagesStopped {
-      val input = 1 to 3 map recordAndMetadata
+      val input = (1 to 3).map(recordAndMetadata)
       val error = new Exception("Something wrong in kafka")
 
       val client = new ProducerMock[K, V](ProducerMock.handlers.delayedMap(100.millis) { _ =>
@@ -570,8 +564,8 @@ object ProducerMock {
   object handlers {
     def fail[K, V]: Handler[K, V] = (_, _) => throw new Exception("Should not be called")
     def delayedMap[K, V](
-        delay: FiniteDuration
-    )(f: ProducerRecord[K, V] => Try[RecordMetadata])(implicit as: ActorSystem): Handler[K, V] = { (record, _) =>
+        delay: FiniteDuration)(f: ProducerRecord[K, V] => Try[RecordMetadata])(
+        implicit as: ActorSystem): Handler[K, V] = { (record, _) =>
       implicit val ec = as.dispatcher
       val promise = Promise[RecordMetadata]()
       as.scheduler.scheduleOnce(delay) {
@@ -594,9 +588,9 @@ class ProducerMock[K, V](handler: ProducerMock.Handler[K, V])(implicit ec: Execu
           val record = invocation.getArguments()(0).asInstanceOf[ProducerRecord[K, V]]
           val callback = invocation.getArguments()(1).asInstanceOf[Callback]
           handler(record, callback).onComplete {
-            case Success(value) if !closed => callback.onCompletion(value, null)
-            case Success(_) => callback.onCompletion(null, new Exception("Kafka producer already closed"))
-            case Failure(ex: Exception) => callback.onCompletion(null, ex)
+            case Success(value) if !closed     => callback.onCompletion(value, null)
+            case Success(_)                    => callback.onCompletion(null, new Exception("Kafka producer already closed"))
+            case Failure(ex: Exception)        => callback.onCompletion(null, ex)
             case Failure(throwableUnsupported) => throw new Exception("Throwable failure are not supported")
           }
           val result = new CompletableFuture[RecordMetadata]()
@@ -667,18 +661,16 @@ class ProducerMock[K, V](handler: ProducerMock.Handler[K, V])(implicit ec: Execu
 class CommittedMarkerMock {
   val mock = Mockito.mock(classOf[CommittedMarker])
   when(
-    mock.committed(mockito.ArgumentMatchers.any[Map[TopicPartition, OffsetAndMetadata]])
-  ).thenAnswer(new Answer[Future[Done]] {
-    override def answer(invocation: InvocationOnMock): Future[Done] =
-      Future.successful(Done)
-  })
+    mock.committed(mockito.ArgumentMatchers.any[Map[TopicPartition, OffsetAndMetadata]])).thenAnswer(
+    new Answer[Future[Done]] {
+      override def answer(invocation: InvocationOnMock): Future[Done] =
+        Future.successful(Done)
+    })
 
   private[kafka] def verifyOffsets(pos: ConsumerMessage.PartitionOffsetCommittedMarker*): Future[Done] =
     Mockito
       .verify(mock, Mockito.only())
       .committed(
         mockito.ArgumentMatchers.eq(
-          pos.map(p => new TopicPartition(p.key.topic, p.key.partition) -> new OffsetAndMetadata(p.offset + 1)).toMap
-        )
-      )
+          pos.map(p => new TopicPartition(p.key.topic, p.key.partition) -> new OffsetAndMetadata(p.offset + 1)).toMap))
 }

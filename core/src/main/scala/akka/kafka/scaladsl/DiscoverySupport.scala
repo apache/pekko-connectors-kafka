@@ -5,10 +5,10 @@
 
 package akka.kafka.scaladsl
 
-import akka.actor.{ActorSystem, ActorSystemImpl, ClassicActorSystemProvider}
+import akka.actor.{ ActorSystem, ActorSystemImpl, ClassicActorSystemProvider }
 import akka.annotation.InternalApi
-import akka.discovery.{Discovery, ServiceDiscovery}
-import akka.kafka.{ConsumerSettings, ProducerSettings}
+import akka.discovery.{ Discovery, ServiceDiscovery }
+import akka.kafka.{ ConsumerSettings, ProducerSettings }
 import akka.util.JavaDurationConverters._
 import com.typesafe.config.Config
 
@@ -39,8 +39,7 @@ object DiscoverySupport {
   private def bootstrapServers(
       discovery: ServiceDiscovery,
       serviceName: String,
-      lookupTimeout: FiniteDuration
-  )(implicit system: ActorSystem): Future[String] = {
+      lookupTimeout: FiniteDuration)(implicit system: ActorSystem): Future[String] = {
     import system.dispatcher
     discovery.lookup(serviceName, lookupTimeout).map { resolved =>
       resolved.addresses
@@ -73,8 +72,8 @@ object DiscoverySupport {
    * to be used as `bootstrapServers`.
    */
   def consumerBootstrapServers[K, V](
-      config: Config
-  )(implicit system: ClassicActorSystemProvider): ConsumerSettings[K, V] => Future[ConsumerSettings[K, V]] = {
+      config: Config)(
+      implicit system: ClassicActorSystemProvider): ConsumerSettings[K, V] => Future[ConsumerSettings[K, V]] = {
     val sys: ActorSystem = system.classicSystem
     import sys.dispatcher
     settings =>
@@ -86,8 +85,7 @@ object DiscoverySupport {
 
   // kept for bin-compatibility
   def consumerBootstrapServers[K, V](
-      config: Config
-  )(system: ActorSystem): ConsumerSettings[K, V] => Future[ConsumerSettings[K, V]] = {
+      config: Config)(system: ActorSystem): ConsumerSettings[K, V] => Future[ConsumerSettings[K, V]] = {
     implicit val sys: ClassicActorSystemProvider = system
     consumerBootstrapServers(config)
   }
@@ -97,8 +95,8 @@ object DiscoverySupport {
    * to be used as `bootstrapServers`.
    */
   def producerBootstrapServers[K, V](
-      config: Config
-  )(implicit system: ClassicActorSystemProvider): ProducerSettings[K, V] => Future[ProducerSettings[K, V]] = {
+      config: Config)(
+      implicit system: ClassicActorSystemProvider): ProducerSettings[K, V] => Future[ProducerSettings[K, V]] = {
     val sys: ActorSystem = system.classicSystem
     import sys.dispatcher
     settings =>
@@ -110,8 +108,7 @@ object DiscoverySupport {
 
   // kept for bin-compatibility
   def producerBootstrapServers[K, V](config: Config)(
-      system: ActorSystem
-  ): ProducerSettings[K, V] => Future[ProducerSettings[K, V]] = {
+      system: ActorSystem): ProducerSettings[K, V] => Future[ProducerSettings[K, V]] = {
     implicit val sys: ClassicActorSystemProvider = system
     producerBootstrapServers(config)
   }
@@ -120,8 +117,7 @@ object DiscoverySupport {
     system.dynamicAccess.getClassFor("akka.discovery.Discovery$") match {
       case Failure(_: ClassNotFoundException | _: NoClassDefFoundError) =>
         throw new IllegalStateException(
-          s"Akka Discovery is being used but the `akka-discovery` library is not on the classpath, it must be added explicitly. See https://doc.akka.io/docs/alpakka-kafka/current/discovery.html"
-        )
+          s"Akka Discovery is being used but the `akka-discovery` library is not on the classpath, it must be added explicitly. See https://doc.akka.io/docs/alpakka-kafka/current/discovery.html")
       case _ =>
     }
 

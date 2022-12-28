@@ -12,7 +12,7 @@ import akka.actor.ActorSystem
 import akka.kafka.ConsumerMessage._
 import akka.kafka._
 import akka.kafka.scaladsl.Consumer.Control
-import akka.kafka.scaladsl.{Committer, Consumer}
+import akka.kafka.scaladsl.{ Committer, Consumer }
 import akka.kafka.tests.scaladsl.LogCapturing
 import akka.stream._
 import akka.stream.scaladsl._
@@ -24,13 +24,13 @@ import org.apache.kafka.clients.consumer._
 import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.errors.RebalanceInProgressException
 import org.apache.kafka.common.serialization.StringDeserializer
-import org.scalatest.concurrent.{Eventually, IntegrationPatience, ScalaFutures}
+import org.scalatest.concurrent.{ Eventually, IntegrationPatience, ScalaFutures }
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.flatspec.AnyFlatSpecLike
 import org.scalatest.matchers.should.Matchers
 
 import scala.concurrent.duration._
-import scala.concurrent.{Await, Future}
+import scala.concurrent.{ Await, Future }
 
 object CommittingWithMockSpec {
   type K = String
@@ -40,9 +40,9 @@ object CommittingWithMockSpec {
   def createMessage(seed: Int): CommittableMessage[K, V] = createMessage(seed, "topic")
 
   def createMessage(seed: Int,
-                    topic: String,
-                    groupId: String = "group1",
-                    metadata: String = ""): CommittableMessage[K, V] = {
+      topic: String,
+      groupId: String = "group1",
+      metadata: String = ""): CommittableMessage[K, V] = {
     val offset = PartitionOffset(GroupTopicPartition(groupId, topic, 1), seed.toLong)
     val record = new ConsumerRecord(offset.key.topic, offset.key.partition, offset.offset, seed.toString, seed.toString)
     CommittableMessage(record, CommittableOffsetImpl(offset, metadata)(null))
@@ -67,10 +67,9 @@ class CommittingWithMockSpec(_system: ActorSystem)
   def this() =
     this(
       ActorSystem("CommittingWithMockSpec",
-                  ConfigFactory
-                    .parseString("""akka.stream.materializer.debug.fuzzing-mode = on""")
-                    .withFallback(ConfigFactory.load()))
-    )
+        ConfigFactory
+          .parseString("""akka.stream.materializer.debug.fuzzing-mode = on""")
+          .withFallback(ConfigFactory.load())))
 
   override def afterAll(): Unit =
     shutdown(system)
@@ -81,8 +80,8 @@ class CommittingWithMockSpec(_system: ActorSystem)
   val onCompleteFailure: ConsumerMock.OnCompleteHandler = _ => (null, failure)
 
   def createCommittableSource(mock: Consumer[K, V],
-                              groupId: String = "group1",
-                              topics: Set[String] = Set("topic")): Source[CommittableMessage[K, V], Control] =
+      groupId: String = "group1",
+      topics: Set[String] = Set("topic")): Source[CommittableMessage[K, V], Control] =
     Consumer
       .committableSource(
         ConsumerSettings
@@ -90,13 +89,12 @@ class CommittingWithMockSpec(_system: ActorSystem)
           .withGroupId(groupId)
           .withConsumerFactory(_ => mock)
           .withStopTimeout(0.seconds),
-        Subscriptions.topics(topics)
-      )
+        Subscriptions.topics(topics))
 
   def createSourceWithMetadata(mock: Consumer[K, V],
-                               metadataFromRecord: ConsumerRecord[K, V] => String,
-                               groupId: String = "group1",
-                               topics: Set[String] = Set("topic")): Source[CommittableMessage[K, V], Control] =
+      metadataFromRecord: ConsumerRecord[K, V] => String,
+      groupId: String = "group1",
+      topics: Set[String] = Set("topic")): Source[CommittableMessage[K, V], Control] =
     Consumer.commitWithMetadataSource(
       ConsumerSettings
         .create(system, new StringDeserializer, new StringDeserializer)
@@ -104,8 +102,7 @@ class CommittingWithMockSpec(_system: ActorSystem)
         .withCloseTimeout(ConsumerMock.closeTimeout)
         .withConsumerFactory(_ => mock),
       Subscriptions.topics(topics),
-      metadataFromRecord
-    )
+      metadataFromRecord)
 
   it should "commit metadata in message" in assertAllStagesStopped {
     val commitLog = new ConsumerMock.LogHandler()
@@ -122,7 +119,7 @@ class CommittingWithMockSpec(_system: ActorSystem)
     val done = probe.expectNext().committableOffset.commitInternal()
 
     awaitAssert {
-      commitLog.calls should have size (1)
+      commitLog.calls should have size 1
     }
 
     val (topicPartition, offsetMeta) = commitLog.calls.head._1.head
@@ -153,7 +150,7 @@ class CommittingWithMockSpec(_system: ActorSystem)
     val done = probe.expectNext().committableOffset.commitInternal()
 
     awaitAssert {
-      commitLog.calls should have size (1)
+      commitLog.calls should have size 1
     }
 
     val (topicPartition, offsetMeta) = commitLog.calls.head._1.head
@@ -183,7 +180,7 @@ class CommittingWithMockSpec(_system: ActorSystem)
     val done = probe.expectNext().committableOffset.commitInternal()
 
     awaitAssert {
-      commitLog.calls should have size (1)
+      commitLog.calls should have size 1
     }
 
     // allow poll to emulate commits
@@ -196,7 +193,7 @@ class CommittingWithMockSpec(_system: ActorSystem)
   }
 
   val exceptions = List(new RebalanceInProgressException(),
-                        new RetriableCommitFailedException(new CommitTimeoutException("injected15")))
+    new RetriableCommitFailedException(new CommitTimeoutException("injected15")))
   for (exception <- exceptions) {
     it should s"retry commit on ${exception.getClass.getSimpleName}" in assertAllStagesStopped {
       val retries = 4
@@ -218,7 +215,7 @@ class CommittingWithMockSpec(_system: ActorSystem)
       val done = probe.expectNext().committableOffset.commitInternal()
 
       awaitAssert {
-        commitLog.calls should have size (1)
+        commitLog.calls should have size 1
       }
 
       // allow poll to emulate commits
@@ -285,7 +282,7 @@ class CommittingWithMockSpec(_system: ActorSystem)
     val done = batch.commitInternal()
 
     awaitAssert {
-      commitLog.calls should have size (1)
+      commitLog.calls should have size 1
     }
 
     val commitMap = commitLog.calls.head._1
@@ -303,8 +300,8 @@ class CommittingWithMockSpec(_system: ActorSystem)
     val commitLog = new ConsumerMock.LogHandler()
     val mock = new ConsumerMock[K, V](commitLog)
     val (control, probe) = createSourceWithMetadata(mock.mock,
-                                                    (rec: ConsumerRecord[K, V]) => rec.offset.toString,
-                                                    topics = Set("topic1", "topic2"))
+      (rec: ConsumerRecord[K, V]) => rec.offset.toString,
+      topics = Set("topic1", "topic2"))
       .toMat(TestSink.probe)(Keep.both)
       .run()
 
@@ -322,7 +319,7 @@ class CommittingWithMockSpec(_system: ActorSystem)
     val done = batch.commitInternal()
 
     awaitAssert {
-      commitLog.calls should have size (1)
+      commitLog.calls should have size 1
     }
 
     val commitMap = commitLog.calls.head._1
@@ -342,8 +339,8 @@ class CommittingWithMockSpec(_system: ActorSystem)
     val commitLog = new ConsumerMock.LogHandler()
     val mock = new ConsumerMock[K, V](commitLog)
     val (control, probe) = createSourceWithMetadata(mock.mock,
-                                                    (rec: ConsumerRecord[K, V]) => rec.offset.toString,
-                                                    topics = Set("topic1", "topic2"))
+      (rec: ConsumerRecord[K, V]) => rec.offset.toString,
+      topics = Set("topic1", "topic2"))
       .toMat(TestSink.probe)(Keep.both)
       .run()
 
@@ -363,7 +360,7 @@ class CommittingWithMockSpec(_system: ActorSystem)
     val done = batch.commitInternal()
 
     awaitAssert {
-      commitLog.calls should have size (1)
+      commitLog.calls should have size 1
     }
 
     val commitMap = commitLog.calls.head._1
@@ -379,7 +376,7 @@ class CommittingWithMockSpec(_system: ActorSystem)
     Await.result(control.shutdown(), remainingOrDefault)
   }
 
-  //FIXME looks like current implementation of batch committer is incorrect
+  // FIXME looks like current implementation of batch committer is incorrect
   it should "support commit batching from more than one stage" in assertAllStagesStopped {
     val commitLog1 = new ConsumerMock.LogHandler()
     val commitLog2 = new ConsumerMock.LogHandler()
@@ -418,8 +415,8 @@ class CommittingWithMockSpec(_system: ActorSystem)
     val done2 = batch2.commitInternal()
 
     awaitAssert {
-      commitLog1.calls should have size (1)
-      commitLog2.calls should have size (1)
+      commitLog1.calls should have size 1
+      commitLog2.calls should have size 1
     }
 
     val commitMap1 = commitLog1.calls.head._1
@@ -444,8 +441,8 @@ class CommittingWithMockSpec(_system: ActorSystem)
     val commitLog = new ConsumerMock.LogHandler()
     val mock = new ConsumerMock[K, V](commitLog)
     val (control, probe) = createSourceWithMetadata(mock.mock,
-                                                    (rec: ConsumerRecord[K, V]) => rec.offset.toString,
-                                                    topics = Set("topic1", "topic2"))
+      (rec: ConsumerRecord[K, V]) => rec.offset.toString,
+      topics = Set("topic1", "topic2"))
       .toMat(TestSink.probe)(Keep.both)
       .run()
 
@@ -463,7 +460,7 @@ class CommittingWithMockSpec(_system: ActorSystem)
     batch.tellCommit()
 
     awaitAssert {
-      commitLog.calls should have size (1)
+      commitLog.calls should have size 1
     }
 
     val commitMap = commitLog.calls.head._1
@@ -514,7 +511,7 @@ class CommittingWithMockSpec(_system: ActorSystem)
 
     val resumeOnCommitFailed: Supervision.Decider = {
       case _: CommitFailedException => Supervision.Resume
-      case _ => Supervision.Stop
+      case _                        => Supervision.Stop
     }
 
     val (control, probe) = createCommittableSource(mock.mock)
@@ -522,8 +519,7 @@ class CommittingWithMockSpec(_system: ActorSystem)
       .toMat(
         Committer
           .sink(committerSettings)
-          .withAttributes(ActorAttributes.supervisionStrategy(resumeOnCommitFailed))
-      )(Keep.both)
+          .withAttributes(ActorAttributes.supervisionStrategy(resumeOnCommitFailed)))(Keep.both)
       .run()
 
     awaitAssert {

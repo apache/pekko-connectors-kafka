@@ -8,12 +8,12 @@ package docs.scaladsl
 import java.util.concurrent.atomic.AtomicReference
 
 import akka.Done
-import akka.kafka.scaladsl.Consumer.{Control, DrainingControl}
-import akka.kafka.scaladsl.{Consumer, Transactional}
+import akka.kafka.scaladsl.Consumer.{ Control, DrainingControl }
+import akka.kafka.scaladsl.{ Consumer, Transactional }
 import akka.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import akka.kafka.{ConsumerSettings, ProducerMessage, ProducerSettings, Repeated, Subscriptions, TransactionsOps}
+import akka.kafka.{ ConsumerSettings, ProducerMessage, ProducerSettings, Repeated, Subscriptions, TransactionsOps }
 import akka.stream.RestartSettings
-import akka.stream.scaladsl.{Keep, RestartSource, Sink}
+import akka.stream.scaladsl.{ Keep, RestartSource, Sink }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.apache.kafka.clients.producer.ProducerRecord
 
@@ -56,7 +56,7 @@ class TransactionsExample extends DocsSpecBase with TestcontainersKafkaLike with
     // #transactionalSink
     control.drainAndShutdown()
     // #transactionalSink
-    result.futureValue should have size (10)
+    result.futureValue should have size 10
   }
 
   it should "support `withOffsetContext`" in assertAllStagesStopped {
@@ -99,9 +99,7 @@ class TransactionsExample extends DocsSpecBase with TestcontainersKafkaLike with
       RestartSettings(
         minBackoff = 1.seconds,
         maxBackoff = 30.seconds,
-        randomFactor = 0.2
-      )
-    ) { () =>
+        randomFactor = 0.2)) { () =>
       Transactional
         .source(consumerSettings, Subscriptions.topics(sourceTopic))
         .via(businessFlow)
@@ -129,7 +127,7 @@ class TransactionsExample extends DocsSpecBase with TestcontainersKafkaLike with
     awaitProduce(produce(sourceTopic, 1 to 10))
     innerControl.get.shutdown().futureValue should be(Done)
     control2.shutdown().futureValue should be(Done)
-    result.futureValue should have size (10)
+    result.futureValue should have size 10
   }
 
 //  "Partitioned transactional sink" should "work" in {

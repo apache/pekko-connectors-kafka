@@ -5,19 +5,19 @@
 
 package akka.kafka.javadsl
 
-import java.util.concurrent.{CompletionStage, Executor}
+import java.util.concurrent.{ CompletionStage, Executor }
 
 import akka.actor.ActorRef
 import akka.annotation.ApiMayChange
 import akka.dispatch.ExecutionContexts
 import akka.japi.Pair
-import akka.kafka.ConsumerMessage.{CommittableMessage, CommittableOffset}
+import akka.kafka.ConsumerMessage.{ CommittableMessage, CommittableOffset }
 import akka.kafka._
-import akka.kafka.internal.{ConsumerControlAsJava, SourceWithOffsetContext}
-import akka.stream.javadsl.{Source, SourceWithContext}
-import akka.{Done, NotUsed}
+import akka.kafka.internal.{ ConsumerControlAsJava, SourceWithOffsetContext }
+import akka.stream.javadsl.{ Source, SourceWithContext }
+import akka.{ Done, NotUsed }
 import org.apache.kafka.clients.consumer.ConsumerRecord
-import org.apache.kafka.common.{Metric, MetricName, TopicPartition}
+import org.apache.kafka.common.{ Metric, MetricName, TopicPartition }
 
 import scala.jdk.CollectionConverters._
 import scala.compat.java8.FutureConverters._
@@ -134,7 +134,7 @@ object Consumer {
    * stronger than the "at-least once" semantics you get with Kafka's offset commit functionality.
    */
   def plainSource[K, V](settings: ConsumerSettings[K, V],
-                        subscription: Subscription): Source[ConsumerRecord[K, V], Control] =
+      subscription: Subscription): Source[ConsumerRecord[K, V], Control] =
     scaladsl.Consumer
       .plainSource(settings, subscription)
       .mapMaterializedValue(ConsumerControlAsJava.apply)
@@ -154,7 +154,7 @@ object Consumer {
    * instead of this API.
    */
   def committableSource[K, V](settings: ConsumerSettings[K, V],
-                              subscription: Subscription): Source[CommittableMessage[K, V], Control] =
+      subscription: Subscription): Source[CommittableMessage[K, V], Control] =
     scaladsl.Consumer
       .committableSource(settings, subscription)
       .mapMaterializedValue(ConsumerControlAsJava.apply)
@@ -174,8 +174,7 @@ object Consumer {
   @ApiMayChange
   def sourceWithOffsetContext[K, V](
       settings: ConsumerSettings[K, V],
-      subscription: Subscription
-  ): SourceWithContext[ConsumerRecord[K, V], CommittableOffset, Control] =
+      subscription: Subscription): SourceWithContext[ConsumerRecord[K, V], CommittableOffset, Control] =
     // TODO this could use `scaladsl committableSourceWithContext` but `mapMaterializedValue` is not available, yet
     // See https://github.com/akka/akka/issues/26836
     akka.stream.scaladsl.Source
@@ -204,16 +203,15 @@ object Consumer {
   def sourceWithOffsetContext[K, V](
       settings: ConsumerSettings[K, V],
       subscription: Subscription,
-      metadataFromRecord: java.util.function.Function[ConsumerRecord[K, V], String]
-  ): SourceWithContext[ConsumerRecord[K, V], CommittableOffset, Control] =
+      metadataFromRecord: java.util.function.Function[ConsumerRecord[K, V], String])
+      : SourceWithContext[ConsumerRecord[K, V], CommittableOffset, Control] =
     // TODO this could use `scaladsl committableSourceWithContext` but `mapMaterializedValue` is not available, yet
     // See https://github.com/akka/akka/issues/26836
     akka.stream.scaladsl.Source
       .fromGraph(
         new SourceWithOffsetContext[K, V](settings,
-                                          subscription,
-                                          (record: ConsumerRecord[K, V]) => metadataFromRecord(record))
-      )
+          subscription,
+          (record: ConsumerRecord[K, V]) => metadataFromRecord(record)))
       .mapMaterializedValue(ConsumerControlAsJava.apply)
       .asSourceWithContext(_._2)
       .map(_._1)
@@ -227,8 +225,8 @@ object Consumer {
   def commitWithMetadataSource[K, V](
       settings: ConsumerSettings[K, V],
       subscription: Subscription,
-      metadataFromRecord: java.util.function.Function[ConsumerRecord[K, V], String]
-  ): Source[CommittableMessage[K, V], Control] =
+      metadataFromRecord: java.util.function.Function[ConsumerRecord[K, V], String])
+      : Source[CommittableMessage[K, V], Control] =
     scaladsl.Consumer
       .commitWithMetadataSource(settings, subscription, (record: ConsumerRecord[K, V]) => metadataFromRecord(record))
       .mapMaterializedValue(ConsumerControlAsJava.apply)
@@ -239,7 +237,7 @@ object Consumer {
    * before being emitted downstream.
    */
   def atMostOnceSource[K, V](settings: ConsumerSettings[K, V],
-                             subscription: Subscription): Source[ConsumerRecord[K, V], Control] =
+      subscription: Subscription): Source[ConsumerRecord[K, V], Control] =
     scaladsl.Consumer
       .atMostOnceSource(settings, subscription)
       .mapMaterializedValue(ConsumerControlAsJava.apply)
@@ -253,8 +251,7 @@ object Consumer {
    */
   def plainPartitionedSource[K, V](
       settings: ConsumerSettings[K, V],
-      subscription: AutoSubscription
-  ): Source[Pair[TopicPartition, Source[ConsumerRecord[K, V], NotUsed]], Control] =
+      subscription: AutoSubscription): Source[Pair[TopicPartition, Source[ConsumerRecord[K, V], NotUsed]], Control] =
     scaladsl.Consumer
       .plainPartitionedSource(settings, subscription)
       .map {
@@ -272,17 +269,15 @@ object Consumer {
       settings: ConsumerSettings[K, V],
       subscription: AutoSubscription,
       getOffsetsOnAssign: java.util.function.Function[java.util.Set[TopicPartition], CompletionStage[
-        java.util.Map[TopicPartition, Long]
-      ]]
-  ): Source[Pair[TopicPartition, Source[ConsumerRecord[K, V], NotUsed]], Control] =
+          java.util.Map[TopicPartition, Long]]])
+      : Source[Pair[TopicPartition, Source[ConsumerRecord[K, V], NotUsed]], Control] =
     scaladsl.Consumer
       .plainPartitionedManualOffsetSource(
         settings,
         subscription,
         (tps: Set[TopicPartition]) =>
           getOffsetsOnAssign(tps.asJava).toScala.map(_.asScala.toMap)(ExecutionContexts.parasitic),
-        _ => ()
-      )
+        _ => ())
       .map {
         case (tp, source) => Pair(tp, source.asJava)
       }
@@ -302,18 +297,16 @@ object Consumer {
       settings: ConsumerSettings[K, V],
       subscription: AutoSubscription,
       getOffsetsOnAssign: java.util.function.Function[java.util.Set[TopicPartition], CompletionStage[
-        java.util.Map[TopicPartition, Long]
-      ]],
-      onRevoke: java.util.function.Consumer[java.util.Set[TopicPartition]]
-  ): Source[Pair[TopicPartition, Source[ConsumerRecord[K, V], NotUsed]], Control] =
+          java.util.Map[TopicPartition, Long]]],
+      onRevoke: java.util.function.Consumer[java.util.Set[TopicPartition]])
+      : Source[Pair[TopicPartition, Source[ConsumerRecord[K, V], NotUsed]], Control] =
     scaladsl.Consumer
       .plainPartitionedManualOffsetSource(
         settings,
         subscription,
         (tps: Set[TopicPartition]) =>
           getOffsetsOnAssign(tps.asJava).toScala.map(_.asScala.toMap)(ExecutionContexts.parasitic),
-        (tps: Set[TopicPartition]) => onRevoke.accept(tps.asJava)
-      )
+        (tps: Set[TopicPartition]) => onRevoke.accept(tps.asJava))
       .map {
         case (tp, source) => Pair(tp, source.asJava)
       }
@@ -325,8 +318,8 @@ object Consumer {
    */
   def committablePartitionedSource[K, V](
       settings: ConsumerSettings[K, V],
-      subscription: AutoSubscription
-  ): Source[Pair[TopicPartition, Source[CommittableMessage[K, V], NotUsed]], Control] =
+      subscription: AutoSubscription)
+      : Source[Pair[TopicPartition, Source[CommittableMessage[K, V], NotUsed]], Control] =
     scaladsl.Consumer
       .committablePartitionedSource(settings, subscription)
       .map {
@@ -342,17 +335,15 @@ object Consumer {
       settings: ConsumerSettings[K, V],
       subscription: AutoSubscription,
       getOffsetsOnAssign: java.util.function.Function[java.util.Set[TopicPartition], CompletionStage[
-        java.util.Map[TopicPartition, Long]
-      ]]
-  ): Source[Pair[TopicPartition, Source[CommittableMessage[K, V], NotUsed]], Control] =
+          java.util.Map[TopicPartition, Long]]])
+      : Source[Pair[TopicPartition, Source[CommittableMessage[K, V], NotUsed]], Control] =
     scaladsl.Consumer
       .committablePartitionedManualOffsetSource(
         settings,
         subscription,
         (tps: Set[TopicPartition]) =>
           getOffsetsOnAssign(tps.asJava).toScala.map(_.asScala.toMap)(ExecutionContexts.parasitic),
-        _ => ()
-      )
+        _ => ())
       .map {
         case (tp, source) => Pair(tp, source.asJava)
       }
@@ -366,18 +357,16 @@ object Consumer {
       settings: ConsumerSettings[K, V],
       subscription: AutoSubscription,
       getOffsetsOnAssign: java.util.function.Function[java.util.Set[TopicPartition], CompletionStage[
-        java.util.Map[TopicPartition, Long]
-      ]],
-      onRevoke: java.util.function.Consumer[java.util.Set[TopicPartition]]
-  ): Source[Pair[TopicPartition, Source[CommittableMessage[K, V], NotUsed]], Control] =
+          java.util.Map[TopicPartition, Long]]],
+      onRevoke: java.util.function.Consumer[java.util.Set[TopicPartition]])
+      : Source[Pair[TopicPartition, Source[CommittableMessage[K, V], NotUsed]], Control] =
     scaladsl.Consumer
       .committablePartitionedManualOffsetSource(
         settings,
         subscription,
         (tps: Set[TopicPartition]) =>
           getOffsetsOnAssign(tps.asJava).toScala.map(_.asScala.toMap)(ExecutionContexts.parasitic),
-        (tps: Set[TopicPartition]) => onRevoke.accept(tps.asJava)
-      )
+        (tps: Set[TopicPartition]) => onRevoke.accept(tps.asJava))
       .map {
         case (tp, source) => Pair(tp, source.asJava)
       }
@@ -390,12 +379,12 @@ object Consumer {
   def commitWithMetadataPartitionedSource[K, V](
       settings: ConsumerSettings[K, V],
       subscription: AutoSubscription,
-      metadataFromRecord: java.util.function.Function[ConsumerRecord[K, V], String]
-  ): Source[Pair[TopicPartition, Source[CommittableMessage[K, V], NotUsed]], Control] =
+      metadataFromRecord: java.util.function.Function[ConsumerRecord[K, V], String])
+      : Source[Pair[TopicPartition, Source[CommittableMessage[K, V], NotUsed]], Control] =
     scaladsl.Consumer
       .commitWithMetadataPartitionedSource(settings,
-                                           subscription,
-                                           (record: ConsumerRecord[K, V]) => metadataFromRecord(record))
+        subscription,
+        (record: ConsumerRecord[K, V]) => metadataFromRecord(record))
       .map {
         case (tp, source) => Pair(tp, source.asJava)
       }
@@ -407,7 +396,7 @@ object Consumer {
    * a lot of manually assigned topic-partitions and want to keep only one kafka consumer.
    */
   def plainExternalSource[K, V](consumer: ActorRef,
-                                subscription: ManualSubscription): Source[ConsumerRecord[K, V], Control] =
+      subscription: ManualSubscription): Source[ConsumerRecord[K, V], Control] =
     scaladsl.Consumer
       .plainExternalSource(consumer, subscription)
       .mapMaterializedValue(ConsumerControlAsJava.apply)
@@ -417,9 +406,9 @@ object Consumer {
    * The same as [[#plainExternalSource]] but with offset commit support.
    */
   def committableExternalSource[K, V](consumer: ActorRef,
-                                      subscription: ManualSubscription,
-                                      groupId: String,
-                                      commitTimeout: FiniteDuration): Source[CommittableMessage[K, V], Control] =
+      subscription: ManualSubscription,
+      groupId: String,
+      commitTimeout: FiniteDuration): Source[CommittableMessage[K, V], Control] =
     scaladsl.Consumer
       .committableExternalSource(consumer, subscription, groupId, commitTimeout)
       .mapMaterializedValue(new ConsumerControlAsJava(_))

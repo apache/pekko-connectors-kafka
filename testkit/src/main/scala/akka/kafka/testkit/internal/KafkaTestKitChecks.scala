@@ -18,37 +18,33 @@ import org.slf4j.Logger
 
 import scala.annotation.tailrec
 import scala.concurrent.duration.FiniteDuration
-import scala.util.{Failure, Success, Try}
+import scala.util.{ Failure, Success, Try }
 
 object KafkaTestKitChecks {
   def waitUntilCluster(timeout: FiniteDuration,
-                       sleepInBetween: FiniteDuration,
-                       adminClient: Admin,
-                       predicate: DescribeClusterResult => Boolean,
-                       log: Logger): Unit =
+      sleepInBetween: FiniteDuration,
+      adminClient: Admin,
+      predicate: DescribeClusterResult => Boolean,
+      log: Logger): Unit =
     periodicalCheck("cluster state", timeout, sleepInBetween)(() => adminClient.describeCluster())(predicate)(log)
 
   def waitUntilConsumerGroup(groupId: String,
-                             timeout: FiniteDuration,
-                             sleepInBetween: FiniteDuration,
-                             adminClient: Admin,
-                             predicate: ConsumerGroupDescription => Boolean,
-                             log: Logger): Unit =
-    periodicalCheck("consumer group state", timeout, sleepInBetween)(
-      () =>
-        adminClient
-          .describeConsumerGroups(
-            Collections.singleton(groupId),
-            new DescribeConsumerGroupsOptions().timeoutMs(timeout.toMillis.toInt)
-          )
-          .describedGroups()
-          .get(groupId)
-          .get(timeout.toMillis, TimeUnit.MILLISECONDS)
-    )(predicate)(log)
+      timeout: FiniteDuration,
+      sleepInBetween: FiniteDuration,
+      adminClient: Admin,
+      predicate: ConsumerGroupDescription => Boolean,
+      log: Logger): Unit =
+    periodicalCheck("consumer group state", timeout, sleepInBetween)(() =>
+      adminClient
+        .describeConsumerGroups(
+          Collections.singleton(groupId),
+          new DescribeConsumerGroupsOptions().timeoutMs(timeout.toMillis.toInt))
+        .describedGroups()
+        .get(groupId)
+        .get(timeout.toMillis, TimeUnit.MILLISECONDS))(predicate)(log)
 
   def periodicalCheck[T](description: String, timeout: FiniteDuration, sleepInBetween: FiniteDuration)(
-      data: () => T
-  )(predicate: T => Boolean)(log: Logger): Unit = {
+      data: () => T)(predicate: T => Boolean)(log: Logger): Unit = {
     val maxTries = (timeout / sleepInBetween).toInt
 
     @tailrec def check(triesLeft: Int): Unit =
@@ -62,8 +58,7 @@ object KafkaTestKitChecks {
           check(triesLeft - 1)
         case Success(false) =>
           throw new Error(
-            s"Timeout while waiting for desired $description. Tried [$maxTries] times, slept [$sleepInBetween] in between."
-          )
+            s"Timeout while waiting for desired $description. Tried [$maxTries] times, slept [$sleepInBetween] in between.")
         case Failure(ex) =>
           throw ex
         case Success(true) => // predicate has been fulfilled, stop checking

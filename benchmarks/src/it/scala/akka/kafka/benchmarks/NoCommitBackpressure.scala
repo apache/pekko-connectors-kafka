@@ -16,8 +16,8 @@ class RawKafkaCommitEveryPollConsumer extends BenchmarksBase() {
   it should "bench with small messages" in {
     val cmd = RunTestCommand(prefix + "consumer", bootstrapServers, topic_1000_100)
     runPerfTest(cmd,
-                KafkaConsumerFixtures.filledTopics(cmd),
-                KafkaConsumerBenchmarks.consumerAtLeastOnceCommitEveryPoll())
+      KafkaConsumerFixtures.filledTopics(cmd),
+      KafkaConsumerBenchmarks.consumerAtLeastOnceCommitEveryPoll())
   }
 
 // These are not plotted anyway
@@ -44,8 +44,8 @@ class AlpakkaCommitAndForgetConsumer extends BenchmarksBase() {
   it should "bench with small messages" in {
     val cmd = RunTestCommand(prefix + "consumer", bootstrapServers, topic_1000_100)
     runPerfTest(cmd,
-                ReactiveKafkaConsumerFixtures.committableSources(cmd),
-                ReactiveKafkaConsumerBenchmarks.consumerCommitAndForget(commitBatchSize = 1000))
+      ReactiveKafkaConsumerFixtures.committableSources(cmd),
+      ReactiveKafkaConsumerBenchmarks.consumerCommitAndForget(commitBatchSize = 1000))
   }
 
 // These are not plotted anyway

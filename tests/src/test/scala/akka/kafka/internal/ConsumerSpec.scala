@@ -11,7 +11,7 @@ import akka.kafka.ConsumerMessage._
 import akka.kafka.scaladsl.Consumer
 import akka.kafka.scaladsl.Consumer.Control
 import akka.kafka.tests.scaladsl.LogCapturing
-import akka.kafka.{CommitTimeoutException, ConsumerSettings, Repeated, Subscriptions}
+import akka.kafka.{ CommitTimeoutException, ConsumerSettings, Repeated, Subscriptions }
 import akka.stream.scaladsl._
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import akka.stream.testkit.scaladsl.TestSink
@@ -27,7 +27,7 @@ import org.scalatest.matchers.should.Matchers
 
 import scala.collection.immutable.Seq
 import scala.concurrent.duration._
-import scala.concurrent.{Await, Future}
+import scala.concurrent.{ Await, Future }
 import scala.jdk.CollectionConverters._
 
 object ConsumerSpec {
@@ -38,9 +38,9 @@ object ConsumerSpec {
   def createMessage(seed: Int): CommittableMessage[K, V] = createMessage(seed, "topic")
 
   def createMessage(seed: Int,
-                    topic: String,
-                    groupId: String = "group1",
-                    metadata: String = ""): CommittableMessage[K, V] = {
+      topic: String,
+      groupId: String = "group1",
+      metadata: String = ""): CommittableMessage[K, V] = {
     val offset = PartitionOffset(GroupTopicPartition(groupId, topic, 1), seed.toLong)
     val record = new ConsumerRecord(offset.key.topic, offset.key.partition, offset.offset, seed.toString, seed.toString)
     CommittableMessage(record, CommittableOffsetImpl(offset, metadata)(null))
@@ -63,10 +63,9 @@ class ConsumerSpec(_system: ActorSystem)
   def this() =
     this(
       ActorSystem("ConsumerSpec",
-                  ConfigFactory
-                    .parseString("""akka.stream.materializer.debug.fuzzing-mode = on""")
-                    .withFallback(ConfigFactory.load()))
-    )
+        ConfigFactory
+          .parseString("""akka.stream.materializer.debug.fuzzing-mode = on""")
+          .withFallback(ConfigFactory.load())))
 
   override def afterAll(): Unit =
     shutdown(system)
@@ -88,8 +87,8 @@ class ConsumerSpec(_system: ActorSystem)
   }
 
   def createCommittableSource(mock: Consumer[K, V],
-                              groupId: String = "group1",
-                              topics: Set[String] = Set("topic")): Source[CommittableMessage[K, V], Control] =
+      groupId: String = "group1",
+      topics: Set[String] = Set("topic")): Source[CommittableMessage[K, V], Control] =
     Consumer.committableSource(
       ConsumerSettings
         .create(system, new StringDeserializer, new StringDeserializer)
@@ -97,13 +96,12 @@ class ConsumerSpec(_system: ActorSystem)
         .withCloseTimeout(ConsumerMock.closeTimeout)
         .withCommitTimeout(500.millis)
         .withConsumerFactory(_ => mock),
-      Subscriptions.topics(topics)
-    )
+      Subscriptions.topics(topics))
 
   def createSourceWithMetadata(mock: Consumer[K, V],
-                               metadataFromRecord: ConsumerRecord[K, V] => String,
-                               groupId: String = "group1",
-                               topics: Set[String] = Set("topic")): Source[CommittableMessage[K, V], Control] =
+      metadataFromRecord: ConsumerRecord[K, V] => String,
+      groupId: String = "group1",
+      topics: Set[String] = Set("topic")): Source[CommittableMessage[K, V], Control] =
     Consumer.commitWithMetadataSource(
       ConsumerSettings
         .create(system, new StringDeserializer, new StringDeserializer)
@@ -111,8 +109,7 @@ class ConsumerSpec(_system: ActorSystem)
         .withCloseTimeout(ConsumerMock.closeTimeout)
         .withConsumerFactory(_ => mock),
       Subscriptions.topics(topics),
-      metadataFromRecord
-    )
+      metadataFromRecord)
 
   it should "fail stream when poll() fails with unhandled exception" in assertAllStagesStopped {
     val mock = new FailingConsumerMock[K, V](new Exception("Fatal Kafka error"), failOnCallNumber = 1)
@@ -170,8 +167,7 @@ class ConsumerSpec(_system: ActorSystem)
         .grouped(97)
         .map(x => Seq(Seq.empty, x))
         .flatten
-        .toList
-    )
+        .toList)
   }
 
   it should "complete out and keep underlying client open when control.stop called" in assertAllStagesStopped {
@@ -254,7 +250,7 @@ class ConsumerSpec(_system: ActorSystem)
     probe.expectNextN(9)
 
     awaitAssert {
-      commitLog.calls should have size (1)
+      commitLog.calls should have size 1
     }
 
     val stopped = control.shutdown()
@@ -263,7 +259,7 @@ class ConsumerSpec(_system: ActorSystem)
     Thread.sleep(100)
     stopped.isCompleted should ===(false)
 
-    //emulate commit
+    // emulate commit
     commitLog.calls.foreach {
       case (offsets, callback) => callback.onComplete(offsets.asJava, null)
     }
@@ -320,7 +316,7 @@ class ConsumerSpec(_system: ActorSystem)
     probe.expectNoMessage(200.millis)
     control.isShutdown.isCompleted should ===(false)
 
-    //emulate commit
+    // emulate commit
     commitLog.calls.foreach {
       case (offsets, callback) => callback.onComplete(offsets.asJava, null)
     }

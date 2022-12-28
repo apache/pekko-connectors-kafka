@@ -5,17 +5,17 @@
 
 package akka.kafka.cluster.sharding
 
-import java.util.concurrent.{CompletionStage, ConcurrentHashMap}
+import java.util.concurrent.{ CompletionStage, ConcurrentHashMap }
 import java.util.concurrent.atomic.AtomicInteger
 
 import akka.actor.typed.Behavior
 import akka.actor.typed.scaladsl.Behaviors
 import akka.actor.typed.scaladsl.adapter._
-import akka.actor.{ActorSystem, ClassicActorSystemProvider, ExtendedActorSystem, Extension, ExtensionId}
-import akka.annotation.{ApiMayChange, InternalApi}
+import akka.actor.{ ActorSystem, ClassicActorSystemProvider, ExtendedActorSystem, Extension, ExtensionId }
+import akka.annotation.{ ApiMayChange, InternalApi }
 import akka.cluster.sharding.external.ExternalShardAllocation
 import akka.cluster.sharding.typed.scaladsl.EntityTypeKey
-import akka.cluster.sharding.typed.{ShardingEnvelope, ShardingMessageExtractor}
+import akka.cluster.sharding.typed.{ ShardingEnvelope, ShardingMessageExtractor }
 import akka.cluster.typed.Cluster
 import akka.kafka.scaladsl.MetadataClient
 import akka.kafka._
@@ -23,8 +23,8 @@ import akka.util.Timeout._
 import org.apache.kafka.common.utils.Utils
 
 import scala.concurrent.duration._
-import scala.concurrent.{ExecutionContextExecutor, Future}
-import scala.util.{Failure, Success}
+import scala.concurrent.{ ExecutionContextExecutor, Future }
+import scala.util.{ Failure, Success }
 import akka.util.JavaDurationConverters._
 import org.slf4j.LoggerFactory
 
@@ -55,12 +55,11 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
    */
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/1074")
   def messageExtractor[M](topic: String,
-                          timeout: FiniteDuration,
-                          settings: ConsumerSettings[_, _]): Future[KafkaShardingMessageExtractor[M]] =
+      timeout: FiniteDuration,
+      settings: ConsumerSettings[_, _]): Future[KafkaShardingMessageExtractor[M]] =
     getPartitionCount(topic, timeout, settings).map(new KafkaShardingMessageExtractor[M](_))(system.dispatcher)
 
   /**
-   *
    * Java API
    *
    * API MAY CHANGE
@@ -75,12 +74,11 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
    *
    * All topics used in a Consumer [[akka.kafka.Subscription]] must contain the same number of partitions to ensure
    * that entities are routed to the same Entity type.
-   *
    */
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/1074")
   def messageExtractor[M](topic: String,
-                          timeout: java.time.Duration,
-                          settings: ConsumerSettings[_, _]): CompletionStage[KafkaShardingMessageExtractor[M]] =
+      timeout: java.time.Duration,
+      settings: ConsumerSettings[_, _]): CompletionStage[KafkaShardingMessageExtractor[M]] =
     getPartitionCount(topic, timeout.asScala, settings)
       .map(new KafkaShardingMessageExtractor[M](_))(system.dispatcher)
       .toJava
@@ -117,9 +115,9 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
    */
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/1074")
   def messageExtractorNoEnvelope[M](topic: String,
-                                    timeout: FiniteDuration,
-                                    entityIdExtractor: M => String,
-                                    settings: ConsumerSettings[_, _]): Future[KafkaShardingNoEnvelopeExtractor[M]] =
+      timeout: FiniteDuration,
+      entityIdExtractor: M => String,
+      settings: ConsumerSettings[_, _]): Future[KafkaShardingNoEnvelopeExtractor[M]] =
     getPartitionCount(topic, timeout, settings)
       .map(partitions => new KafkaShardingNoEnvelopeExtractor[M](partitions, entityIdExtractor))(system.dispatcher)
 
@@ -145,12 +143,10 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
       topic: String,
       timeout: java.time.Duration,
       entityIdExtractor: java.util.function.Function[M, String],
-      settings: ConsumerSettings[_, _]
-  ): CompletionStage[KafkaShardingNoEnvelopeExtractor[M]] =
+      settings: ConsumerSettings[_, _]): CompletionStage[KafkaShardingNoEnvelopeExtractor[M]] =
     getPartitionCount(topic, timeout.asScala, settings)
       .map(partitions => new KafkaShardingNoEnvelopeExtractor[M](partitions, e => entityIdExtractor.apply(e)))(
-        system.dispatcher
-      )
+        system.dispatcher)
       .toJava
 
   /**
@@ -166,7 +162,7 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
    */
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/1074")
   def messageExtractorNoEnvelope[M](kafkaPartitions: Int,
-                                    entityIdExtractor: M => String): KafkaShardingNoEnvelopeExtractor[M] =
+      entityIdExtractor: M => String): KafkaShardingNoEnvelopeExtractor[M] =
     new KafkaShardingNoEnvelopeExtractor[M](kafkaPartitions, entityIdExtractor)
 
   /**
@@ -183,14 +179,13 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/1074")
   def messageExtractorNoEnvelope[M](
       kafkaPartitions: Int,
-      entityIdExtractor: java.util.function.Function[M, String]
-  ): KafkaShardingNoEnvelopeExtractor[M] =
+      entityIdExtractor: java.util.function.Function[M, String]): KafkaShardingNoEnvelopeExtractor[M] =
     new KafkaShardingNoEnvelopeExtractor[M](kafkaPartitions, e => entityIdExtractor.apply(e))
 
   private val metadataConsumerActorNum = new AtomicInteger
   private def getPartitionCount[M](topic: String,
-                                   timeout: FiniteDuration,
-                                   settings: ConsumerSettings[_, _]): Future[Int] = {
+      timeout: FiniteDuration,
+      settings: ConsumerSettings[_, _]): Future[Int] = {
     implicit val ec: ExecutionContextExecutor = system.dispatcher
     val num = metadataConsumerActorNum.getAndIncrement()
     val consumerActor = system
@@ -225,10 +220,11 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
    */
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/1074")
   def rebalanceListener(typeKey: EntityTypeKey[_]): akka.actor.typed.ActorRef[ConsumerRebalanceEvent] = {
-    rebalanceListeners.computeIfAbsent(typeKey, _ => {
-      system.toTyped
-        .systemActorOf(RebalanceListener(typeKey), s"kafka-cluster-sharding-rebalance-listener-${typeKey.name}")
-    })
+    rebalanceListeners.computeIfAbsent(typeKey,
+      _ => {
+        system.toTyped
+          .systemActorOf(RebalanceListener(typeKey), s"kafka-cluster-sharding-rebalance-listener-${typeKey.name}")
+      })
   }
 
   /**
@@ -251,8 +247,8 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
    */
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/1074")
   def rebalanceListener(
-      typeKey: akka.cluster.sharding.typed.javadsl.EntityTypeKey[_]
-  ): akka.actor.typed.ActorRef[ConsumerRebalanceEvent] = {
+      typeKey: akka.cluster.sharding.typed.javadsl.EntityTypeKey[_])
+      : akka.actor.typed.ActorRef[ConsumerRebalanceEvent] = {
     rebalanceListener(typeKey.asScala)
   }
 }
@@ -264,7 +260,7 @@ object KafkaClusterSharding extends ExtensionId[KafkaClusterSharding] {
     def shardId(entityId: String): String = {
       // simplified version of Kafka's `DefaultPartitioner` implementation
       val partition = org.apache.kafka.common.utils.Utils
-          .toPositive(Utils.murmur2(entityId.getBytes())) % kafkaPartitions
+        .toPositive(Utils.murmur2(entityId.getBytes())) % kafkaPartitions
       partition.toString
     }
   }
@@ -279,7 +275,7 @@ object KafkaClusterSharding extends ExtensionId[KafkaClusterSharding] {
 
   @InternalApi
   final class KafkaShardingNoEnvelopeExtractor[M] private[kafka] (val kafkaPartitions: Int,
-                                                                  entityIdExtractor: M => String)
+      entityIdExtractor: M => String)
       extends ShardingMessageExtractor[M, M]
       with KafkaClusterShardingContract {
     override def entityId(message: M): String = entityIdExtractor(message)
@@ -301,9 +297,9 @@ object KafkaClusterSharding extends ExtensionId[KafkaClusterSharding] {
           case TopicPartitionsAssigned(_, partitions) =>
             if (log.isInfoEnabled) {
               log.info("Consumer group '{}' assigned topic partitions to cluster member '{}': [{}]",
-                       typeKey.name,
-                       address,
-                       partitions.mkString(","))
+                typeKey.name,
+                address,
+                partitions.mkString(","))
             }
 
             val updates = shardAllocationClient.updateShardLocations(partitions.map { tp =>
@@ -322,8 +318,7 @@ object KafkaClusterSharding extends ExtensionId[KafkaClusterSharding] {
                       "Completed consumer group '{}' assignment of topic partitions to cluster member '{}': [{}]",
                       typeKey.name,
                       address,
-                      partitions.mkString(",")
-                    )
+                      partitions.mkString(","))
                   }
 
                 case Failure(ex) =>
@@ -333,9 +328,9 @@ object KafkaClusterSharding extends ExtensionId[KafkaClusterSharding] {
           case TopicPartitionsRevoked(_, partitions) =>
             val partitionsList = partitions.mkString(",")
             log.info("Consumer group '{}' revoked topic partitions from cluster member '{}': [{}]",
-                     typeKey.name,
-                     address,
-                     partitionsList)
+              typeKey.name,
+              address,
+              partitionsList)
             Behaviors.same
         }
       }

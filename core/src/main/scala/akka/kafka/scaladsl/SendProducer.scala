@@ -6,13 +6,13 @@
 package akka.kafka.scaladsl
 
 import akka.Done
-import akka.actor.{ActorSystem, ClassicActorSystemProvider}
+import akka.actor.{ ActorSystem, ClassicActorSystemProvider }
 import akka.kafka.ProducerMessage._
 import akka.kafka.ProducerSettings
 import akka.util.JavaDurationConverters._
-import org.apache.kafka.clients.producer.{Callback, ProducerRecord, RecordMetadata}
+import org.apache.kafka.clients.producer.{ Callback, ProducerRecord, RecordMetadata }
 
-import scala.concurrent.{ExecutionContext, Future, Promise}
+import scala.concurrent.{ ExecutionContext, Future, Promise }
 
 /**
  * Utility class for producing to Kafka without using Akka Streams.
@@ -63,8 +63,8 @@ final class SendProducer[K, V] private (val settings: ProducerSettings[K, V], sy
   }
 
   private def sendSingle[R](producer: org.apache.kafka.clients.producer.Producer[K, V],
-                            record: ProducerRecord[K, V],
-                            success: RecordMetadata => R): Future[R] = {
+      record: ProducerRecord[K, V],
+      success: RecordMetadata => R): Future[R] = {
     val result = Promise[R]()
     producer.send(
       record,
@@ -75,8 +75,7 @@ final class SendProducer[K, V] private (val settings: ProducerSettings[K, V], sy
           else
             result.failure(exception)
         }
-      }
-    )
+      })
     result.future
   }
 
@@ -89,7 +88,8 @@ final class SendProducer[K, V] private (val settings: ProducerSettings[K, V], sy
       producer.flush()
       producer.close(settings.closeTimeout.asJava)
       Done
-    } else Future.successful(Done)
+    }
+    else Future.successful(Done)
   }
 
   override def toString: String = s"SendProducer($settings)"

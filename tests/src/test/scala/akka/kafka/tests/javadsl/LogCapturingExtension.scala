@@ -6,7 +6,7 @@
 package akka.kafka.tests.javadsl
 
 import akka.kafka.tests.CapturingAppender
-import org.junit.jupiter.api.extension.{AfterTestExecutionCallback, BeforeTestExecutionCallback, ExtensionContext}
+import org.junit.jupiter.api.extension.{ AfterTestExecutionCallback, BeforeTestExecutionCallback, ExtensionContext }
 
 class LogCapturingExtension extends BeforeTestExecutionCallback with AfterTestExecutionCallback {
 
@@ -23,12 +23,10 @@ class LogCapturingExtension extends BeforeTestExecutionCallback with AfterTestEx
       val method =
         s"[${Console.BLUE}${context.getRequiredTestClass.getName}: ${context.getRequiredTestMethod.getName}${Console.RESET}]"
       System.out.println(
-        s"--> $method Start of log messages of test that failed with $error"
-      )
+        s"--> $method Start of log messages of test that failed with $error")
       capturingAppender.flush()
       System.out.println(
-        s"<-- $method End of log messages of test that failed with $error"
-      )
+        s"<-- $method End of log messages of test that failed with $error")
     }
   }
 }

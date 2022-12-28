@@ -6,7 +6,7 @@
 package akka.kafka
 
 import akka.actor.ActorRef
-import akka.annotation.{ApiMayChange, InternalApi}
+import akka.annotation.{ ApiMayChange, InternalApi }
 import akka.kafka.internal.PartitionAssignmentHelpers
 import akka.kafka.internal.PartitionAssignmentHelpers.EmptyPartitionAssignmentHandler
 import org.apache.kafka.common.TopicPartition
@@ -64,7 +64,7 @@ sealed trait AutoSubscription extends Subscription {
   override protected def renderListener: String =
     rebalanceListener match {
       case Some(ref) => s" rebalanceListener $ref"
-      case None => ""
+      case None      => ""
     }
 }
 
@@ -84,8 +84,7 @@ object Subscriptions {
   private[kafka] final case class TopicSubscription(
       tps: Set[String],
       rebalanceListener: Option[ActorRef],
-      override val partitionAssignmentHandler: scaladsl.PartitionAssignmentHandler
-  ) extends AutoSubscription {
+      override val partitionAssignmentHandler: scaladsl.PartitionAssignmentHandler) extends AutoSubscription {
     def withRebalanceListener(ref: ActorRef): TopicSubscription =
       copy(rebalanceListener = Some(ref))
 
@@ -106,8 +105,7 @@ object Subscriptions {
   private[kafka] final case class TopicSubscriptionPattern(
       pattern: String,
       rebalanceListener: Option[ActorRef],
-      override val partitionAssignmentHandler: scaladsl.PartitionAssignmentHandler
-  ) extends AutoSubscription {
+      override val partitionAssignmentHandler: scaladsl.PartitionAssignmentHandler) extends AutoSubscription {
     def withRebalanceListener(ref: ActorRef): TopicSubscriptionPattern =
       copy(rebalanceListener = Some(ref))
 

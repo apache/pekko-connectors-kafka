@@ -7,7 +7,7 @@ package akka.kafka.scaladsl
 
 import akka.kafka.testkit.scaladsl.TestcontainersKafkaLike
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
-import org.apache.kafka.common.{PartitionInfo, TopicPartition}
+import org.apache.kafka.common.{ PartitionInfo, TopicPartition }
 
 import scala.language.postfixOps
 import scala.concurrent.duration._

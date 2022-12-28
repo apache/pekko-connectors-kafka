@@ -10,9 +10,9 @@ import akka.kafka.tests.scaladsl.LogCapturing
 import akka.testkit.TestKit
 import com.typesafe.config.ConfigFactory
 import org.apache.kafka.common.config.SslConfigs
-import org.apache.kafka.common.serialization.{ByteArrayDeserializer, StringDeserializer}
+import org.apache.kafka.common.serialization.{ ByteArrayDeserializer, StringDeserializer }
 import org.scalatest.OptionValues
-import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
+import org.scalatest.concurrent.{ IntegrationPatience, ScalaFutures }
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -50,8 +50,7 @@ class ConsumerSettingsSpec
         akka.kafka.consumer.kafka-clients.key.deserializer = org.apache.kafka.common.serialization.StringDeserializer
         akka.kafka.consumer.kafka-clients.value.deserializer = org.apache.kafka.common.serialization.StringDeserializer
         akka.kafka.consumer.kafka-clients.client.id = client1
-        """
-        )
+        """)
         .withFallback(ConfigFactory.load())
         .getConfig("akka.kafka.consumer")
       val settings = ConsumerSettings(conf, None, None)
@@ -74,8 +73,7 @@ class ConsumerSettingsSpec
         akka.kafka.consumer.kafka-clients.bootstrap.servers = "localhost:9092"
         akka.kafka.consumer.kafka-clients.value.deserializer = org.apache.kafka.common.serialization.StringDeserializer
         akka.kafka.consumer.kafka-clients.client.id = client1
-        """
-        )
+        """)
         .withFallback(ConfigFactory.load())
         .getConfig("akka.kafka.consumer")
       val settings = ConsumerSettings(conf, Some(new ByteArrayDeserializer), None)
@@ -89,8 +87,7 @@ class ConsumerSettingsSpec
         akka.kafka.consumer.kafka-clients.bootstrap.servers = "localhost:9092"
         akka.kafka.consumer.kafka-clients.key.deserializer = org.apache.kafka.common.serialization.StringDeserializer
         akka.kafka.consumer.kafka-clients.client.id = client1
-        """
-        )
+        """)
         .withFallback(ConfigFactory.load())
         .getConfig("akka.kafka.consumer")
       val settings = ConsumerSettings(conf, None, Some(new ByteArrayDeserializer))
@@ -104,9 +101,9 @@ class ConsumerSettingsSpec
         .withProperty("ssl.truststore.password", "geheim")
       val s = settings.toString
       s should include(SslConfigs.SSL_KEY_PASSWORD_CONFIG)
-      s should not include ("hemligt")
+      (s should not).include("hemligt")
       s should include("ssl.truststore.password")
-      s should not include ("geheim")
+      (s should not).include("geheim")
     }
 
     "throw IllegalArgumentException if no value deserializer defined" in {
@@ -116,16 +113,14 @@ class ConsumerSettingsSpec
         akka.kafka.consumer.kafka-clients.bootstrap.servers = "localhost:9092"
         akka.kafka.consumer.kafka-clients.key.deserializer = org.apache.kafka.common.serialization.StringDeserializer
         akka.kafka.consumer.kafka-clients.client.id = client1
-        """
-        )
+        """)
         .withFallback(ConfigFactory.load())
         .getConfig("akka.kafka.consumer")
       val exception = intercept[IllegalArgumentException] {
         ConsumerSettings(conf, None, None)
       }
       exception.getMessage should ===(
-        "requirement failed: Value deserializer should be defined or declared in configuration"
-      )
+        "requirement failed: Value deserializer should be defined or declared in configuration")
     }
 
     "throw IllegalArgumentException if no value deserializer defined (null case). Key serializer passed as args config" in {
@@ -137,8 +132,7 @@ class ConsumerSettingsSpec
         ConsumerSettings(conf, new ByteArrayDeserializer, null)
       }
       exception.getMessage should ===(
-        "requirement failed: Value deserializer should be defined or declared in configuration"
-      )
+        "requirement failed: Value deserializer should be defined or declared in configuration")
     }
 
     "throw IllegalArgumentException if no value deserializer defined (null case). Key serializer defined in config" in {
@@ -148,16 +142,14 @@ class ConsumerSettingsSpec
         akka.kafka.consumer.kafka-clients.bootstrap.servers = "localhost:9092"
         akka.kafka.consumer.kafka-clients.key.deserializer = org.apache.kafka.common.serialization.StringDeserializer
         akka.kafka.consumer.kafka-clients.client.id = client1
-        """
-        )
+        """)
         .withFallback(ConfigFactory.load())
         .getConfig("akka.kafka.consumer")
       val exception = intercept[IllegalArgumentException] {
         ConsumerSettings(conf, None, null)
       }
       exception.getMessage should ===(
-        "requirement failed: Value deserializer should be defined or declared in configuration"
-      )
+        "requirement failed: Value deserializer should be defined or declared in configuration")
     }
 
     "throw IllegalArgumentException if no key deserializer defined" in {
@@ -167,16 +159,14 @@ class ConsumerSettingsSpec
         akka.kafka.consumer.kafka-clients.bootstrap.servers = "localhost:9092"
         akka.kafka.consumer.kafka-clients.value.deserializer = org.apache.kafka.common.serialization.StringDeserializer
         akka.kafka.consumer.kafka-clients.client.id = client1
-        """
-        )
+        """)
         .withFallback(ConfigFactory.load())
         .getConfig("akka.kafka.consumer")
       val exception = intercept[IllegalArgumentException] {
         ConsumerSettings(conf, None, None)
       }
       exception.getMessage should ===(
-        "requirement failed: Key deserializer should be defined or declared in configuration"
-      )
+        "requirement failed: Key deserializer should be defined or declared in configuration")
     }
 
     "throw IllegalArgumentException if no key deserializer defined (null case). Value serializer passed as args config" in {
@@ -188,8 +178,7 @@ class ConsumerSettingsSpec
         ConsumerSettings(conf, null, new ByteArrayDeserializer)
       }
       exception.getMessage should ===(
-        "requirement failed: Key deserializer should be defined or declared in configuration"
-      )
+        "requirement failed: Key deserializer should be defined or declared in configuration")
     }
 
     "throw IllegalArgumentException if no key deserializer defined (null case). Value serializer defined in config" in {
@@ -199,16 +188,14 @@ class ConsumerSettingsSpec
         akka.kafka.consumer.kafka-clients.bootstrap.servers = "localhost:9092"
         akka.kafka.consumer.kafka-clients.value.deserializer = org.apache.kafka.common.serialization.StringDeserializer
         akka.kafka.consumer.kafka-clients.client.id = client1
-        """
-        )
+        """)
         .withFallback(ConfigFactory.load())
         .getConfig("akka.kafka.consumer")
       val exception = intercept[IllegalArgumentException] {
         ConsumerSettings(conf, null, None)
       }
       exception.getMessage should ===(
-        "requirement failed: Key deserializer should be defined or declared in configuration"
-      )
+        "requirement failed: Key deserializer should be defined or declared in configuration")
     }
 
   }

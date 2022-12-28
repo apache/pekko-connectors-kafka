@@ -6,18 +6,18 @@
 package akka.kafka.benchmarks
 
 import java.nio.file.Paths
-import java.util.concurrent.{ForkJoinPool, TimeUnit}
+import java.util.concurrent.{ ForkJoinPool, TimeUnit }
 
-import akka.kafka.benchmarks.InflightMetrics.{BrokerMetricRequest, ConsumerMetricRequest}
+import akka.kafka.benchmarks.InflightMetrics.{ BrokerMetricRequest, ConsumerMetricRequest }
 import akka.kafka.benchmarks.app.RunTestCommand
 import akka.stream.Materializer
 import akka.stream.alpakka.csv.scaladsl.CsvFormatting
-import akka.stream.scaladsl.{FileIO, Sink, Source}
+import akka.stream.scaladsl.{ FileIO, Sink, Source }
 import com.codahale.metrics._
 import com.typesafe.scalalogging.LazyLogging
 
 import scala.concurrent.duration._
-import scala.concurrent.{Await, ExecutionContext, Future}
+import scala.concurrent.{ Await, ExecutionContext, Future }
 
 object Timed extends LazyLogging {
   private val benchmarkReportBasePath = Paths.get("benchmarks", "target")
@@ -39,8 +39,7 @@ object Timed extends LazyLogging {
       .build(benchmarkReportBasePath.toFile)
 
   def inflightMetricsReport(inflight: List[List[String]], testName: String)(
-      implicit mat: Materializer
-  ) = {
+      implicit mat: Materializer) = {
     val metricsReportPath = benchmarkReportBasePath.resolve(Paths.get(s"$testName-inflight-metrics.csv"))
     val metricsReportDetailPath = benchmarkReportBasePath.resolve(Paths.get(s"$testName-inflight-metrics-details.csv"))
     require(inflight.size > 1, "At least 2 records (a header and a data row) are required to make a report.")
@@ -76,8 +75,8 @@ object Timed extends LazyLogging {
       brokerMetricNames: List[BrokerMetricRequest],
       brokerJmxUrls: List[String],
       fixtureGen: FixtureGen[F],
-      testBody: (F, Meter, List[ConsumerMetricRequest], List[BrokerMetricRequest], List[String]) => List[List[String]]
-  )(implicit mat: Materializer): Unit = {
+      testBody: (F, Meter, List[ConsumerMetricRequest], List[BrokerMetricRequest], List[String]) => List[List[String]])(
+      implicit mat: Materializer): Unit = {
     val name = command.testName
     val msgCount = command.msgCount
     logger.info(s"Generating fixture for $name ${command.filledTopic}")

@@ -7,26 +7,26 @@ package akka.kafka.internal
 
 import akka.NotUsed
 import akka.actor.Status
-import akka.actor.{ActorRef, ExtendedActorSystem, Terminated}
+import akka.actor.{ ActorRef, ExtendedActorSystem, Terminated }
 import akka.annotation.InternalApi
 import akka.kafka.internal.KafkaConsumerActor.Internal.RegisterSubStage
 import akka.kafka.internal.SubSourceLogic._
-import akka.kafka.{AutoSubscription, ConsumerFailed, ConsumerSettings, RestrictedConsumer}
+import akka.kafka.{ AutoSubscription, ConsumerFailed, ConsumerSettings, RestrictedConsumer }
 import akka.kafka.scaladsl.Consumer.Control
 import akka.kafka.scaladsl.PartitionAssignmentHandler
-import akka.pattern.{ask, AskTimeoutException}
+import akka.pattern.{ ask, AskTimeoutException }
 import akka.stream.scaladsl.Source
 import akka.stream.stage.GraphStageLogic.StageActor
 import akka.stream.stage._
-import akka.stream.{Attributes, Outlet, SourceShape}
+import akka.stream.{ Attributes, Outlet, SourceShape }
 import akka.util.Timeout
 import org.apache.kafka.common.TopicPartition
 
 import scala.annotation.tailrec
 import scala.collection.immutable
 import scala.concurrent.duration._
-import scala.concurrent.{ExecutionContext, Future, Promise}
-import scala.util.{Failure, Success}
+import scala.concurrent.{ ExecutionContext, Future, Promise }
+import scala.util.{ Failure, Success }
 
 /**
  * Internal API.
@@ -39,7 +39,6 @@ import scala.util.{Failure, Success}
  * The `SubSourceLogic.subSourceStageLogicFactory` parameter is passed to each `SubSourceStage` so that a new
  * `SubSourceStageLogic` can be created for each stage. Context parameters from the `SubSourceLogic` are passed down to
  * `SubSourceStage` and on to the `SubSourceStageLogicFactory` when the stage creates a `GraphStageLogic`.
- *
  */
 @InternalApi
 private class SubSourceLogic[K, V, Msg](
@@ -48,8 +47,7 @@ private class SubSourceLogic[K, V, Msg](
     override protected val subscription: AutoSubscription,
     getOffsetsOnAssign: Option[Set[TopicPartition] => Future[Map[TopicPartition, Long]]] = None,
     onRevoke: Set[TopicPartition] => Unit = _ => (),
-    subSourceStageLogicFactory: SubSourceStageLogicFactory[K, V, Msg]
-) extends TimerGraphStageLogic(shape)
+    subSourceStageLogicFactory: SubSourceStageLogicFactory[K, V, Msg]) extends TimerGraphStageLogic(shape)
     with PromiseControl
     with MetricsControl
     with SourceLogicSubscription
@@ -89,7 +87,7 @@ private class SubSourceLogic[K, V, Msg](
     consumerActor = {
       val extendedActorSystem = materializer.system.asInstanceOf[ExtendedActorSystem]
       extendedActorSystem.systemActorOf(akka.kafka.KafkaConsumerActor.props(sourceActor.ref, settings),
-                                        s"kafka-consumer-$actorNumber")
+        s"kafka-consumer-$actorNumber")
     }
     consumerPromise.success(consumerActor)
     sourceActor.watch(consumerActor)
@@ -109,7 +107,7 @@ private class SubSourceLogic[K, V, Msg](
       val updatedFormerlyUnknown = formerlyUnknown -- (partitionsToRevoke ++ partitionsInStartup ++ pendingPartitions)
       // Filter out the offsetMap so that we don't re-seek for partitions that have been revoked
       seekAndEmitSubSources(updatedFormerlyUnknown,
-                            offsetMap.view.filterKeys(k => !partitionsToRevoke.contains(k)).toMap)
+        offsetMap.view.filterKeys(k => !partitionsToRevoke.contains(k)).toMap)
   }
 
   private val partitionAssignedCB = getAsyncCallback[Set[TopicPartition]] { assigned =>
@@ -134,9 +132,7 @@ private class SubSourceLogic[K, V, Msg](
               stageFailCB.invoke(
                 new ConsumerFailed(
                   s"$idLogPrefix Failed to fetch offset for partitions: ${formerlyUnknown.mkString(", ")}.",
-                  ex
-                )
-              )
+                  ex))
             case Success(offsets) =>
               onOffsetsFromExternalResponseCB.invoke((formerlyUnknown, offsets))
           }
@@ -150,8 +146,7 @@ private class SubSourceLogic[K, V, Msg](
 
   private def seekAndEmitSubSources(
       formerlyUnknown: Set[TopicPartition],
-      offsets: Map[TopicPartition, Long]
-  ): Unit = {
+      offsets: Map[TopicPartition, Long]): Unit = {
     implicit val ec: ExecutionContext = materializer.executionContext
     consumerActor
       .ask(KafkaConsumerActor.Internal.Seek(offsets))(Timeout(10.seconds), sourceActor.ref)
@@ -160,9 +155,7 @@ private class SubSourceLogic[K, V, Msg](
         case _: AskTimeoutException =>
           stageFailCB.invoke(
             new ConsumerFailed(
-              s"$idLogPrefix Consumer failed during seek for partitions: ${offsets.keys.mkString(", ")}."
-            )
-          )
+              s"$idLogPrefix Consumer failed during seek for partitions: ${offsets.keys.mkString(", ")}."))
       }
   }
 
@@ -221,8 +214,7 @@ private class SubSourceLogic[K, V, Msg](
       override def onPull(): Unit =
         emitSubSourcesForPendingPartitions()
       override def onDownstreamFinish(cause: Throwable): Unit = performShutdown()
-    }
-  )
+    })
 
   private def updatePendingPartitionsAndEmitSubSources(formerlyUnknownPartitions: Set[TopicPartition]): Unit = {
     pendingPartitions ++= formerlyUnknownPartitions.filter(!partitionsInStartup.contains(_))
@@ -238,12 +230,11 @@ private class SubSourceLogic[K, V, Msg](
       partitionsInStartup += tp
       val subSource = Source.fromGraph(
         new SubSourceStage(tp,
-                           consumerActor,
-                           subsourceStartedCB,
-                           subsourceCancelledCB,
-                           actorNumber,
-                           subSourceStageLogicFactory)
-      )
+          consumerActor,
+          subsourceStartedCB,
+          subsourceCancelledCB,
+          actorNumber,
+          subSourceStageLogicFactory))
       push(shape.out, (tp, subSource))
       emitSubSourcesForPendingPartitions()
     }
@@ -266,7 +257,7 @@ private class SubSourceLogic[K, V, Msg](
   override def performShutdown(): Unit = {
     log.info("Completing. Partitions [{}], StageActor {}", subSources.keys.mkString(","), sourceActor.ref)
     setKeepGoing(true)
-    //todo we should wait for subsources to be shutdown and next shutdown main stage
+    // todo we should wait for subsources to be shutdown and next shutdown main stage
     subSources.values.foreach {
       _.control.shutdown()
     }
@@ -285,16 +276,14 @@ private class SubSourceLogic[K, V, Msg](
       new Runnable {
         override def run(): Unit =
           consumerActor.tell(KafkaConsumerActor.Internal.StopFromStage(id), sourceActor.ref)
-      }
-    )
+      })
   }
 
   /**
    * Opportunity for subclasses to add a different logic to the partition assignment callbacks.
    */
   override protected def addToPartitionAssignmentHandler(
-      handler: PartitionAssignmentHandler
-  ): PartitionAssignmentHandler = {
+      handler: PartitionAssignmentHandler): PartitionAssignmentHandler = {
     val flushMessagesOfRevokedPartitions: PartitionAssignmentHandler = new PartitionAssignmentHandler {
       private var lastRevoked = Set.empty[TopicPartition]
 
@@ -323,7 +312,8 @@ private class SubSourceLogic[K, V, Msg](
 private object SubSourceLogic {
   case object CloseRevokedPartitions
 
-  /** Internal API
+  /**
+   * Internal API
    *
    * SubSourceStageLogic [[akka.kafka.scaladsl.Consumer.Control]] and the stage actor [[ActorRef]]
    */
@@ -332,13 +322,14 @@ private object SubSourceLogic {
 
   @InternalApi
   final case class SubSourceStageLogicControl(tp: TopicPartition,
-                                              controlAndStageActor: ControlAndStageActor,
-                                              filterRevokedPartitionsCB: AsyncCallback[Set[TopicPartition]]) {
+      controlAndStageActor: ControlAndStageActor,
+      filterRevokedPartitionsCB: AsyncCallback[Set[TopicPartition]]) {
     def control: Control = controlAndStageActor.control
     def stageActor: ActorRef = controlAndStageActor.stageActor
   }
 
-  /** Internal API
+  /**
+   * Internal API
    * Used to determine how the [[SubSourceLogic]] will handle the cancellation of a sub source stage.  The default
    * behavior requested by the [[SubSourceStageLogic]] is to ask the consumer to seek to the last committed offset and
    * then re-emit the sub source stage downstream.
@@ -348,7 +339,8 @@ private object SubSourceLogic {
   case object ReEmit extends SubSourceCancellationStrategy
   case object DoNothing extends SubSourceCancellationStrategy
 
-  /** Internal API
+  /**
+   * Internal API
    *
    * Encapsulates a factory method to create a [[SubSourceStageLogic]] within [[SubSourceLogic]] where the context
    * parameters exist.
@@ -361,12 +353,12 @@ private object SubSourceLogic {
         consumerActor: ActorRef,
         subSourceStartedCb: AsyncCallback[SubSourceStageLogicControl],
         subSourceCancelledCb: AsyncCallback[(TopicPartition, SubSourceCancellationStrategy)],
-        actorNumber: Int
-    ): SubSourceStageLogic[K, V, Msg]
+        actorNumber: Int): SubSourceStageLogic[K, V, Msg]
   }
 }
 
-/** Internal API
+/**
+ * Internal API
  *
  * A [[SubSourceStage]] is created per partition in [[SubSourceLogic]].
  */
@@ -377,8 +369,7 @@ private final class SubSourceStage[K, V, Msg](
     subSourceStartedCb: AsyncCallback[SubSourceStageLogicControl],
     subSourceCancelledCb: AsyncCallback[(TopicPartition, SubSourceCancellationStrategy)],
     actorNumber: Int,
-    subSourceStageLogicFactory: SubSourceStageLogicFactory[K, V, Msg]
-) extends GraphStage[SourceShape[Msg]] { stage =>
+    subSourceStageLogicFactory: SubSourceStageLogicFactory[K, V, Msg]) extends GraphStage[SourceShape[Msg]] { stage =>
 
   val out = Outlet[Msg]("out")
   val shape: SourceShape[Msg] = new SourceShape(out)
@@ -387,7 +378,8 @@ private final class SubSourceStage[K, V, Msg](
     subSourceStageLogicFactory.create(shape, tp, consumerActor, subSourceStartedCb, subSourceCancelledCb, actorNumber)
 }
 
-/** Internal API
+/**
+ * Internal API
  *
  * A [[SubSourceStageLogic]] is the [[GraphStageLogic]] of a [[SubSourceStage]].
  * This emits Kafka messages downstream (not sources).
@@ -399,8 +391,7 @@ private abstract class SubSourceStageLogic[K, V, Msg](
     consumerActor: ActorRef,
     subSourceStartedCb: AsyncCallback[SubSourceStageLogicControl],
     subSourceCancelledCb: AsyncCallback[(TopicPartition, SubSourceCancellationStrategy)],
-    actorNumber: Int
-) extends GraphStageLogic(shape)
+    actorNumber: Int) extends GraphStageLogic(shape)
     with PromiseControl
     with MetricsControl
     with StageIdLogging
@@ -456,8 +447,7 @@ private abstract class SubSourceStageLogic[K, V, Msg](
         subSourceCancelledCb.invoke(tp -> onDownstreamFinishSubSourceCancellationStrategy())
         super.onDownstreamFinish(cause)
       }
-    }
-  )
+    })
 
   def performShutdown() = {
     log.info("Completing. Partition {}", tp)

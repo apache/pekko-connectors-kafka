@@ -38,16 +38,13 @@ class OffsetAggregationSpec extends AnyWordSpec with Matchers with LogCapturing 
     "give the highest offsets (when mixed)" in {
       val in1 = List(
         new TopicPartition(topicA, 1) -> new OffsetAndMetadata(42, OffsetFetchResponse.NO_METADATA),
-        new TopicPartition(topicB, 1) -> new OffsetAndMetadata(11, OffsetFetchResponse.NO_METADATA)
-      )
+        new TopicPartition(topicB, 1) -> new OffsetAndMetadata(11, OffsetFetchResponse.NO_METADATA))
       val in2 = List(
         new TopicPartition(topicA, 1) -> new OffsetAndMetadata(12, OffsetFetchResponse.NO_METADATA),
-        new TopicPartition(topicB, 1) -> new OffsetAndMetadata(43, OffsetFetchResponse.NO_METADATA)
-      )
+        new TopicPartition(topicB, 1) -> new OffsetAndMetadata(43, OffsetFetchResponse.NO_METADATA))
       KafkaConsumerActor.aggregateOffsets(in1 ++ in2) shouldBe Map(
         new TopicPartition(topicA, 1) -> new OffsetAndMetadata(42, OffsetFetchResponse.NO_METADATA),
-        new TopicPartition(topicB, 1) -> new OffsetAndMetadata(43, OffsetFetchResponse.NO_METADATA)
-      )
+        new TopicPartition(topicB, 1) -> new OffsetAndMetadata(43, OffsetFetchResponse.NO_METADATA))
     }
   }
 

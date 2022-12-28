@@ -11,8 +11,8 @@ import java.util.concurrent.atomic.AtomicInteger
 
 import akka.Done
 import org.apache.kafka.clients.consumer._
-import org.apache.kafka.common.{Metric, MetricName, PartitionInfo, TopicPartition}
-import org.slf4j.{Logger, LoggerFactory}
+import org.apache.kafka.common.{ Metric, MetricName, PartitionInfo, TopicPartition }
+import org.slf4j.{ Logger, LoggerFactory }
 
 import scala.concurrent.Promise
 
@@ -47,7 +47,7 @@ abstract class ConsumerDummy[K, V] extends Consumer[K, V] {
   override def commitAsync(): Unit = ???
   override def commitAsync(callback: OffsetCommitCallback): Unit = ???
   override def commitAsync(offsets: java.util.Map[TopicPartition, OffsetAndMetadata],
-                           callback: OffsetCommitCallback): Unit = ???
+      callback: OffsetCommitCallback): Unit = ???
   override def seek(partition: TopicPartition, offset: Long): Unit = ???
   override def seek(partition: TopicPartition, offsetAndMetadata: OffsetAndMetadata): Unit = ???
   override def seekToBeginning(partitions: java.util.Collection[TopicPartition]): Unit = ???
@@ -63,34 +63,32 @@ abstract class ConsumerDummy[K, V] extends Consumer[K, V] {
     firstPausingPromise.trySuccess(Done)
   override def resume(partitions: java.util.Collection[TopicPartition]): Unit = ???
   override def offsetsForTimes(
-      timestampsToSearch: java.util.Map[TopicPartition, java.lang.Long]
-  ): java.util.Map[TopicPartition, OffsetAndTimestamp] = ???
+      timestampsToSearch: java.util.Map[TopicPartition, java.lang.Long])
+      : java.util.Map[TopicPartition, OffsetAndTimestamp] = ???
   override def offsetsForTimes(timestampsToSearch: java.util.Map[TopicPartition, java.lang.Long],
-                               timeout: java.time.Duration): java.util.Map[TopicPartition, OffsetAndTimestamp] = ???
+      timeout: java.time.Duration): java.util.Map[TopicPartition, OffsetAndTimestamp] = ???
   override def beginningOffsets(
-      partitions: java.util.Collection[TopicPartition]
-  ): java.util.Map[TopicPartition, java.lang.Long] = ???
+      partitions: java.util.Collection[TopicPartition]): java.util.Map[TopicPartition, java.lang.Long] = ???
   override def endOffsets(
-      partitions: java.util.Collection[TopicPartition]
-  ): java.util.Map[TopicPartition, java.lang.Long] = ???
+      partitions: java.util.Collection[TopicPartition]): java.util.Map[TopicPartition, java.lang.Long] = ???
   override def close(): Unit = {}
   override def close(timeout: java.time.Duration): Unit = {}
   override def wakeup(): Unit = ???
 
   override def commitSync(timeout: java.time.Duration): Unit = ???
   override def commitSync(offsets: java.util.Map[TopicPartition, OffsetAndMetadata],
-                          timeout: java.time.Duration): Unit = ???
+      timeout: java.time.Duration): Unit = ???
   override def committed(partition: TopicPartition, timeout: java.time.Duration): OffsetAndMetadata = ???
   override def committed(partitions: util.Set[TopicPartition]): util.Map[TopicPartition, OffsetAndMetadata] = ???
   override def committed(partitions: util.Set[TopicPartition],
-                         timeout: Duration): util.Map[TopicPartition, OffsetAndMetadata] = ???
+      timeout: Duration): util.Map[TopicPartition, OffsetAndMetadata] = ???
 
   override def partitionsFor(topic: String, timeout: java.time.Duration): java.util.List[PartitionInfo] = ???
   override def listTopics(timeout: java.time.Duration): java.util.Map[String, java.util.List[PartitionInfo]] = ???
   override def beginningOffsets(partitions: java.util.Collection[TopicPartition],
-                                timeout: java.time.Duration): java.util.Map[TopicPartition, java.lang.Long] = ???
+      timeout: java.time.Duration): java.util.Map[TopicPartition, java.lang.Long] = ???
   override def endOffsets(partitions: java.util.Collection[TopicPartition],
-                          timeout: java.time.Duration): java.util.Map[TopicPartition, java.lang.Long] = ???
+      timeout: java.time.Duration): java.util.Map[TopicPartition, java.lang.Long] = ???
   override def poll(timeout: java.time.Duration): ConsumerRecords[K, V] = ???
   override def groupMetadata(): ConsumerGroupMetadata = ???
   override def enforceRebalance(): Unit = ???
