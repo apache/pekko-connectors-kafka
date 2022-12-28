@@ -2,8 +2,6 @@ import com.typesafe.tools.mima.core.{ Problem, ProblemFilters }
 
 enablePlugins(AutomateHeaderPlugin)
 
-name := "akka-stream-kafka"
-
 val Nightly = sys.env.get("EVENT_NAME").contains("schedule")
 
 // align ignore-prefixes in scripts/link-validator.conf
@@ -115,7 +113,7 @@ val commonSettings = Def.settings(
   projectInfoVersion := (if (isSnapshot.value) "snapshot" else version.value),
   sonatypeProfileName := "com.typesafe")
 
-lazy val `alpakka-kafka` =
+lazy val `pekko-connectors-kafka` =
   project
     .in(file("."))
     .enablePlugins(ScalaUnidocPlugin)
@@ -127,11 +125,11 @@ lazy val `alpakka-kafka` =
       ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(core, testkit),
       onLoadMessage :=
         """
-            |** Welcome to the Alpakka Kafka connector! **
+            |** Welcome to the Pekko Kafka connector! **
             |
             |The build has three main modules:
             |  core - the Kafka connector sources
-            |  clusterSharding - Akka Cluster External Sharding with Alpakka Kafka
+            |  cluster-sharding - Akka Cluster External Sharding with the Pekko Kafka connector
             |  tests - tests, Docker based integration tests, code for the documentation
             |  testkit - framework for testing the connector
             |
@@ -163,7 +161,7 @@ lazy val `alpakka-kafka` =
             |  benchmarks/IntegrationTest/testOnly *.AlpakkaKafkaPlainConsumer
             |    run a single benchmark backed by Docker containers
           """.stripMargin)
-    .aggregate(core, testkit, clusterSharding, tests, benchmarks, docs)
+    .aggregate(core, testkit, `cluster-sharding`, tests, benchmarks, docs)
 
 lazy val core = project
   .enablePlugins(AutomateHeaderPlugin)
@@ -171,7 +169,7 @@ lazy val core = project
   .settings(commonSettings)
   .settings(VersionGenerator.settings)
   .settings(
-    name := "akka-stream-kafka",
+    name := "pekko-connectors-kafka",
     AutomaticModuleName.settings("akka.stream.alpakka.kafka"),
     libraryDependencies ++= Seq(
       "com.typesafe.akka" %% "akka-stream" % akkaVersion,
@@ -186,7 +184,7 @@ lazy val testkit = project
   .disablePlugins(SitePlugin)
   .settings(commonSettings)
   .settings(
-    name := "akka-stream-kafka-testkit",
+    name := "pekko-connectors-kafka-testkit",
     AutomaticModuleName.settings("akka.stream.alpakka.kafka.testkit"),
     JupiterKeys.junitJupiterVersion := "5.8.2",
     libraryDependencies ++= Seq(
@@ -198,14 +196,14 @@ lazy val testkit = project
     mimaPreviousArtifacts := Set.empty, // temporarily disable mima checks
     mimaBinaryIssueFilters += ProblemFilters.exclude[Problem]("akka.kafka.testkit.internal.*"))
 
-lazy val clusterSharding = project
+lazy val `cluster-sharding` = project
   .in(file("./cluster-sharding"))
   .dependsOn(core)
   .enablePlugins(AutomateHeaderPlugin)
   .disablePlugins(SitePlugin)
   .settings(commonSettings)
   .settings(
-    name := "akka-stream-kafka-cluster-sharding",
+    name := "pekko-connectors-kafka-cluster-sharding",
     AutomaticModuleName.settings("akka.stream.alpakka.kafka.cluster.sharding"),
     libraryDependencies ++= Seq(
       "com.typesafe.akka" %% "akka-cluster-sharding-typed" % akkaVersion),
@@ -213,7 +211,7 @@ lazy val clusterSharding = project
   )
 
 lazy val tests = project
-  .dependsOn(core, testkit, clusterSharding)
+  .dependsOn(core, testkit, `cluster-sharding`)
   .enablePlugins(AutomateHeaderPlugin)
   .disablePlugins(MimaPlugin, SitePlugin)
   .configs(IntegrationTest.extend(Test))
@@ -221,7 +219,7 @@ lazy val tests = project
   .settings(Defaults.itSettings)
   .settings(headerSettings(IntegrationTest))
   .settings(
-    name := "akka-stream-kafka-tests",
+    name := "pekko-connectors-kafka-tests",
     libraryDependencies ++= Seq(
       "com.typesafe.akka" %% "akka-discovery" % akkaVersion,
       "com.google.protobuf" % "protobuf-java" % "3.19.1", // use the same version as in scalapb
@@ -257,7 +255,7 @@ lazy val docs = project
   .disablePlugins(MimaPlugin)
   .settings(commonSettings)
   .settings(
-    name := "Alpakka Kafka",
+    name := "Apache Pekko Kafka Connector",
     publish / skip := true,
     makeSite := makeSite.dependsOn(LocalRootProject / ScalaUnidoc / doc).value,
     previewPath := (Paradox / siteSubdirName).value,
@@ -318,7 +316,7 @@ lazy val benchmarks = project
   .settings(Defaults.itSettings)
   .settings(headerSettings(IntegrationTest))
   .settings(
-    name := "akka-stream-kafka-benchmarks",
+    name := "pekko-connectors-kafka-benchmarks",
     publish / skip := true,
     IntegrationTest / parallelExecution := false,
     libraryDependencies ++= Seq(

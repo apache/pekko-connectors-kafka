@@ -1,9 +1,9 @@
 # Releasing
 
-Create a new issue from the [Alpakka Kafka Release Train Issue Template](docs/release-train-issue-template.md) and follow the steps.
+Create a new issue from the [Pekko Kafka Connector Release Train Issue Template](docs/release-train-issue-template.md) and follow the steps.
 
 ```bash
-~/alpakka> scripts/create-release-issue.sh `version-to-be-released`
+~/pekko-connectors-kafka> scripts/create-release-issue.sh `version-to-be-released`
 ```
 
 ### Releasing only updated docs
