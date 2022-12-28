@@ -15,7 +15,7 @@ This is the process for committing code into main.
 
 1. Perform your work according to the [pull request requirements](#pull-request-requirements).
 
-1. When the feature or fix is completed you should open a [Pull Request](https://help.github.com/articles/using-pull-requests) on [GitHub](https://github.com/apache/incubator-pekko-connectors-kafka/pulls). Prefix your PR title with a marker to show which module it affects (eg. "JMS", or "AWS S3").
+1. When the feature or fix is completed you should open a [Pull Request](https://help.github.com/articles/using-pull-requests) on [GitHub](https://github.com/apache/incubator-pekko-connectors-kafka/pulls).
 
 1. The Pull Request should be reviewed by other maintainers (as many as feasible/practical). Outside contributors are encouraged to participate in the review process, it is not a closed process.
 
