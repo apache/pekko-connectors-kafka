@@ -37,6 +37,8 @@ For a Pull Request to be considered at all it has to meet these requirements:
 
 1. Regardless if the code introduces new features or fixes bugs or regressions, it must have comprehensive tests.
 
+1. The code must be well documented (see the [Documentation](#documentation) section below).
+
 1. The commit messages must properly describe the changes, see [further below](#creating-commits-and-writing-commit-messages).
 
 1. Do not use ``@author`` tags since it does not encourage [Collective Code Ownership](http://www.extremeprogramming.org/rules/collective.html). Contributors get the credit they deserve in the release notes.
