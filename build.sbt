@@ -171,7 +171,8 @@ lazy val `pekko-connectors-kafka` =
             |
             |  benchmarks/IntegrationTest/testOnly *.AlpakkaKafkaPlainConsumer
             |    run a single benchmark backed by Docker containers
-          """.stripMargin)
+          """.stripMargin
+    )
     .aggregate(core, testkit, `cluster-sharding`, tests, benchmarks, docs)
 
 lazy val core = project
