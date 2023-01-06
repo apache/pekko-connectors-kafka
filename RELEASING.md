@@ -1,6 +1,6 @@
 # Releasing
 
-Create a new issue from the [Pekko Kafka Connector Release Train Issue Template](docs/release-train-issue-template.md) and follow the steps.
+Create a new issue from the [Apache Pekko Kafka Connector Release Train Issue Template](docs/release-train-issue-template.md) and follow the steps.
 
 ```bash
 ~/pekko-connectors-kafka> scripts/create-release-issue.sh `version-to-be-released`

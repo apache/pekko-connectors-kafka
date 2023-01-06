@@ -136,11 +136,11 @@ lazy val `pekko-connectors-kafka` =
       ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(core, testkit),
       onLoadMessage :=
         """
-            |** Welcome to the Pekko Kafka connector! **
+            |** Welcome to the Apache Pekko Kafka Connector! **
             |
             |The build has three main modules:
             |  core - the Kafka connector sources
-            |  cluster-sharding - Akka Cluster External Sharding with the Pekko Kafka connector
+            |  cluster-sharding - Akka Cluster External Sharding with the Apache Pekko Kafka Connector
             |  tests - tests, Docker based integration tests, code for the documentation
             |  testkit - framework for testing the connector
             |
