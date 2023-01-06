@@ -1,4 +1,4 @@
-Alpakka Kafka [![scaladex-badge][]][scaladex] [![maven-central-badge][]][maven-central] [![gh-actions-badge][]][gh-actions]
+Apache Pekko Kafka Connector [![scaladex-badge][]][scaladex] [![maven-central-badge][]][maven-central] [![gh-actions-badge][]][gh-actions]
 =============
 
 [scaladex]:            https://index.scala-lang.org/apache/pekko-connector-kafka/
