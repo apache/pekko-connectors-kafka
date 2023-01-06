@@ -1,33 +1,27 @@
-# Welcome! Thank you for contributing to Alpakka Kafka!
+# Welcome! Thank you for contributing to the Apache Pekko Kafka connector!
 
 We follow the standard GitHub [fork & pull](https://help.github.com/articles/using-pull-requests/#fork--pull) approach to pull requests. Just fork the official repo, develop in a branch, and submit a PR!
 
-You're always welcome to submit your PR straight away and start the discussion (without reading the rest of this wonderful doc, or the README.md). The goal of these notes is to make your experience contributing to Alpakka as smooth and pleasant as possible. We're happy to guide you through the process once you've submitted your PR.
+You're always welcome to submit your PR straight away and start the discussion (without reading the rest of this wonderful doc, or the README.md). The goal of these notes is to make your experience contributing to Pekko as smooth and pleasant as possible. We're happy to guide you through the process once you've submitted your PR.
 
-# The Akka Community
-
-Please check out [Get Involved](https://akka.io/get-involved/).
-
-# Contributing to Alpakka Kafka
+# Contributing to the Apache Pekko Kafka Connector
 
 ## General Workflow
 
-This is the process for committing code into master.
+This is the process for committing code into main.
 
-1. Make sure you have signed the Lightbend CLA, if not, [sign it online](http://www.lightbend.com/contribute/cla).
-
-1. To avoid duplicated effort, it might be good to check the [issue tracker](https://github.com/akka/alpakka/issues) and [existing pull requests](https://github.com/akka/alpakka/pulls) for existing work.
-   - If there is no ticket yet, feel free to [create one](https://github.com/akka/alpakka/issues/new) to discuss the problem and the approach you want to take to solve it.
+1. To avoid duplicated effort, it might be good to check the [issue tracker](https://github.com/apache/incubator-pekko-connectors-kafka/issues) and [existing pull requests](https://github.com/apache/incubator-pekko-connectors-kafka/pulls) for existing work.
+   - If there is no ticket yet, feel free to [create one](https://github.com/apache/incubator-pekko-connectors-kafka/issues/new) to discuss the problem and the approach you want to take to solve it.
 
 1. Perform your work according to the [pull request requirements](#pull-request-requirements).
 
-1. When the feature or fix is completed you should open a [Pull Request](https://help.github.com/articles/using-pull-requests) on [GitHub](https://github.com/akka/alpakka/pulls). 
+1. When the feature or fix is completed you should open a [Pull Request](https://help.github.com/articles/using-pull-requests) on [GitHub](https://github.com/apache/incubator-pekko-connectors-kafka/pulls).
 
-1. The Pull Request should be reviewed by other maintainers (as many as feasible/practical). Note that the maintainers can consist of outside contributors, both within and outside Lightbend. Outside contributors are encouraged to participate in the review process, it is not a closed process.
+1. The Pull Request should be reviewed by other maintainers (as many as feasible/practical). Outside contributors are encouraged to participate in the review process, it is not a closed process.
 
-1. After the review you should fix the issues (review comments, CI failures) by pushing a new commit for new review, iterating until the reviewers give their thumbs up and CI tests pass.
+1. After the review you should fix the issues (review comments, CI failures, compiler warnings) by pushing a new commit for new review, iterating until the reviewers give their thumbs up and CI tests pass.
 
-1. When the branch conflicts with its merge target (either by way of git merge conflict or failing CI tests), do **not** merge the target branch into your feature branch. Instead, rebase your branch onto the target branch and update it with `git push -f`.
+1. If the branch merge conflicts with its target, rebase your branch onto the target branch.
 
 ## Pull Request Requirements
 
@@ -43,13 +37,13 @@ For a Pull Request to be considered at all it has to meet these requirements:
 
 1. Regardless if the code introduces new features or fixes bugs or regressions, it must have comprehensive tests.
 
-1. The code must be well documented in the Lightbend's standard documentation format (see the [Documentation](#documentation) section below).
+1. The code must be well documented (see the [Documentation](#documentation) section below).
 
 1. The commit messages must properly describe the changes, see [further below](#creating-commits-and-writing-commit-messages).
 
 1. Do not use ``@author`` tags since it does not encourage [Collective Code Ownership](http://www.extremeprogramming.org/rules/collective.html). Contributors get the credit they deserve in the release notes.
 
-If these requirements are not met then the code should **not** be merged into master, or even reviewed - regardless of how good or important it is. No exceptions.
+If these requirements are not met then the code should **not** be merged into main, or even reviewed - regardless of how good or important it is. No exceptions.
 
 
 ## Documentation
@@ -105,7 +99,7 @@ Example:
 
 ## How To Enforce These Guidelines?
 
-1. [GitHub Actions](https://github.com/akka/alpakka-kafka/actions) automatically merges the code, builds it, runs the tests and sets Pull Request status accordingly of results in GitHub.
+1. [GitHub Actions](https://github.com/apache/incubator-pekko-connectors-kafka/actions) automatically merges the code, builds it, runs the tests and sets Pull Request status accordingly of results in GitHub.
 1. [Scalafmt](http://scalameta.org/scalafmt/) enforces some of the code style rules.
 1. [sbt-header plugin](https://github.com/sbt/sbt-header) manages consistent copyright headers in every source file.
 1. A GitHub bot checks whether you've signed the Lightbend CLA. 
