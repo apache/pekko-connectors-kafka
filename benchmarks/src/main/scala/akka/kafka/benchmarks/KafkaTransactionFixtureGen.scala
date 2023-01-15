@@ -8,8 +8,8 @@ package akka.kafka.benchmarks
 import java.util.Locale
 
 import akka.kafka.benchmarks.app.RunTestCommand
-import org.apache.kafka.clients.consumer.{ConsumerConfig, KafkaConsumer}
-import org.apache.kafka.clients.producer.{KafkaProducer, ProducerConfig}
+import org.apache.kafka.clients.consumer.{ ConsumerConfig, KafkaConsumer }
+import org.apache.kafka.clients.producer.{ KafkaProducer, ProducerConfig }
 import org.apache.kafka.common.IsolationLevel
 import org.apache.kafka.common.serialization.{
   ByteArrayDeserializer,
@@ -21,11 +21,11 @@ import org.apache.kafka.common.serialization.{
 import scala.jdk.CollectionConverters._
 
 case class KafkaTransactionTestFixture(sourceTopic: String,
-                                       sinkTopic: String,
-                                       msgCount: Int,
-                                       groupId: String,
-                                       consumer: KafkaConsumer[Array[Byte], String],
-                                       producer: KafkaProducer[Array[Byte], String]) {
+    sinkTopic: String,
+    msgCount: Int,
+    groupId: String,
+    consumer: KafkaConsumer[Array[Byte], String],
+    producer: KafkaProducer[Array[Byte], String]) {
   def close(): Unit = {
     consumer.close()
     producer.close()
@@ -35,9 +35,10 @@ case class KafkaTransactionTestFixture(sourceTopic: String,
 object KafkaTransactionFixtures extends PerfFixtureHelpers {
 
   def noopFixtureGen(c: RunTestCommand): FixtureGen[KafkaTransactionTestFixture] =
-    FixtureGen[KafkaTransactionTestFixture](c, msgCount => {
-      KafkaTransactionTestFixture("sourceTopic", "sinkTopic", msgCount, "groupId", consumer = null, producer = null)
-    })
+    FixtureGen[KafkaTransactionTestFixture](c,
+      msgCount => {
+        KafkaTransactionTestFixture("sourceTopic", "sinkTopic", msgCount, "groupId", consumer = null, producer = null)
+      })
 
   def initialize(c: RunTestCommand) =
     FixtureGen[KafkaTransactionTestFixture](
@@ -55,7 +56,7 @@ object KafkaTransactionFixtures extends PerfFixtureHelpers {
         consumerJavaProps.put(ConsumerConfig.GROUP_ID_CONFIG, groupId)
         consumerJavaProps.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
         consumerJavaProps.put(ConsumerConfig.ISOLATION_LEVEL_CONFIG,
-                              IsolationLevel.READ_COMMITTED.toString.toLowerCase(Locale.ENGLISH))
+          IsolationLevel.READ_COMMITTED.toString.toLowerCase(Locale.ENGLISH))
         val consumer = new KafkaConsumer[Array[Byte], String](consumerJavaProps)
         consumer.subscribe(Set(c.filledTopic.topic).asJava)
 
@@ -68,6 +69,5 @@ object KafkaTransactionFixtures extends PerfFixtureHelpers {
         val producer = new KafkaProducer[Array[Byte], String](producerJavaProps)
 
         KafkaTransactionTestFixture(c.filledTopic.topic, sinkTopic, msgCount, groupId, consumer, producer)
-      }
-    )
+      })
 }

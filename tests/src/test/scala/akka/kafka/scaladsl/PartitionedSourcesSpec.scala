@@ -5,27 +5,27 @@
 
 package akka.kafka.scaladsl
 
-import java.util.concurrent.{CountDownLatch, TimeUnit}
-import java.util.concurrent.atomic.{AtomicBoolean, AtomicLong}
+import java.util.concurrent.{ CountDownLatch, TimeUnit }
+import java.util.concurrent.atomic.{ AtomicBoolean, AtomicLong }
 import java.util.function.LongBinaryOperator
 
 import akka.Done
 import akka.kafka._
 import akka.kafka.scaladsl.Consumer.DrainingControl
 import akka.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import akka.stream.{KillSwitches, OverflowStrategy}
-import akka.stream.scaladsl.{Keep, Sink, Source}
+import akka.stream.{ KillSwitches, OverflowStrategy }
+import akka.stream.scaladsl.{ Keep, Sink, Source }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import akka.stream.testkit.scaladsl.TestSink
 import akka.testkit.TestProbe
-import org.apache.kafka.clients.consumer.{ConsumerConfig, ConsumerRecord}
+import org.apache.kafka.clients.consumer.{ ConsumerConfig, ConsumerRecord }
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.TopicPartition
-import org.scalatest.{Inside, OptionValues}
+import org.scalatest.{ Inside, OptionValues }
 
 import scala.concurrent.duration._
-import scala.concurrent.{Future, Promise}
-import scala.util.{Failure, Success}
+import scala.concurrent.{ Future, Promise }
+import scala.util.{ Failure, Success }
 
 class PartitionedSourcesSpec extends SpecBase with TestcontainersKafkaLike with Inside with OptionValues {
 
@@ -41,8 +41,8 @@ class PartitionedSourcesSpec extends SpecBase with TestcontainersKafkaLike with 
 
       val probe = Consumer
         .plainPartitionedManualOffsetSource(consumerDefaults.withGroupId(group),
-                                            Subscriptions.topics(topic),
-                                            _ => Future.successful(Map.empty))
+          Subscriptions.topics(topic),
+          _ => Future.successful(Map.empty))
         .flatMapMerge(1, _._2)
         .map(_.value())
         .runWith(TestSink.probe)
@@ -62,8 +62,8 @@ class PartitionedSourcesSpec extends SpecBase with TestcontainersKafkaLike with 
 
       val probe = Consumer
         .plainPartitionedManualOffsetSource(consumerDefaults.withGroupId(group),
-                                            Subscriptions.topics(topic),
-                                            tp => Future.successful(tp.map(_ -> 51L).toMap))
+          Subscriptions.topics(topic),
+          tp => Future.successful(tp.map(_ -> 51L).toMap))
         .flatMapMerge(1, _._2)
         .map(_.value())
         .runWith(TestSink.probe)
@@ -323,8 +323,7 @@ class PartitionedSourcesSpec extends SpecBase with TestcontainersKafkaLike with 
             partitionsAssigned = true
             Future.successful(Map.empty)
           },
-          onRevoke = tps => revoked = Some(tps)
-        )
+          onRevoke = tps => revoked = Some(tps))
         .flatMapMerge(1, _._2)
         .map(_.value())
 
@@ -357,13 +356,13 @@ class PartitionedSourcesSpec extends SpecBase with TestcontainersKafkaLike with 
           .plainPartitionedSource(consumerDefaults.withGroupId(group), Subscriptions.topics(topic))
           .log(topic)
           .flatMapMerge(
-            1, {
+            1,
+            {
               case (tp, source) =>
                 source
                   .log(tp.toString, _.offset())
                   .take(10)
-            }
-          )
+            })
           .map(_.value().toInt)
           .takeWhile(_ < totalMessages, inclusive = true)
           .scan(0)((c, _) => c + 1)
@@ -401,7 +400,7 @@ class PartitionedSourcesSpec extends SpecBase with TestcontainersKafkaLike with 
               }
               .runWith(Sink.onComplete {
                 case Success(_) => queue.complete()
-                case _ =>
+                case _          =>
               })
         })(Keep.both)
         .run()
@@ -427,9 +426,10 @@ class PartitionedSourcesSpec extends SpecBase with TestcontainersKafkaLike with 
 
       def externalCommitOffset(partitionId: Int, offset: Long): Future[Unit] = {
         log.info(s"Commit $partitionId at $offset")
-        maxEncounteredOffsets(partitionId).accumulateAndGet(offset, new LongBinaryOperator {
-          override def applyAsLong(left: Long, right: Long): Long = left.max(right)
-        })
+        maxEncounteredOffsets(partitionId).accumulateAndGet(offset,
+          new LongBinaryOperator {
+            override def applyAsLong(left: Long, right: Long): Long = left.max(right)
+          })
         Future.successful(())
       }
 
@@ -442,16 +442,14 @@ class PartitionedSourcesSpec extends SpecBase with TestcontainersKafkaLike with 
       producer.futureValue shouldBe Done
 
       def createAndRunConsumer(
-          recordProcessor: ConsumerRecord[String, String] => Future[ConsumerRecord[String, String]]
-      ) =
+          recordProcessor: ConsumerRecord[String, String] => Future[ConsumerRecord[String, String]]) =
         Consumer
           .plainPartitionedManualOffsetSource(
             sourceSettings,
             Subscriptions.topics(topic),
             topicPartitions => {
               Future.successful(topicPartitions.map(tp => tp -> maxEncounteredOffsets(tp.partition()).get()).toMap)
-            }
-          )
+            })
           .groupBy(partitions, _._1)
           .mapAsync(8) {
             case (tp, source) =>
@@ -584,8 +582,7 @@ class PartitionedSourcesSpec extends SpecBase with TestcontainersKafkaLike with 
       awaitProduce(
         Source(1L to totalMessages)
           .map(n => new ProducerRecord(topic, (n % partitions).toInt, DefaultKey, n.toString))
-          .runWith(Producer.plainSink(producerDefaults.withProducer(testProducer)))
-      )
+          .runWith(Producer.plainSink(producerDefaults.withProducer(testProducer))))
       eventually {
         exceptionTriggered.get() shouldBe true
       }

@@ -6,7 +6,7 @@
 package akka.kafka.testkit.scaladsl
 
 import akka.kafka.testkit.KafkaTestkitTestcontainersSettings
-import akka.kafka.testkit.internal.{AlpakkaKafkaContainer, SchemaRegistryContainer, TestcontainersKafka}
+import akka.kafka.testkit.internal.{ AlpakkaKafkaContainer, SchemaRegistryContainer, TestcontainersKafka }
 import org.testcontainers.containers.GenericContainer
 
 /**

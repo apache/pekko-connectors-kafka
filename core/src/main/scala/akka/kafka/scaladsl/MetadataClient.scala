@@ -7,21 +7,20 @@ package akka.kafka.scaladsl
 
 import java.util.concurrent.atomic.AtomicLong
 
-import akka.actor.{ActorRef, ActorSystem, ExtendedActorSystem}
+import akka.actor.{ ActorRef, ActorSystem, ExtendedActorSystem }
 import akka.dispatch.ExecutionContexts
 import akka.kafka.Metadata._
-import akka.kafka.{ConsumerSettings, KafkaConsumerActor}
+import akka.kafka.{ ConsumerSettings, KafkaConsumerActor }
 import akka.pattern.ask
 import akka.util.Timeout
 import org.apache.kafka.clients.consumer.OffsetAndMetadata
-import org.apache.kafka.common.{PartitionInfo, TopicPartition}
+import org.apache.kafka.common.{ PartitionInfo, TopicPartition }
 
-import scala.concurrent.{ExecutionContext, Future}
-import scala.util.{Failure, Success}
+import scala.concurrent.{ ExecutionContext, Future }
+import scala.util.{ Failure, Success }
 
 class MetadataClient private (consumerActor: ActorRef, timeout: Timeout, managedActor: Boolean)(
-    implicit ec: ExecutionContext
-) {
+    implicit ec: ExecutionContext) {
 
   def getBeginningOffsets(partitions: Set[TopicPartition]): Future[Map[TopicPartition, Long]] =
     (consumerActor ? GetBeginningOffsets(partitions))(timeout)
@@ -29,7 +28,7 @@ class MetadataClient private (consumerActor: ActorRef, timeout: Timeout, managed
       .map(_.response)
       .flatMap {
         case Success(res) => Future.successful(res)
-        case Failure(e) => Future.failed(e)
+        case Failure(e)   => Future.failed(e)
       }(ExecutionContexts.parasitic)
 
   def getBeginningOffsetForPartition(partition: TopicPartition): Future[Long] =
@@ -42,7 +41,7 @@ class MetadataClient private (consumerActor: ActorRef, timeout: Timeout, managed
       .map(_.response)
       .flatMap {
         case Success(res) => Future.successful(res)
-        case Failure(e) => Future.failed(e)
+        case Failure(e)   => Future.failed(e)
       }(ExecutionContexts.parasitic)
 
   def getEndOffsetForPartition(partition: TopicPartition): Future[Long] =
@@ -55,7 +54,7 @@ class MetadataClient private (consumerActor: ActorRef, timeout: Timeout, managed
       .map(_.response)
       .flatMap {
         case Success(res) => Future.successful(res)
-        case Failure(e) => Future.failed(e)
+        case Failure(e)   => Future.failed(e)
       }(ExecutionContexts.parasitic)
 
   def getPartitionsFor(topic: String): Future[List[PartitionInfo]] =
@@ -64,7 +63,7 @@ class MetadataClient private (consumerActor: ActorRef, timeout: Timeout, managed
       .map(_.response)
       .flatMap {
         case Success(res) => Future.successful(res)
-        case Failure(e) => Future.failed(e)
+        case Failure(e)   => Future.failed(e)
       }(ExecutionContexts.parasitic)
 
   @deprecated("use `getCommittedOffsets`", "2.0.3")
@@ -74,7 +73,7 @@ class MetadataClient private (consumerActor: ActorRef, timeout: Timeout, managed
       .map(_.response)
       .flatMap {
         case Success(res) => Future.successful(res)
-        case Failure(e) => Future.failed(e)
+        case Failure(e)   => Future.failed(e)
       }(ExecutionContexts.parasitic)
 
   def getCommittedOffsets(partitions: Set[TopicPartition]): Future[Map[TopicPartition, OffsetAndMetadata]] =
@@ -83,7 +82,7 @@ class MetadataClient private (consumerActor: ActorRef, timeout: Timeout, managed
       .map(_.response)
       .flatMap {
         case Success(res) => Future.successful(res)
-        case Failure(e) => Future.failed(e)
+        case Failure(e)   => Future.failed(e)
       }(ExecutionContexts.parasitic)
 
   def close(): Unit =
@@ -100,12 +99,11 @@ object MetadataClient {
 
   def create[K, V](
       consumerSettings: ConsumerSettings[K, V],
-      timeout: Timeout
-  )(implicit system: ActorSystem, ec: ExecutionContext): MetadataClient = {
+      timeout: Timeout)(implicit system: ActorSystem, ec: ExecutionContext): MetadataClient = {
     val consumerActor = system
       .asInstanceOf[ExtendedActorSystem]
       .systemActorOf(KafkaConsumerActor.props(consumerSettings),
-                     s"alpakka-kafka-metadata-client-${actorCount.getAndIncrement()}")
+        s"alpakka-kafka-metadata-client-${actorCount.getAndIncrement()}")
     new MetadataClient(consumerActor, timeout, true)
   }
 }

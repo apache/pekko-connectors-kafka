@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 import akka.Done
 import akka.kafka.scaladsl.Consumer.DrainingControl
 import akka.kafka.tests.scaladsl.LogCapturing
-import org.apache.kafka.common.{Metric, MetricName}
+import org.apache.kafka.common.{ Metric, MetricName }
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers
@@ -20,7 +20,7 @@ import scala.concurrent.Future
 
 object ControlSpec {
   class ControlImpl(stopFuture: Future[Done] = Future.successful(Done),
-                    shutdownFuture: Future[Done] = Future.successful(Done))
+      shutdownFuture: Future[Done] = Future.successful(Done))
       extends Consumer.Control {
     val shutdownCalled = new AtomicBoolean(false)
 

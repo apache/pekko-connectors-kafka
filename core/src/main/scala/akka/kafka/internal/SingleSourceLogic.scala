@@ -5,15 +5,15 @@
 
 package akka.kafka.internal
 
-import akka.actor.{ActorRef, ExtendedActorSystem, Terminated}
+import akka.actor.{ ActorRef, ExtendedActorSystem, Terminated }
 import akka.annotation.InternalApi
 import akka.kafka.internal.KafkaConsumerActor.Internal.Messages
 import akka.kafka.scaladsl.PartitionAssignmentHandler
-import akka.kafka.{ConsumerSettings, RestrictedConsumer, Subscription}
+import akka.kafka.{ ConsumerSettings, RestrictedConsumer, Subscription }
 import akka.stream.SourceShape
 import org.apache.kafka.common.TopicPartition
 
-import scala.concurrent.{Future, Promise}
+import scala.concurrent.{ Future, Promise }
 
 /**
  * Internal API.
@@ -23,8 +23,7 @@ import scala.concurrent.{Future, Promise}
 @InternalApi private abstract class SingleSourceLogic[K, V, Msg](
     shape: SourceShape[Msg],
     settings: ConsumerSettings[K, V],
-    override protected val subscription: Subscription
-) extends BaseSingleSourceLogic[K, V, Msg](shape) {
+    override protected val subscription: Subscription) extends BaseSingleSourceLogic[K, V, Msg](shape) {
 
   override protected def logSource: Class[_] = classOf[SingleSourceLogic[K, V, Msg]]
   private val consumerPromise = Promise[ActorRef]()
@@ -36,7 +35,7 @@ import scala.concurrent.{Future, Promise}
     val extendedActorSystem = materializer.system.asInstanceOf[ExtendedActorSystem]
     val actor =
       extendedActorSystem.systemActorOf(akka.kafka.KafkaConsumerActor.props(sourceActor.ref, settings),
-                                        s"kafka-consumer-$actorNumber")
+        s"kafka-consumer-$actorNumber")
     consumerPromise.success(actor)
     actor
   }
@@ -57,8 +56,8 @@ import scala.concurrent.{Future, Promise}
         // Prevent stage failure during shutdown by ignoring Messages
         if (messages.hasNext)
           log.debug("Unexpected `Messages` received with requestId={} and a non-empty message iterator: {}",
-                    requestId,
-                    messages.mkString(", "))
+            requestId,
+            messages.mkString(", "))
     })
     stopConsumerActor()
   }
@@ -70,17 +69,17 @@ import scala.concurrent.{Future, Promise}
   }
 
   protected def stopConsumerActor(): Unit =
-    materializer.scheduleOnce(settings.stopTimeout, new Runnable {
-      override def run(): Unit =
-        consumerActor.tell(KafkaConsumerActor.Internal.StopFromStage(id), sourceActor.ref)
-    })
+    materializer.scheduleOnce(settings.stopTimeout,
+      new Runnable {
+        override def run(): Unit =
+          consumerActor.tell(KafkaConsumerActor.Internal.StopFromStage(id), sourceActor.ref)
+      })
 
   /**
    * Opportunity for subclasses to add a different logic to the partition assignment callbacks.
    */
   override protected def addToPartitionAssignmentHandler(
-      handler: PartitionAssignmentHandler
-  ): PartitionAssignmentHandler = {
+      handler: PartitionAssignmentHandler): PartitionAssignmentHandler = {
     val flushMessagesOfRevokedPartitions: PartitionAssignmentHandler = new PartitionAssignmentHandler {
       private var lastRevoked = Set.empty[TopicPartition]
 

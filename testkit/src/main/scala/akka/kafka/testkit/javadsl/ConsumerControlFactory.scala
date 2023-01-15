@@ -5,14 +5,14 @@
 
 package akka.kafka.testkit.javadsl
 
-import java.util.concurrent.{CompletableFuture, CompletionStage, Executor}
+import java.util.concurrent.{ CompletableFuture, CompletionStage, Executor }
 
 import akka.Done
 import akka.annotation.ApiMayChange
 import akka.kafka.javadsl.Consumer
-import akka.stream.javadsl.{Flow, Keep, Source}
-import akka.stream.{scaladsl, KillSwitch, KillSwitches}
-import org.apache.kafka.common.{Metric, MetricName}
+import akka.stream.javadsl.{ Flow, Keep, Source }
+import akka.stream.{ scaladsl, KillSwitch, KillSwitches }
+import org.apache.kafka.common.{ Metric, MetricName }
 
 /**
  * Helper factory to create [[akka.kafka.javadsl.Consumer.Control]] instances when
@@ -52,8 +52,7 @@ object ConsumerControlFactory {
 
     override def drainAndShutdown[T](
         streamCompletion: CompletionStage[T],
-        ec: Executor
-    ): CompletionStage[T] =
+        ec: Executor): CompletionStage[T] =
       stop().thenCompose(new java.util.function.Function[Done, CompletionStage[T]] {
         override def apply(t: Done): CompletionStage[T] = streamCompletion
       })

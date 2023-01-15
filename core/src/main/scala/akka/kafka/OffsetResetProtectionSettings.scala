@@ -4,7 +4,7 @@
  */
 
 package akka.kafka
-import java.time.{Duration => JDuration}
+import java.time.{ Duration => JDuration }
 
 import akka.annotation.InternalApi
 import akka.util.JavaDurationConverters._
@@ -13,14 +13,14 @@ import com.typesafe.config.Config
 import scala.concurrent.duration._
 
 class OffsetResetProtectionSettings @InternalApi private[kafka] (val enable: Boolean,
-                                                                 val offsetThreshold: Long,
-                                                                 val timeThreshold: FiniteDuration) {
+    val offsetThreshold: Long,
+    val timeThreshold: FiniteDuration) {
   require(offsetThreshold > 0, "An offset threshold must be greater than 0")
   require(timeThreshold.toMillis > 0, "A time threshold must be greater than 0")
 
   private def copy(enable: Boolean = enable,
-                   offsetThreshold: Long = offsetThreshold,
-                   timeThreshold: FiniteDuration = timeThreshold): OffsetResetProtectionSettings = {
+      offsetThreshold: Long = offsetThreshold,
+      timeThreshold: FiniteDuration = timeThreshold): OffsetResetProtectionSettings = {
     new OffsetResetProtectionSettings(enable, offsetThreshold, timeThreshold)
   }
 

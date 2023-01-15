@@ -7,34 +7,33 @@ package akka.kafka.internal
 
 import java.util.Locale
 
-import akka.{Done, NotUsed}
-import akka.actor.{ActorRef, Status, Terminated}
+import akka.{ Done, NotUsed }
+import akka.actor.{ ActorRef, Status, Terminated }
 import akka.actor.Status.Failure
 import akka.annotation.InternalApi
-import akka.kafka.ConsumerMessage.{PartitionOffset, TransactionalMessage}
+import akka.kafka.ConsumerMessage.{ PartitionOffset, TransactionalMessage }
 import akka.kafka.internal.KafkaConsumerActor.Internal.Revoked
 import akka.kafka.internal.SubSourceLogic._
 import akka.kafka.internal.TransactionalSubSourceStageLogic.DrainingComplete
 import akka.kafka.scaladsl.Consumer.Control
 import akka.kafka.scaladsl.PartitionAssignmentHandler
-import akka.kafka.{AutoSubscription, ConsumerFailed, ConsumerSettings, RestrictedConsumer, Subscription}
+import akka.kafka.{ AutoSubscription, ConsumerFailed, ConsumerSettings, RestrictedConsumer, Subscription }
 import akka.stream.SourceShape
 import akka.stream.scaladsl.Source
-import akka.stream.stage.{AsyncCallback, GraphStageLogic}
+import akka.stream.stage.{ AsyncCallback, GraphStageLogic }
 import akka.util.Timeout
-import org.apache.kafka.clients.consumer.{ConsumerConfig, ConsumerRecord, OffsetAndMetadata}
-import org.apache.kafka.common.{IsolationLevel, TopicPartition}
+import org.apache.kafka.clients.consumer.{ ConsumerConfig, ConsumerRecord, OffsetAndMetadata }
+import org.apache.kafka.common.{ IsolationLevel, TopicPartition }
 
 import scala.concurrent.duration.FiniteDuration
-import scala.concurrent.{Await, ExecutionContext, Future}
+import scala.concurrent.{ Await, ExecutionContext, Future }
 
 /** Internal API */
 @InternalApi
 private[kafka] final class TransactionalSource[K, V](consumerSettings: ConsumerSettings[K, V],
-                                                     val subscription: Subscription)
+    val subscription: Subscription)
     extends KafkaSourceStage[K, V, TransactionalMessage[K, V]](
-      s"TransactionalSource ${subscription.renderStageAttribute}"
-    ) {
+      s"TransactionalSource ${subscription.renderStageAttribute}") {
 
   require(consumerSettings.properties(ConsumerConfig.GROUP_ID_CONFIG).nonEmpty, "You must define a Consumer group.id.")
 
@@ -58,24 +57,21 @@ private[internal] object TransactionalSource {
    */
   def txConsumerSettings[K, V](consumerSettings: ConsumerSettings[K, V]) = consumerSettings.withProperty(
     ConsumerConfig.ISOLATION_LEVEL_CONFIG,
-    IsolationLevel.READ_COMMITTED.toString.toLowerCase(Locale.ENGLISH)
-  )
+    IsolationLevel.READ_COMMITTED.toString.toLowerCase(Locale.ENGLISH))
 
 }
 
 /** Internal API */
 @InternalApi
 private[kafka] final class TransactionalSourceWithOffsetContext[K, V](consumerSettings: ConsumerSettings[K, V],
-                                                                      subscription: Subscription)
+    subscription: Subscription)
     extends KafkaSourceStage[K, V, (ConsumerRecord[K, V], PartitionOffset)](
-      s"TransactionalSourceWithOffsetContext ${subscription.renderStageAttribute}"
-    ) {
+      s"TransactionalSourceWithOffsetContext ${subscription.renderStageAttribute}") {
 
   require(consumerSettings.properties(ConsumerConfig.GROUP_ID_CONFIG).nonEmpty, "You must define a Consumer group.id.")
 
   override protected def logic(
-      shape: SourceShape[(ConsumerRecord[K, V], PartitionOffset)]
-  ): GraphStageLogic with Control =
+      shape: SourceShape[(ConsumerRecord[K, V], PartitionOffset)]): GraphStageLogic with Control =
     new TransactionalSourceLogic(shape, TransactionalSource.txConsumerSettings(consumerSettings), subscription)
       with TransactionalOffsetContextBuilder[K, V] {
       override val fromPartitionedSource: Boolean = false
@@ -85,8 +81,8 @@ private[kafka] final class TransactionalSourceWithOffsetContext[K, V](consumerSe
 /** Internal API */
 @InternalApi
 private[internal] abstract class TransactionalSourceLogic[K, V, Msg](shape: SourceShape[Msg],
-                                                                     consumerSettings: ConsumerSettings[K, V],
-                                                                     subscription: Subscription)
+    consumerSettings: ConsumerSettings[K, V],
+    subscription: Subscription)
     extends SingleSourceLogic[K, V, Msg](shape, consumerSettings, subscription)
     with TransactionalMessageBuilderBase[K, V, Msg] {
 
@@ -130,8 +126,7 @@ private[internal] abstract class TransactionalSourceLogic[K, V, Msg](shape: Sour
           new Runnable {
             override def run(): Unit =
               sourceActor.ref.tell(Drain(partitions, ack.orElse(Some(sender)), msg), sourceActor.ref)
-          }
-        )
+          })
       }
   }
 
@@ -148,15 +143,13 @@ private[internal] abstract class TransactionalSourceLogic[K, V, Msg](shape: Sour
   override protected def stopConsumerActor(): Unit =
     sourceActor.ref
       .tell(Drain(
-              inFlightRecords.assigned(),
-              Some(consumerActor),
-              KafkaConsumerActor.Internal.StopFromStage(id)
-            ),
-            sourceActor.ref)
+          inFlightRecords.assigned(),
+          Some(consumerActor),
+          KafkaConsumerActor.Internal.StopFromStage(id)),
+        sourceActor.ref)
 
   override protected def addToPartitionAssignmentHandler(
-      handler: PartitionAssignmentHandler
-  ): PartitionAssignmentHandler = {
+      handler: PartitionAssignmentHandler): PartitionAssignmentHandler = {
     val blockingRevokedCall = new PartitionAssignmentHandler {
       override def onAssign(assignedTps: Set[TopicPartition], consumer: RestrictedConsumer): Unit = ()
 
@@ -194,10 +187,9 @@ private[internal] abstract class TransactionalSourceLogic[K, V, Msg](shape: Sour
 @InternalApi
 private[kafka] final class TransactionalSubSource[K, V](
     consumerSettings: ConsumerSettings[K, V],
-    subscription: AutoSubscription
-) extends KafkaSourceStage[K, V, (TopicPartition, Source[TransactionalMessage[K, V], NotUsed])](
-      s"TransactionalSubSource ${subscription.renderStageAttribute}"
-    ) {
+    subscription: AutoSubscription)
+    extends KafkaSourceStage[K, V, (TopicPartition, Source[TransactionalMessage[K, V], NotUsed])](
+      s"TransactionalSubSource ${subscription.renderStageAttribute}") {
   import TransactionalSourceLogic._
 
   require(consumerSettings.properties(ConsumerConfig.GROUP_ID_CONFIG).nonEmpty, "You must define a Consumer group.id.")
@@ -211,12 +203,11 @@ private[kafka] final class TransactionalSubSource[K, V](
    */
   private val txConsumerSettings = consumerSettings.withProperty(
     ConsumerConfig.ISOLATION_LEVEL_CONFIG,
-    IsolationLevel.READ_COMMITTED.toString.toLowerCase(Locale.ENGLISH)
-  )
+    IsolationLevel.READ_COMMITTED.toString.toLowerCase(Locale.ENGLISH))
 
   override protected def logic(
-      shape: SourceShape[(TopicPartition, Source[TransactionalMessage[K, V], NotUsed])]
-  ): GraphStageLogic with Control = {
+      shape: SourceShape[(TopicPartition, Source[TransactionalMessage[K, V], NotUsed])])
+      : GraphStageLogic with Control = {
     val factory = new SubSourceStageLogicFactory[K, V, TransactionalMessage[K, V]] {
       def create(
           shape: SourceShape[TransactionalMessage[K, V]],
@@ -224,22 +215,20 @@ private[kafka] final class TransactionalSubSource[K, V](
           consumerActor: ActorRef,
           subSourceStartedCb: AsyncCallback[SubSourceStageLogicControl],
           subSourceCancelledCb: AsyncCallback[(TopicPartition, SubSourceCancellationStrategy)],
-          actorNumber: Int
-      ): SubSourceStageLogic[K, V, TransactionalMessage[K, V]] =
+          actorNumber: Int): SubSourceStageLogic[K, V, TransactionalMessage[K, V]] =
         new TransactionalSubSourceStageLogic(shape,
-                                             tp,
-                                             consumerActor,
-                                             subSourceStartedCb,
-                                             subSourceCancelledCb,
-                                             actorNumber,
-                                             txConsumerSettings)
+          tp,
+          consumerActor,
+          subSourceStartedCb,
+          subSourceCancelledCb,
+          actorNumber,
+          txConsumerSettings)
     }
 
     new SubSourceLogic(shape, txConsumerSettings, subscription, subSourceStageLogicFactory = factory) {
 
       override protected def addToPartitionAssignmentHandler(
-          handler: PartitionAssignmentHandler
-      ): PartitionAssignmentHandler = {
+          handler: PartitionAssignmentHandler): PartitionAssignmentHandler = {
         val blockingRevokedCall = new PartitionAssignmentHandler {
           override def onAssign(assignedTps: Set[TopicPartition], consumer: RestrictedConsumer): Unit = ()
 
@@ -288,14 +277,13 @@ private object TransactionalSourceLogic {
 
   case object Drained
   final case class Drain[T](partitions: Set[TopicPartition],
-                            drainedConfirmationRef: Option[ActorRef],
-                            drainedConfirmationMsg: T)
+      drainedConfirmationRef: Option[ActorRef],
+      drainedConfirmationMsg: T)
   final case class Committed(offsets: Map[TopicPartition, OffsetAndMetadata])
   case object CommittingFailure
 
   private[internal] final case class CommittedMarkerRef(sourceActor: ActorRef, commitTimeout: FiniteDuration)(
-      implicit ec: ExecutionContext
-  ) extends CommittedMarker {
+      implicit ec: ExecutionContext) extends CommittedMarker {
     override def committed(offsets: Map[TopicPartition, OffsetAndMetadata]): Future[Done] = {
       import akka.pattern.ask
       sourceActor
@@ -332,7 +320,7 @@ private object TransactionalSourceLogic {
       override def committed(committed: Map[TopicPartition, Offset]): Unit =
         inFlightRecords = inFlightRecords.flatMap {
           case (tp, offset) if committed.get(tp).contains(offset) => None
-          case x => Some(x)
+          case x                                                  => Some(x)
         }
 
       override def revoke(revokedTps: Set[TopicPartition]): Unit =
@@ -357,13 +345,12 @@ private final class TransactionalSubSourceStageLogic[K, V](
     subSourceStartedCb: AsyncCallback[SubSourceStageLogicControl],
     subSourceCancelledCb: AsyncCallback[(TopicPartition, SubSourceCancellationStrategy)],
     actorNumber: Int,
-    consumerSettings: ConsumerSettings[K, V]
-) extends SubSourceStageLogic[K, V, TransactionalMessage[K, V]](shape,
-                                                                  tp,
-                                                                  consumerActor,
-                                                                  subSourceStartedCb,
-                                                                  subSourceCancelledCb,
-                                                                  actorNumber)
+    consumerSettings: ConsumerSettings[K, V]) extends SubSourceStageLogic[K, V, TransactionalMessage[K, V]](shape,
+      tp,
+      consumerActor,
+      subSourceStartedCb,
+      subSourceCancelledCb,
+      actorNumber)
     with TransactionalMessageBuilder[K, V] {
 
   import TransactionalSourceLogic._
@@ -426,8 +413,7 @@ private final class TransactionalSubSourceStageLogic[K, V](
           new Runnable {
             override def run(): Unit =
               subSourceActor.ref.tell(Drain(partitions, ack.orElse(Some(sender)), msg), stageActor.ref)
-          }
-        )
+          })
       }
     case (sender, DrainingComplete) =>
       completeStage()

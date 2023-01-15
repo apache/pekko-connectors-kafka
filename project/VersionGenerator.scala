@@ -13,17 +13,14 @@ object VersionGenerator {
       resourceGenerators += generateVersion(resourceManaged, _ / "version.conf", """|akka.kafka.version = "%s"
          |"""),
       sourceGenerators += generateVersion(
-          sourceManaged,
-          _ / "akka" / "kafka" / "Version.scala",
-          """|package akka.kafka
+        sourceManaged,
+        _ / "akka" / "kafka" / "Version.scala",
+        """|package akka.kafka
          |
          |object Version {
          |  val current: String = "%s"
          |}
-         |"""
-        )
-    )
-  )
+         |""")))
 
   def generateVersion(dir: SettingKey[File], locate: File => File, template: String) = Def.task[Seq[File]] {
     val file = locate(dir.value)

@@ -8,12 +8,12 @@ package akka.kafka.benchmarks
 import akka.NotUsed
 import akka.actor.ActorSystem
 import akka.kafka.ConsumerMessage.TransactionalMessage
-import akka.kafka.ProducerMessage.{Envelope, Results}
+import akka.kafka.ProducerMessage.{ Envelope, Results }
 import akka.kafka.benchmarks.app.RunTestCommand
 import akka.kafka.scaladsl.Consumer.Control
 import akka.kafka.scaladsl.Transactional
-import akka.kafka.{ConsumerMessage, ConsumerSettings, ProducerSettings, Subscriptions}
-import akka.stream.scaladsl.{Flow, Source}
+import akka.kafka.{ ConsumerMessage, ConsumerSettings, ProducerSettings, Subscriptions }
+import akka.stream.scaladsl.{ Flow, Source }
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.common.serialization.{
   ByteArrayDeserializer,
@@ -25,10 +25,10 @@ import org.apache.kafka.common.serialization.{
 import scala.concurrent.duration.FiniteDuration
 
 case class ReactiveKafkaTransactionTestFixture[SOut, FIn, FOut](sourceTopic: String,
-                                                                sinkTopic: String,
-                                                                msgCount: Int,
-                                                                source: Source[SOut, Control],
-                                                                flow: Flow[FIn, FOut, NotUsed])
+    sinkTopic: String,
+    msgCount: Int,
+    source: Source[SOut, Control],
+    flow: Flow[FIn, FOut, NotUsed])
 
 object ReactiveKafkaTransactionFixtures extends PerfFixtureHelpers {
   type Key = Array[Byte]
@@ -46,8 +46,7 @@ object ReactiveKafkaTransactionFixtures extends PerfFixtureHelpers {
       .withProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
 
   private def createProducerSettings(
-      kafkaHost: String
-  )(implicit actorSystem: ActorSystem): ProducerSettings[Array[Byte], String] =
+      kafkaHost: String)(implicit actorSystem: ActorSystem): ProducerSettings[Array[Byte], String] =
     ProducerSettings(actorSystem, new ByteArraySerializer, new StringSerializer)
       .withBootstrapServers(kafkaHost)
 
@@ -66,15 +65,15 @@ object ReactiveKafkaTransactionFixtures extends PerfFixtureHelpers {
         val flow: Flow[KProducerMessage, KResult, NotUsed] = Transactional.flow(producerSettings, randomId())
 
         ReactiveKafkaTransactionTestFixture[KTransactionMessage, KProducerMessage, KResult](c.filledTopic.topic,
-                                                                                            sinkTopic,
-                                                                                            msgCount,
-                                                                                            source,
-                                                                                            flow)
-      }
-    )
+          sinkTopic,
+          msgCount,
+          source,
+          flow)
+      })
 
   def noopFixtureGen(c: RunTestCommand) =
-    FixtureGen[ReactiveKafkaTransactionTestFixture[KTransactionMessage, KProducerMessage, KResult]](c, msgCount => {
-      ReactiveKafkaTransactionTestFixture("sourceTopic", "sinkTopic", msgCount, source = null, flow = null)
-    })
+    FixtureGen[ReactiveKafkaTransactionTestFixture[KTransactionMessage, KProducerMessage, KResult]](c,
+      msgCount => {
+        ReactiveKafkaTransactionTestFixture("sourceTopic", "sinkTopic", msgCount, source = null, flow = null)
+      })
 }

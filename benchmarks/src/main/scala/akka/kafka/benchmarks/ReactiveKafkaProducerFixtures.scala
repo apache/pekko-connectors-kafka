@@ -7,13 +7,13 @@ package akka.kafka.benchmarks
 
 import akka.NotUsed
 import akka.actor.ActorSystem
-import akka.kafka.ProducerMessage.{Envelope, Results}
+import akka.kafka.ProducerMessage.{ Envelope, Results }
 import akka.kafka.ProducerSettings
 import akka.kafka.benchmarks.app.RunTestCommand
 import akka.kafka.scaladsl.Producer
 import akka.stream.scaladsl.Flow
 import org.apache.kafka.clients.consumer.ConsumerRecord
-import org.apache.kafka.common.serialization.{ByteArraySerializer, StringSerializer}
+import org.apache.kafka.common.serialization.{ ByteArraySerializer, StringSerializer }
 
 object ReactiveKafkaProducerFixtures extends PerfFixtureHelpers {
 
@@ -26,10 +26,10 @@ object ReactiveKafkaProducerFixtures extends PerfFixtureHelpers {
   type FlowType[PassThrough] = Flow[In[PassThrough], Out[PassThrough], NotUsed]
 
   case class ReactiveKafkaProducerTestFixture[PassThrough](topic: String,
-                                                           msgCount: Int,
-                                                           msgSize: Int,
-                                                           flow: FlowType[PassThrough],
-                                                           numberOfPartitions: Int)
+      msgCount: Int,
+      msgSize: Int,
+      flow: FlowType[PassThrough],
+      numberOfPartitions: Int)
 
   private def createProducerSettings(kafkaHost: String)(implicit actorSystem: ActorSystem): ProducerSettings[K, V] =
     ProducerSettings(actorSystem, new ByteArraySerializer, new StringSerializer)
@@ -43,15 +43,13 @@ object ReactiveKafkaProducerFixtures extends PerfFixtureHelpers {
         val flow: FlowType[Int] = Producer.flexiFlow(createProducerSettings(c.kafkaHost))
         fillTopic(c.filledTopic.copy(msgCount = 1), c.kafkaHost)
         ReactiveKafkaProducerTestFixture(c.filledTopic.topic, msgCount, c.msgSize, flow, c.numberOfPartitions)
-      }
-    )
+      })
 
   def noopFixtureGen(c: RunTestCommand) =
     FixtureGen[ReactiveKafkaConsumerTestFixture[ConsumerRecord[Array[Byte], String]]](
       c,
       msgCount => {
         ReactiveKafkaConsumerTestFixture("topic", msgCount, null, c.numberOfPartitions)
-      }
-    )
+      })
 
 }

@@ -9,7 +9,7 @@ import akka.actor.ActorRef
 import akka.annotation.InternalApi
 import akka.kafka.scaladsl.PartitionAssignmentHandler
 import akka.kafka.javadsl
-import akka.kafka.{AutoSubscription, RestrictedConsumer, TopicPartitionsAssigned, TopicPartitionsRevoked}
+import akka.kafka.{ AutoSubscription, RestrictedConsumer, TopicPartitionsAssigned, TopicPartitionsRevoked }
 import akka.stream.stage.AsyncCallback
 import org.apache.kafka.common.TopicPartition
 
@@ -55,9 +55,9 @@ object PartitionAssignmentHelpers {
 
   @InternalApi
   final class AsyncCallbacks(subscription: AutoSubscription,
-                             sourceActor: ActorRef,
-                             partitionAssignedCB: AsyncCallback[Set[TopicPartition]],
-                             partitionRevokedCB: AsyncCallback[Set[TopicPartition]])
+      sourceActor: ActorRef,
+      partitionAssignedCB: AsyncCallback[Set[TopicPartition]],
+      partitionRevokedCB: AsyncCallback[Set[TopicPartition]])
       extends PartitionAssignmentHandler {
 
     override def onRevoke(revokedTps: Set[TopicPartition], consumer: RestrictedConsumer): Unit = {

@@ -7,7 +7,7 @@ package akka.kafka.internal
 
 import akka.annotation.InternalApi
 import akka.kafka.CommitterSettings
-import akka.kafka.ConsumerMessage.{Committable, CommittableOffsetBatch}
+import akka.kafka.ConsumerMessage.{ Committable, CommittableOffsetBatch }
 import akka.stream._
 import akka.stream.stage._
 
@@ -26,16 +26,14 @@ private[kafka] final class CommitCollectorStage(val committerSettings: Committer
   val shape: FlowShape[Committable, CommittableOffsetBatch] = FlowShape(in, out)
 
   override def createLogic(
-      inheritedAttributes: Attributes
-  ): GraphStageLogic = {
+      inheritedAttributes: Attributes): GraphStageLogic = {
     new CommitCollectorStageLogic(this, inheritedAttributes)
   }
 }
 
 private final class CommitCollectorStageLogic(
     stage: CommitCollectorStage,
-    inheritedAttributes: Attributes
-) extends TimerGraphStageLogic(stage.shape)
+    inheritedAttributes: Attributes) extends TimerGraphStageLogic(stage.shape)
     with CommitObservationLogic
     with StageIdLogging {
 
@@ -123,8 +121,7 @@ private final class CommitCollectorStageLogic(
         }
         failStage(ex)
       }
-    }
-  )
+    })
 
   setHandler(
     stage.out,
@@ -136,8 +133,7 @@ private final class CommitCollectorStageLogic(
         } else if (!hasBeenPulled(stage.in)) {
           tryPull(stage.in)
         }
-    }
-  )
+    })
 
   override def postStop(): Unit = {
     log.debug("CommitCollectorStage stopped")

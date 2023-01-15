@@ -15,7 +15,7 @@ import org.mockito.Mockito._
 import org.mockito.invocation.InvocationOnMock
 import org.mockito.stubbing.Answer
 import org.mockito.verification.VerificationMode
-import org.mockito.{ArgumentMatchers, Mockito}
+import org.mockito.{ ArgumentMatchers, Mockito }
 
 import scala.jdk.CollectionConverters._
 import scala.collection.immutable.Seq
@@ -109,8 +109,7 @@ class ConsumerMock[K, V](handler: ConsumerMock.CommitHandler = new ConsumerMock.
     Mockito
       .when(
         result.commitAsync(ArgumentMatchers.any[java.util.Map[TopicPartition, OffsetAndMetadata]],
-                           ArgumentMatchers.any[OffsetCommitCallback])
-      )
+          ArgumentMatchers.any[OffsetCommitCallback]))
       .thenAnswer(new Answer[Unit] {
         override def answer(invocation: InvocationOnMock) = {
           val offsets = invocation.getArgument[java.util.Map[TopicPartition, OffsetAndMetadata]](0)
@@ -121,8 +120,7 @@ class ConsumerMock[K, V](handler: ConsumerMock.CommitHandler = new ConsumerMock.
       })
     Mockito
       .when(
-        result.subscribe(ArgumentMatchers.any[java.util.List[String]], ArgumentMatchers.any[ConsumerRebalanceListener])
-      )
+        result.subscribe(ArgumentMatchers.any[java.util.List[String]], ArgumentMatchers.any[ConsumerRebalanceListener]))
       .thenAnswer(new Answer[Unit] {
         override def answer(invocation: InvocationOnMock) = {
           val topics = invocation.getArgument[java.util.List[String]](0)

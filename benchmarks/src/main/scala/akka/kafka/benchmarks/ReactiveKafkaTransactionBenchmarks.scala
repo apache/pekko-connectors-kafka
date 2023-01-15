@@ -6,16 +6,16 @@
 package akka.kafka.benchmarks
 
 import akka.kafka.ProducerMessage
-import akka.kafka.ProducerMessage.{Result, Results}
+import akka.kafka.ProducerMessage.{ Result, Results }
 import akka.kafka.benchmarks.ReactiveKafkaTransactionFixtures._
 import akka.stream.Materializer
-import akka.stream.scaladsl.{Keep, Sink}
+import akka.stream.scaladsl.{ Keep, Sink }
 import com.codahale.metrics.Meter
 import com.typesafe.scalalogging.LazyLogging
 import org.apache.kafka.clients.producer.ProducerRecord
 
 import scala.concurrent.duration._
-import scala.concurrent.{Await, Promise}
+import scala.concurrent.{ Await, Promise }
 import scala.language.postfixOps
 import scala.util.Success
 
@@ -27,7 +27,7 @@ object ReactiveKafkaTransactionBenchmarks extends LazyLogging {
    * Process records in a consume-transform-produce transactional workflow and commit every interval.
    */
   def consumeTransformProduceTransaction(fixture: TransactionFixture,
-                                         meter: Meter)(implicit mat: Materializer): Unit = {
+      meter: Meter)(implicit mat: Materializer): Unit = {
     logger.debug("Creating and starting a stream")
     val msgCount = fixture.msgCount
     val sinkTopic = fixture.sinkTopic
@@ -40,7 +40,7 @@ object ReactiveKafkaTransactionBenchmarks extends LazyLogging {
     val control = source
       .map { msg =>
         ProducerMessage.single(new ProducerRecord[Array[Byte], String](sinkTopic, msg.record.value()),
-                               msg.partitionOffset)
+          msg.partitionOffset)
       }
       .via(fixture.flow)
       .toMat(Sink.foreach {

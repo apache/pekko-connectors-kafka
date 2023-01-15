@@ -12,7 +12,7 @@ import akka.annotation.InternalApi
 import akka.event.LoggingAdapter
 import akka.kafka.OffsetResetProtectionSettings
 import akka.kafka.internal.KafkaConsumerActor.Internal.Seek
-import org.apache.kafka.clients.consumer.{ConsumerRecord, ConsumerRecords, OffsetAndMetadata}
+import org.apache.kafka.clients.consumer.{ ConsumerRecord, ConsumerRecords, OffsetAndMetadata }
 import org.apache.kafka.common.TopicPartition
 
 import scala.jdk.CollectionConverters._
@@ -37,8 +37,8 @@ sealed trait ConsumerResetProtection {
 @InternalApi
 object ConsumerResetProtection {
   def apply[K, V](log: LoggingAdapter,
-                  setttings: OffsetResetProtectionSettings,
-                  progress: () => ConsumerProgressTracking): ConsumerResetProtection = {
+      setttings: OffsetResetProtectionSettings,
+      progress: () => ConsumerProgressTracking): ConsumerResetProtection = {
     if (setttings.enable) new Impl(log, setttings, progress()) else ConsumerResetProtection.Noop
   }
 
@@ -47,8 +47,8 @@ object ConsumerResetProtection {
   }
 
   private final class Impl(log: LoggingAdapter,
-                           resetProtection: OffsetResetProtectionSettings,
-                           progress: ConsumerProgressTracking)
+      resetProtection: OffsetResetProtectionSettings,
+      progress: ConsumerProgressTracking)
       extends ConsumerResetProtection {
     override def protect[K, V](consumer: ActorRef, records: ConsumerRecords[K, V]): ConsumerRecords[K, V] = {
       val safe: java.util.Map[TopicPartition, java.util.List[ConsumerRecord[K, V]]] =
@@ -72,12 +72,11 @@ object ConsumerResetProtection {
     private def maybeProtectRecords[K, V](
         consumer: ActorRef,
         tp: TopicPartition,
-        records: ConsumerRecords[K, V]
-    ): Option[(TopicPartition, util.List[ConsumerRecord[K, V]])] = {
+        records: ConsumerRecords[K, V]): Option[(TopicPartition, util.List[ConsumerRecord[K, V]])] = {
       val partitionRecords: util.List[ConsumerRecord[K, V]] = records.records(tp)
       progress.commitRequested.get(tp) match {
         case Some(requested) => protectPartition(consumer, tp, requested, partitionRecords)
-        case None =>
+        case None            =>
           // it's a partition that we have no information on, so assume it's safe and continue because it's likely
           // due to a rebalance, in which we have already reset to the committed offset, which is safe
           Some((tp, partitionRecords))
@@ -97,8 +96,8 @@ object ConsumerResetProtection {
         consumer: ActorRef,
         tp: TopicPartition,
         previouslyCommitted: OffsetAndMetadata,
-        partitionRecords: util.List[ConsumerRecord[K, V]]
-    ): Option[(TopicPartition, util.List[ConsumerRecord[K, V]])] = {
+        partitionRecords: util.List[ConsumerRecord[K, V]])
+        : Option[(TopicPartition, util.List[ConsumerRecord[K, V]])] = {
       val threshold = new RecordThreshold(previouslyCommitted.offset(), progress.receivedMessages.get(tp))
       if (threshold.recordsExceedThreshold(threshold, partitionRecords)) {
         // requested and committed are assumed to be kept in-sync, so this _should_ be safe. Fails
@@ -106,20 +105,18 @@ object ConsumerResetProtection {
         val committed = progress.committedOffsets(tp)
         val requestVersusCommitted = previouslyCommitted.offset() - committed.offset()
         if (resetProtection.offsetThreshold < Long.MaxValue &&
-            requestVersusCommitted > resetProtection.offsetThreshold) {
+          requestVersusCommitted > resetProtection.offsetThreshold) {
           log.warning(
             s"Your last commit request $previouslyCommitted is more than the configured threshold from the last" +
             s"committed offset ($committed) for $tp. See " +
-            "https://doc.akka.io/docs/alpakka-kafka/current/errorhandling.html#setting-offset-threshold-appropriately for more info."
-          )
+            "https://doc.akka.io/docs/alpakka-kafka/current/errorhandling.html#setting-offset-threshold-appropriately for more info.")
         }
         log.warning(
           s"Dropping offsets for partition $tp - received an offset which is less than allowed $threshold " +
           s"from the  last requested offset (threshold: $threshold). Seeking to the latest known safe (committed " +
           s"or assigned) offset: $committed. See  " +
           "https://doc.akka.io/docs/alpakka-kafka/current/errorhandling.html#unexpected-consumer-offset-reset" +
-          "for more information."
-        )
+          "for more information.")
         consumer ! Seek(Map(tp -> committed.offset()))
         None
       } else {
@@ -150,7 +147,7 @@ object ConsumerResetProtection {
        * @return `true` if the records in the batch have gone outside the threshold, `false` otherwise.
        */
       def recordsExceedThreshold[K, V](threshold: RecordThreshold,
-                                       partitionRecords: util.List[ConsumerRecord[K, V]]): Boolean = {
+          partitionRecords: util.List[ConsumerRecord[K, V]]): Boolean = {
         var exceedThreshold = false
         // rather than check all the records in the batch, trust that Kafka has given them to us in order, and just
         // check the first and last offsets in the batch.
@@ -166,11 +163,9 @@ object ConsumerResetProtection {
       def checkExceedsThreshold[K, V](record: ConsumerRecord[K, V]): Boolean = {
         record.offset() < offsetThreshold ||
         // timestamp can be set to -1 for some older client versions, ensure we don't penalize that
-        timeThreshold.exists(
-          threshold =>
-            record.timestamp() != ConsumerRecord.NO_TIMESTAMP &&
-            record.timestamp() < threshold
-        )
+        timeThreshold.exists(threshold =>
+          record.timestamp() != ConsumerRecord.NO_TIMESTAMP &&
+          record.timestamp() < threshold)
       }
 
       override def toString: String = s"max-offset: $offsetThreshold, max-timestamp: $timeThreshold"

@@ -36,8 +36,7 @@ object IntegrationTests {
     val id = broker.getContainerId
     val networkAliases = broker.getNetworkAliases.asScala.mkString(",")
     log.warn(
-      s"Stopping one Kafka container with network aliases [$networkAliases], container id [$id], after [$msgCount] messages"
-    )
+      s"Stopping one Kafka container with network aliases [$networkAliases], container id [$id], after [$msgCount] messages")
     broker.stop()
   }
 

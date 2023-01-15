@@ -8,33 +8,32 @@ package akka.kafka.internal
 import akka.actor.ActorRef
 import akka.annotation.InternalApi
 import akka.dispatch.ExecutionContexts
-import akka.kafka.ConsumerMessage.{CommittableMessage, CommittableOffset}
+import akka.kafka.ConsumerMessage.{ CommittableMessage, CommittableOffset }
 import akka.kafka._
-import akka.kafka.internal.KafkaConsumerActor.Internal.{Commit, CommitSingle, CommitWithoutReply}
+import akka.kafka.internal.KafkaConsumerActor.Internal.{ Commit, CommitSingle, CommitWithoutReply }
 import akka.kafka.internal.SubSourceLogic._
 import akka.kafka.scaladsl.Consumer.Control
 import akka.pattern.AskTimeoutException
 import akka.stream.SourceShape
 import akka.stream.scaladsl.Source
-import akka.stream.stage.{AsyncCallback, GraphStageLogic}
+import akka.stream.stage.{ AsyncCallback, GraphStageLogic }
 import akka.util.Timeout
-import akka.{Done, NotUsed}
-import org.apache.kafka.clients.consumer.{ConsumerConfig, ConsumerRecord, OffsetAndMetadata}
+import akka.{ Done, NotUsed }
+import org.apache.kafka.clients.consumer.{ ConsumerConfig, ConsumerRecord, OffsetAndMetadata }
 import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.requests.OffsetFetchResponse
 
 import scala.concurrent.duration.FiniteDuration
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.{ ExecutionContext, Future }
 
 /** Internal API */
 @InternalApi
 private[kafka] final class CommittableSource[K, V](settings: ConsumerSettings[K, V],
-                                                   subscription: Subscription,
-                                                   _metadataFromRecord: ConsumerRecord[K, V] => String =
-                                                     CommittableMessageBuilder.NoMetadataFromRecord)
+    subscription: Subscription,
+    _metadataFromRecord: ConsumerRecord[K, V] => String =
+      CommittableMessageBuilder.NoMetadataFromRecord)
     extends KafkaSourceStage[K, V, CommittableMessage[K, V]](
-      s"CommittableSource ${subscription.renderStageAttribute}"
-    ) {
+      s"CommittableSource ${subscription.renderStageAttribute}") {
   override protected def logic(shape: SourceShape[CommittableMessage[K, V]]): GraphStageLogic with Control =
     new SingleSourceLogic[K, V, CommittableMessage[K, V]](shape, settings, subscription)
       with CommittableMessageBuilder[K, V] {
@@ -52,13 +51,11 @@ private[kafka] final class CommittableSource[K, V](settings: ConsumerSettings[K,
 private[kafka] final class SourceWithOffsetContext[K, V](
     settings: ConsumerSettings[K, V],
     subscription: Subscription,
-    _metadataFromRecord: ConsumerRecord[K, V] => String = CommittableMessageBuilder.NoMetadataFromRecord
-) extends KafkaSourceStage[K, V, (ConsumerRecord[K, V], CommittableOffset)](
-      s"SourceWithOffsetContext ${subscription.renderStageAttribute}"
-    ) {
+    _metadataFromRecord: ConsumerRecord[K, V] => String = CommittableMessageBuilder.NoMetadataFromRecord)
+    extends KafkaSourceStage[K, V, (ConsumerRecord[K, V], CommittableOffset)](
+      s"SourceWithOffsetContext ${subscription.renderStageAttribute}") {
   override protected def logic(
-      shape: SourceShape[(ConsumerRecord[K, V], CommittableOffset)]
-  ): GraphStageLogic with Control =
+      shape: SourceShape[(ConsumerRecord[K, V], CommittableOffset)]): GraphStageLogic with Control =
     new SingleSourceLogic[K, V, (ConsumerRecord[K, V], CommittableOffset)](shape, settings, subscription)
       with OffsetContextBuilder[K, V] {
       override def metadataFromRecord(record: ConsumerRecord[K, V]): String = _metadataFromRecord(record)
@@ -73,12 +70,11 @@ private[kafka] final class SourceWithOffsetContext[K, V](
 /** Internal API */
 @InternalApi
 private[kafka] final class ExternalCommittableSource[K, V](consumer: ActorRef,
-                                                           _groupId: String,
-                                                           commitTimeout: FiniteDuration,
-                                                           subscription: ManualSubscription)
+    _groupId: String,
+    commitTimeout: FiniteDuration,
+    subscription: ManualSubscription)
     extends KafkaSourceStage[K, V, CommittableMessage[K, V]](
-      s"ExternalCommittableSource ${subscription.renderStageAttribute}"
-    ) {
+      s"ExternalCommittableSource ${subscription.renderStageAttribute}") {
   override protected def logic(shape: SourceShape[CommittableMessage[K, V]]): GraphStageLogic with Control =
     new ExternalSingleSourceLogic[K, V, CommittableMessage[K, V]](shape, consumer, subscription)
       with CommittableMessageBuilder[K, V] {
@@ -98,13 +94,11 @@ private[kafka] final class CommittableSubSource[K, V](
     subscription: AutoSubscription,
     _metadataFromRecord: ConsumerRecord[K, V] => String = CommittableMessageBuilder.NoMetadataFromRecord,
     getOffsetsOnAssign: Option[Set[TopicPartition] => Future[Map[TopicPartition, Long]]] = None,
-    onRevoke: Set[TopicPartition] => Unit = _ => ()
-) extends KafkaSourceStage[K, V, (TopicPartition, Source[CommittableMessage[K, V], NotUsed])](
-      s"CommittableSubSource ${subscription.renderStageAttribute}"
-    ) {
+    onRevoke: Set[TopicPartition] => Unit = _ => ())
+    extends KafkaSourceStage[K, V, (TopicPartition, Source[CommittableMessage[K, V], NotUsed])](
+      s"CommittableSubSource ${subscription.renderStageAttribute}") {
   override protected def logic(
-      shape: SourceShape[(TopicPartition, Source[CommittableMessage[K, V], NotUsed])]
-  ): GraphStageLogic with Control = {
+      shape: SourceShape[(TopicPartition, Source[CommittableMessage[K, V], NotUsed])]): GraphStageLogic with Control = {
 
     val factory = new SubSourceStageLogicFactory[K, V, CommittableMessage[K, V]] {
       def create(
@@ -113,24 +107,23 @@ private[kafka] final class CommittableSubSource[K, V](
           consumerActor: ActorRef,
           subSourceStartedCb: AsyncCallback[SubSourceStageLogicControl],
           subSourceCancelledCb: AsyncCallback[(TopicPartition, SubSourceCancellationStrategy)],
-          actorNumber: Int
-      ): SubSourceStageLogic[K, V, CommittableMessage[K, V]] =
+          actorNumber: Int): SubSourceStageLogic[K, V, CommittableMessage[K, V]] =
         new CommittableSubSourceStageLogic(shape,
-                                           tp,
-                                           consumerActor,
-                                           subSourceStartedCb,
-                                           subSourceCancelledCb,
-                                           actorNumber,
-                                           settings,
-                                           _metadataFromRecord)
+          tp,
+          consumerActor,
+          subSourceStartedCb,
+          subSourceCancelledCb,
+          actorNumber,
+          settings,
+          _metadataFromRecord)
 
     }
     new SubSourceLogic[K, V, CommittableMessage[K, V]](shape,
-                                                       settings,
-                                                       subscription,
-                                                       getOffsetsOnAssign,
-                                                       onRevoke,
-                                                       subSourceStageLogicFactory = factory)
+      settings,
+      subscription,
+      getOffsetsOnAssign,
+      onRevoke,
+      subSourceStageLogicFactory = factory)
   }
 }
 
@@ -140,8 +133,7 @@ private[kafka] object KafkaAsyncConsumerCommitterRef {
   def commit(offset: CommittableOffsetImpl): Future[Done] = {
     offset.committer.commitSingle(
       new TopicPartition(offset.partitionOffset.key.topic, offset.partitionOffset.key.partition),
-      new OffsetAndMetadata(offset.partitionOffset.offset + 1, offset.metadata)
-    )
+      new OffsetAndMetadata(offset.partitionOffset.offset + 1, offset.metadata))
   }
 
   def commit(batch: CommittableOffsetBatchImpl): Future[Done] = {
@@ -170,8 +162,8 @@ private[kafka] object KafkaAsyncConsumerCommitterRef {
   }
 
   private def forBatch[T](
-      batch: CommittableOffsetBatchImpl
-  )(sendMsg: (KafkaAsyncConsumerCommitterRef, TopicPartition, OffsetAndMetadata) => T) = {
+      batch: CommittableOffsetBatchImpl)(
+      sendMsg: (KafkaAsyncConsumerCommitterRef, TopicPartition, OffsetAndMetadata) => T) = {
     val results = batch.offsetsAndMetadata.map {
       case (groupTopicPartition, offset) =>
         // sends one message per partition, they are aggregated in the KafkaConsumerActor
@@ -191,9 +183,8 @@ private[kafka] object KafkaAsyncConsumerCommitterRef {
  */
 @InternalApi
 private[kafka] class KafkaAsyncConsumerCommitterRef(private val consumerActor: ActorRef,
-                                                    private val commitTimeout: FiniteDuration)(
-    private val ec: ExecutionContext
-) {
+    private val commitTimeout: FiniteDuration)(
+    private val ec: ExecutionContext) {
   def commitSingle(topicPartition: TopicPartition, offset: OffsetAndMetadata): Future[Done] = {
     sendWithReply(CommitSingle(topicPartition, offset))
   }
@@ -239,13 +230,13 @@ private final class CommittableSubSourceStageLogic[K, V](
     subSourceCancelledCb: AsyncCallback[(TopicPartition, SubSourceCancellationStrategy)],
     actorNumber: Int,
     consumerSettings: ConsumerSettings[K, V],
-    _metadataFromRecord: ConsumerRecord[K, V] => String = CommittableMessageBuilder.NoMetadataFromRecord
-) extends SubSourceStageLogic[K, V, CommittableMessage[K, V]](shape,
-                                                                tp,
-                                                                consumerActor,
-                                                                subSourceStartedCb,
-                                                                subSourceCancelledCb,
-                                                                actorNumber)
+    _metadataFromRecord: ConsumerRecord[K, V] => String = CommittableMessageBuilder.NoMetadataFromRecord)
+    extends SubSourceStageLogic[K, V, CommittableMessage[K, V]](shape,
+      tp,
+      consumerActor,
+      subSourceStartedCb,
+      subSourceCancelledCb,
+      actorNumber)
     with CommittableMessageBuilder[K, V] {
 
   override def metadataFromRecord(record: ConsumerRecord[K, V]): String = _metadataFromRecord(record)

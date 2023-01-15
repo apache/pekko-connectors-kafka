@@ -6,18 +6,18 @@
 package akka.kafka
 import java.util.concurrent.atomic.AtomicInteger
 
-import akka.{Done, NotUsed}
+import akka.{ Done, NotUsed }
 import akka.actor.ActorSystem
 import akka.kafka.ConsumerMessage.PartitionOffset
 import akka.kafka.ProducerMessage.MultiMessage
 import akka.kafka.scaladsl.Consumer.Control
-import akka.kafka.scaladsl.{Consumer, Producer, Transactional}
+import akka.kafka.scaladsl.{ Consumer, Producer, Transactional }
 import akka.stream.Materializer
-import akka.stream.scaladsl.{Flow, Sink, Source}
+import akka.stream.scaladsl.{ Flow, Sink, Source }
 import akka.stream.testkit.TestSubscriber
 import akka.stream.testkit.scaladsl.TestSink
 import org.apache.kafka.clients.consumer.ConsumerConfig
-import org.apache.kafka.clients.producer.{ProducerConfig, ProducerRecord}
+import org.apache.kafka.clients.producer.{ ProducerConfig, ProducerRecord }
 import org.scalatest.TestSuite
 import org.scalatest.matchers.should.Matchers
 
@@ -34,8 +34,8 @@ trait TransactionsOps extends TestSuite with Matchers {
       transactionalId: String,
       idleTimeout: FiniteDuration,
       restartAfter: Option[Int] = None,
-      maxRestarts: Option[AtomicInteger] = None
-  ): Source[ProducerMessage.Results[String, String, PartitionOffset], Control] =
+      maxRestarts: Option[AtomicInteger] = None)
+      : Source[ProducerMessage.Results[String, String, PartitionOffset], Control] =
     Transactional
       .source(consumerSettings, Subscriptions.topics(sourceTopic))
       .zip(Source.unfold(1)(count => Some((count + 1, count))))
@@ -63,12 +63,13 @@ trait TransactionsOps extends TestSuite with Matchers {
       idleTimeout: FiniteDuration,
       maxPartitions: Int,
       restartAfter: Option[Int] = None,
-      maxRestarts: Option[AtomicInteger] = None
-  ): Source[ProducerMessage.Results[String, String, PartitionOffset], Control] =
+      maxRestarts: Option[AtomicInteger] = None)
+      : Source[ProducerMessage.Results[String, String, PartitionOffset], Control] =
     Transactional
       .partitionedSource(consumerSettings, Subscriptions.topics(sourceTopic))
       .flatMapMerge(
-        maxPartitions, {
+        maxPartitions,
+        {
           case (_, source) =>
             val results: Source[ProducerMessage.Results[String, String, PartitionOffset], NotUsed] = source
               .zip(Source.unfold(1)(count => Some((count + 1, count))))
@@ -81,28 +82,27 @@ trait TransactionsOps extends TestSuite with Matchers {
               .idleTimeout(idleTimeout)
               .map { msg =>
                 ProducerMessage.single(new ProducerRecord[String, String](sinkTopic,
-                                                                          msg.record.partition(),
-                                                                          msg.record.key(),
-                                                                          msg.record.value),
-                                       msg.partitionOffset)
+                    msg.record.partition(),
+                    msg.record.key(),
+                    msg.record.value),
+                  msg.partitionOffset)
               }
               .via(Transactional.flow(producerSettings, transactionalId))
             results
-        }
-      )
+        })
 
   def restart(count: Int, restartAfter: Option[Int], maxRestarts: Option[AtomicInteger]): Boolean = {
     (restartAfter, maxRestarts) match {
       case (Some(restart), Some(maxRestart)) => count >= restart && maxRestart.decrementAndGet() > 0
-      case (Some(restart), _) => count >= restart
-      case _ => false
+      case (Some(restart), _)                => count >= restart
+      case _                                 => false
     }
   }
 
   def produceToAllPartitions(producerSettings: ProducerSettings[String, String],
-                             topic: String,
-                             partitions: Int,
-                             range: Range)(implicit mat: Materializer): Future[Done] =
+      topic: String,
+      partitions: Int,
+      range: Range)(implicit mat: Materializer): Future[Done] =
     Source(range)
       .map { n =>
         val msgs = (0 until partitions).map(p => new ProducerRecord(topic, p, n.toString, n.toString))
@@ -113,7 +113,7 @@ trait TransactionsOps extends TestSuite with Matchers {
 
   def checkForDuplicates(values: immutable.Seq[(Long, String)], expected: immutable.IndexedSeq[String]): Unit =
     withClue("Checking for duplicates: ") {
-      val duplicates = values.map(_._2) diff expected
+      val duplicates = values.map(_._2).diff(expected)
       if (duplicates.nonEmpty) {
         val duplicatesWithDifferentOffsets = values
           .filter {
@@ -138,7 +138,7 @@ trait TransactionsOps extends TestSuite with Matchers {
 
   def checkForMissing(values: immutable.Seq[(Long, String)], expected: immutable.IndexedSeq[String]): Unit =
     withClue("Checking for missing: ") {
-      val missing = expected diff values.map(_._2)
+      val missing = expected.diff(values.map(_._2))
       if (missing.nonEmpty) {
         val continuousBlocks = missing
           .scanLeft(("-1", 0)) {
@@ -158,21 +158,19 @@ trait TransactionsOps extends TestSuite with Matchers {
 
   def valuesProbeConsumer(
       settings: ConsumerSettings[String, String],
-      topic: String
-  )(implicit actorSystem: ActorSystem, mat: Materializer): TestSubscriber.Probe[String] =
+      topic: String)(implicit actorSystem: ActorSystem, mat: Materializer): TestSubscriber.Probe[String] =
     offsetValueSource(settings, topic)
       .map(_._2)
       .runWith(TestSink.probe)
 
   def offsetValueSource(settings: ConsumerSettings[String, String],
-                        topic: String): Source[(Long, String), Consumer.Control] =
+      topic: String): Source[(Long, String), Consumer.Control] =
     Consumer
       .plainSource(settings, Subscriptions.topics(topic))
       .map(r => (r.offset(), r.value()))
 
   def consumePartitionOffsetValues(settings: ConsumerSettings[String, String], topic: String, elementsToTake: Long)(
-      implicit mat: Materializer
-  ): Future[immutable.Seq[(Int, Long, String)]] =
+      implicit mat: Materializer): Future[immutable.Seq[(Int, Long, String)]] =
     Consumer
       .plainSource(settings, Subscriptions.topics(topic))
       .map(r => (r.partition(), r.offset(), r.value()))
@@ -182,8 +180,7 @@ trait TransactionsOps extends TestSuite with Matchers {
           .scan(0) { case (count, _) => count + 1 }
           .filter(_ % 100 == 0)
           .log("received")
-          .to(Sink.ignore)
-      )
+          .to(Sink.ignore))
       .recover {
         case t => (0, 0L, "no-more-elements")
       }
@@ -193,8 +190,7 @@ trait TransactionsOps extends TestSuite with Matchers {
   def assertPartitionedConsistency(
       elements: Int,
       maxPartitions: Int,
-      values: immutable.Seq[(Int, Long, String)]
-  ): Unit = {
+      values: immutable.Seq[(Int, Long, String)]): Unit = {
     val expectedValues: immutable.Seq[String] = (1 to elements).map(_.toString)
 
     for (partition <- 0 until maxPartitions) {
@@ -209,7 +205,7 @@ trait TransactionsOps extends TestSuite with Matchers {
   }
 
   def withProbeConsumerSettings(settings: ConsumerSettings[String, String],
-                                groupId: String): ConsumerSettings[String, String] =
+      groupId: String): ConsumerSettings[String, String] =
     TransactionsOps.withProbeConsumerSettings(settings, groupId)
 
   def withTestProducerSettings(settings: ProducerSettings[String, String]): ProducerSettings[String, String] =
@@ -221,7 +217,7 @@ trait TransactionsOps extends TestSuite with Matchers {
 
 object TransactionsOps {
   def withProbeConsumerSettings(settings: ConsumerSettings[String, String],
-                                groupId: String): ConsumerSettings[String, String] =
+      groupId: String): ConsumerSettings[String, String] =
     settings
       .withGroupId(groupId)
       .withProperties(ConsumerConfig.ISOLATION_LEVEL_CONFIG -> "read_committed")

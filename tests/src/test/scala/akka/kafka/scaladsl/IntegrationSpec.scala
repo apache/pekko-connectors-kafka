@@ -13,19 +13,19 @@ import akka.kafka._
 import akka.kafka.scaladsl.Consumer.DrainingControl
 import akka.kafka.testkit.scaladsl.TestcontainersKafkaLike
 import akka.pattern.ask
-import akka.stream.scaladsl.{Keep, Sink, Source}
+import akka.stream.scaladsl.{ Keep, Sink, Source }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import akka.stream.testkit.scaladsl.TestSink
 import akka.testkit.TestProbe
 import akka.util.Timeout
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.ProducerRecord
-import org.apache.kafka.common.{Metric, MetricName, TopicPartition}
+import org.apache.kafka.common.{ Metric, MetricName, TopicPartition }
 import org.scalatest.Inside
 
 import scala.collection.immutable
 import scala.concurrent.duration._
-import scala.concurrent.{Await, Future}
+import scala.concurrent.{ Await, Future }
 import scala.util.Success
 
 class IntegrationSpec extends SpecBase with TestcontainersKafkaLike with Inside {
@@ -120,18 +120,17 @@ class IntegrationSpec extends SpecBase with TestcontainersKafkaLike with Inside 
         case (Partitions2, Partitions1) =>
         case (receivePartitions1, receivedPartitions2) =>
           fail(
-            s"The `TopicPartitionsAssigned` contained different topic partitions than expected:\nrebalanceActor1: $receivePartitions1\nrebalanceActor2: $receivedPartitions2"
-          )
+            s"The `TopicPartitionsAssigned` contained different topic partitions than expected:\nrebalanceActor1: $receivePartitions1\nrebalanceActor2: $receivedPartitions2")
       }
 
       sleep(4.seconds,
-            "to get the second consumer started, otherwise it might miss the first messages because of `latest` offset")
+        "to get the second consumer started, otherwise it might miss the first messages because of `latest` offset")
       createAndRunProducer(totalMessages / 2 until totalMessages).futureValue
 
       if (receivedCounter.get() != totalMessages)
         log.warn("All consumers together did receive {}, not the total of {} messages",
-                 receivedCounter.get(),
-                 totalMessages)
+          receivedCounter.get(),
+          totalMessages)
 
       val stream1messages = control.drainAndShutdown().futureValue
       val stream2messages = control2.drainAndShutdown().futureValue
@@ -141,8 +140,7 @@ class IntegrationSpec extends SpecBase with TestcontainersKafkaLike with Inside 
           Long.box(stream1messages),
           Long.box(stream2messages),
           Long.box(stream1messages + stream2messages),
-          Long.box(totalMessages)
-        )
+          Long.box(totalMessages))
 
       // since Kafka 2.4.0 issued by `consumer.close`
       val revoked1 = rebalanceActor1.expectMsgClass(classOf[TopicPartitionsRevoked])
@@ -165,8 +163,7 @@ class IntegrationSpec extends SpecBase with TestcontainersKafkaLike with Inside 
             ProducerMessage.single(
               // Produce to topic2
               new ProducerRecord[String, String](topic2, msg.record.value),
-              msg.committableOffset
-            )
+              msg.committableOffset)
           })
           .via(Producer.flexiFlow(producerDefaults))
           .map(_.passThrough)
@@ -343,7 +340,7 @@ class IntegrationSpec extends SpecBase with TestcontainersKafkaLike with Inside 
 
       val (control, probe) = Consumer
         .plainPartitionedSource(consumerDefaults.withGroupId(group).withStopTimeout(10.millis),
-                                Subscriptions.topics(topic))
+          Subscriptions.topics(topic))
         .flatMapMerge(1, _._2)
         .map(_.value())
         .toMat(TestSink.probe)(Keep.both)

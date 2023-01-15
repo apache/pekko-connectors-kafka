@@ -11,14 +11,14 @@ import akka.kafka.OffsetResetProtectionSettings
 import akka.kafka.internal.KafkaConsumerActor.Internal.Seek
 import akka.kafka.testkit.scaladsl.Slf4jToAkkaLoggingAdapter
 import akka.kafka.tests.scaladsl.LogCapturing
-import akka.testkit.{ImplicitSender, TestKit}
-import org.apache.kafka.clients.consumer.{ConsumerRecord, ConsumerRecords}
+import akka.testkit.{ ImplicitSender, TestKit }
+import org.apache.kafka.clients.consumer.{ ConsumerRecord, ConsumerRecords }
 import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.header.internals.RecordHeaders
 import org.apache.kafka.common.record.TimestampType
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
-import org.slf4j.{Logger, LoggerFactory}
+import org.slf4j.{ Logger, LoggerFactory }
 
 import java.util.Optional
 import scala.concurrent.duration._
@@ -89,33 +89,30 @@ class ConsumerResetProtectionSpec
       progress.received(
         asConsumerRecords(
           new ConsumerRecord(tp.topic(),
-                             tp.partition(),
-                             /* offset= */ 100L,
-                             /* timestamp = */ 100L,
-                             TimestampType.LOG_APPEND_TIME,
-                             ConsumerRecord.NULL_SIZE,
-                             ConsumerRecord.NULL_SIZE,
-                             "k1",
-                             "kv",
-                             new RecordHeaders(),
-                             Optional.empty[Integer]())
-        )
-      )
+            tp.partition(),
+            /* offset= */ 100L,
+            /* timestamp = */ 100L,
+            TimestampType.LOG_APPEND_TIME,
+            ConsumerRecord.NULL_SIZE,
+            ConsumerRecord.NULL_SIZE,
+            "k1",
+            "kv",
+            new RecordHeaders(),
+            Optional.empty[Integer]())))
 
       // later, we get offset 90L and timestamp 10, the latter of which is outside our 50 milli threshold
       val timeRecords = asConsumerRecords(
         new ConsumerRecord(tp.topic(),
-                           tp.partition(),
-                           /* offset= */ 90L,
-                           /* timestamp = */ 10L,
-                           TimestampType.LOG_APPEND_TIME,
-                           ConsumerRecord.NULL_SIZE,
-                           ConsumerRecord.NULL_SIZE,
-                           "k1",
-                           "kv",
-                           new RecordHeaders(),
-                           Optional.empty[Integer]())
-      )
+          tp.partition(),
+          /* offset= */ 90L,
+          /* timestamp = */ 10L,
+          TimestampType.LOG_APPEND_TIME,
+          ConsumerRecord.NULL_SIZE,
+          ConsumerRecord.NULL_SIZE,
+          "k1",
+          "kv",
+          new RecordHeaders(),
+          Optional.empty[Integer]()))
       protection.protect[String, String](self, timeRecords).count() should be(0)
       expectMsg(10.seconds, Seek(Map(tp -> 100L)))
     }
@@ -137,12 +134,10 @@ class ConsumerResetProtectionSpec
       // drop the old offsets in this batch, so back to the original set of records
       protectedRecords = protection
         .protect(self,
-                 new ConsumerRecords(
-                   Map(
-                     tp -> List(m1).asJava,
-                     tp1 -> List(new ConsumerRecord(tp1.topic(), tp1.partition(), 10L, "k1", "kv")).asJava
-                   ).asJava
-                 ))
+          new ConsumerRecords(
+            Map(
+              tp -> List(m1).asJava,
+              tp1 -> List(new ConsumerRecord(tp1.topic(), tp1.partition(), 10L, "k1", "kv")).asJava).asJava))
       shouldHaveEqualRecords(records, protectedRecords)
     }
 
@@ -164,11 +159,7 @@ class ConsumerResetProtectionSpec
             tp -> List(
               new ConsumerRecord(tp.topic(), tp.partition(), 101L, "k1", "kv"),
               new ConsumerRecord(tp.topic(), tp.partition(), 1L, "k2", "kv"),
-              new ConsumerRecord(tp.topic(), tp.partition(), 102L, "k1", "kv")
-            ).asJava
-          ).asJava
-        )
-      )
+              new ConsumerRecord(tp.topic(), tp.partition(), 102L, "k1", "kv")).asJava).asJava))
       records.count() should be(3)
       records.records(tp).asScala.map(_.offset()) should be(Seq(101L, 1L, 102L))
     }

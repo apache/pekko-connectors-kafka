@@ -10,7 +10,7 @@ import java.util
 
 import com.codahale.metrics.Meter
 import com.typesafe.scalalogging.LazyLogging
-import org.apache.kafka.clients.consumer.{OffsetAndMetadata, OffsetCommitCallback}
+import org.apache.kafka.clients.consumer.{ OffsetAndMetadata, OffsetCommitCallback }
 import org.apache.kafka.common.TopicPartition
 
 import scala.annotation.tailrec
@@ -85,8 +85,7 @@ object KafkaConsumerBenchmarks extends LazyLogging {
         new OffsetCommitCallback {
           override def onComplete(map: util.Map[TopicPartition, OffsetAndMetadata], e: Exception): Unit =
             commitInProgress = false
-        }
-      )
+        })
       lastProcessedOffset = Map.empty[Int, Long]
     }
 
@@ -138,8 +137,7 @@ object KafkaConsumerBenchmarks extends LazyLogging {
         offsetMap.asJava,
         new OffsetCommitCallback {
           override def onComplete(map: util.Map[TopicPartition, OffsetAndMetadata], e: Exception): Unit = ()
-        }
-      )
+        })
       lastProcessedOffset = Map.empty[Int, Long]
     }
 
@@ -189,8 +187,7 @@ object KafkaConsumerBenchmarks extends LazyLogging {
             new OffsetCommitCallback {
               override def onComplete(map: util.Map[TopicPartition, OffsetAndMetadata], e: Exception): Unit =
                 consumer.resume(assignment)
-            }
-          )
+            })
         }
 
         val recordCount = records.count()

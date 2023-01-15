@@ -5,9 +5,9 @@
 
 package akka.kafka.internal
 
-import akka.actor.{Actor, ActorLogging}
+import akka.actor.{ Actor, ActorLogging }
 import akka.event.LoggingAdapter
-import akka.stream.stage.{GraphStageLogic, StageLogging}
+import akka.stream.stage.{ GraphStageLogic, StageLogging }
 
 /**
  * Generate a short random UID for something.

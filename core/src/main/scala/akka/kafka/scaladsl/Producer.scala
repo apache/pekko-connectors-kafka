@@ -8,11 +8,11 @@ package akka.kafka.scaladsl
 import akka.annotation.ApiMayChange
 import akka.kafka.ConsumerMessage.Committable
 import akka.kafka.ProducerMessage._
-import akka.kafka.internal.{CommittingProducerSinkStage, DefaultProducerStage}
-import akka.kafka.{CommitterSettings, ConsumerMessage, ProducerSettings}
+import akka.kafka.internal.{ CommittingProducerSinkStage, DefaultProducerStage }
+import akka.kafka.{ CommitterSettings, ConsumerMessage, ProducerSettings }
 import akka.stream.ActorAttributes
-import akka.stream.scaladsl.{Flow, FlowWithContext, Keep, Sink}
-import akka.{Done, NotUsed}
+import akka.stream.scaladsl.{ Flow, FlowWithContext, Keep, Sink }
+import akka.{ Done, NotUsed }
 import org.apache.kafka.clients.producer.ProducerRecord
 
 import scala.concurrent.Future
@@ -44,12 +44,10 @@ object Producer {
    */
   @deprecated(
     "Pass in external or shared producer using ProducerSettings.withProducerFactory or ProducerSettings.withProducer",
-    "2.0.0"
-  )
+    "2.0.0")
   def plainSink[K, V](
       settings: ProducerSettings[K, V],
-      producer: org.apache.kafka.clients.producer.Producer[K, V]
-  ): Sink[ProducerRecord[K, V], Future[Done]] =
+      producer: org.apache.kafka.clients.producer.Producer[K, V]): Sink[ProducerRecord[K, V], Future[Done]] =
     plainSink(settings.withProducer(producer))
 
   /**
@@ -70,8 +68,7 @@ object Producer {
    */
   @deprecated("use `committableSink(ProducerSettings, CommitterSettings)` instead", "2.0.0")
   def committableSink[K, V](
-      settings: ProducerSettings[K, V]
-  ): Sink[Envelope[K, V, ConsumerMessage.Committable], Future[Done]] =
+      settings: ProducerSettings[K, V]): Sink[Envelope[K, V, ConsumerMessage.Committable], Future[Done]] =
     flexiFlow[K, V, ConsumerMessage.Committable](settings)
       .mapAsync(settings.parallelism)(_.passThrough.commitInternal())
       .toMat(Sink.ignore)(Keep.right)
@@ -89,7 +86,6 @@ object Producer {
    *
    * - [[akka.kafka.ProducerMessage.PassThroughMessage PassThroughMessage]] does not publish anything, but commits the offset
    *
-   *
    * Note that there is always a risk that something fails after publishing but before
    * committing, so it is "at-least once delivery" semantics.
    *
@@ -98,8 +94,8 @@ object Producer {
   @deprecated("use `committableSink(ProducerSettings, CommitterSettings)` instead", "2.0.0")
   def committableSink[K, V](
       settings: ProducerSettings[K, V],
-      producer: org.apache.kafka.clients.producer.Producer[K, V]
-  ): Sink[Envelope[K, V, ConsumerMessage.Committable], Future[Done]] =
+      producer: org.apache.kafka.clients.producer.Producer[K, V])
+      : Sink[Envelope[K, V, ConsumerMessage.Committable], Future[Done]] =
     committableSink(settings.withProducer(producer))
 
   /**
@@ -119,8 +115,7 @@ object Producer {
    */
   def committableSink[K, V](
       producerSettings: ProducerSettings[K, V],
-      committerSettings: CommitterSettings
-  ): Sink[Envelope[K, V, ConsumerMessage.Committable], Future[Done]] =
+      committerSettings: CommitterSettings): Sink[Envelope[K, V, ConsumerMessage.Committable], Future[Done]] =
     Sink.fromGraph(new CommittingProducerSinkStage(producerSettings, committerSettings))
 
   /**
@@ -141,8 +136,7 @@ object Producer {
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/880")
   def committableSinkWithOffsetContext[K, V](
       producerSettings: ProducerSettings[K, V],
-      committerSettings: CommitterSettings
-  ): Sink[(Envelope[K, V, _], Committable), Future[Done]] =
+      committerSettings: CommitterSettings): Sink[(Envelope[K, V, _], Committable), Future[Done]] =
     committableSink(producerSettings, committerSettings)
       .contramap {
         case (env, offset) =>
@@ -160,14 +154,11 @@ object Producer {
    */
   @deprecated("prefer flexiFlow over this flow implementation", "0.21")
   def flow[K, V, PassThrough](
-      settings: ProducerSettings[K, V]
-  ): Flow[Message[K, V, PassThrough], Result[K, V, PassThrough], NotUsed] = {
+      settings: ProducerSettings[K, V]): Flow[Message[K, V, PassThrough], Result[K, V, PassThrough], NotUsed] = {
     val flow = Flow
       .fromGraph(
         new DefaultProducerStage[K, V, PassThrough, Message[K, V, PassThrough], Result[K, V, PassThrough]](
-          settings
-        )
-      )
+          settings))
       .mapAsync(settings.parallelism)(identity)
 
     flowWithDispatcher(settings, flow)
@@ -189,14 +180,11 @@ object Producer {
    * be committed later in the flow.
    */
   def flexiFlow[K, V, PassThrough](
-      settings: ProducerSettings[K, V]
-  ): Flow[Envelope[K, V, PassThrough], Results[K, V, PassThrough], NotUsed] = {
+      settings: ProducerSettings[K, V]): Flow[Envelope[K, V, PassThrough], Results[K, V, PassThrough], NotUsed] = {
     val flow = Flow
       .fromGraph(
         new DefaultProducerStage[K, V, PassThrough, Envelope[K, V, PassThrough], Results[K, V, PassThrough]](
-          settings
-        )
-      )
+          settings))
       .mapAsync(settings.parallelism)(identity)
 
     flowWithDispatcherEnvelope(settings, flow)
@@ -221,12 +209,11 @@ object Producer {
    */
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/880")
   def flowWithContext[K, V, C](
-      settings: ProducerSettings[K, V]
-  ): FlowWithContext[Envelope[K, V, NotUsed], C, Results[K, V, C], C, NotUsed] =
+      settings: ProducerSettings[K, V]): FlowWithContext[Envelope[K, V, NotUsed], C, Results[K, V, C], C, NotUsed] =
     flexiFlow[K, V, C](settings)
-      .asFlowWithContext[Envelope[K, V, NotUsed], C, C]({
+      .asFlowWithContext[Envelope[K, V, NotUsed], C, C] {
         case (env, c) => env.withPassThrough(c)
-      })(res => res.passThrough)
+      }(res => res.passThrough)
 
   /**
    * Create a flow to publish records to Kafka topics and then pass it on.
@@ -242,8 +229,8 @@ object Producer {
   @deprecated("prefer flexiFlow over this flow implementation", "0.21")
   def flow[K, V, PassThrough](
       settings: ProducerSettings[K, V],
-      producer: org.apache.kafka.clients.producer.Producer[K, V]
-  ): Flow[Message[K, V, PassThrough], Result[K, V, PassThrough], NotUsed] =
+      producer: org.apache.kafka.clients.producer.Producer[K, V])
+      : Flow[Message[K, V, PassThrough], Result[K, V, PassThrough], NotUsed] =
     flow(settings.withProducer(producer))
 
   /**
@@ -265,12 +252,11 @@ object Producer {
    */
   @deprecated(
     "Pass in external or shared producer using ProducerSettings.withProducerFactory or ProducerSettings.withProducer",
-    "2.0.0"
-  )
+    "2.0.0")
   def flexiFlow[K, V, PassThrough](
       settings: ProducerSettings[K, V],
-      producer: org.apache.kafka.clients.producer.Producer[K, V]
-  ): Flow[Envelope[K, V, PassThrough], Results[K, V, PassThrough], NotUsed] =
+      producer: org.apache.kafka.clients.producer.Producer[K, V])
+      : Flow[Envelope[K, V, PassThrough], Results[K, V, PassThrough], NotUsed] =
     flexiFlow(settings.withProducer(producer))
 
   /**
@@ -294,26 +280,23 @@ object Producer {
    */
   @deprecated(
     "Pass in external or shared producer using ProducerSettings.withProducerFactory or ProducerSettings.withProducer",
-    "2.0.0"
-  )
+    "2.0.0")
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/880")
   def flowWithContext[K, V, C](
       settings: ProducerSettings[K, V],
-      producer: org.apache.kafka.clients.producer.Producer[K, V]
-  ): FlowWithContext[Envelope[K, V, NotUsed], C, Results[K, V, C], C, NotUsed] =
+      producer: org.apache.kafka.clients.producer.Producer[K, V])
+      : FlowWithContext[Envelope[K, V, NotUsed], C, Results[K, V, C], C, NotUsed] =
     flowWithContext(settings.withProducer(producer))
 
   private def flowWithDispatcher[PassThrough, V, K](
       settings: ProducerSettings[K, V],
-      flow: Flow[Message[K, V, PassThrough], Result[K, V, PassThrough], NotUsed]
-  ) =
+      flow: Flow[Message[K, V, PassThrough], Result[K, V, PassThrough], NotUsed]) =
     if (settings.dispatcher.isEmpty) flow
     else flow.withAttributes(ActorAttributes.dispatcher(settings.dispatcher))
 
   private def flowWithDispatcherEnvelope[PassThrough, V, K](
       settings: ProducerSettings[K, V],
-      flow: Flow[Envelope[K, V, PassThrough], Results[K, V, PassThrough], NotUsed]
-  ) =
+      flow: Flow[Envelope[K, V, PassThrough], Results[K, V, PassThrough], NotUsed]) =
     if (settings.dispatcher.isEmpty) flow
     else flow.withAttributes(ActorAttributes.dispatcher(settings.dispatcher))
 }

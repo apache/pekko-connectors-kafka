@@ -8,7 +8,7 @@ package akka.kafka.benchmarks
 import akka.kafka.benchmarks.BenchmarksBase._
 import akka.kafka.benchmarks.InflightMetrics._
 import akka.kafka.benchmarks.PerfFixtureHelpers.FilledTopic
-import akka.kafka.benchmarks.Timed.{runPerfTest, runPerfTestInflightMetrics}
+import akka.kafka.benchmarks.Timed.{ runPerfTest, runPerfTestInflightMetrics }
 import akka.kafka.benchmarks.app.RunTestCommand
 import akka.kafka.testkit.KafkaTestkitTestcontainersSettings
 import akka.kafka.testkit.scaladsl.TestcontainersKafkaLike
@@ -65,8 +65,8 @@ class AlpakkaKafkaConsumerNokafka extends BenchmarksBase() {
   it should "bench" in {
     val cmd = RunTestCommand("alpakka-kafka-plain-consumer-nokafka", bootstrapServers, topic_2000_100)
     runPerfTest(cmd,
-                ReactiveKafkaConsumerFixtures.noopFixtureGen(cmd),
-                ReactiveKafkaConsumerBenchmarks.consumePlainNoKafka)
+      ReactiveKafkaConsumerFixtures.noopFixtureGen(cmd),
+      ReactiveKafkaConsumerBenchmarks.consumePlainNoKafka)
   }
 }
 
@@ -92,25 +92,23 @@ class AlpakkaKafkaPlainConsumer extends BenchmarksBase() {
   it should "bench with normal messages and one hundred partitions with inflight metrics" in {
     val cmd =
       RunTestCommand("alpakka-kafka-plain-consumer-normal-msg-100-partitions-with-inflight-metrics",
-                     bootstrapServers,
-                     topic_1000_5000_100)
+        bootstrapServers,
+        topic_1000_5000_100)
     val consumerMetricNames = List[ConsumerMetricRequest](
       ConsumerMetricRequest("bytes-consumed-total", CounterMetricType),
       ConsumerMetricRequest("fetch-rate", GaugeMetricType),
       ConsumerMetricRequest("fetch-total", CounterMetricType),
       ConsumerMetricRequest("records-per-request-avg", GaugeMetricType),
-      ConsumerMetricRequest("records-consumed-total", CounterMetricType)
-    )
+      ConsumerMetricRequest("records-consumed-total", CounterMetricType))
     val brokerMetricNames: List[BrokerMetricRequest] = List(
       BrokerMetricRequest(s"kafka.server:type=BrokerTopicMetrics,name=TotalFetchRequestsPerSec",
-                          topic_1000_5000_100.topic,
-                          "Count",
-                          CounterMetricType),
+        topic_1000_5000_100.topic,
+        "Count",
+        CounterMetricType),
       BrokerMetricRequest(s"kafka.server:type=BrokerTopicMetrics,name=BytesOutPerSec",
-                          topic_1000_5000_100.topic,
-                          "Count",
-                          CounterMetricType)
-    )
+        topic_1000_5000_100.topic,
+        "Count",
+        CounterMetricType))
     val brokerJmxUrls = brokerContainers.map(_.getJmxServiceUrl).toList
     runPerfTestInflightMetrics(
       cmd,
@@ -118,8 +116,7 @@ class AlpakkaKafkaPlainConsumer extends BenchmarksBase() {
       brokerMetricNames,
       brokerJmxUrls,
       ReactiveKafkaConsumerFixtures.plainSources(cmd),
-      ReactiveKafkaConsumerBenchmarks.consumePlainInflightMetrics
-    )
+      ReactiveKafkaConsumerBenchmarks.consumePlainInflightMetrics)
   }
 }
 
@@ -134,7 +131,7 @@ class AlpakkaKafkaAtMostOnceConsumer extends BenchmarksBase() {
   it should "bench" in {
     val cmd = RunTestCommand("alpakka-kafka-at-most-once-consumer", bootstrapServers, topic_50_100)
     runPerfTest(cmd,
-                ReactiveKafkaConsumerFixtures.committableSources(cmd),
-                ReactiveKafkaConsumerBenchmarks.consumeCommitAtMostOnce)
+      ReactiveKafkaConsumerFixtures.committableSources(cmd),
+      ReactiveKafkaConsumerBenchmarks.consumeCommitAtMostOnce)
   }
 }

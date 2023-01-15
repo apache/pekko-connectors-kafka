@@ -8,11 +8,11 @@ package akka.kafka.testkit.scaladsl
 import akka.Done
 import akka.annotation.ApiMayChange
 import akka.kafka.scaladsl.Consumer
-import akka.stream.scaladsl.{Flow, Keep, Source}
-import akka.stream.{KillSwitch, KillSwitches}
-import org.apache.kafka.common.{Metric, MetricName}
+import akka.stream.scaladsl.{ Flow, Keep, Source }
+import akka.stream.{ KillSwitch, KillSwitches }
+import org.apache.kafka.common.{ Metric, MetricName }
 
-import scala.concurrent.{Future, Promise}
+import scala.concurrent.{ Future, Promise }
 
 /**
  * Helper factory to create [[akka.kafka.scaladsl.Consumer.Control]] instances when

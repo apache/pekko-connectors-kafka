@@ -10,26 +10,25 @@ import com.typesafe.config.Config
 
 import scala.concurrent.duration._
 
-import java.time.{Duration => JDuration}
+import java.time.{ Duration => JDuration }
 
 class ConnectionCheckerSettings private[kafka] (val enable: Boolean,
-                                                val maxRetries: Int,
-                                                val checkInterval: FiniteDuration,
-                                                val factor: Double) {
+    val maxRetries: Int,
+    val checkInterval: FiniteDuration,
+    val factor: Double) {
 
   require(factor > 0, "Backoff factor for connection checker must be finite positive number")
   require(maxRetries >= 0, "retries for connection checker must be not negative number")
 
   private def copy(enable: Boolean = enable,
-                   maxRetries: Int = maxRetries,
-                   checkInterval: FiniteDuration = checkInterval,
-                   factor: Double = factor): ConnectionCheckerSettings =
+      maxRetries: Int = maxRetries,
+      checkInterval: FiniteDuration = checkInterval,
+      factor: Double = factor): ConnectionCheckerSettings =
     new ConnectionCheckerSettings(
       enable,
       maxRetries,
       checkInterval,
-      factor
-    )
+      factor)
 
   def withEnable(enable: Boolean): ConnectionCheckerSettings = copy(enable = enable)
   def withMaxRetries(maxRetries: Int): ConnectionCheckerSettings = copy(maxRetries = maxRetries)

@@ -6,8 +6,8 @@
 package akka.kafka.benchmarks
 
 import akka.kafka.benchmarks.app.RunTestCommand
-import org.apache.kafka.clients.consumer.{ConsumerConfig, KafkaConsumer}
-import org.apache.kafka.common.serialization.{ByteArrayDeserializer, StringDeserializer}
+import org.apache.kafka.clients.consumer.{ ConsumerConfig, KafkaConsumer }
+import org.apache.kafka.common.serialization.{ ByteArrayDeserializer, StringDeserializer }
 
 import scala.jdk.CollectionConverters._
 
@@ -21,8 +21,7 @@ object KafkaConsumerFixtures extends PerfFixtureHelpers {
     c,
     msgCount => {
       KafkaConsumerTestFixture("topic", msgCount, null)
-    }
-  )
+    })
 
   def filledTopics(c: RunTestCommand) = FixtureGen[KafkaConsumerTestFixture](
     c,
@@ -38,6 +37,5 @@ object KafkaConsumerFixtures extends PerfFixtureHelpers {
         new KafkaConsumer[Array[Byte], String](consumerJavaProps, new ByteArrayDeserializer, new StringDeserializer)
       consumer.subscribe(Set(c.filledTopic.topic).asJava)
       KafkaConsumerTestFixture(c.filledTopic.topic, msgCount, consumer)
-    }
-  )
+    })
 }

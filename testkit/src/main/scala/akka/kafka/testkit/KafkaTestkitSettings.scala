@@ -11,8 +11,8 @@ import com.typesafe.config.Config
 import scala.concurrent.duration._
 
 class KafkaTestkitSettings private (val clusterTimeout: FiniteDuration,
-                                    val consumerGroupTimeout: FiniteDuration,
-                                    val checkInterval: FiniteDuration) {
+    val consumerGroupTimeout: FiniteDuration,
+    val checkInterval: FiniteDuration) {
 
   /**
    * Java Api

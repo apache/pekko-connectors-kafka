@@ -6,7 +6,7 @@
 package akka.kafka
 
 import akka.annotation.ApiMayChange
-import org.apache.kafka.clients.consumer.{Consumer, OffsetAndMetadata, OffsetAndTimestamp}
+import org.apache.kafka.clients.consumer.{ Consumer, OffsetAndMetadata, OffsetAndTimestamp }
 import org.apache.kafka.common.TopicPartition
 
 /**
@@ -55,8 +55,8 @@ final class RestrictedConsumer(consumer: Consumer[_, _], duration: java.time.Dur
    * See [[org.apache.kafka.clients.consumer.KafkaConsumer#offsetsForTimes(java.util.Map[TopicPartition,Long],java.time.Duration)]]
    */
   def offsetsForTimes(
-      timestampsToSearch: java.util.Map[TopicPartition, java.lang.Long]
-  ): java.util.Map[TopicPartition, OffsetAndTimestamp] =
+      timestampsToSearch: java.util.Map[TopicPartition, java.lang.Long])
+      : java.util.Map[TopicPartition, OffsetAndTimestamp] =
     consumer.offsetsForTimes(timestampsToSearch, duration)
 
   /**

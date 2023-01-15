@@ -8,12 +8,12 @@ package docs.scaladsl
 import akka.kafka.scaladsl.MetadataClient
 import akka.kafka.testkit.scaladsl.TestcontainersKafkaLike
 import org.scalatest.TryValues
-import org.scalatest.time.{Seconds, Span}
+import org.scalatest.time.{ Seconds, Span }
 
 // #metadata
 // #metadataClient
 import akka.actor.ActorRef
-import akka.kafka.{KafkaConsumerActor, Metadata}
+import akka.kafka.{ KafkaConsumerActor, Metadata }
 import akka.pattern.ask
 import akka.util.Timeout
 import org.apache.kafka.common.TopicPartition
@@ -51,7 +51,7 @@ class FetchMetadata extends DocsSpecBase with TestcontainersKafkaLike with TryVa
       }
     })
     // #metadata
-    topicsFuture.futureValue.response should be a Symbol("success")
+    (topicsFuture.futureValue.response should be).a(Symbol("success"))
     topicsFuture.futureValue.response.get(topic) should not be Symbol("empty")
   }
 
@@ -93,7 +93,7 @@ class FetchMetadata extends DocsSpecBase with TestcontainersKafkaLike with TryVa
         .mapTo[Metadata.EndOffsets]
 
     val response = topicsFuture.futureValue.response
-    response should be a Symbol("failure")
+    (response should be).a(Symbol("failure"))
     response.failed.get shouldBe a[org.apache.kafka.common.errors.TimeoutException]
   }
 
@@ -112,7 +112,7 @@ class FetchMetadata extends DocsSpecBase with TestcontainersKafkaLike with TryVa
       (consumer ? Metadata.GetEndOffsets(Set(tp))).mapTo[Metadata.EndOffsets]
 
     val response = topicsFuture.futureValue.response
-    response should be a Symbol("success")
+    (response should be).a(Symbol("success"))
     response.get(tp) should be(0L)
   }
 }

@@ -5,7 +5,7 @@
 
 package akka.kafka.testkit.internal
 
-import org.scalatest.{BeforeAndAfterAll, Suite}
+import org.scalatest.{ BeforeAndAfterAll, Suite }
 
 trait TestFrameworkInterface {
   def setUp(): Unit

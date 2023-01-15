@@ -10,8 +10,8 @@ import akka.kafka._
 import akka.kafka.scaladsl.Consumer.DrainingControl
 import akka.kafka.scaladsl._
 import akka.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import akka.stream.{ActorAttributes, Supervision}
-import akka.stream.scaladsl.{Sink, Source}
+import akka.stream.{ ActorAttributes, Supervision }
+import akka.stream.scaladsl.{ Sink, Source }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.serialization._
@@ -41,8 +41,7 @@ class SerializationSpec extends DocsSpecBase with TestcontainersKafkaLike {
     val samples = List(sample, sample, sample)
 
     awaitProduce(
-      produceString(topic, List("{faulty JSON data") ++ samples.map(_.toJson.compactPrint))
-    )
+      produceString(topic, List("{faulty JSON data") ++ samples.map(_.toJson.compactPrint)))
 
     val consumerSettings = consumerDefaults.withGroupId(group)
 
@@ -50,7 +49,7 @@ class SerializationSpec extends DocsSpecBase with TestcontainersKafkaLike {
 
     val resumeOnParsingException = ActorAttributes.supervisionStrategy {
       case _: spray.json.JsonParser.ParsingException => Supervision.Resume
-      case _ => Supervision.stop
+      case _                                         => Supervision.stop
     }
 
     val consumer = Consumer
@@ -100,7 +99,7 @@ class SerializationSpec extends DocsSpecBase with TestcontainersKafkaLike {
     // #protobuf-deserializer
     val resumeOnParsingException = ActorAttributes.supervisionStrategy {
       case _: com.google.protobuf.InvalidProtocolBufferException => Supervision.Resume
-      case _ => Supervision.stop
+      case _                                                     => Supervision.stop
     }
 
     val consumerSettings: ConsumerSettings[String, Array[Byte]] = // ...

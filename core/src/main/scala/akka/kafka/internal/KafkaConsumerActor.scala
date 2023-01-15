@@ -23,18 +23,18 @@ import akka.actor.{
 import akka.annotation.InternalApi
 import akka.util.JavaDurationConverters._
 import akka.event.LoggingReceive
-import akka.kafka.KafkaConsumerActor.{StopLike, StoppingException}
+import akka.kafka.KafkaConsumerActor.{ StopLike, StoppingException }
 import akka.kafka._
 import akka.kafka.scaladsl.PartitionAssignmentHandler
 import org.apache.kafka.clients.consumer._
 import org.apache.kafka.common.errors.RebalanceInProgressException
-import org.apache.kafka.common.{Metric, MetricName, TopicPartition}
+import org.apache.kafka.common.{ Metric, MetricName, TopicPartition }
 
 import scala.annotation.nowarn
 import scala.jdk.CollectionConverters._
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.{ ExecutionContext, Future }
 import scala.concurrent.duration._
-import scala.util.{Success, Try}
+import scala.util.{ Success, Try }
 import scala.util.control.NonFatal
 
 /**
@@ -47,7 +47,7 @@ import scala.util.control.NonFatal
   object Internal {
     sealed trait SubscriptionRequest extends NoSerializationVerificationNeeded
 
-    //requests
+    // requests
     final case class Assign(tps: Set[TopicPartition]) extends SubscriptionRequest
     final case class AssignWithOffset(tps: Map[TopicPartition, Long]) extends SubscriptionRequest
     final case class AssignOffsetsForTimes(timestampsToSearch: Map[TopicPartition, Long]) extends SubscriptionRequest
@@ -70,7 +70,7 @@ import scala.util.control.NonFatal
     /** Special case commit for non-batched committing. */
     final case class CommitSingle(tp: TopicPartition, offsetAndMetadata: OffsetAndMetadata)
         extends NoSerializationVerificationNeeded
-    //responses
+    // responses
     final case class Assigned(partition: List[TopicPartition]) extends NoSerializationVerificationNeeded
     final case class Revoked(partition: List[TopicPartition]) extends NoSerializationVerificationNeeded
     final case class Messages[K, V](requestId: Int, messages: Iterator[ConsumerRecord[K, V]])
@@ -78,11 +78,10 @@ import scala.util.control.NonFatal
     final case class ConsumerMetrics(metrics: Map[MetricName, Metric]) extends NoSerializationVerificationNeeded {
       def getMetrics: java.util.Map[MetricName, Metric] = metrics.asJava
     }
-    //internal
+    // internal
     private[KafkaConsumerActor] final case class Poll[K, V](
         target: KafkaConsumerActor[K, V],
-        periodic: Boolean
-    ) extends DeadLetterSuppression
+        periodic: Boolean) extends DeadLetterSuppression
         with NoSerializationVerificationNeeded
 
     private[KafkaConsumerActor] case object PollTask
@@ -102,7 +101,7 @@ import scala.util.control.NonFatal
     def apply(commitRefreshInterval: Duration, progress: () => ConsumerProgressTracking): CommitRefreshing =
       commitRefreshInterval match {
         case finite: FiniteDuration => new Impl(finite, progress())
-        case _ => new Noop()
+        case _                      => new Noop()
       }
 
     private final class Noop() extends CommitRefreshing {
@@ -141,11 +140,11 @@ import scala.util.control.NonFatal
         // partition that is no longer assigned to this consumer, so that assumption is not necessarily strictly
         // true, but it's reasonable.
         refreshDeadlines = refreshDeadlines ++ tps.intersect(refreshDeadlines.keySet).map { tp =>
-            (tp, commitRefreshInterval.fromNow)
-          }
+          (tp, commitRefreshInterval.fromNow)
+        }
 
       override def assignedPositions(assignedTps: Set[TopicPartition],
-                                     assignedOffsets: Map[TopicPartition, Long]): Unit = {
+          assignedOffsets: Map[TopicPartition, Long]): Unit = {
         // assigned the partitions, so update all the of deadlines
         refreshDeadlines = refreshDeadlines ++ assignedTps.map(_ -> commitRefreshInterval.fromNow)
       }
@@ -172,7 +171,7 @@ import scala.util.control.NonFatal
  * The actor communicating through the Kafka consumer client.
  */
 @InternalApi final private[kafka] class KafkaConsumerActor[K, V](owner: Option[ActorRef],
-                                                                 _settings: ConsumerSettings[K, V])
+    _settings: ConsumerSettings[K, V])
     extends Actor
     with ActorIdLogging
     with Timers
@@ -337,7 +336,7 @@ import scala.util.control.NonFatal
           consumer.assign((timestampsToSearch.keys.toSeq ++ previousAssigned.asScala).asJava)
           val topicPartitionToOffsetAndTimestamp =
             consumer.offsetsForTimes(timestampsToSearch.map { case (k, v) => (k, long2Long(v)) }.toMap.asJava,
-                                     offsetForTimesTimeout)
+              offsetForTimesTimeout)
           val assignedOffsets = topicPartitionToOffsetAndTimestamp.asScala.filter(_._2 != null).toMap.map {
             case (tp, oat: OffsetAndTimestamp) =>
               val offset = oat.offset()
@@ -563,12 +562,12 @@ import scala.util.control.NonFatal
       commitMap.asJava,
       new OffsetCommitCallback {
         override def onComplete(offsets: java.util.Map[TopicPartition, OffsetAndMetadata],
-                                exception: Exception): Unit = {
+            exception: Exception): Unit = {
           def retryCommits(duration: Long, e: Throwable): Unit = {
             log.warning("Kafka commit is to be retried, after={} ms, commitsInProgress={}, cause={}",
-                        duration / 1000000L,
-                        commitsInProgress,
-                        e.toString)
+              duration / 1000000L,
+              commitsInProgress,
+              e.toString)
             commitMaps = commitMap.toList ++ commitMaps
             commitSenders = commitSenders ++ replyTo
             requestDelayedPoll()
@@ -581,45 +580,43 @@ import scala.util.control.NonFatal
             case null =>
               if (duration > settings.commitTimeWarning.toNanos) {
                 log.warning("Kafka commit took longer than `commit-time-warning`: {} ms, commitsInProgress={}",
-                            duration / 1000000L,
-                            commitsInProgress)
+                  duration / 1000000L,
+                  commitsInProgress)
               }
               progressTracker.committed(offsets)
               replyTo.foreach(_ ! Done)
 
-            case e: RebalanceInProgressException => retryCommits(duration, e)
+            case e: RebalanceInProgressException   => retryCommits(duration, e)
             case e: RetriableCommitFailedException => retryCommits(duration, e.getCause)
 
             case commitException =>
               log.error("Kafka commit failed after={} ms, commitsInProgress={}, exception={}",
-                        duration / 1000000L,
-                        commitsInProgress,
-                        commitException)
+                duration / 1000000L,
+                commitsInProgress,
+                commitException)
               val failure = Status.Failure(commitException)
               replyTo.foreach(_ ! failure)
           }
         }
-      }
-    )
+      })
   }
 
   private def processResult(partitionsToFetch: Set[TopicPartition], rawResult: ConsumerRecords[K, V]): Unit =
     if (!rawResult.isEmpty) {
-      //check the we got only requested partitions and did not drop any messages
+      // check the we got only requested partitions and did not drop any messages
       val fetchedTps = rawResult.partitions().asScala
-      if ((fetchedTps diff partitionsToFetch).nonEmpty)
+      if (fetchedTps.diff(partitionsToFetch).nonEmpty)
         throw new scala.IllegalArgumentException(
           s"Unexpected records polled. Expected: $partitionsToFetch, " +
-          s"result: ${rawResult.partitions()}, consumer assignment: ${consumer.assignment()}"
-        )
+          s"result: ${rawResult.partitions()}, consumer assignment: ${consumer.assignment()}")
 
       val safeRecords = resetProtection.protect(self, rawResult)
       progressTracker.received(safeRecords)
 
-      //send messages to actors
+      // send messages to actors
       requests.foreach {
         case (stageActorRef, req) =>
-          //gather all messages for ref
+          // gather all messages for ref
           // See https://github.com/akka/alpakka-kafka/issues/978
           // Temporary fix to avoid https://github.com/scala/bug/issues/11807
           // Using `VectorIterator` avoids the error from `ConcatIterator`
@@ -705,8 +702,7 @@ import scala.util.control.NonFatal
             .asScala
             .filterNot(_._2 == null)
             .toMap
-        }
-      )
+        })
 
     case req: Metadata.GetCommittedOffset @nowarn("cat=deprecation") =>
       @nowarn("cat=deprecation") val resp = Metadata.CommittedOffset(
@@ -714,15 +710,14 @@ import scala.util.control.NonFatal
           @nowarn("cat=deprecation") val offset = consumer.committed(req.partition, settings.getMetadataRequestTimeout)
           offset
         },
-        req.partition
-      )
+        req.partition)
       resp
   }
 
   private def stopFromMessage(msg: StopLike) = msg match {
-    case Stop => sender()
+    case Stop                         => sender()
     case StopFromStage(sourceStageId) => s"StageId [$sourceStageId]"
-    case other => s"unknown: [$other]"
+    case other                        => s"unknown: [$other]"
   }
 
   /**
@@ -759,8 +754,7 @@ import scala.util.control.NonFatal
   }
 
   private[KafkaConsumerActor] final class RebalanceListenerImpl(
-      partitionAssignmentHandler: PartitionAssignmentHandler
-  ) extends RebalanceListener {
+      partitionAssignmentHandler: PartitionAssignmentHandler) extends RebalanceListener {
 
     private val restrictedConsumer = new RestrictedConsumer(consumer, settings.partitionHandlerWarning.*(0.95d).asJava)
     private val warningDuration = settings.partitionHandlerWarning.toNanos
@@ -802,8 +796,8 @@ import scala.util.control.NonFatal
       val duration = System.nanoTime() - startTime
       if (duration > warningDuration) {
         log.warning("Partition assignment handler `{}` took longer than `partition-handler-warning`: {} ms",
-                    method,
-                    duration / 1000000L)
+          method,
+          duration / 1000000L)
       }
     }
   }

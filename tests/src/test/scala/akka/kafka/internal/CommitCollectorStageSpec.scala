@@ -9,27 +9,27 @@ import java.util.concurrent.atomic.AtomicLong
 import akka.Done
 import akka.actor.ActorSystem
 import akka.event.LoggingAdapter
-import akka.kafka.ConsumerMessage.{Committable, CommittableOffset, CommittableOffsetBatch}
-import akka.kafka.scaladsl.{Committer, Consumer}
+import akka.kafka.ConsumerMessage.{ Committable, CommittableOffset, CommittableOffsetBatch }
+import akka.kafka.scaladsl.{ Committer, Consumer }
 import akka.kafka.testkit.ConsumerResultFactory
-import akka.kafka.testkit.scaladsl.{ConsumerControlFactory, Slf4jToAkkaLoggingAdapter}
+import akka.kafka.testkit.scaladsl.{ ConsumerControlFactory, Slf4jToAkkaLoggingAdapter }
 import akka.kafka.tests.scaladsl.LogCapturing
-import akka.kafka.{CommitWhen, CommitterSettings, Repeated}
+import akka.kafka.{ CommitWhen, CommitterSettings, Repeated }
 import akka.stream.scaladsl.Keep
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
-import akka.stream.testkit.scaladsl.{TestSink, TestSource}
-import akka.stream.testkit.{TestPublisher, TestSubscriber}
+import akka.stream.testkit.scaladsl.{ TestSink, TestSource }
+import akka.stream.testkit.{ TestPublisher, TestSubscriber }
 import akka.testkit.TestKit
 import org.apache.kafka.clients.consumer.OffsetAndMetadata
 import org.apache.kafka.common.TopicPartition
-import org.scalatest.concurrent.{Eventually, IntegrationPatience, ScalaFutures}
+import org.scalatest.concurrent.{ Eventually, IntegrationPatience, ScalaFutures }
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
-import org.scalatest.{AppendedClues, BeforeAndAfterAll}
-import org.slf4j.{Logger, LoggerFactory}
+import org.scalatest.{ AppendedClues, BeforeAndAfterAll }
+import org.slf4j.{ Logger, LoggerFactory }
 
-import scala.concurrent.duration.{FiniteDuration, _}
-import scala.concurrent.{ExecutionContext, Future, Promise}
+import scala.concurrent.duration.{ FiniteDuration, _ }
+import scala.concurrent.{ ExecutionContext, Future, Promise }
 
 class CommitCollectorStageSpec(_system: ActorSystem)
     extends TestKit(_system)
@@ -78,7 +78,7 @@ class CommitCollectorStageSpec(_system: ActorSystem)
         committedBatch.batchSize shouldBe 2
         committedBatch.offsets.values should have size 1
         committedBatch.offsets.values.last shouldBe msg2.partitionOffset.offset
-        offsetFactory.committer.commits.size shouldBe 1 withClue "expected only one batch commit"
+        (offsetFactory.committer.commits.size shouldBe 1).withClue("expected only one batch commit")
 
         control.shutdown().futureValue shouldBe Done
       }
@@ -99,7 +99,7 @@ class CommitCollectorStageSpec(_system: ActorSystem)
         committedBatch.batchSize shouldBe 1
         committedBatch.offsets.values should have size 1
         committedBatch.offsets.values.last shouldBe msg.partitionOffset.offset
-        factory.committer.commits.size shouldBe 1 withClue "expected only one batch commit"
+        (factory.committer.commits.size shouldBe 1).withClue("expected only one batch commit")
 
         control.shutdown().futureValue shouldBe Done
       }
@@ -120,7 +120,7 @@ class CommitCollectorStageSpec(_system: ActorSystem)
         committedBatch.batchSize shouldBe 1
         committedBatch.offsets.values should have size 1
         committedBatch.offsets.values.last shouldBe msg.partitionOffset.offset
-        factory.committer.commits.size shouldBe 1 withClue "expected only one batch commit"
+        (factory.committer.commits.size shouldBe 1).withClue("expected only one batch commit")
 
         control.shutdown().futureValue shouldBe Done
       }
@@ -175,7 +175,7 @@ class CommitCollectorStageSpec(_system: ActorSystem)
         committedBatch.batchSize shouldBe 1
         committedBatch.offsets.values should have size 1
         committedBatch.offsets.values.last shouldBe msg.partitionOffset.offset
-        factory.committer.commits.size shouldBe 1 withClue "expected only one batch commit"
+        (factory.committer.commits.size shouldBe 1).withClue("expected only one batch commit")
 
         control.shutdown().futureValue shouldBe Done
       }
@@ -197,7 +197,7 @@ class CommitCollectorStageSpec(_system: ActorSystem)
         committedBatch.batchSize shouldBe 2
         committedBatch.offsets.values should have size 1
         committedBatch.offsets.values.last shouldBe msg2.partitionOffset.offset
-        committer.commits.size shouldBe 1 withClue "expected only one batch commit"
+        (committer.commits.size shouldBe 1).withClue("expected only one batch commit")
 
         control.shutdown().futureValue shouldBe Done
       }
@@ -223,7 +223,7 @@ class CommitCollectorStageSpec(_system: ActorSystem)
 
         val commits = factory.committer.commits
 
-        commits.last._2 shouldBe 10 withClue "last offset commit should be exactly the one preceeding the error"
+        (commits.last._2 shouldBe 10).withClue("last offset commit should be exactly the one preceeding the error")
 
         control.shutdown().futureValue shouldBe Done
       }
@@ -249,8 +249,9 @@ class CommitCollectorStageSpec(_system: ActorSystem)
         // downstream out of order
         val lastBatch = batches.maxBy(_.offsets.values.last)
 
-        lastBatch.offsets.values.last shouldBe msg2.partitionOffset.offset withClue "expect only the second offset to be committed"
-        offsetFactory.committer.commits.size shouldBe 2 withClue "expected only two commits"
+        (lastBatch.offsets.values.last shouldBe msg2.partitionOffset.offset).withClue(
+          "expect only the second offset to be committed")
+        (offsetFactory.committer.commits.size shouldBe 2).withClue("expected only two commits")
 
         control.shutdown().futureValue shouldBe Done
       }
@@ -274,12 +275,12 @@ class CommitCollectorStageSpec(_system: ActorSystem)
         // downstream out of order
         val lastBatch = batches.maxBy(_.offsets.values.last)
 
-        lastBatch.offsets.values.last shouldBe batch2
+        (lastBatch.offsets.values.last shouldBe batch2
           .asInstanceOf[CommittableOffsetBatch]
           .offsets
           .head
-          ._2 withClue "expect only the second offset to be committed"
-        offsetFactory.committer.commits.size shouldBe 2 withClue "expected only two commits"
+          ._2).withClue("expect only the second offset to be committed")
+        (offsetFactory.committer.commits.size shouldBe 2).withClue("expected only two commits")
 
         control.shutdown().futureValue shouldBe Done
       }
@@ -303,8 +304,9 @@ class CommitCollectorStageSpec(_system: ActorSystem)
         // downstream out of order
         val lastBatch = batches.maxBy(_.offsets.values.last)
 
-        lastBatch.offsets.values.last shouldBe msg2.partitionOffset.offset withClue "expect only the second offset to be committed"
-        offsetFactory.committer.commits.size shouldBe 2 withClue "expected only two commits"
+        (lastBatch.offsets.values.last shouldBe msg2.partitionOffset.offset).withClue(
+          "expect only the second offset to be committed")
+        (offsetFactory.committer.commits.size shouldBe 2).withClue("expected only two commits")
 
         control.shutdown().futureValue shouldBe Done
       }
@@ -328,22 +330,22 @@ class CommitCollectorStageSpec(_system: ActorSystem)
         // downstream out of order
         val lastBatch = batches.maxBy(_.offsets.values.last)
 
-        lastBatch.offsets.values.last shouldBe batch2
+        (lastBatch.offsets.values.last shouldBe batch2
           .asInstanceOf[CommittableOffsetBatch]
           .offsets
           .head
-          ._2 withClue "expect only the second offset to be committed"
-        offsetFactory.committer.commits.size shouldBe 2 withClue "expected only two commits"
+          ._2).withClue("expect only the second offset to be committed")
+        (offsetFactory.committer.commits.size shouldBe 2).withClue("expected only two commits")
 
         control.shutdown().futureValue shouldBe Done
       }
       "only commit when the next offset is observed for the correct partitions" in assertAllStagesStopped {
         val (sourceProbe, control, sinkProbe, offsetFactory) = streamProbesWithOffsetFactory(settings)
         val (msg1, msg2, msg3, msg4, msg5) = (offsetFactory.makeOffset(partitionNum = 1),
-                                              offsetFactory.makeOffset(partitionNum = 2),
-                                              offsetFactory.makeOffset(partitionNum = 1),
-                                              offsetFactory.makeOffset(partitionNum = 2),
-                                              offsetFactory.makeOffset(partitionNum = 1))
+          offsetFactory.makeOffset(partitionNum = 2),
+          offsetFactory.makeOffset(partitionNum = 1),
+          offsetFactory.makeOffset(partitionNum = 2),
+          offsetFactory.makeOffset(partitionNum = 1))
         val all = Seq(msg1, msg2, msg3, msg4, msg5)
 
         sinkProbe.request(100)
@@ -356,13 +358,15 @@ class CommitCollectorStageSpec(_system: ActorSystem)
         val lastBatches = batches.sortBy(_.offsets.values.last).reverse.take(2)
         lastBatches match {
           case lastBatch :: secondLastBatch :: Nil =>
-            lastBatch.offsets(msg3.partitionOffset.key) shouldBe msg3.partitionOffset.offset withClue "expect the second offset of partition 1"
-            secondLastBatch.offsets(msg2.partitionOffset.key) shouldBe msg2.partitionOffset.offset withClue "expect the first offset of partition 2"
+            (lastBatch.offsets(msg3.partitionOffset.key) shouldBe msg3.partitionOffset.offset).withClue(
+              "expect the second offset of partition 1")
+            (secondLastBatch.offsets(msg2.partitionOffset.key) shouldBe msg2.partitionOffset.offset).withClue(
+              "expect the first offset of partition 2")
 
           case list =>
             fail(s"extracting the last batches failed: $list")
         }
-        offsetFactory.committer.commits.size shouldBe 3 withClue "expected only three commits"
+        (offsetFactory.committer.commits.size shouldBe 3).withClue("expected only three commits")
 
         control.shutdown().futureValue shouldBe Done
       }
@@ -372,8 +376,7 @@ class CommitCollectorStageSpec(_system: ActorSystem)
   @scala.annotation.tailrec
   private def pullTillFailure(
       sinkProbe: TestSubscriber.Probe[CommittableOffsetBatch],
-      maxEvents: Int
-  ): Throwable = {
+      maxEvents: Int): Throwable = {
     val nextOrError = sinkProbe.expectNextOrError()
     if (maxEvents < 0) {
       fail("Max number events has been read, no error encountered.")
@@ -389,8 +392,8 @@ class CommitCollectorStageSpec(_system: ActorSystem)
   }
 
   private def streamProbes(
-      committerSettings: CommitterSettings
-  ): (TestPublisher.Probe[Committable], Consumer.Control, TestSubscriber.Probe[CommittableOffsetBatch]) = {
+      committerSettings: CommitterSettings)
+      : (TestPublisher.Probe[Committable], Consumer.Control, TestSubscriber.Probe[CommittableOffsetBatch]) = {
 
     val flow = Committer.batchFlow(committerSettings)
 
@@ -405,8 +408,7 @@ class CommitCollectorStageSpec(_system: ActorSystem)
   }
 
   private def streamProbesWithOffsetFactory(
-      committerSettings: CommitterSettings
-  ) = {
+      committerSettings: CommitterSettings) = {
     val (source, control, sink) = streamProbes(committerSettings)
     val factory = TestOffsetFactory(new TestBatchCommitter(committerSettings))
     (source, control, sink, factory)
@@ -415,17 +417,16 @@ class CommitCollectorStageSpec(_system: ActorSystem)
   object TestCommittableOffset {
 
     def apply(offsetCounter: AtomicLong,
-              committer: TestBatchCommitter,
-              failWith: Option[Throwable] = None,
-              partitionNum: Int = 1): CommittableOffset = {
+        committer: TestBatchCommitter,
+        failWith: Option[Throwable] = None,
+        partitionNum: Int = 1): CommittableOffset = {
       CommittableOffsetImpl(
         ConsumerResultFactory
           .partitionOffset(groupId = "group1",
-                           topic = "topic1",
-                           partition = partitionNum,
-                           offset = offsetCounter.incrementAndGet()),
-        "metadata1"
-      )(committer.underlying)
+            topic = "topic1",
+            partition = partitionNum,
+            offset = offsetCounter.incrementAndGet()),
+        "metadata1")(committer.underlying)
     }
   }
 
@@ -449,10 +450,8 @@ class CommitCollectorStageSpec(_system: ActorSystem)
 
   class TestBatchCommitter(
       commitSettings: CommitterSettings,
-      commitDelay: () => FiniteDuration = () => Duration.Zero
-  )(
-      implicit system: ActorSystem
-  ) {
+      commitDelay: () => FiniteDuration = () => Duration.Zero)(
+      implicit system: ActorSystem) {
 
     var commits = List.empty[(TopicPartition, Long)]
 

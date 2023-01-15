@@ -5,19 +5,19 @@
 
 package akka.kafka.benchmarks
 
-import java.lang.management.{BufferPoolMXBean, ManagementFactory, MemoryType}
+import java.lang.management.{ BufferPoolMXBean, ManagementFactory, MemoryType }
 
 import akka.NotUsed
 import akka.actor.Cancellable
 import akka.kafka.scaladsl.Consumer.Control
 import akka.stream.Materializer
-import akka.stream.scaladsl.{Keep, Sink, Source}
-import com.codahale.metrics.{Histogram, MetricRegistry}
-import javax.management.remote.{JMXConnectorFactory, JMXServiceURL}
-import javax.management.{Attribute, MBeanServerConnection, ObjectName}
+import akka.stream.scaladsl.{ Keep, Sink, Source }
+import com.codahale.metrics.{ Histogram, MetricRegistry }
+import javax.management.remote.{ JMXConnectorFactory, JMXServiceURL }
+import javax.management.{ Attribute, MBeanServerConnection, ObjectName }
 
-import scala.concurrent.duration.{FiniteDuration, _}
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.duration.{ FiniteDuration, _ }
+import scala.concurrent.{ ExecutionContext, Future }
 import scala.jdk.CollectionConverters._
 
 private[benchmarks] trait InflightMetrics {
@@ -47,8 +47,7 @@ private[benchmarks] trait InflightMetrics {
       control: Control,
       consumerMetricNames: List[ConsumerMetricRequest],
       brokerMetricNames: List[BrokerMetricRequest],
-      brokerJmxUrls: List[String]
-  )(implicit mat: Materializer): (Cancellable, Future[List[List[String]]]) = {
+      brokerJmxUrls: List[String])(implicit mat: Materializer): (Cancellable, Future[List[List[String]]]) = {
     implicit val ec: ExecutionContext = mat.executionContext
 
     val consumerMetricNamesSorted = consumerMetricNames.sortBy(_.name)
@@ -59,21 +58,21 @@ private[benchmarks] trait InflightMetrics {
 
     val (metricsControl, metricsFuture) = Source
       .tick(0.seconds, interval, NotUsed)
-      .scanAsync(accStart)({
+      .scanAsync(accStart) {
         case ((timeMs, accLastMetrics), _) =>
-          getAllMetrics(control, consumerMetricNamesSorted, brokerMetricNamesSorted, brokersJmx) map {
+          getAllMetrics(control, consumerMetricNamesSorted, brokerMetricNamesSorted, brokersJmx).map {
             case jvmMetrics :: consumerMetrics :: brokerMetrics :: Nil =>
               val timeMsMeasurement = Measurement(timeMsHeader, timeMs.toMillis.toDouble, GaugeMetricType)
               val newMetrics = timeMsMeasurement +: (jvmMetrics ++ consumerMetrics ++ brokerMetrics)
               val nextInterval = interval + timeMs
               val nextAcc = accLastMetrics match {
-                case None => InflightMetrics.reset(newMetrics, registry)
+                case None              => InflightMetrics.reset(newMetrics, registry)
                 case Some(lastMetrics) => InflightMetrics.update(lastMetrics, newMetrics)
               }
               (nextInterval, Some(nextAcc))
             case _ => throw new IllegalStateException("The wrong number of Future results were returned.")
           }
-      })
+      }
       .mapConcat { case (_, results: Option[List[Metric]]) => results.toList }
       .toMat(Sink.seq)(Keep.both)
       .run()
@@ -83,7 +82,7 @@ private[benchmarks] trait InflightMetrics {
       val metricsStrings = metrics.map(_.map(_.value.toString)).toList
       val summaryLine = metrics.last.map {
         case hg: HistogramGauge => hg.summaryValue.toString
-        case metric => metric.value.toString
+        case metric             => metric.value.toString
       }
       header +: metricsStrings :+ summaryLine
     }
@@ -92,7 +91,7 @@ private[benchmarks] trait InflightMetrics {
   }
 
   private def metricHeaders(consumerMetricNamesSorted: List[ConsumerMetricRequest],
-                            brokerMetricNamesSorted: List[BrokerMetricRequest]): List[String] = {
+      brokerMetricNamesSorted: List[BrokerMetricRequest]): List[String] = {
     jvmHeaders ++
     consumerMetricNamesSorted.map(consumerHeaderPrefix + _.name) ++
     brokerMetricNamesSorted.map(brokerHeaderPrefix + _.name.replace(",", ":"))
@@ -102,16 +101,14 @@ private[benchmarks] trait InflightMetrics {
    * Asynchronously retrieve all metrics
    */
   private def getAllMetrics(control: Control,
-                            consumerMetricNamesSorted: List[ConsumerMetricRequest],
-                            brokerMetricNamesSorted: List[BrokerMetricRequest],
-                            brokersJmx: List[MBeanServerConnection])(implicit ec: ExecutionContext) = {
+      consumerMetricNamesSorted: List[ConsumerMetricRequest],
+      brokerMetricNamesSorted: List[BrokerMetricRequest],
+      brokersJmx: List[MBeanServerConnection])(implicit ec: ExecutionContext) = {
     Future.sequence(
       List(
         jvm(),
         consumer(control, consumerMetricNamesSorted),
-        broker(brokersJmx, brokerMetricNamesSorted)
-      )
-    )
+        broker(brokersJmx, brokerMetricNamesSorted)))
   }
 
   /**
@@ -126,8 +123,7 @@ private[benchmarks] trait InflightMetrics {
       Measurement(gcTimeMsHeader, gcTimeMs, CounterMetricType),
       Measurement(heapBytesHeader, heapBytes, GaugeMetricType, getMeanSummary),
       Measurement(nonHeapBytesHeader, nonHeapBytes, GaugeMetricType, getMeanSummary),
-      Measurement(directBytesHeader, directBytes, GaugeMetricType, getMeanSummary)
-    )
+      Measurement(directBytesHeader, directBytes, GaugeMetricType, getMeanSummary))
   }
 
   /**
@@ -139,9 +135,8 @@ private[benchmarks] trait InflightMetrics {
       .map(bean => (bean.getCollectionCount.toDouble, bean.getCollectionTime.toDouble))
       .getOrElse(
         throw new Exception(
-          s"Compatible GC not found. Need one of: ${compatibleGcNames.mkString(",")}. Found ${gcBeans.map(_.getName()).mkString(",")}."
-        )
-      )
+          s"Compatible GC not found. Need one of: ${compatibleGcNames.mkString(",")}. Found ${gcBeans.map(
+              _.getName()).mkString(",")}."))
   }
 
   /**
@@ -159,8 +154,7 @@ private[benchmarks] trait InflightMetrics {
    * Return specified consumer-level metrics using Alpakka Kafka's [[Control]] metrics API.
    */
   private def consumer[T](control: Control, requests: List[ConsumerMetricRequest])(
-      implicit ec: ExecutionContext
-  ): Future[List[Measurement]] = {
+      implicit ec: ExecutionContext): Future[List[Measurement]] = {
     control.metrics.map { consumerMetrics =>
       val metricValues = consumerMetrics
         .filter { case (name, _) => requests.map(_.name).contains(name.name()) }
@@ -171,7 +165,7 @@ private[benchmarks] trait InflightMetrics {
         .map(parseNumeric)
 
       require(metricValues.size == requests.size,
-              "Number of returned metric values DNE number of requested consumer metrics")
+        "Number of returned metric values DNE number of requested consumer metrics")
 
       val results: List[Measurement] = requests
         .zip(metricValues)
@@ -188,8 +182,7 @@ private[benchmarks] trait InflightMetrics {
    */
   private def broker(
       brokersJmx: Seq[MBeanServerConnection],
-      brokerMetricNames: List[BrokerMetricRequest]
-  )(implicit ec: ExecutionContext): Future[List[Measurement]] = Future {
+      brokerMetricNames: List[BrokerMetricRequest])(implicit ec: ExecutionContext): Future[List[Measurement]] = Future {
     brokerMetricNames
       .sortBy(_.name)
       .map {
@@ -236,9 +229,9 @@ private[benchmarks] object InflightMetrics {
    * dropwizard [[Sampling]].
    */
   final case class Measurement(name: String,
-                               value: Double,
-                               metricType: MetricType,
-                               summaryValueF: Option[com.codahale.metrics.Sampling => Long] = None)
+      value: Double,
+      metricType: MetricType,
+      summaryValueF: Option[com.codahale.metrics.Sampling => Long] = None)
 
   sealed trait Metric {
     def measurement: Measurement
@@ -271,7 +264,7 @@ private[benchmarks] object InflightMetrics {
 
   def parseNumeric(n: Any): Double = n match {
     case n: Double => n
-    case n: Long => n.toDouble
-    case o => java.lang.Double.parseDouble(o.toString)
+    case n: Long   => n.toDouble
+    case o         => java.lang.Double.parseDouble(o.toString)
   }
 }

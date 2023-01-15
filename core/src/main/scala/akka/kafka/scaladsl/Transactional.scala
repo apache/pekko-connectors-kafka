@@ -5,8 +5,8 @@
 
 package akka.kafka.scaladsl
 
-import akka.annotation.{ApiMayChange, InternalApi}
-import akka.kafka.ConsumerMessage.{PartitionOffset, TransactionalMessage}
+import akka.annotation.{ ApiMayChange, InternalApi }
+import akka.kafka.ConsumerMessage.{ PartitionOffset, TransactionalMessage }
 import akka.kafka.ProducerMessage._
 import akka.kafka.internal.{
   TransactionalProducerStage,
@@ -15,10 +15,10 @@ import akka.kafka.internal.{
   TransactionalSubSource
 }
 import akka.kafka.scaladsl.Consumer.Control
-import akka.kafka.{AutoSubscription, ConsumerMessage, ConsumerSettings, ProducerSettings, Subscription}
+import akka.kafka.{ AutoSubscription, ConsumerMessage, ConsumerSettings, ProducerSettings, Subscription }
 import akka.stream.ActorAttributes
-import akka.stream.scaladsl.{Flow, FlowWithContext, Keep, Sink, Source, SourceWithContext}
-import akka.{Done, NotUsed}
+import akka.stream.scaladsl.{ Flow, FlowWithContext, Keep, Sink, Source, SourceWithContext }
+import akka.{ Done, NotUsed }
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.common.TopicPartition
 
@@ -34,7 +34,7 @@ object Transactional {
    * necessary to use the [[Transactional.sink]] or [[Transactional.flow]] (for passthrough).
    */
   def source[K, V](settings: ConsumerSettings[K, V],
-                   subscription: Subscription): Source[TransactionalMessage[K, V], Control] =
+      subscription: Subscription): Source[TransactionalMessage[K, V], Control] =
     Source.fromGraph(new TransactionalSource[K, V](settings, subscription))
 
   /**
@@ -46,8 +46,7 @@ object Transactional {
   @ApiMayChange
   def sourceWithOffsetContext[K, V](
       settings: ConsumerSettings[K, V],
-      subscription: Subscription
-  ): SourceWithContext[ConsumerRecord[K, V], PartitionOffset, Control] =
+      subscription: Subscription): SourceWithContext[ConsumerRecord[K, V], PartitionOffset, Control] =
     Source
       .fromGraph(new TransactionalSourceWithOffsetContext[K, V](settings, subscription))
       .asSourceWithContext(_._2)
@@ -68,8 +67,7 @@ object Transactional {
   @InternalApi
   private[kafka] def partitionedSource[K, V](
       settings: ConsumerSettings[K, V],
-      subscription: AutoSubscription
-  ): Source[(TopicPartition, Source[TransactionalMessage[K, V], NotUsed]), Control] =
+      subscription: AutoSubscription): Source[(TopicPartition, Source[TransactionalMessage[K, V], NotUsed]), Control] =
     Source.fromGraph(new TransactionalSubSource[K, V](settings, subscription))
 
   /**
@@ -78,8 +76,7 @@ object Transactional {
    */
   def sink[K, V](
       settings: ProducerSettings[K, V],
-      transactionalId: String
-  ): Sink[Envelope[K, V, ConsumerMessage.PartitionOffset], Future[Done]] =
+      transactionalId: String): Sink[Envelope[K, V, ConsumerMessage.PartitionOffset], Future[Done]] =
     flow(settings, transactionalId).toMat(Sink.ignore)(Keep.right)
 
   /**
@@ -91,8 +88,7 @@ object Transactional {
   @ApiMayChange
   def sinkWithOffsetContext[K, V](
       settings: ProducerSettings[K, V],
-      transactionalId: String
-  ): Sink[(Envelope[K, V, NotUsed], PartitionOffset), Future[Done]] =
+      transactionalId: String): Sink[(Envelope[K, V, NotUsed], PartitionOffset), Future[Done]] =
     sink(settings, transactionalId)
       .contramap {
         case (env, offset) =>
@@ -106,15 +102,14 @@ object Transactional {
    */
   def flow[K, V](
       settings: ProducerSettings[K, V],
-      transactionalId: String
-  ): Flow[Envelope[K, V, ConsumerMessage.PartitionOffset], Results[K, V, ConsumerMessage.PartitionOffset], NotUsed] = {
+      transactionalId: String): Flow[Envelope[K, V, ConsumerMessage.PartitionOffset], Results[K, V,
+    ConsumerMessage.PartitionOffset], NotUsed] = {
     require(transactionalId != null && transactionalId.length > 0, "You must define a Transactional id.")
     require(settings.producerFactorySync.isEmpty, "You cannot use a shared or external producer factory.")
 
     val flow = Flow
       .fromGraph(
-        new TransactionalProducerStage[K, V, ConsumerMessage.PartitionOffset](settings, transactionalId)
-      )
+        new TransactionalProducerStage[K, V, ConsumerMessage.PartitionOffset](settings, transactionalId))
       .mapAsync(settings.parallelism)(identity)
 
     flowWithDispatcher(settings, flow)
@@ -133,24 +128,20 @@ object Transactional {
   @ApiMayChange
   def flowWithOffsetContext[K, V](
       settings: ProducerSettings[K, V],
-      transactionalId: String
-  ): FlowWithContext[Envelope[K, V, NotUsed],
-                     ConsumerMessage.PartitionOffset,
-                     Results[K, V, ConsumerMessage.PartitionOffset],
-                     ConsumerMessage.PartitionOffset,
-                     NotUsed] = {
+      transactionalId: String): FlowWithContext[Envelope[K, V, NotUsed],
+    ConsumerMessage.PartitionOffset, Results[K, V, ConsumerMessage.PartitionOffset],
+    ConsumerMessage.PartitionOffset, NotUsed] = {
     val noContext: Flow[Envelope[K, V, PartitionOffset], Results[K, V, PartitionOffset], NotUsed] =
       flow(settings, transactionalId)
     noContext
-      .asFlowWithContext[Envelope[K, V, NotUsed], PartitionOffset, PartitionOffset]({
+      .asFlowWithContext[Envelope[K, V, NotUsed], PartitionOffset, PartitionOffset] {
         case (env, c) => env.withPassThrough(c)
-      })(res => res.passThrough)
+      }(res => res.passThrough)
   }
 
   private def flowWithDispatcher[PassThrough, V, K](
       settings: ProducerSettings[K, V],
-      flow: Flow[Envelope[K, V, PassThrough], Results[K, V, PassThrough], NotUsed]
-  ) =
+      flow: Flow[Envelope[K, V, PassThrough], Results[K, V, PassThrough], NotUsed]) =
     if (settings.dispatcher.isEmpty) flow
     else flow.withAttributes(ActorAttributes.dispatcher(settings.dispatcher))
 }

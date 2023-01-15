@@ -5,7 +5,7 @@
 
 package akka.kafka.internal
 import akka.annotation.InternalApi
-import org.apache.kafka.clients.consumer.{Consumer, ConsumerRecords, OffsetAndMetadata}
+import org.apache.kafka.clients.consumer.{ Consumer, ConsumerRecords, OffsetAndMetadata }
 import org.apache.kafka.common.TopicPartition
 
 import scala.jdk.CollectionConverters._
@@ -41,8 +41,8 @@ trait ConsumerProgressTracking extends ConsumerAssignmentTrackingListener {
   def received[K, V](records: ConsumerRecords[K, V]): Unit = {}
   def committed(offsets: java.util.Map[TopicPartition, OffsetAndMetadata]): Unit = {}
   def assignedPositionsAndSeek(assignedTps: Set[TopicPartition],
-                               consumer: Consumer[_, _],
-                               positionTimeout: java.time.Duration): Unit = {}
+      consumer: Consumer[_, _],
+      positionTimeout: java.time.Duration): Unit = {}
   def addProgressTrackingCallback(callback: ConsumerAssignmentTrackingListener): Unit = {}
 }
 
@@ -79,21 +79,21 @@ final class ConsumerProgressTrackerImpl extends ConsumerProgressTracking {
 
   override def received[K, V](received: ConsumerRecords[K, V]): Unit = {
     receivedMessagesImpl = receivedMessagesImpl ++ received
-        .partitions()
-        .asScala
-        // only tracks the partitions that are currently assigned, as assignment is a synchronous interaction and polls
-        // for an old consumer group epoch will not return (we get to make polls for the current generation). Supposing a
-        // revoke completes and then the poll() is received for a previous epoch, we drop the records here (partitions
-        // are no longer assigned to the consumer). If instead we get a poll() and then a revoke, we only track the
-        // offsets for that short period of time and then they are revoked, so that is also safe.
-        .intersect(assignedPartitions)
-        .map(tp => (tp, received.records(tp)))
-        // get the last record, its the largest offset/most recent timestamp
-        .map { case (partition, records) => (partition, records.get(records.size() - 1)) }
-        .map {
-          case (partition, record) =>
-            partition -> SafeOffsetAndTimestamp(record.offset(), record.timestamp())
-        }
+      .partitions()
+      .asScala
+      // only tracks the partitions that are currently assigned, as assignment is a synchronous interaction and polls
+      // for an old consumer group epoch will not return (we get to make polls for the current generation). Supposing a
+      // revoke completes and then the poll() is received for a previous epoch, we drop the records here (partitions
+      // are no longer assigned to the consumer). If instead we get a poll() and then a revoke, we only track the
+      // offsets for that short period of time and then they are revoked, so that is also safe.
+      .intersect(assignedPartitions)
+      .map(tp => (tp, received.records(tp)))
+      // get the last record, its the largest offset/most recent timestamp
+      .map { case (partition, records) => (partition, records.get(records.size() - 1)) }
+      .map {
+        case (partition, record) =>
+          partition -> SafeOffsetAndTimestamp(record.offset(), record.timestamp())
+      }
   }
 
   override def commitRequested(offsets: Map[TopicPartition, OffsetAndMetadata]): Unit = {
@@ -118,19 +118,19 @@ final class ConsumerProgressTrackerImpl extends ConsumerProgressTracking {
     // progress, so we update them when consumer is assigned. Consumer can always add more partitions - we only lose
     // them on revoke(), which is why this operation is only additive.
     commitRequestedOffsetsImpl = commitRequestedOffsetsImpl ++ assignedOffsets.map {
-        case (partition, offset) =>
-          partition -> commitRequested.getOrElse(partition, new OffsetAndMetadata(offset))
-      }
+      case (partition, offset) =>
+        partition -> commitRequested.getOrElse(partition, new OffsetAndMetadata(offset))
+    }
     committedOffsetsImpl = committedOffsets ++ assignedOffsets.map {
-        case (partition, offset) =>
-          partition -> committedOffsets.getOrElse(partition, new OffsetAndMetadata(offset))
-      }
+      case (partition, offset) =>
+        partition -> committedOffsets.getOrElse(partition, new OffsetAndMetadata(offset))
+    }
     assignedOffsetsCallbacks.foreach(_.assignedPositions(assignedTps, assignedOffsets))
   }
 
   override def assignedPositionsAndSeek(assignedTps: Set[TopicPartition],
-                                        consumer: Consumer[_, _],
-                                        positionTimeout: java.time.Duration): Unit = {
+      consumer: Consumer[_, _],
+      positionTimeout: java.time.Duration): Unit = {
     val assignedOffsets = assignedTps.map(tp => tp -> consumer.position(tp, positionTimeout)).toMap
     assignedPositions(assignedTps, assignedOffsets)
   }

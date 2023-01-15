@@ -8,10 +8,10 @@ import java.util.concurrent.CompletionStage
 
 import akka.annotation.ApiMayChange
 import akka.japi.Pair
-import akka.{Done, NotUsed}
-import akka.kafka.ConsumerMessage.{Committable, CommittableOffsetBatch}
-import akka.kafka.{scaladsl, CommitterSettings}
-import akka.stream.javadsl.{Flow, FlowWithContext, Sink}
+import akka.{ Done, NotUsed }
+import akka.kafka.ConsumerMessage.{ Committable, CommittableOffsetBatch }
+import akka.kafka.{ scaladsl, CommitterSettings }
+import akka.stream.javadsl.{ Flow, FlowWithContext, Sink }
 
 import scala.compat.java8.FutureConverters.FutureOps
 
@@ -37,8 +37,7 @@ object Committer {
    */
   @ApiMayChange
   def flowWithOffsetContext[E, C <: Committable](
-      settings: CommitterSettings
-  ): FlowWithContext[E, C, NotUsed, CommittableOffsetBatch, NotUsed] =
+      settings: CommitterSettings): FlowWithContext[E, C, NotUsed, CommittableOffsetBatch, NotUsed] =
     scaladsl.Committer.flowWithOffsetContext[E](settings).asJava
 
   /**
@@ -54,8 +53,7 @@ object Committer {
    */
   @ApiMayChange
   def sinkWithOffsetContext[E, C <: Committable](
-      settings: CommitterSettings
-  ): Sink[Pair[E, C], CompletionStage[Done]] =
+      settings: CommitterSettings): Sink[Pair[E, C], CompletionStage[Done]] =
     akka.stream.scaladsl
       .Flow[Pair[E, C]]
       .map(_.toScala)

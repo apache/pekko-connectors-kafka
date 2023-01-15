@@ -9,8 +9,8 @@ import java.util.Objects
 import java.util.concurrent.CompletionStage
 
 import akka.Done
-import akka.annotation.{DoNotInherit, InternalApi}
-import akka.kafka.internal.{CommittableOffsetBatchImpl, CommittedMarker}
+import akka.annotation.{ DoNotInherit, InternalApi }
+import akka.kafka.internal.{ CommittableOffsetBatchImpl, CommittedMarker }
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.common.TopicPartition
 
@@ -29,8 +29,7 @@ object ConsumerMessage {
    */
   final case class CommittableMessage[K, V](
       record: ConsumerRecord[K, V],
-      committableOffset: CommittableOffset
-  )
+      committableOffset: CommittableOffset)
 
   /**
    * Output element of `transactionalSource`.
@@ -38,8 +37,7 @@ object ConsumerMessage {
    */
   final case class TransactionalMessage[K, V](
       record: ConsumerRecord[K, V],
-      partitionOffset: PartitionOffset
-  )
+      partitionOffset: PartitionOffset)
 
   /**
    * Carries offsets from Kafka for aggregation and committing by the [[scaladsl.Committer]]
@@ -136,8 +134,7 @@ object ConsumerMessage {
       override val key: GroupTopicPartition,
       override val offset: Long,
       private[kafka] val committedMarker: CommittedMarker,
-      private[kafka] val fromPartitionedSource: Boolean
-  ) extends PartitionOffset(key, offset)
+      private[kafka] val fromPartitionedSource: Boolean) extends PartitionOffset(key, offset)
 
   /**
    * groupId, topic, partition key for an offset position.
@@ -145,8 +142,7 @@ object ConsumerMessage {
   final case class GroupTopicPartition(
       groupId: String,
       topic: String,
-      partition: Int
-  ) {
+      partition: Int) {
     def topicPartition: TopicPartition = new TopicPartition(topic, partition)
   }
 

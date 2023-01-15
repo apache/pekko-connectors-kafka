@@ -5,14 +5,14 @@
 
 package akka.kafka.javadsl
 
-import java.util.concurrent.{CompletionStage, Executor}
+import java.util.concurrent.{ CompletionStage, Executor }
 
-import akka.actor.{ActorRef, ActorSystem}
+import akka.actor.{ ActorRef, ActorSystem }
 import akka.dispatch.ExecutionContexts
 import akka.kafka.ConsumerSettings
 import akka.util.Timeout
 import org.apache.kafka.clients.consumer.OffsetAndMetadata
-import org.apache.kafka.common.{PartitionInfo, TopicPartition}
+import org.apache.kafka.common.{ PartitionInfo, TopicPartition }
 
 import scala.compat.java8.FutureConverters._
 import scala.concurrent.ExecutionContextExecutor
@@ -21,8 +21,7 @@ import scala.jdk.CollectionConverters._
 class MetadataClient private (metadataClient: akka.kafka.scaladsl.MetadataClient) {
 
   def getBeginningOffsets[K, V](
-      partitions: java.util.Set[TopicPartition]
-  ): CompletionStage[java.util.Map[TopicPartition, java.lang.Long]] =
+      partitions: java.util.Set[TopicPartition]): CompletionStage[java.util.Map[TopicPartition, java.lang.Long]] =
     metadataClient
       .getBeginningOffsets(partitions.asScala.toSet)
       .map { beginningOffsets =>
@@ -37,8 +36,7 @@ class MetadataClient private (metadataClient: akka.kafka.scaladsl.MetadataClient
       .toJava
 
   def getEndOffsets(
-      partitions: java.util.Set[TopicPartition]
-  ): CompletionStage[java.util.Map[TopicPartition, java.lang.Long]] =
+      partitions: java.util.Set[TopicPartition]): CompletionStage[java.util.Map[TopicPartition, java.lang.Long]] =
     metadataClient
       .getEndOffsets(partitions.asScala.toSet)
       .map { endOffsets =>
@@ -75,8 +73,7 @@ class MetadataClient private (metadataClient: akka.kafka.scaladsl.MetadataClient
       .toJava
 
   def getCommittedOffsets(
-      partitions: java.util.Set[TopicPartition]
-  ): CompletionStage[java.util.Map[TopicPartition, OffsetAndMetadata]] =
+      partitions: java.util.Set[TopicPartition]): CompletionStage[java.util.Map[TopicPartition, OffsetAndMetadata]] =
     metadataClient
       .getCommittedOffsets(partitions.asScala.toSet)
       .map { committedOffsets =>
@@ -97,9 +94,9 @@ object MetadataClient {
   }
 
   def create[K, V](consumerSettings: ConsumerSettings[K, V],
-                   timeout: Timeout,
-                   system: ActorSystem,
-                   executor: Executor): MetadataClient = {
+      timeout: Timeout,
+      system: ActorSystem,
+      executor: Executor): MetadataClient = {
     val metadataClient = akka.kafka.scaladsl.MetadataClient
       .create(consumerSettings, timeout)(system, ExecutionContexts.fromExecutor(executor))
     new MetadataClient(metadataClient)

@@ -8,8 +8,8 @@ package akka.kafka
 import java.util.Optional
 
 import akka.actor.NoSerializationVerificationNeeded
-import org.apache.kafka.clients.consumer.{OffsetAndMetadata, OffsetAndTimestamp}
-import org.apache.kafka.common.{PartitionInfo, TopicPartition}
+import org.apache.kafka.clients.consumer.{ OffsetAndMetadata, OffsetAndTimestamp }
+import org.apache.kafka.common.{ PartitionInfo, TopicPartition }
 
 import scala.jdk.CollectionConverters._
 import scala.util.Try

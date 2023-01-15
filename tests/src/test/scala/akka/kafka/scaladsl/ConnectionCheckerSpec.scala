@@ -8,7 +8,7 @@ package akka.kafka.scaladsl
 import akka.kafka._
 import akka.kafka.testkit.KafkaTestkitTestcontainersSettings
 import akka.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
-import akka.stream.scaladsl.{Keep, Sink}
+import akka.stream.scaladsl.{ Keep, Sink }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import akka.stream.testkit.scaladsl.TestSink
 import org.apache.kafka.clients.consumer.ConsumerConfig

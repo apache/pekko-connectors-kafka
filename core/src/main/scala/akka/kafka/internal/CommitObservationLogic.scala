@@ -7,7 +7,7 @@ package akka.kafka.internal
 
 import akka.kafka.CommitWhen.OffsetFirstObserved
 import akka.kafka.CommitterSettings
-import akka.kafka.ConsumerMessage.{Committable, CommittableOffset, CommittableOffsetBatch, GroupTopicPartition}
+import akka.kafka.ConsumerMessage.{ Committable, CommittableOffset, CommittableOffsetBatch, GroupTopicPartition }
 import akka.stream.stage.GraphStageLogic
 
 /**
@@ -21,7 +21,7 @@ private[internal] trait CommitObservationLogic { self: GraphStageLogic =>
   /** Batches offsets until a commit is triggered. */
   protected var offsetBatch: CommittableOffsetBatch = CommittableOffsetBatch.empty
 
-  /** Deferred offsets when `CommitterSetting.when == CommitWhen.NextOffsetObserved` **/
+  /** Deferred offsets when `CommitterSetting.when == CommitWhen.NextOffsetObserved` * */
   private var deferredOffsets: Map[GroupTopicPartition, Committable] = Map.empty
 
   /**
@@ -40,16 +40,13 @@ private[internal] trait CommitObservationLogic { self: GraphStageLogic =>
           for { (gtp, offsetAndMetadata) <- batch.offsetsAndMetadata } updateBatchForPartition(
             gtp,
             batch.filter(_.equals(gtp)),
-            offsetAndMetadata.offset()
-          )
+            offsetAndMetadata.offset())
         case null =>
           throw new IllegalArgumentException(
-            s"Unknown Committable implementation, got [null]"
-          )
+            s"Unknown Committable implementation, got [null]")
         case unknownImpl =>
           throw new IllegalArgumentException(
-            s"Unknown Committable implementation, got [${unknownImpl.getClass.getName}]"
-          )
+            s"Unknown Committable implementation, got [${unknownImpl.getClass.getName}]")
 
       }
     }

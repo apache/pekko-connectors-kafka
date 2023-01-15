@@ -10,18 +10,18 @@ import java.util.concurrent.atomic.AtomicInteger
 import akka.actor.ActorSystem
 import akka.dispatch.ExecutionContexts
 import akka.kafka.ConsumerMessage.CommittableMessage
-import akka.kafka.benchmarks.InflightMetrics.{BrokerMetricRequest, ConsumerMetricRequest}
+import akka.kafka.benchmarks.InflightMetrics.{ BrokerMetricRequest, ConsumerMetricRequest }
 import akka.kafka.scaladsl.Committer
 import akka.kafka.scaladsl.Consumer.DrainingControl
-import akka.kafka.{CommitDelivery, CommitterSettings}
+import akka.kafka.{ CommitDelivery, CommitterSettings }
 import akka.stream.Materializer
-import akka.stream.scaladsl.{Keep, Sink, Source}
+import akka.stream.scaladsl.{ Keep, Sink, Source }
 import com.codahale.metrics.Meter
 import com.typesafe.scalalogging.LazyLogging
 import org.apache.kafka.clients.consumer.ConsumerRecord
 
 import scala.concurrent.duration._
-import scala.concurrent.{Await, ExecutionContext, Promise}
+import scala.concurrent.{ Await, ExecutionContext, Promise }
 import scala.language.postfixOps
 import scala.util.Success
 
@@ -67,12 +67,11 @@ object ReactiveKafkaConsumerBenchmarks extends LazyLogging with InflightMetrics 
    * metrics.
    */
   def consumePlainInflightMetrics(fixture: NonCommittableFixture,
-                                  meter: Meter,
-                                  consumerMetricNames: List[ConsumerMetricRequest],
-                                  brokerMetricNames: List[BrokerMetricRequest],
-                                  brokerJmxUrls: List[String])(
-      implicit mat: Materializer
-  ): List[List[String]] = {
+      meter: Meter,
+      consumerMetricNames: List[ConsumerMetricRequest],
+      brokerMetricNames: List[BrokerMetricRequest],
+      brokerJmxUrls: List[String])(
+      implicit mat: Materializer): List[List[String]] = {
     logger.debug("Creating and starting a stream")
     val (control, future) = fixture.source
       .take(fixture.msgCount.toLong)
@@ -101,7 +100,7 @@ object ReactiveKafkaConsumerBenchmarks extends LazyLogging with InflightMetrics 
    * Reads elements from Kafka source and commits a batch as soon as it's possible.
    */
   def consumerAtLeastOnceBatched(batchSize: Int)(fixture: CommittableFixture, meter: Meter)(implicit sys: ActorSystem,
-                                                                                            mat: Materializer): Unit = {
+      mat: Materializer): Unit = {
     logger.debug("Creating and starting a stream")
     val committerDefaults = CommitterSettings(sys)
     val promise = Promise[Unit]()
@@ -128,8 +127,8 @@ object ReactiveKafkaConsumerBenchmarks extends LazyLogging with InflightMetrics 
    * Reads elements from Kafka source and commits in batches with no backpressure on committing.
    */
   def consumerCommitAndForget(
-      commitBatchSize: Int
-  )(fixture: CommittableFixture, meter: Meter)(implicit sys: ActorSystem, mat: Materializer): Unit = {
+      commitBatchSize: Int)(fixture: CommittableFixture, meter: Meter)(
+      implicit sys: ActorSystem, mat: Materializer): Unit = {
     logger.debug("Creating and starting a stream")
     val committerDefaults = CommitterSettings(sys)
     val promise = Promise[Unit]()
@@ -145,8 +144,8 @@ object ReactiveKafkaConsumerBenchmarks extends LazyLogging with InflightMetrics 
       }
       .toMat(
         Committer
-          .sink(committerDefaults.withDelivery(CommitDelivery.SendAndForget).withMaxBatch(commitBatchSize.toLong))
-      )(DrainingControl.apply)
+          .sink(committerDefaults.withDelivery(CommitDelivery.SendAndForget).withMaxBatch(commitBatchSize.toLong)))(
+        DrainingControl.apply)
       .run()
 
     Await.result(promise.future, streamingTimeout)

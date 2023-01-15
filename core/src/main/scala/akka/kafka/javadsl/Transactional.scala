@@ -9,13 +9,13 @@ import java.util.concurrent.CompletionStage
 
 import akka.annotation.ApiMayChange
 import akka.japi.Pair
-import akka.kafka.ConsumerMessage.{PartitionOffset, TransactionalMessage}
+import akka.kafka.ConsumerMessage.{ PartitionOffset, TransactionalMessage }
 import akka.kafka.ProducerMessage._
 import akka.kafka._
-import akka.kafka.internal.{ConsumerControlAsJava, TransactionalSourceWithOffsetContext}
+import akka.kafka.internal.{ ConsumerControlAsJava, TransactionalSourceWithOffsetContext }
 import akka.kafka.javadsl.Consumer.Control
 import akka.stream.javadsl._
-import akka.{Done, NotUsed}
+import akka.{ Done, NotUsed }
 import org.apache.kafka.clients.consumer.ConsumerRecord
 
 import scala.compat.java8.FutureConverters.FutureOps
@@ -30,7 +30,7 @@ object Transactional {
    * necessary to use the [[Transactional.sink]] or [[Transactional.flow]] (for passthrough).
    */
   def source[K, V](consumerSettings: ConsumerSettings[K, V],
-                   subscription: Subscription): Source[TransactionalMessage[K, V], Control] =
+      subscription: Subscription): Source[TransactionalMessage[K, V], Control] =
     scaladsl.Transactional
       .source(consumerSettings, subscription)
       .mapMaterializedValue(ConsumerControlAsJava.apply)
@@ -45,8 +45,7 @@ object Transactional {
   @ApiMayChange
   def sourceWithOffsetContext[K, V](
       consumerSettings: ConsumerSettings[K, V],
-      subscription: Subscription
-  ): SourceWithContext[ConsumerRecord[K, V], PartitionOffset, Control] =
+      subscription: Subscription): SourceWithContext[ConsumerRecord[K, V], PartitionOffset, Control] =
     akka.stream.scaladsl.Source
       .fromGraph(new TransactionalSourceWithOffsetContext[K, V](consumerSettings, subscription))
       .mapMaterializedValue(ConsumerControlAsJava.apply)
@@ -85,8 +84,7 @@ object Transactional {
    */
   def sink[K, V, IN <: Envelope[K, V, ConsumerMessage.PartitionOffset]](
       settings: ProducerSettings[K, V],
-      transactionalId: String
-  ): Sink[IN, CompletionStage[Done]] =
+      transactionalId: String): Sink[IN, CompletionStage[Done]] =
     scaladsl.Transactional
       .sink(settings, transactionalId)
       .mapMaterializedValue(_.toJava)
@@ -101,8 +99,7 @@ object Transactional {
   @ApiMayChange
   def sinkWithOffsetContext[K, V](
       settings: ProducerSettings[K, V],
-      transactionalId: String
-  ): Sink[Pair[Envelope[K, V, NotUsed], PartitionOffset], CompletionStage[Done]] =
+      transactionalId: String): Sink[Pair[Envelope[K, V, NotUsed], PartitionOffset], CompletionStage[Done]] =
     akka.stream.scaladsl
       .Flow[Pair[Envelope[K, V, NotUsed], PartitionOffset]]
       .map(_.toScala)
@@ -117,8 +114,7 @@ object Transactional {
    */
   def flow[K, V, IN <: Envelope[K, V, ConsumerMessage.PartitionOffset]](
       settings: ProducerSettings[K, V],
-      transactionalId: String
-  ): Flow[IN, Results[K, V, ConsumerMessage.PartitionOffset], NotUsed] =
+      transactionalId: String): Flow[IN, Results[K, V, ConsumerMessage.PartitionOffset], NotUsed] =
     scaladsl.Transactional.flow(settings, transactionalId).asJava
 
   /**
@@ -134,11 +130,8 @@ object Transactional {
   @ApiMayChange
   def flowWithOffsetContext[K, V](
       settings: ProducerSettings[K, V],
-      transactionalId: String
-  ): FlowWithContext[Envelope[K, V, NotUsed],
-                     ConsumerMessage.PartitionOffset,
-                     Results[K, V, ConsumerMessage.PartitionOffset],
-                     ConsumerMessage.PartitionOffset,
-                     NotUsed] =
+      transactionalId: String): FlowWithContext[Envelope[K, V, NotUsed],
+    ConsumerMessage.PartitionOffset, Results[K, V, ConsumerMessage.PartitionOffset],
+    ConsumerMessage.PartitionOffset, NotUsed] =
     scaladsl.Transactional.flowWithOffsetContext(settings, transactionalId).asJava
 }
