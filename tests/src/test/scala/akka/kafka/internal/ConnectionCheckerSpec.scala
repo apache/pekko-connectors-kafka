@@ -5,7 +5,7 @@
 
 package akka.kafka.internal
 
-import akka.actor.{ActorRef, ActorSystem}
+import akka.actor.{ ActorRef, ActorSystem }
 import akka.kafka.Metadata
 import akka.kafka.ConnectionCheckerSettings
 import akka.kafka.KafkaConnectionFailed
@@ -17,7 +17,7 @@ import org.scalatest.wordspec.AnyWordSpecLike
 import org.scalatest.matchers.should.Matchers
 
 import scala.concurrent.duration._
-import scala.util.{Failure, Success}
+import scala.util.{ Failure, Success }
 
 class ConnectionCheckerSpec
     extends TestKit(ActorSystem("KafkaConnectionCheckerSpec", ConfigFactory.load()))

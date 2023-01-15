@@ -8,7 +8,7 @@ package akka.kafka.internal
 import akka.annotation.InternalApi
 import akka.kafka.scaladsl.Consumer._
 import akka.stream._
-import akka.stream.stage.{GraphStageLogic, GraphStageWithMaterializedValue}
+import akka.stream.stage.{ GraphStageLogic, GraphStageWithMaterializedValue }
 
 /**
  * INTERNAL API

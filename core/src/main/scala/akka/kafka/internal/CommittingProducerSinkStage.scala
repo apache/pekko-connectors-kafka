@@ -9,17 +9,17 @@ import java.util.concurrent.atomic.AtomicInteger
 
 import akka.Done
 import akka.annotation.InternalApi
-import akka.kafka.ConsumerMessage.{Committable, CommittableOffsetBatch}
+import akka.kafka.ConsumerMessage.{ Committable, CommittableOffsetBatch }
 import akka.kafka.ProducerMessage._
-import akka.kafka.{CommitDelivery, CommitterSettings, ProducerSettings}
+import akka.kafka.{ CommitDelivery, CommitterSettings, ProducerSettings }
 import akka.stream.ActorAttributes.SupervisionStrategy
 import akka.stream.Supervision.Decider
 import akka.stream.stage._
-import akka.stream.{Attributes, Inlet, SinkShape, Supervision}
-import org.apache.kafka.clients.producer.{Callback, RecordMetadata}
+import akka.stream.{ Attributes, Inlet, SinkShape, Supervision }
+import org.apache.kafka.clients.producer.{ Callback, RecordMetadata }
 
-import scala.concurrent.{Future, Promise}
-import scala.util.{Failure, Success, Try}
+import scala.concurrent.{ Future, Promise }
+import scala.util.{ Failure, Success, Try }
 
 /**
  * INTERNAL API.
@@ -29,8 +29,7 @@ import scala.util.{Failure, Success, Try}
 @InternalApi
 private[kafka] final class CommittingProducerSinkStage[K, V, IN <: Envelope[K, V, Committable]](
     val producerSettings: ProducerSettings[K, V],
-    val committerSettings: CommitterSettings
-) extends GraphStageWithMaterializedValue[SinkShape[IN], Future[Done]] {
+    val committerSettings: CommitterSettings) extends GraphStageWithMaterializedValue[SinkShape[IN], Future[Done]] {
 
   require(committerSettings.delivery == CommitDelivery.WaitForAck, "only CommitDelivery.WaitForAck may be used")
 
@@ -45,8 +44,7 @@ private[kafka] final class CommittingProducerSinkStage[K, V, IN <: Envelope[K, V
 
 private final class CommittingProducerSinkStageLogic[K, V, IN <: Envelope[K, V, Committable]](
     stage: CommittingProducerSinkStage[K, V, IN],
-    inheritedAttributes: Attributes
-) extends TimerGraphStageLogic(stage.shape)
+    inheritedAttributes: Attributes) extends TimerGraphStageLogic(stage.shape)
     with CommitObservationLogic
     with StageIdLogging
     with DeferredProducer[K, V] {
@@ -122,7 +120,7 @@ private final class CommittingProducerSinkStageLogic[K, V, IN <: Envelope[K, V, 
     case (count, exception) =>
       decider(exception) match {
         case Supervision.Stop => closeAndFailStage(exception)
-        case _ => collectOffsetIgnore(count, exception)
+        case _                => collectOffsetIgnore(count, exception)
       }
   }
 
@@ -167,7 +165,7 @@ private final class CommittingProducerSinkStageLogic[K, V, IN <: Envelope[K, V, 
 
   override protected def onTimer(timerKey: Any): Unit = timerKey match {
     case CommittingProducerSinkStage.CommitNow => commit(Interval)
-    case _ => log.warning("unexpected timer [{}]", timerKey)
+    case _                                     => log.warning("unexpected timer [{}]", timerKey)
   }
 
   private def collectOffset(offset: Committable): Unit =
@@ -177,9 +175,9 @@ private final class CommittingProducerSinkStageLogic[K, V, IN <: Envelope[K, V, 
   private def commit(triggeredBy: TriggerdBy): Unit = {
     if (offsetBatch.batchSize != 0) {
       log.debug("commit triggered by {} (awaitingProduceResult={} awaitingCommitResult={})",
-                triggeredBy,
-                awaitingProduceResult,
-                awaitingCommitResult)
+        triggeredBy,
+        awaitingProduceResult,
+        awaitingCommitResult)
       val batchSize = offsetBatch.batchSize
       offsetBatch
         .commitInternal()
@@ -207,9 +205,9 @@ private final class CommittingProducerSinkStageLogic[K, V, IN <: Envelope[K, V, 
 
   private def emergencyShutdown(ex: Throwable): Unit = {
     log.debug("Emergency shutdown triggered by {} (awaitingProduceResult={} awaitingCommitResult={})",
-              ex,
-              awaitingProduceResult,
-              awaitingCommitResult)
+      ex,
+      awaitingProduceResult,
+      awaitingCommitResult)
 
     offsetBatch.tellCommitEmergency()
     upstreamCompletionState = Some(Failure(ex))
@@ -245,8 +243,7 @@ private final class CommittingProducerSinkStageLogic[K, V, IN <: Envelope[K, V, 
         } else {
           emergencyShutdown(ex)
         }
-    }
-  )
+    })
 
   private def awaitingCommitsBeforeShutdown(): Boolean = {
     awaitingCommitResult -= clearDeferredOffsets()
@@ -267,8 +264,8 @@ private final class CommittingProducerSinkStageLogic[K, V, IN <: Envelope[K, V, 
         }
       } else
         log.debug("checkForCompletion awaitingProduceResult={} awaitingCommitResult={}",
-                  awaitingProduceResult,
-                  awaitingCommitResult)
+          awaitingProduceResult,
+          awaitingCommitResult)
 
   override def postStop(): Unit = {
     log.debug("CommittingProducerSink stopped")

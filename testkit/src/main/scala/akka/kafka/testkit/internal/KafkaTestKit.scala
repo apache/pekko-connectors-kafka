@@ -12,10 +12,10 @@ import java.util.Arrays
 
 import akka.actor.ActorSystem
 import akka.kafka.testkit.KafkaTestkitSettings
-import akka.kafka.{CommitterSettings, ConsumerSettings, ProducerSettings}
-import org.apache.kafka.clients.admin.{Admin, AdminClientConfig, NewTopic}
+import akka.kafka.{ CommitterSettings, ConsumerSettings, ProducerSettings }
+import org.apache.kafka.clients.admin.{ Admin, AdminClientConfig, NewTopic }
 import org.apache.kafka.clients.consumer.ConsumerConfig
-import org.apache.kafka.common.serialization.{Deserializer, Serializer, StringDeserializer, StringSerializer}
+import org.apache.kafka.common.serialization.{ Deserializer, Serializer, StringDeserializer, StringSerializer }
 import org.slf4j.Logger
 
 import scala.jdk.CollectionConverters._
@@ -43,7 +43,7 @@ trait KafkaTestKit {
   def consumerDefaults: ConsumerSettings[String, String] = consumerDefaults(StringDeserializer, StringDeserializer)
 
   def consumerDefaults[K, V](keyDeserializer: Deserializer[K],
-                             valueDeserializer: Deserializer[V]): ConsumerSettings[K, V] =
+      valueDeserializer: Deserializer[V]): ConsumerSettings[K, V] =
     ConsumerSettings(system, keyDeserializer, valueDeserializer)
       .withBootstrapServers(bootstrapServers)
       .withProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
@@ -98,8 +98,7 @@ trait KafkaTestKit {
   def adminClient: Admin = {
     assert(
       adminClientVar != null,
-      "admin client not created, be sure to call setupAdminClient() and cleanupAdminClient()"
-    )
+      "admin client not created, be sure to call setupAdminClient() and cleanupAdminClient()")
     adminClientVar
   }
 
@@ -161,8 +160,7 @@ trait KafkaTestKit {
       suffix: Int,
       partitions: Int,
       replication: Int,
-      config: scala.collection.Map[String, String]
-  ): String =
+      config: scala.collection.Map[String, String]): String =
     createTopic(suffix, partitions, replication, config.asJava)
 
   /**
@@ -175,8 +173,7 @@ trait KafkaTestKit {
   def createTopic(suffix: Int, partitions: Int, replication: Int, config: java.util.Map[String, String]): String = {
     val topicName = createTopicName(suffix)
     val createResult = adminClient.createTopics(
-      Arrays.asList(new NewTopic(topicName, partitions, replication.toShort).configs(config))
-    )
+      Arrays.asList(new NewTopic(topicName, partitions, replication.toShort).configs(config)))
     createResult.all().get(10, TimeUnit.SECONDS)
     topicName
   }
@@ -200,6 +197,5 @@ object KafkaTestKitClass {
   def createReplicationFactorBrokerProps(replicationFactor: Int): Map[String, String] = Map(
     "offsets.topic.replication.factor" -> s"$replicationFactor",
     "transaction.state.log.replication.factor" -> s"$replicationFactor",
-    "transaction.state.log.min.isr" -> s"$replicationFactor"
-  )
+    "transaction.state.log.min.isr" -> s"$replicationFactor")
 }

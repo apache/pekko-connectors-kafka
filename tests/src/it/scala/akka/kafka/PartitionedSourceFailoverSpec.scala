@@ -6,13 +6,13 @@
 package akka.kafka
 
 import akka.Done
-import akka.kafka.scaladsl.{Consumer, Producer, SpecBase}
+import akka.kafka.scaladsl.{ Consumer, Producer, SpecBase }
 import akka.kafka.testkit.KafkaTestkitTestcontainersSettings
 import akka.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
-import akka.stream.scaladsl.{Sink, Source}
+import akka.stream.scaladsl.{ Sink, Source }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.apache.kafka.clients.consumer.ConsumerConfig
-import org.apache.kafka.clients.producer.{ProducerConfig, ProducerRecord}
+import org.apache.kafka.clients.producer.{ ProducerConfig, ProducerRecord }
 import org.apache.kafka.common.config.TopicConfig
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.matchers.should.Matchers
@@ -50,9 +50,7 @@ class PartitionedSourceFailoverSpec
         replication = 3,
         Map(
           // require at least two replicas be in sync before acknowledging produced record
-          TopicConfig.MIN_IN_SYNC_REPLICAS_CONFIG -> "2"
-        )
-      )
+          TopicConfig.MIN_IN_SYNC_REPLICAS_CONFIG -> "2"))
       val groupId = createGroupId(0)
 
       val consumerConfig = consumerDefaults
@@ -84,8 +82,7 @@ class PartitionedSourceFailoverSpec
 
       val producerConfig = producerDefaults.withProperties(
         // require acknowledgement from at least min in sync replicas (2).  default is 1
-        ProducerConfig.ACKS_CONFIG -> "all"
-      )
+        ProducerConfig.ACKS_CONFIG -> "all")
 
       val result: Future[Done] = Source(1L to totalMessages)
         .via(IntegrationTests.logSentMessages()(log))

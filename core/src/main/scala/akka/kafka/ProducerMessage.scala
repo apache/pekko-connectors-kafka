@@ -6,7 +6,7 @@
 package akka.kafka
 
 import akka.NotUsed
-import org.apache.kafka.clients.producer.{ProducerRecord, RecordMetadata}
+import org.apache.kafka.clients.producer.{ ProducerRecord, RecordMetadata }
 
 import scala.collection.immutable
 import scala.jdk.CollectionConverters._
@@ -52,8 +52,7 @@ object ProducerMessage {
    */
   final case class Message[K, V, +PassThrough](
       record: ProducerRecord[K, V],
-      passThrough: PassThrough
-  ) extends Envelope[K, V, PassThrough] {
+      passThrough: PassThrough) extends Envelope[K, V, PassThrough] {
     override def withPassThrough[PassThrough2](value: PassThrough2): Message[K, V, PassThrough2] =
       copy(passThrough = value)
   }
@@ -67,8 +66,7 @@ object ProducerMessage {
    */
   def single[K, V, PassThrough](
       record: ProducerRecord[K, V],
-      passThrough: PassThrough
-  ): Envelope[K, V, PassThrough] = Message(record, passThrough)
+      passThrough: PassThrough): Envelope[K, V, PassThrough] = Message(record, passThrough)
 
   /**
    * Create a message containing the `record`.
@@ -93,8 +91,7 @@ object ProducerMessage {
    */
   final case class MultiMessage[K, V, +PassThrough](
       records: immutable.Seq[ProducerRecord[K, V]],
-      passThrough: PassThrough
-  ) extends Envelope[K, V, PassThrough] {
+      passThrough: PassThrough) extends Envelope[K, V, PassThrough] {
 
     /**
      * Java API:
@@ -117,8 +114,7 @@ object ProducerMessage {
    */
   def multi[K, V, PassThrough](
       records: immutable.Seq[ProducerRecord[K, V]],
-      passThrough: PassThrough
-  ): Envelope[K, V, PassThrough] = MultiMessage(records, passThrough)
+      passThrough: PassThrough): Envelope[K, V, PassThrough] = MultiMessage(records, passThrough)
 
   /**
    * Create a multi-message containing several `records`.
@@ -127,8 +123,7 @@ object ProducerMessage {
    * @tparam V the type of values
    */
   def multi[K, V](
-      records: immutable.Seq[ProducerRecord[K, V]]
-  ): Envelope[K, V, NotUsed] = MultiMessage(records, NotUsed)
+      records: immutable.Seq[ProducerRecord[K, V]]): Envelope[K, V, NotUsed] = MultiMessage(records, NotUsed)
 
   /**
    * Java API:
@@ -140,8 +135,7 @@ object ProducerMessage {
    */
   def multi[K, V, PassThrough](
       records: java.util.Collection[ProducerRecord[K, V]],
-      passThrough: PassThrough
-  ): Envelope[K, V, PassThrough] = new MultiMessage(records, passThrough)
+      passThrough: PassThrough): Envelope[K, V, PassThrough] = new MultiMessage(records, passThrough)
 
   /**
    * Java API:
@@ -151,8 +145,7 @@ object ProducerMessage {
    * @tparam V the type of values
    */
   def multi[K, V](
-      records: java.util.Collection[ProducerRecord[K, V]]
-  ): Envelope[K, V, NotUsed] = new MultiMessage(records, NotUsed)
+      records: java.util.Collection[ProducerRecord[K, V]]): Envelope[K, V, NotUsed] = new MultiMessage(records, NotUsed)
 
   /**
    * [[Envelope]] implementation that does not produce anything to Kafka, flows emit
@@ -165,8 +158,7 @@ object ProducerMessage {
    * that can be committed later in the flow.
    */
   final case class PassThroughMessage[K, V, +PassThrough](
-      passThrough: PassThrough
-  ) extends Envelope[K, V, PassThrough] {
+      passThrough: PassThrough) extends Envelope[K, V, PassThrough] {
     override def withPassThrough[PassThrough2](value: PassThrough2): Envelope[K, V, PassThrough2] =
       copy(passThrough = value)
   }
@@ -206,16 +198,14 @@ object ProducerMessage {
    */
   final case class Result[K, V, PassThrough] private (
       metadata: RecordMetadata,
-      message: Message[K, V, PassThrough]
-  ) extends Results[K, V, PassThrough] {
+      message: Message[K, V, PassThrough]) extends Results[K, V, PassThrough] {
     def offset: Long = metadata.offset()
     def passThrough: PassThrough = message.passThrough
   }
 
   final case class MultiResultPart[K, V] private (
       metadata: RecordMetadata,
-      record: ProducerRecord[K, V]
-  )
+      record: ProducerRecord[K, V])
 
   /**
    * [[Results]] implementation emitted when all messages in a [[MultiMessage]] have been
@@ -223,8 +213,7 @@ object ProducerMessage {
    */
   final case class MultiResult[K, V, PassThrough] private (
       parts: immutable.Seq[MultiResultPart[K, V]],
-      passThrough: PassThrough
-  ) extends Results[K, V, PassThrough] {
+      passThrough: PassThrough) extends Results[K, V, PassThrough] {
 
     /**
      * Java API:

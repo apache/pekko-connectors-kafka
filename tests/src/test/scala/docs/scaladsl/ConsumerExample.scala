@@ -5,27 +5,27 @@
 
 package docs.scaladsl
 
-import java.util.concurrent.atomic.{AtomicLong, AtomicReference}
+import java.util.concurrent.atomic.{ AtomicLong, AtomicReference }
 
 import akka.Done
 import akka.actor.typed.Behavior
 import akka.actor.typed.scaladsl.Behaviors
-import akka.actor.{Actor, ActorLogging, Props}
+import akka.actor.{ Actor, ActorLogging, Props }
 import akka.kafka._
 import akka.kafka.scaladsl.Consumer.DrainingControl
 import akka.kafka.scaladsl._
 import akka.kafka.testkit.scaladsl.TestcontainersKafkaLike
 import akka.stream.RestartSettings
-import akka.stream.scaladsl.{Keep, RestartSource, Sink}
+import akka.stream.scaladsl.{ Keep, RestartSource, Sink }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
-import org.apache.kafka.clients.consumer.{ConsumerConfig, ConsumerRecord}
+import org.apache.kafka.clients.consumer.{ ConsumerConfig, ConsumerRecord }
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.TopicPartition
-import org.apache.kafka.common.serialization.{ByteArrayDeserializer, StringDeserializer}
+import org.apache.kafka.common.serialization.{ ByteArrayDeserializer, StringDeserializer }
 
 import scala.collection.immutable
 import scala.concurrent.duration._
-import scala.concurrent.{Await, Future, Promise}
+import scala.concurrent.{ Await, Future, Promise }
 
 // Consume messages and store a representation, including offset, in DB
 class ConsumerExample extends DocsSpecBase with TestcontainersKafkaLike {
@@ -90,7 +90,7 @@ class ConsumerExample extends DocsSpecBase with TestcontainersKafkaLike {
         .withBootstrapServers(bootstrapServers)
         .withGroupId("group1")
         .withProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
-    //#settings
+    // #settings
     consumerSettings
   }
 
@@ -136,7 +136,7 @@ class ConsumerExample extends DocsSpecBase with TestcontainersKafkaLike {
     awaitProduce(produce(topic, 1 to totalMessages))
     lastMessage.future
       .flatMap(_ => control.drainAndShutdown())
-      .futureValue should have size (10)
+      .futureValue should have size 10
   }
   // #atMostOnce
 
@@ -161,7 +161,7 @@ class ConsumerExample extends DocsSpecBase with TestcontainersKafkaLike {
         .run()
     // #atLeastOnce
     awaitProduce(produce(topic, 1 to 10))
-    Await.result(control.drainAndShutdown(), 5.seconds) should have size (10)
+    Await.result(control.drainAndShutdown(), 5.seconds) should have size 10
   }
   // format: off
   // #atLeastOnce
@@ -259,7 +259,7 @@ class ConsumerExample extends DocsSpecBase with TestcontainersKafkaLike {
       .toMat(Sink.seq)(DrainingControl.apply)
       .run()
     waitBeforeValidation()
-    Await.result(receiveControl.drainAndShutdown(), 5.seconds) should have size (20)
+    Await.result(receiveControl.drainAndShutdown(), 5.seconds) should have size 20
   }
 
   it should "work with context" in assertAllStagesStopped {
@@ -287,7 +287,7 @@ class ConsumerExample extends DocsSpecBase with TestcontainersKafkaLike {
       .toMat(Sink.seq)(DrainingControl.apply)
       .run()
     waitBeforeValidation()
-    Await.result(receiveControl.drainAndShutdown(), 5.seconds) should have size (20)
+    Await.result(receiveControl.drainAndShutdown(), 5.seconds) should have size 20
   }
 
   "Backpressure per partition with batch commit" should "work" in assertAllStagesStopped {
@@ -364,10 +364,10 @@ class ConsumerExample extends DocsSpecBase with TestcontainersKafkaLike {
     //#withRebalanceListenerActor
     // format: on
     val (control, result) =
-      //#withRebalanceListenerActor
+      // #withRebalanceListenerActor
       Consumer
         .plainSource(consumerSettings, subscription)
-        //#withRebalanceListenerActor
+        // #withRebalanceListenerActor
         .toMat(Sink.seq)(Keep.both)
         .run()
     awaitProduce(produce(topic, 1 to 10))
@@ -428,8 +428,8 @@ class ConsumerExample extends DocsSpecBase with TestcontainersKafkaLike {
       .plainSource(consumerSettings, subscription)
     //#withTypedRebalanceListenerActor
           // format: on
-        .toMat(Sink.seq)(Keep.both)
-        .run()
+          .toMat(Sink.seq)(Keep.both)
+          .run()
       awaitProduce(produce(topic, 1 to 10))
       Await.result(control.shutdown(), 5.seconds)
       result.futureValue should have size 10
@@ -503,9 +503,8 @@ class ConsumerExample extends DocsSpecBase with TestcontainersKafkaLike {
     val (consumerControl, streamComplete) =
       Consumer
         .plainSource(consumerSettings,
-                     Subscriptions.assignmentWithOffset(
-                       new TopicPartition(topic, 0) -> offset
-                     ))
+          Subscriptions.assignmentWithOffset(
+            new TopicPartition(topic, 0) -> offset))
         .via(businessFlow)
         .toMat(Sink.ignore)(Keep.both)
         .run()
@@ -537,7 +536,7 @@ class ConsumerExample extends DocsSpecBase with TestcontainersKafkaLike {
   "Restarting Stream" should "work" in assertAllStagesStopped {
     val consumerSettings = consumerDefaults.withGroupId(createGroupId())
     val topic = createTopic()
-    //#restartSource
+    // #restartSource
     val control = new AtomicReference[Consumer.Control](Consumer.NoopControl)
 
     val restartSettings = RestartSettings(minBackoff = 3.seconds, maxBackoff = 30.seconds, randomFactor = 0.2)
@@ -552,11 +551,11 @@ class ConsumerExample extends DocsSpecBase with TestcontainersKafkaLike {
       }
       .runWith(Sink.seq)
 
-    //#restartSource
+    // #restartSource
     awaitProduce(produce(topic, 1 to 10))
-    //#restartSource
+    // #restartSource
     control.get().drainAndShutdown(streamCompletion)
-    //#restartSource
+    // #restartSource
     Await.result(streamCompletion, 5.seconds) should have size 10
   }
 

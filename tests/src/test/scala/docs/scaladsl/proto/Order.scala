@@ -13,8 +13,8 @@ package docs.scaladsl.proto
 @SerialVersionUID(0L)
 final case class Order(
     id: _root_.scala.Predef.String = "",
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
-) extends scalapb.GeneratedMessage
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty)
+    extends scalapb.GeneratedMessage
     with scalapb.lenses.Updatable[Order] {
   @transient
   private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -71,7 +71,7 @@ final case class Order(
 object Order extends scalapb.GeneratedMessageCompanion[docs.scaladsl.proto.Order] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[docs.scaladsl.proto.Order] = this
   def merge(`_message__`: docs.scaladsl.proto.Order,
-            `_input__`: _root_.com.google.protobuf.CodedInputStream): docs.scaladsl.proto.Order = {
+      `_input__`: _root_.com.google.protobuf.CodedInputStream): docs.scaladsl.proto.Order = {
     var __id = `_message__`.id
     var `_unknownFields__` : _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
@@ -90,20 +90,18 @@ object Order extends scalapb.GeneratedMessageCompanion[docs.scaladsl.proto.Order
     }
     docs.scaladsl.proto.Order(
       id = __id,
-      unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
-    )
+      unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result())
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[docs.scaladsl.proto.Order] =
     _root_.scalapb.descriptors.Reads {
       case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
         _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor),
-                                    "FieldDescriptor does not match message type.")
+          "FieldDescriptor does not match message type.")
         docs.scaladsl.proto.Order(
           id = __fieldsMap
             .get(scalaDescriptor.findFieldByNumber(1).get)
             .map(_.as[_root_.scala.Predef.String])
-            .getOrElse("")
-        )
+            .getOrElse(""))
       case _ => throw new RuntimeException("Expected PMessage")
     }
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor =
@@ -116,16 +114,13 @@ object Order extends scalapb.GeneratedMessageCompanion[docs.scaladsl.proto.Order
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] =
     throw new MatchError(__fieldNumber)
   lazy val defaultInstance = docs.scaladsl.proto.Order(
-    id = ""
-  )
+    id = "")
   implicit class OrderLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, docs.scaladsl.proto.Order])
       extends _root_.scalapb.lenses.ObjectLens[UpperPB, docs.scaladsl.proto.Order](_l) {
     def id: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.id)((c_, f_) => c_.copy(id = f_))
   }
   final val ID_FIELD_NUMBER = 1
   def of(
-      id: _root_.scala.Predef.String
-  ): _root_.docs.scaladsl.proto.Order = _root_.docs.scaladsl.proto.Order(
-    id
-  )
+      id: _root_.scala.Predef.String): _root_.docs.scaladsl.proto.Order = _root_.docs.scaladsl.proto.Order(
+    id)
 }

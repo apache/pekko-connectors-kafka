@@ -48,9 +48,9 @@ object CommitDelivery {
   val sendAndForget: CommitDelivery = SendAndForget
 
   def valueOf(s: String): CommitDelivery = s match {
-    case "WaitForAck" => WaitForAck
+    case "WaitForAck"    => WaitForAck
     case "SendAndForget" => SendAndForget
-    case other => throw new IllegalArgumentException(s"allowed values are: WaitForAck, SendAndForget. Received: $other")
+    case other           => throw new IllegalArgumentException(s"allowed values are: WaitForAck, SendAndForget. Received: $other")
   }
 }
 
@@ -89,11 +89,10 @@ object CommitWhen {
 
   def valueOf(s: String): CommitWhen = s match {
     case "OffsetFirstObserved" => OffsetFirstObserved
-    case "NextOffsetObserved" => NextOffsetObserved
+    case "NextOffsetObserved"  => NextOffsetObserved
     case other =>
       throw new IllegalArgumentException(
-        s"allowed values are: OffsetFirstObserved, NextOffsetObserved. Received: $other"
-      )
+        s"allowed values are: OffsetFirstObserved, NextOffsetObserved. Received: $other")
   }
 }
 
@@ -166,8 +165,7 @@ class CommitterSettings private (
     val maxInterval: FiniteDuration,
     val parallelism: Int,
     val delivery: CommitDelivery,
-    val when: CommitWhen
-) {
+    val when: CommitWhen) {
 
   def withMaxBatch(maxBatch: Long): CommitterSettings =
     copy(maxBatch = maxBatch)
@@ -190,10 +188,10 @@ class CommitterSettings private (
     copy(when = value)
 
   private def copy(maxBatch: Long = maxBatch,
-                   maxInterval: FiniteDuration = maxInterval,
-                   parallelism: Int = parallelism,
-                   delivery: CommitDelivery = delivery,
-                   when: CommitWhen = when): CommitterSettings =
+      maxInterval: FiniteDuration = maxInterval,
+      parallelism: Int = parallelism,
+      delivery: CommitDelivery = delivery,
+      when: CommitWhen = when): CommitterSettings =
     new CommitterSettings(maxBatch, maxInterval, parallelism, delivery, when)
 
   override def toString: String =

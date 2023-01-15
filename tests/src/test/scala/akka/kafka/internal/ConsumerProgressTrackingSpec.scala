@@ -6,7 +6,7 @@
 package akka.kafka.internal
 
 import akka.kafka.tests.scaladsl.LogCapturing
-import org.apache.kafka.clients.consumer.{Consumer, ConsumerRecord, ConsumerRecords, OffsetAndMetadata}
+import org.apache.kafka.clients.consumer.{ Consumer, ConsumerRecord, ConsumerRecords, OffsetAndMetadata }
 import org.apache.kafka.common.TopicPartition
 import org.mockito.Mockito
 import org.scalatest.flatspec.AnyFlatSpecLike
@@ -75,10 +75,8 @@ class ConsumerProgressTrackingSpec extends AnyFlatSpecLike with Matchers with Lo
     tracker.received(
       new ConsumerRecords[String, String](
         Map(
-          tp2 -> List(new ConsumerRecord[String, String](tp2.topic(), tp2.partition(), 10L, "k1", "kv")).asJava
-        ).asJava
-      )
-    )
+          tp2 -> List(new ConsumerRecord[String, String](tp2.topic(), tp2.partition(), 10L, "k1",
+            "kv")).asJava).asJava))
     tracker.receivedMessages.map(extractOffsetFromSafe) should be(Map(tp -> 10L))
     // no change to the committing
     tracker.commitRequested.map(extractOffset) should be(Map(tp -> 0L))
@@ -168,7 +166,7 @@ class ConsumerProgressTrackingSpec extends AnyFlatSpecLike with Matchers with Lo
         state = state.filter { case (tp, _) => !revokedTps.contains(tp) }
       }
       override def assignedPositions(assignedTps: Set[TopicPartition],
-                                     assignedOffsets: Map[TopicPartition, Long]): Unit = {
+          assignedOffsets: Map[TopicPartition, Long]): Unit = {
         state = state ++ assignedOffsets
       }
     }

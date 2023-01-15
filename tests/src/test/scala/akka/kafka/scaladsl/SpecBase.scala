@@ -9,7 +9,7 @@ import akka.kafka.Repeated
 import akka.kafka.tests.scaladsl.LogCapturing
 // #testkit
 import akka.kafka.testkit.scaladsl.ScalatestKafkaSpec
-import org.scalatest.concurrent.{Eventually, IntegrationPatience, ScalaFutures}
+import org.scalatest.concurrent.{ Eventually, IntegrationPatience, ScalaFutures }
 import org.scalatest.wordspec.AnyWordSpecLike
 import org.scalatest.matchers.should.Matchers
 

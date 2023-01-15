@@ -8,15 +8,15 @@ package akka.kafka.benchmarks
 import java.time.Duration
 import java.util
 import java.util.concurrent.TimeUnit
-import java.util.{Arrays, UUID}
+import java.util.{ Arrays, UUID }
 
 import com.typesafe.scalalogging.LazyLogging
-import org.apache.kafka.clients.admin.{Admin, NewTopic}
+import org.apache.kafka.clients.admin.{ Admin, NewTopic }
 import org.apache.kafka.clients.producer._
-import org.apache.kafka.common.serialization.{ByteArraySerializer, StringSerializer}
+import org.apache.kafka.common.serialization.{ ByteArraySerializer, StringSerializer }
 
 import scala.concurrent.duration._
-import scala.concurrent.{Await, Promise}
+import scala.concurrent.{ Await, Promise }
 import scala.language.postfixOps
 
 object PerfFixtureHelpers {
@@ -29,8 +29,7 @@ object PerfFixtureHelpers {
       msgSize: Int,
       numberOfPartitions: Int = 1,
       replicationFactor: Int = 1,
-      topic: String = randomId()
-  ) {
+      topic: String = randomId()) {
     def freshTopic: FilledTopic = copy(topic = randomId())
   }
 }
@@ -76,9 +75,7 @@ private[benchmarks] trait PerfFixtureHelpers extends LazyLogging {
     val result = admin.createTopics(
       Arrays.asList(
         new NewTopic(ft.topic, ft.numberOfPartitions, ft.replicationFactor.toShort)
-          .configs(new util.HashMap[String, String]())
-      )
-    )
+          .configs(new util.HashMap[String, String]())))
     result.all().get(10, TimeUnit.SECONDS)
     // fill topic with messages
     val producer =
@@ -104,8 +101,7 @@ private[benchmarks] trait PerfFixtureHelpers extends LazyLogging {
                   lastElementStoredPromise.failure(e)
                 }
               }
-          }
-        )
+          })
       }
     }
     val lastElementStoredFuture = lastElementStoredPromise.future

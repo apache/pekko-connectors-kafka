@@ -13,7 +13,7 @@ import akka.util.JavaDurationConverters._
 import org.apache.kafka.clients.producer.Producer
 
 import scala.util.control.NonFatal
-import scala.util.{Failure, Success}
+import scala.util.{ Failure, Success }
 
 /**
  * INTERNAL API
@@ -70,8 +70,7 @@ private[kafka] trait DeferredProducer[K, V] {
               log.error(e, "producer creation failed")
               closeAndFailStageCb.invoke(e)
               e
-            }
-          )(ExecutionContexts.parasitic)
+            })(ExecutionContexts.parasitic)
         changeProducerAssignmentLifecycle(AsyncCreateRequestSent)
     }
   }

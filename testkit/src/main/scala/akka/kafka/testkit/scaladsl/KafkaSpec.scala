@@ -14,21 +14,21 @@ import akka.actor.ActorSystem
 import akka.event.LoggingAdapter
 import akka.kafka._
 import akka.kafka.scaladsl.Consumer.Control
-import akka.kafka.scaladsl.{Consumer, Producer}
-import akka.kafka.testkit.internal.{KafkaTestKit, KafkaTestKitChecks}
-import akka.stream.{Materializer, SystemMaterializer}
-import akka.stream.scaladsl.{Keep, Source}
+import akka.kafka.scaladsl.{ Consumer, Producer }
+import akka.kafka.testkit.internal.{ KafkaTestKit, KafkaTestKitChecks }
+import akka.stream.{ Materializer, SystemMaterializer }
+import akka.stream.scaladsl.{ Keep, Source }
 import akka.stream.testkit.TestSubscriber
 import akka.stream.testkit.scaladsl.TestSink
 import akka.testkit.TestKit
 import org.apache.kafka.clients.admin._
-import org.apache.kafka.clients.producer.{ProducerRecord, Producer => KProducer}
+import org.apache.kafka.clients.producer.{ Producer => KProducer, ProducerRecord }
 import org.apache.kafka.common.ConsumerGroupState
-import org.slf4j.{Logger, LoggerFactory}
+import org.slf4j.{ Logger, LoggerFactory }
 
 import scala.collection.immutable
 import scala.concurrent.duration._
-import scala.concurrent.{Await, ExecutionContext, Future}
+import scala.concurrent.{ Await, ExecutionContext, Future }
 import scala.jdk.CollectionConverters._
 import scala.util.Try
 
@@ -88,8 +88,7 @@ abstract class KafkaSpec(_kafkaPort: Int, val zooKeeperPort: Int, actorSystem: A
    * If the predicate does not hold after configured amount of time, throws an exception.
    */
   def waitUntilCluster()(
-      predicate: DescribeClusterResult => Boolean
-  ): Unit =
+      predicate: DescribeClusterResult => Boolean): Unit =
     KafkaTestKitChecks.waitUntilCluster(settings.clusterTimeout, settings.checkInterval, adminClient, predicate, log)
 
   /**
@@ -99,11 +98,11 @@ abstract class KafkaSpec(_kafkaPort: Int, val zooKeeperPort: Int, actorSystem: A
    */
   def waitUntilConsumerGroup(groupId: String)(predicate: ConsumerGroupDescription => Boolean): Unit =
     KafkaTestKitChecks.waitUntilConsumerGroup(groupId,
-                                              settings.consumerGroupTimeout,
-                                              settings.checkInterval,
-                                              adminClient,
-                                              predicate,
-                                              log)
+      settings.consumerGroupTimeout,
+      settings.checkInterval,
+      adminClient,
+      predicate,
+      log)
 
   /**
    * Periodically checks if the given predicate on consumer summary holds.
@@ -130,8 +129,7 @@ abstract class KafkaSpec(_kafkaPort: Int, val zooKeeperPort: Int, actorSystem: A
   }
 
   def periodicalCheck[T](description: String, maxTries: Int, sleepInBetween: FiniteDuration)(
-      data: () => T
-  )(predicate: T => Boolean) =
+      data: () => T)(predicate: T => Boolean) =
     KafkaTestKitChecks.periodicalCheck(description, maxTries * sleepInBetween, sleepInBetween)(data)(predicate)(log)
 
   /**
@@ -143,9 +141,9 @@ abstract class KafkaSpec(_kafkaPort: Int, val zooKeeperPort: Int, actorSystem: A
 
   def produceString(topic: String, range: immutable.Seq[String], partition: Int = partition0): Future[Done] =
     Source(range)
-    // NOTE: If no partition is specified but a key is present a partition will be chosen
-    // using a hash of the key. If neither key nor partition is present a partition
-    // will be assigned in a round-robin fashion.
+      // NOTE: If no partition is specified but a key is present a partition will be chosen
+      // using a hash of the key. If neither key nor partition is present a partition
+      // will be assigned in a round-robin fashion.
       .map(n => new ProducerRecord(topic, partition, DefaultKey, n))
       .runWith(Producer.plainSink(producerDefaults.withProducer(testProducer)))
 
@@ -192,7 +190,7 @@ abstract class KafkaSpec(_kafkaPort: Int, val zooKeeperPort: Int, actorSystem: A
   }
 
   def createProbe(consumerSettings: ConsumerSettings[String, String],
-                  topic: String*): (Control, TestSubscriber.Probe[String]) =
+      topic: String*): (Control, TestSubscriber.Probe[String]) =
     Consumer
       .plainSource(consumerSettings, Subscriptions.topics(topic.toSet))
       .map(_.value)

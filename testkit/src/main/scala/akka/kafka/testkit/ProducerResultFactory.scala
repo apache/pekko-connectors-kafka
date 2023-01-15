@@ -7,7 +7,7 @@ package akka.kafka.testkit
 
 import akka.annotation.ApiMayChange
 import akka.kafka.ProducerMessage
-import org.apache.kafka.clients.producer.{ProducerRecord, RecordMetadata}
+import org.apache.kafka.clients.producer.{ ProducerRecord, RecordMetadata }
 import org.apache.kafka.common.TopicPartition
 
 import scala.jdk.CollectionConverters._
@@ -30,39 +30,37 @@ object ProducerResultFactory {
     new RecordMetadata(new TopicPartition(topic, partition), offset, 0, 12345L, 2, 2)
 
   def result[K, V, PassThrough](
-      message: ProducerMessage.Message[K, V, PassThrough]
-  ): ProducerMessage.Result[K, V, PassThrough] = ProducerMessage.Result(recordMetadata(message.record), message)
+      message: ProducerMessage.Message[K, V, PassThrough]): ProducerMessage.Result[K, V, PassThrough] =
+    ProducerMessage.Result(recordMetadata(message.record), message)
 
   def result[K, V, PassThrough](
       metadata: RecordMetadata,
-      message: ProducerMessage.Message[K, V, PassThrough]
-  ): ProducerMessage.Result[K, V, PassThrough] = ProducerMessage.Result(metadata, message)
+      message: ProducerMessage.Message[K, V, PassThrough]): ProducerMessage.Result[K, V, PassThrough] =
+    ProducerMessage.Result(metadata, message)
 
   def multiResultPart[K, V](
       metadata: RecordMetadata,
-      record: ProducerRecord[K, V]
-  ): ProducerMessage.MultiResultPart[K, V] = ProducerMessage.MultiResultPart(metadata, record)
+      record: ProducerRecord[K, V]): ProducerMessage.MultiResultPart[K, V] =
+    ProducerMessage.MultiResultPart(metadata, record)
 
   def multiResult[K, V, PassThrough](
       parts: immutable.Seq[ProducerMessage.MultiResultPart[K, V]],
-      passThrough: PassThrough
-  ): ProducerMessage.MultiResult[K, V, PassThrough] = ProducerMessage.MultiResult(parts, passThrough)
+      passThrough: PassThrough): ProducerMessage.MultiResult[K, V, PassThrough] =
+    ProducerMessage.MultiResult(parts, passThrough)
 
   def multiResult[K, V, PassThrough](
-      message: ProducerMessage.MultiMessage[K, V, PassThrough]
-  ): ProducerMessage.MultiResult[K, V, PassThrough] =
+      message: ProducerMessage.MultiMessage[K, V, PassThrough]): ProducerMessage.MultiResult[K, V, PassThrough] =
     ProducerResultFactory.multiResult(
       message.records.map(r => ProducerResultFactory.multiResultPart(recordMetadata(r), r)),
-      message.passThrough
-    )
+      message.passThrough)
 
   /** Java API */
   def multiResult[K, V, PassThrough](
       parts: java.util.Collection[ProducerMessage.MultiResultPart[K, V]],
-      passThrough: PassThrough
-  ): ProducerMessage.MultiResult[K, V, PassThrough] = ProducerMessage.MultiResult(parts.asScala.toList, passThrough)
+      passThrough: PassThrough): ProducerMessage.MultiResult[K, V, PassThrough] =
+    ProducerMessage.MultiResult(parts.asScala.toList, passThrough)
 
   def passThroughResult[K, V, PassThrough](
-      passThrough: PassThrough
-  ): ProducerMessage.PassThroughResult[K, V, PassThrough] = ProducerMessage.PassThroughResult(passThrough)
+      passThrough: PassThrough): ProducerMessage.PassThroughResult[K, V, PassThrough] =
+    ProducerMessage.PassThroughResult(passThrough)
 }

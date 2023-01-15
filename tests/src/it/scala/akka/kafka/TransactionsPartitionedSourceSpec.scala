@@ -12,7 +12,7 @@ import akka.kafka.scaladsl.SpecBase
 import akka.kafka.testkit.KafkaTestkitTestcontainersSettings
 import akka.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
 import akka.stream._
-import akka.stream.scaladsl.{Keep, RestartSource, Sink}
+import akka.stream.scaladsl.{ Keep, RestartSource, Sink }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.scalatest.concurrent.PatienceConfiguration.Interval
 import org.scalatest.concurrent.ScalaFutures
@@ -22,8 +22,8 @@ import org.scalatest.wordspec.AnyWordSpecLike
 
 import scala.collection.immutable
 import scala.concurrent.duration._
-import scala.concurrent.{Await, Future, TimeoutException}
-import scala.util.{Failure, Success}
+import scala.concurrent.{ Await, Future, TimeoutException }
+import scala.util.{ Failure, Success }
 
 @Ignore
 class TransactionsPartitionedSourceSpec
@@ -78,27 +78,24 @@ class TransactionsPartitionedSourceSpec
 
       def runStream(id: String): UniqueKillSwitch =
         RestartSource
-          .onFailuresWithBackoff(RestartSettings(10.millis, 100.millis, 0.2))(
-            () => {
-              transactionalPartitionedCopyStream(
-                consumerSettings,
-                txProducerDefaults,
-                sourceTopic,
-                sinkTopic,
-                transactionalId,
-                idleTimeout = 10.seconds,
-                maxPartitions = sourcePartitions,
-                restartAfter = Some(restartAfter),
-                maxRestarts = Some(maxRestarts)
-              ).recover {
-                case e: TimeoutException =>
-                  if (completedWithTimeout.incrementAndGet() > 10)
-                    "no more messages to copy"
-                  else
-                    throw new Error("Continue restarting copy stream")
-              }
+          .onFailuresWithBackoff(RestartSettings(10.millis, 100.millis, 0.2))(() => {
+            transactionalPartitionedCopyStream(
+              consumerSettings,
+              txProducerDefaults,
+              sourceTopic,
+              sinkTopic,
+              transactionalId,
+              idleTimeout = 10.seconds,
+              maxPartitions = sourcePartitions,
+              restartAfter = Some(restartAfter),
+              maxRestarts = Some(maxRestarts)).recover {
+              case e: TimeoutException =>
+                if (completedWithTimeout.incrementAndGet() > 10)
+                  "no more messages to copy"
+                else
+                  throw new Error("Continue restarting copy stream")
             }
-          )
+          })
           .viaMat(KillSwitches.single)(Keep.right)
           .toMat(Sink.onComplete {
             case Success(_) =>
@@ -118,8 +115,7 @@ class TransactionsPartitionedSourceSpec
       val consumer = consumePartitionOffsetValues(
         probeConsumerSettings(createGroupId(2)),
         sinkTopic,
-        elementsToTake = (elements * destinationPartitions).toLong
-      )
+        elementsToTake = (elements * destinationPartitions).toLong)
 
       val actualValues = Await.result(consumer, 10.minutes)
 

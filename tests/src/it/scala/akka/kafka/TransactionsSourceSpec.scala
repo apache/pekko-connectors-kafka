@@ -9,11 +9,11 @@ import java.util.concurrent.atomic.AtomicInteger
 
 import akka.Done
 import akka.kafka.scaladsl.Consumer.Control
-import akka.kafka.scaladsl.{Consumer, SpecBase, Transactional}
+import akka.kafka.scaladsl.{ Consumer, SpecBase, Transactional }
 import akka.kafka.testkit.KafkaTestkitTestcontainersSettings
 import akka.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
 import akka.stream._
-import akka.stream.scaladsl.{Flow, Keep, RestartSource, Sink}
+import akka.stream.scaladsl.{ Flow, Keep, RestartSource, Sink }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.scalatest.concurrent.PatienceConfiguration.Interval
@@ -23,8 +23,8 @@ import org.scalatest.wordspec.AnyWordSpecLike
 
 import scala.collection.immutable
 import scala.concurrent.duration._
-import scala.concurrent.{Await, Future, TimeoutException}
-import scala.util.{Failure, Success}
+import scala.concurrent.{ Await, Future, TimeoutException }
+import scala.util.{ Failure, Success }
 
 class TransactionsSourceSpec
     extends SpecBase
@@ -79,26 +79,24 @@ class TransactionsSourceSpec
 
       def runStream(id: String): UniqueKillSwitch =
         RestartSource
-          .onFailuresWithBackoff(RestartSettings(10.millis, 100.millis, 0.2))(
-            () => {
-              val transactionId = s"$group-$id"
-              transactionalCopyStream(consumerSettings,
-                                      txProducerDefaults,
-                                      sourceTopic,
-                                      sinkTopic,
-                                      transactionId,
-                                      10.seconds,
-                                      Some(restartAfter),
-                                      Some(maxRestarts))
-                .recover {
-                  case e: TimeoutException =>
-                    if (completedWithTimeout.incrementAndGet() > 10)
-                      "no more messages to copy"
-                    else
-                      throw new Error("Continue restarting copy stream")
-                }
-            }
-          )
+          .onFailuresWithBackoff(RestartSettings(10.millis, 100.millis, 0.2))(() => {
+            val transactionId = s"$group-$id"
+            transactionalCopyStream(consumerSettings,
+              txProducerDefaults,
+              sourceTopic,
+              sinkTopic,
+              transactionId,
+              10.seconds,
+              Some(restartAfter),
+              Some(maxRestarts))
+              .recover {
+                case e: TimeoutException =>
+                  if (completedWithTimeout.incrementAndGet() > 10)
+                    "no more messages to copy"
+                  else
+                    throw new Error("Continue restarting copy stream")
+              }
+          })
           .viaMat(KillSwitches.single)(Keep.right)
           .toMat(Sink.onComplete {
             case Success(_) =>
@@ -124,8 +122,7 @@ class TransactionsSourceSpec
             .scan(0) { case (count, _) => count + 1 }
             .filter(_ % 10000 == 0)
             .log("received")
-            .to(Sink.ignore)
-        )
+            .to(Sink.ignore))
         .recover {
           case t => (0L, "no-more-elements")
         }
@@ -168,7 +165,7 @@ class TransactionsSourceSpec
             .source(consumerSettings, Subscriptions.topics(sourceTopic))
             .map { msg =>
               ProducerMessage.single(new ProducerRecord[String, String](sinkTopic, msg.record.value),
-                                     msg.partitionOffset)
+                msg.partitionOffset)
             }
             .take(batchSize.toLong)
             .delay(3.seconds, strategy = DelayOverflowStrategy.backpressure)

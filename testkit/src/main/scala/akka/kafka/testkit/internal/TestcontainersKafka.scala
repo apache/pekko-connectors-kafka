@@ -59,8 +59,7 @@ object TestcontainersKafka {
       cluster.getSchemaRegistry.asScala
         .map(_.getSchemaRegistryUrl)
         .getOrElse(
-          throw new RuntimeException("Did you enable schema registry in your KafkaTestkitTestcontainersSettings?")
-        )
+          throw new RuntimeException("Did you enable schema registry in your KafkaTestkitTestcontainersSettings?"))
     }
 
     def startCluster(): String = startCluster(testcontainersSettings)
@@ -78,15 +77,14 @@ object TestcontainersKafka {
           settings.useSchemaRegistry,
           settings.containerLogging,
           settings.clusterStartTimeout.asJava,
-          settings.readinessCheckTimeout.asJava
-        )
+          settings.readinessCheckTimeout.asJava)
         configureKafka(brokerContainers)
         configureKafkaConsumer.accept(brokerContainers.asJavaCollection)
         configureZooKeeper(zookeeperContainer)
         configureZooKeeperConsumer.accept(zookeeperContainer)
         schemaRegistryContainer match {
           case Some(container) => configureSchemaRegistry(container)
-          case _ =>
+          case _               =>
         }
         log.info("Starting Kafka cluster with settings: {}", settings)
         cluster.start()
@@ -112,8 +110,7 @@ object TestcontainersKafka {
       schemaRegistryContainer
         .map(_.getSchemaRegistryUrl)
         .getOrElse(
-          throw new RuntimeException("Did you enable schema registry in your KafkaTestkitTestcontainersSettings?")
-        )
+          throw new RuntimeException("Did you enable schema registry in your KafkaTestkitTestcontainersSettings?"))
   }
 
   // the test base type used for Singleton cannot reference ScalaTest types so that it's compatible with JUnit-only test projects

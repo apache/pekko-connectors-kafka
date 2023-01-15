@@ -8,9 +8,9 @@ package akka.kafka.testkit
 import akka.Done
 import akka.annotation.ApiMayChange
 import akka.kafka.ConsumerMessage
-import akka.kafka.ConsumerMessage.{CommittableOffset, GroupTopicPartition, PartitionOffsetCommittedMarker}
-import akka.kafka.internal.{CommittableOffsetImpl, KafkaAsyncConsumerCommitterRef}
-import org.apache.kafka.clients.consumer.{ConsumerRecord, OffsetAndMetadata}
+import akka.kafka.ConsumerMessage.{ CommittableOffset, GroupTopicPartition, PartitionOffsetCommittedMarker }
+import akka.kafka.internal.{ CommittableOffsetImpl, KafkaAsyncConsumerCommitterRef }
+import org.apache.kafka.clients.consumer.{ ConsumerRecord, OffsetAndMetadata }
 import org.apache.kafka.common.TopicPartition
 
 import scala.concurrent.Future
@@ -22,8 +22,7 @@ import scala.concurrent.Future
 object ConsumerResultFactory {
 
   val fakeCommitter: KafkaAsyncConsumerCommitterRef = new KafkaAsyncConsumerCommitterRef(null, null)(
-    ec = scala.concurrent.ExecutionContext.global
-  ) {
+    ec = scala.concurrent.ExecutionContext.global) {
     private val done = Future.successful(Done)
 
     override def commitSingle(topicPartition: TopicPartition, offset: OffsetAndMetadata): Future[Done] = done
@@ -39,24 +38,24 @@ object ConsumerResultFactory {
   def partitionOffset(key: GroupTopicPartition, offset: Long) = ConsumerMessage.PartitionOffset(key, offset)
 
   def committableOffset(groupId: String,
-                        topic: String,
-                        partition: Int,
-                        offset: Long,
-                        metadata: String): ConsumerMessage.CommittableOffset =
+      topic: String,
+      partition: Int,
+      offset: Long,
+      metadata: String): ConsumerMessage.CommittableOffset =
     committableOffset(partitionOffset(groupId, topic, partition, offset), metadata)
 
   def committableOffset(partitionOffset: ConsumerMessage.PartitionOffset,
-                        metadata: String): ConsumerMessage.CommittableOffset =
+      metadata: String): ConsumerMessage.CommittableOffset =
     CommittableOffsetImpl(partitionOffset, metadata)(fakeCommitter)
 
   def committableMessage[K, V](
       record: ConsumerRecord[K, V],
-      committableOffset: CommittableOffset
-  ): ConsumerMessage.CommittableMessage[K, V] = ConsumerMessage.CommittableMessage(record, committableOffset)
+      committableOffset: CommittableOffset): ConsumerMessage.CommittableMessage[K, V] =
+    ConsumerMessage.CommittableMessage(record, committableOffset)
 
   def transactionalMessage[K, V](
       record: ConsumerRecord[K, V],
-      partitionOffset: PartitionOffsetCommittedMarker
-  ): ConsumerMessage.TransactionalMessage[K, V] = ConsumerMessage.TransactionalMessage(record, partitionOffset)
+      partitionOffset: PartitionOffsetCommittedMarker): ConsumerMessage.TransactionalMessage[K, V] =
+    ConsumerMessage.TransactionalMessage(record, partitionOffset)
 
 }

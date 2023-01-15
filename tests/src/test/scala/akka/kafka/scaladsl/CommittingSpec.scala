@@ -9,17 +9,17 @@ import java.util.concurrent.atomic.AtomicInteger
 import java.util.function.IntUnaryOperator
 
 import akka.actor.ActorRef
-import akka.kafka.ConsumerMessage.{CommittableOffsetBatch, GroupTopicPartition}
+import akka.kafka.ConsumerMessage.{ CommittableOffsetBatch, GroupTopicPartition }
 import akka.kafka.ProducerMessage.MultiMessage
 import akka.kafka._
 import akka.kafka.internal.CommittableOffsetBatchImpl
 import akka.kafka.testkit.scaladsl.TestcontainersKafkaLike
 import akka.stream.RestartSettings
-import akka.stream.scaladsl.{Keep, RestartSource, Sink, Source}
+import akka.stream.scaladsl.{ Keep, RestartSource, Sink, Source }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import akka.stream.testkit.scaladsl.TestSink
 import akka.testkit.TestProbe
-import akka.{Done, NotUsed}
+import akka.{ Done, NotUsed }
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.TopicPartition
 import org.scalatest.Inside
@@ -109,10 +109,9 @@ class CommittingSpec extends SpecBase with TestcontainersKafkaLike with Inside {
       Source(Numbers.take(count))
         .map { n =>
           MultiMessage(List(
-                         new ProducerRecord(topic1, partition0, DefaultKey, n + "-p0"),
-                         new ProducerRecord(topic1, partition1, DefaultKey, n + "-p1")
-                       ),
-                       NotUsed)
+              new ProducerRecord(topic1, partition0, DefaultKey, n + "-p0"),
+              new ProducerRecord(topic1, partition1, DefaultKey, n + "-p1")),
+            NotUsed)
         }
         .via(Producer.flexiFlow(producerDefaults.withProducer(testProducer)))
         .runWith(Sink.ignore)
@@ -128,8 +127,7 @@ class CommittingSpec extends SpecBase with TestcontainersKafkaLike with Inside {
       // Await initial partition assignment
       rebalanceActor1.expectMsg(
         TopicPartitionsAssigned(subscription1,
-                                Set(new TopicPartition(topic1, partition0), new TopicPartition(topic1, partition1)))
-      )
+          Set(new TopicPartition(topic1, partition0), new TopicPartition(topic1, partition1))))
 
       // read all messages from both partitions
       val committables1: immutable.Seq[ConsumerMessage.CommittableMessage[String, String]] = probe1
@@ -146,13 +144,11 @@ class CommittingSpec extends SpecBase with TestcontainersKafkaLike with Inside {
 
       // Await an assignment to the new rebalance listener
       rebalanceActor2.expectMsg(
-        TopicPartitionsAssigned(subscription2, Set(new TopicPartition(topic1, partition1)))
-      )
+        TopicPartitionsAssigned(subscription2, Set(new TopicPartition(topic1, partition1))))
       // Await revoke of all partitions in old rebalance listener
       rebalanceActor1.expectMsg(
         TopicPartitionsRevoked(subscription1,
-                               Set(new TopicPartition(topic1, partition0), new TopicPartition(topic1, partition1)))
-      )
+          Set(new TopicPartition(topic1, partition0), new TopicPartition(topic1, partition1))))
 
       // commit BEFORE the reassign finishes with an assignment
       val consumer1Read = Future.sequence(
@@ -161,8 +157,7 @@ class CommittingSpec extends SpecBase with TestcontainersKafkaLike with Inside {
             elem.committableOffset.commitInternal().map { _ =>
               elem.record.value
             }
-          }
-      )
+          })
 
       // the rebalance finishes
       rebalanceActor1.expectMsg(TopicPartitionsAssigned(subscription1, Set(new TopicPartition(topic1, partition0))))
@@ -194,10 +189,9 @@ class CommittingSpec extends SpecBase with TestcontainersKafkaLike with Inside {
       Source(Numbers.take(count))
         .map { n =>
           MultiMessage(List(
-                         new ProducerRecord(topic1, partition0, DefaultKey, n + "-p0"),
-                         new ProducerRecord(topic1, partition1, DefaultKey, n + "-p1")
-                       ),
-                       NotUsed)
+              new ProducerRecord(topic1, partition0, DefaultKey, n + "-p0"),
+              new ProducerRecord(topic1, partition1, DefaultKey, n + "-p1")),
+            NotUsed)
         }
         .via(Producer.flexiFlow(producerDefaults.withProducer(testProducer)))
         .runWith(Sink.ignore)
@@ -213,8 +207,7 @@ class CommittingSpec extends SpecBase with TestcontainersKafkaLike with Inside {
       // Await initial partition assignment
       rebalanceActor1.expectMsg(
         TopicPartitionsAssigned(subscription1,
-                                Set(new TopicPartition(topic1, partition0), new TopicPartition(topic1, partition1)))
-      )
+          Set(new TopicPartition(topic1, partition0), new TopicPartition(topic1, partition1))))
 
       // read all messages from both partitions
       val committables1: immutable.Seq[ConsumerMessage.CommittableMessage[String, String]] = probe1
@@ -232,8 +225,7 @@ class CommittingSpec extends SpecBase with TestcontainersKafkaLike with Inside {
       // Rebalance happens
       rebalanceActor1.expectMsg(
         TopicPartitionsRevoked(subscription1,
-                               Set(new TopicPartition(topic1, partition0), new TopicPartition(topic1, partition1)))
-      )
+          Set(new TopicPartition(topic1, partition0), new TopicPartition(topic1, partition1))))
       rebalanceActor1.expectMsg(TopicPartitionsAssigned(subscription1, Set(new TopicPartition(topic1, partition0))))
       rebalanceActor2.expectMsg(TopicPartitionsAssigned(subscription2, Set(new TopicPartition(topic1, partition1))))
 
@@ -244,8 +236,7 @@ class CommittingSpec extends SpecBase with TestcontainersKafkaLike with Inside {
             elem.committableOffset.commitInternal().map { _ =>
               elem.record.value
             }
-          }
-      )
+          })
 
       val committables2: immutable.Seq[ConsumerMessage.CommittableMessage[String, String]] = probe2
         .request(count.toLong)
@@ -310,8 +301,7 @@ class CommittingSpec extends SpecBase with TestcontainersKafkaLike with Inside {
         Consumer
           .committableSource(
             consumerSettings,
-            Subscriptions.topics(topic)
-          )
+            Subscriptions.topics(topic))
           .map(_.committableOffset)
           .batch(max = 10, CommittableOffsetBatch.apply)(_.updated(_))
           .mapAsync(1)(_.commitInternal())
@@ -342,11 +332,10 @@ class CommittingSpec extends SpecBase with TestcontainersKafkaLike with Inside {
         Consumer
           .committableSource(
             consumerSettings,
-            Subscriptions.topics(topic)
-          )
+            Subscriptions.topics(topic))
           .map {
             case msg if msg.record.value() == failAt => throw new Exception
-            case other => other
+            case other                               => other
           }
           .map(_.committableOffset)
           .toMat(Committer.sink(committerSettings))(Keep.right)
@@ -372,11 +361,10 @@ class CommittingSpec extends SpecBase with TestcontainersKafkaLike with Inside {
         Consumer
           .committableSource(
             consumerSettings,
-            Subscriptions.topics(topic)
-          )
+            Subscriptions.topics(topic))
           .map {
             case msg if msg.record.value() == failAt => throw new Exception
-            case other => other
+            case other                               => other
           }
           .map(_.committableOffset)
           .via(Committer.batchFlow(committerSettings))
@@ -389,7 +377,7 @@ class CommittingSpec extends SpecBase with TestcontainersKafkaLike with Inside {
 
       val element1 = consumeFirstElement(topic, consumerSettings)
       assert(element1.toInt == failAt,
-             "Should re-process exactly the last committed element from batch-in-flight in case of upstream failure")
+        "Should re-process exactly the last committed element from batch-in-flight in case of upstream failure")
     }
 
   }
@@ -417,8 +405,7 @@ class CommittingSpec extends SpecBase with TestcontainersKafkaLike with Inside {
       batch.batchSize shouldBe 20
       batch.offsets should contain allElementsOf Map(
         GroupTopicPartition(group1, topic, 0) -> 9,
-        GroupTopicPartition(group2, topic, 0) -> 9
-      )
+        GroupTopicPartition(group2, topic, 0) -> 9)
 
       // make sure committing was done for both group IDs
       val res1 = expectNoElements(group1, topic)
@@ -438,16 +425,15 @@ class CommittingSpec extends SpecBase with TestcontainersKafkaLike with Inside {
       val result =
         Consumer
           .committableExternalSource(consumer,
-                                     Subscriptions.assignment(new TopicPartition(topic, partition0)),
-                                     group,
-                                     consumerDefaults.commitTimeout)
+            Subscriptions.assignment(new TopicPartition(topic, partition0)),
+            group,
+            consumerDefaults.commitTimeout)
           .merge(
             Consumer
               .committableExternalSource(consumer,
-                                         Subscriptions.assignment(new TopicPartition(topic, partition1)),
-                                         group,
-                                         consumerDefaults.commitTimeout)
-          )
+                Subscriptions.assignment(new TopicPartition(topic, partition1)),
+                group,
+                consumerDefaults.commitTimeout))
           .map(_.committableOffset)
           .groupedWithin(20, 5.seconds)
           .map(CommittableOffsetBatch.apply)
@@ -459,8 +445,7 @@ class CommittingSpec extends SpecBase with TestcontainersKafkaLike with Inside {
       batch.batchSize shouldBe 20
       batch.offsets should contain allElementsOf Map(
         GroupTopicPartition(group, topic, partition0) -> 9,
-        GroupTopicPartition(group, topic, partition1) -> 9
-      )
+        GroupTopicPartition(group, topic, partition1) -> 9)
 
       // make sure committing was done
       val res = expectNoElements(group, topic)
@@ -479,15 +464,13 @@ class CommittingSpec extends SpecBase with TestcontainersKafkaLike with Inside {
           .committableSource(
             consumerSettings
               .withStopTimeout(100.millis), // this consumer actor needs to stay around to receive the commit
-            Subscriptions.assignment(new TopicPartition(topic, partition0))
-          )
+            Subscriptions.assignment(new TopicPartition(topic, partition0)))
           .take(10)
           // triggers commit timeout as the actor is terminated
           .delay(50.millis)
           .concat(
             Consumer
-              .committableSource(consumerSettings, Subscriptions.assignment(new TopicPartition(topic, partition1)))
-          )
+              .committableSource(consumerSettings, Subscriptions.assignment(new TopicPartition(topic, partition1))))
           .map(_.committableOffset)
           .groupedWithin(20, 10.seconds)
           .map(CommittableOffsetBatch.apply)
@@ -500,8 +483,7 @@ class CommittingSpec extends SpecBase with TestcontainersKafkaLike with Inside {
       batch.batchSize shouldBe 20
       batch.offsets should contain allElementsOf Map(
         GroupTopicPartition(group, topic, partition0) -> 9,
-        GroupTopicPartition(group, topic, partition1) -> 9
-      )
+        GroupTopicPartition(group, topic, partition1) -> 9)
 
       // make sure committing was done
       val res = expectNoElements(group, topic)
@@ -543,8 +525,7 @@ class CommittingSpec extends SpecBase with TestcontainersKafkaLike with Inside {
       val batch = result.mapTo[CommittableOffsetBatchImpl].futureValue
       batch.batchSize shouldBe messagesInFirstIncarnation + messages
       batch.offsets should contain allElementsOf Map(
-        GroupTopicPartition(group, topic, partition0) -> 19
-      )
+        GroupTopicPartition(group, topic, partition0) -> 19)
 
       // make sure committing was done
       val res = expectNoElements(group, topic)
@@ -565,13 +546,11 @@ class CommittingSpec extends SpecBase with TestcontainersKafkaLike with Inside {
         Consumer
           .committableSource(
             consumerSettings,
-            Subscriptions.topics(topic)
-          )
+            Subscriptions.topics(topic))
           .map(_.committableOffset)
           .via(
             Committer
-              .batchFlow(committerDefaults.withDelivery(CommitDelivery.SendAndForget).withMaxBatch(commitBatchSize))
-          )
+              .batchFlow(committerDefaults.withDelivery(CommitDelivery.SendAndForget).withMaxBatch(commitBatchSize)))
           .toMat(TestSink.probe)(Keep.both)
           .run()
 
@@ -606,10 +585,8 @@ class CommittingSpec extends SpecBase with TestcontainersKafkaLike with Inside {
   private def produceTwoPartitions(topic: String) =
     Source(1 to 10)
       .map(_.toString)
-      .mapConcat(
-        n =>
-          immutable.Seq(new ProducerRecord(topic, partition0, DefaultKey, n),
-                        new ProducerRecord(topic, partition1, DefaultKey, n))
-      )
+      .mapConcat(n =>
+        immutable.Seq(new ProducerRecord(topic, partition0, DefaultKey, n),
+          new ProducerRecord(topic, partition1, DefaultKey, n)))
       .runWith(Producer.plainSink(producerDefaults.withProducer(testProducer)))
 }

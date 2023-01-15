@@ -6,12 +6,12 @@
 package akka.kafka
 
 import java.util.Optional
-import java.util.concurrent.{CompletionStage, Executor}
+import java.util.concurrent.{ CompletionStage, Executor }
 
 import akka.annotation.InternalApi
 import akka.kafka.internal.ConfigSettings
 import com.typesafe.config.Config
-import org.apache.kafka.clients.producer.{KafkaProducer, Producer, ProducerConfig}
+import org.apache.kafka.clients.producer.{ KafkaProducer, Producer, ProducerConfig }
 import org.apache.kafka.common.serialization.Serializer
 
 import scala.jdk.CollectionConverters._
@@ -19,7 +19,7 @@ import scala.compat.java8.OptionConverters._
 import scala.concurrent.duration._
 import akka.util.JavaDurationConverters._
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.{ ExecutionContext, Future }
 import scala.compat.java8.FutureConverters._
 
 object ProducerSettings {
@@ -34,8 +34,7 @@ object ProducerSettings {
   def apply[K, V](
       system: akka.actor.ActorSystem,
       keySerializer: Option[Serializer[K]],
-      valueSerializer: Option[Serializer[V]]
-  ): ProducerSettings[K, V] =
+      valueSerializer: Option[Serializer[V]]): ProducerSettings[K, V] =
     apply(system.settings.config.getConfig(configPath), keySerializer, valueSerializer)
 
   /**
@@ -48,8 +47,7 @@ object ProducerSettings {
   def apply[K, V](
       system: akka.actor.ClassicActorSystemProvider,
       keySerializer: Option[Serializer[K]],
-      valueSerializer: Option[Serializer[V]]
-  ): ProducerSettings[K, V] =
+      valueSerializer: Option[Serializer[V]]): ProducerSettings[K, V] =
     apply(system.classicSystem, keySerializer, valueSerializer)
 
   /**
@@ -60,19 +58,16 @@ object ProducerSettings {
   def apply[K, V](
       config: Config,
       keySerializer: Option[Serializer[K]],
-      valueSerializer: Option[Serializer[V]]
-  ): ProducerSettings[K, V] = {
+      valueSerializer: Option[Serializer[V]]): ProducerSettings[K, V] = {
     val properties = ConfigSettings.parseKafkaClientsProperties(config.getConfig("kafka-clients"))
     require(
       keySerializer != null &&
       (keySerializer.isDefined || properties.contains(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG)),
-      "Key serializer should be defined or declared in configuration"
-    )
+      "Key serializer should be defined or declared in configuration")
     require(
       valueSerializer != null &&
       (valueSerializer.isDefined || properties.contains(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG)),
-      "Value serializer should be defined or declared in configuration"
-    )
+      "Value serializer should be defined or declared in configuration")
     val closeTimeout = config.getDuration("close-timeout").asScala
     val closeOnProducerStop = config.getBoolean("close-on-producer-stop")
     val parallelism = config.getInt("parallelism")
@@ -88,8 +83,7 @@ object ProducerSettings {
       dispatcher,
       eosCommitInterval,
       enrichAsync = None,
-      producerFactorySync = None
-    )
+      producerFactorySync = None)
   }
 
   /**
@@ -100,8 +94,7 @@ object ProducerSettings {
   def apply[K, V](
       system: akka.actor.ActorSystem,
       keySerializer: Serializer[K],
-      valueSerializer: Serializer[V]
-  ): ProducerSettings[K, V] =
+      valueSerializer: Serializer[V]): ProducerSettings[K, V] =
     apply(system, Option(keySerializer), Option(valueSerializer))
 
   /**
@@ -114,8 +107,7 @@ object ProducerSettings {
   def apply[K, V](
       system: akka.actor.ClassicActorSystemProvider,
       keySerializer: Serializer[K],
-      valueSerializer: Serializer[V]
-  ): ProducerSettings[K, V] =
+      valueSerializer: Serializer[V]): ProducerSettings[K, V] =
     apply(system, Option(keySerializer), Option(valueSerializer))
 
   /**
@@ -126,8 +118,7 @@ object ProducerSettings {
   def apply[K, V](
       config: Config,
       keySerializer: Serializer[K],
-      valueSerializer: Serializer[V]
-  ): ProducerSettings[K, V] =
+      valueSerializer: Serializer[V]): ProducerSettings[K, V] =
     apply(config, Option(keySerializer), Option(valueSerializer))
 
   /**
@@ -138,8 +129,7 @@ object ProducerSettings {
   def create[K, V](
       system: akka.actor.ActorSystem,
       keySerializer: Optional[Serializer[K]],
-      valueSerializer: Optional[Serializer[V]]
-  ): ProducerSettings[K, V] =
+      valueSerializer: Optional[Serializer[V]]): ProducerSettings[K, V] =
     apply(system, keySerializer.asScala, valueSerializer.asScala)
 
   /**
@@ -152,8 +142,7 @@ object ProducerSettings {
   def create[K, V](
       system: akka.actor.ClassicActorSystemProvider,
       keySerializer: Optional[Serializer[K]],
-      valueSerializer: Optional[Serializer[V]]
-  ): ProducerSettings[K, V] =
+      valueSerializer: Optional[Serializer[V]]): ProducerSettings[K, V] =
     apply(system, keySerializer.asScala, valueSerializer.asScala)
 
   /**
@@ -164,8 +153,7 @@ object ProducerSettings {
   def create[K, V](
       config: Config,
       keySerializer: Optional[Serializer[K]],
-      valueSerializer: Optional[Serializer[V]]
-  ): ProducerSettings[K, V] =
+      valueSerializer: Optional[Serializer[V]]): ProducerSettings[K, V] =
     apply(config, keySerializer.asScala, valueSerializer.asScala)
 
   /**
@@ -176,8 +164,7 @@ object ProducerSettings {
   def create[K, V](
       system: akka.actor.ActorSystem,
       keySerializer: Serializer[K],
-      valueSerializer: Serializer[V]
-  ): ProducerSettings[K, V] =
+      valueSerializer: Serializer[V]): ProducerSettings[K, V] =
     apply(system, keySerializer, valueSerializer)
 
   /**
@@ -190,8 +177,7 @@ object ProducerSettings {
   def create[K, V](
       system: akka.actor.ClassicActorSystemProvider,
       keySerializer: Serializer[K],
-      valueSerializer: Serializer[V]
-  ): ProducerSettings[K, V] =
+      valueSerializer: Serializer[V]): ProducerSettings[K, V] =
     apply(system, keySerializer, valueSerializer)
 
   /**
@@ -202,8 +188,7 @@ object ProducerSettings {
   def create[K, V](
       config: Config,
       keySerializer: Serializer[K],
-      valueSerializer: Serializer[V]
-  ): ProducerSettings[K, V] =
+      valueSerializer: Serializer[V]): ProducerSettings[K, V] =
     apply(config, keySerializer, valueSerializer)
 
   /**
@@ -211,8 +196,8 @@ object ProducerSettings {
    */
   def createKafkaProducer[K, V](settings: ProducerSettings[K, V]): KafkaProducer[K, V] =
     new KafkaProducer[K, V](settings.getProperties,
-                            settings.keySerializerOpt.orNull,
-                            settings.valueSerializerOpt.orNull)
+      settings.keySerializerOpt.orNull,
+      settings.valueSerializerOpt.orNull)
 }
 
 /**
@@ -233,13 +218,11 @@ class ProducerSettings[K, V] @InternalApi private[kafka] (
     val dispatcher: String,
     val eosCommitInterval: FiniteDuration,
     val enrichAsync: Option[ProducerSettings[K, V] => Future[ProducerSettings[K, V]]],
-    val producerFactorySync: Option[ProducerSettings[K, V] => Producer[K, V]]
-) {
+    val producerFactorySync: Option[ProducerSettings[K, V] => Producer[K, V]]) {
 
   @deprecated(
     "Use createKafkaProducer(), createKafkaProducerAsync(), or createKafkaProducerCompletionStage() to get a new KafkaProducer",
-    "2.0.0"
-  )
+    "2.0.0")
   def producerFactory: ProducerSettings[K, V] => Producer[K, V] = _ => createKafkaProducer()
 
   /**
@@ -353,8 +336,8 @@ class ProducerSettings[K, V] @InternalApi private[kafka] (
    * @since 2.0.0
    */
   def withEnrichCompletionStage(
-      value: java.util.function.Function[ProducerSettings[K, V], CompletionStage[ProducerSettings[K, V]]]
-  ): ProducerSettings[K, V] =
+      value: java.util.function.Function[ProducerSettings[K, V], CompletionStage[ProducerSettings[K, V]]])
+      : ProducerSettings[K, V] =
     copy(enrichAsync = Some((s: ProducerSettings[K, V]) => value.apply(s).toScala))
 
   /**
@@ -362,15 +345,15 @@ class ProducerSettings[K, V] @InternalApi private[kafka] (
    * `closeProducerOnStop = false` by default.
    */
   def withProducer(
-      producer: Producer[K, V]
-  ): ProducerSettings[K, V] = copy(producerFactorySync = Some(_ => producer), closeProducerOnStop = false)
+      producer: Producer[K, V]): ProducerSettings[K, V] =
+    copy(producerFactorySync = Some(_ => producer), closeProducerOnStop = false)
 
   /**
    * Replaces the default Kafka producer creation logic.
    */
   def withProducerFactory(
-      factory: ProducerSettings[K, V] => Producer[K, V]
-  ): ProducerSettings[K, V] = copy(producerFactorySync = Some(factory))
+      factory: ProducerSettings[K, V] => Producer[K, V]): ProducerSettings[K, V] =
+    copy(producerFactorySync = Some(factory))
 
   /**
    * Get the Kafka producer settings as map.
@@ -387,18 +370,18 @@ class ProducerSettings[K, V] @InternalApi private[kafka] (
       dispatcher: String = dispatcher,
       eosCommitInterval: FiniteDuration = eosCommitInterval,
       enrichAsync: Option[ProducerSettings[K, V] => Future[ProducerSettings[K, V]]] = enrichAsync,
-      producerFactorySync: Option[ProducerSettings[K, V] => Producer[K, V]] = producerFactorySync
-  ): ProducerSettings[K, V] =
+      producerFactorySync: Option[ProducerSettings[K, V] => Producer[K, V]] = producerFactorySync)
+      : ProducerSettings[K, V] =
     new ProducerSettings[K, V](properties,
-                               keySerializer,
-                               valueSerializer,
-                               closeTimeout,
-                               closeProducerOnStop,
-                               parallelism,
-                               dispatcher,
-                               eosCommitInterval,
-                               enrichAsync,
-                               producerFactorySync)
+      keySerializer,
+      valueSerializer,
+      closeTimeout,
+      closeProducerOnStop,
+      parallelism,
+      dispatcher,
+      eosCommitInterval,
+      enrichAsync,
+      producerFactorySync)
 
   override def toString: String = {
     val kafkaClients = properties.toSeq
@@ -438,12 +421,11 @@ class ProducerSettings[K, V] @InternalApi private[kafka] (
   def createKafkaProducer(): Producer[K, V] =
     if (enrichAsync.isDefined) {
       throw new IllegalStateException(
-        "Asynchronous settings enrichment is set via `withEnrichAsync` or `withEnrichCompletionStage`, you must use `createKafkaProducerAsync` or `createKafkaProducerCompletionStage` to apply it"
-      )
+        "Asynchronous settings enrichment is set via `withEnrichAsync` or `withEnrichCompletionStage`, you must use `createKafkaProducerAsync` or `createKafkaProducerCompletionStage` to apply it")
     } else {
       producerFactorySync match {
         case Some(factory) => factory.apply(this)
-        case _ => ProducerSettings.createKafkaProducer(this)
+        case _             => ProducerSettings.createKafkaProducer(this)
       }
     }
 
@@ -456,7 +438,7 @@ class ProducerSettings[K, V] @InternalApi private[kafka] (
   def createKafkaProducerAsync()(implicit executionContext: ExecutionContext): Future[Producer[K, V]] =
     producerFactorySync match {
       case Some(factory) => enriched.map(factory)
-      case _ => enriched.map(ProducerSettings.createKafkaProducer)
+      case _             => enriched.map(ProducerSettings.createKafkaProducer)
     }
 
   /**

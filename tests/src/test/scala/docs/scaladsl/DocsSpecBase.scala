@@ -10,7 +10,7 @@ import akka.kafka.testkit.scaladsl.KafkaSpec
 import akka.kafka.testkit.internal.TestFrameworkInterface
 import akka.stream.scaladsl.Flow
 import org.scalatest.Suite
-import org.scalatest.concurrent.{Eventually, IntegrationPatience, ScalaFutures}
+import org.scalatest.concurrent.{ Eventually, IntegrationPatience, ScalaFutures }
 import org.scalatest.flatspec.AnyFlatSpecLike
 import org.scalatest.matchers.should.Matchers
 

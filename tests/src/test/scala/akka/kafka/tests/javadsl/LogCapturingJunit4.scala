@@ -50,8 +50,7 @@ final class LogCapturingJunit4 extends TestRule {
           myLogger.info(s"Logging started for test [${description.getClassName}: ${description.getMethodName}]")
           base.evaluate()
           myLogger.info(
-            s"Logging finished for test [${description.getClassName}: ${description.getMethodName}] that was successful"
-          )
+            s"Logging finished for test [${description.getClassName}: ${description.getMethodName}] that was successful")
         } catch {
           case NonFatal(e) =>
             val method = s"[${Console.BLUE}${description.getClassName}: ${description.getMethodName}${Console.RESET}]"

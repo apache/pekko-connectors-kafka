@@ -10,15 +10,15 @@ import akka.kafka.ConsumerMessage.CommittableMessage
 import akka.kafka.benchmarks.app.RunTestCommand
 import akka.kafka.scaladsl.Consumer
 import akka.kafka.scaladsl.Consumer.Control
-import akka.kafka.{ConsumerSettings, Subscriptions}
+import akka.kafka.{ ConsumerSettings, Subscriptions }
 import akka.stream.scaladsl.Source
-import org.apache.kafka.clients.consumer.{ConsumerConfig, ConsumerRecord}
-import org.apache.kafka.common.serialization.{ByteArrayDeserializer, StringDeserializer}
+import org.apache.kafka.clients.consumer.{ ConsumerConfig, ConsumerRecord }
+import org.apache.kafka.common.serialization.{ ByteArrayDeserializer, StringDeserializer }
 
 case class ReactiveKafkaConsumerTestFixture[T](topic: String,
-                                               msgCount: Int,
-                                               source: Source[T, Control],
-                                               numberOfPartitions: Int)
+    msgCount: Int,
+    source: Source[T, Control],
+    numberOfPartitions: Int)
 
 object ReactiveKafkaConsumerFixtures extends PerfFixtureHelpers {
 
@@ -37,8 +37,7 @@ object ReactiveKafkaConsumerFixtures extends PerfFixtureHelpers {
         val settings = createConsumerSettings(c.kafkaHost)
         val source = Consumer.plainSource(settings, Subscriptions.topics(c.filledTopic.topic))
         ReactiveKafkaConsumerTestFixture(c.filledTopic.topic, msgCount, source, c.numberOfPartitions)
-      }
-    )
+      })
 
   def committableSources(c: RunTestCommand)(implicit actorSystem: ActorSystem) =
     FixtureGen[ReactiveKafkaConsumerTestFixture[CommittableMessage[Array[Byte], String]]](
@@ -48,15 +47,13 @@ object ReactiveKafkaConsumerFixtures extends PerfFixtureHelpers {
         val settings = createConsumerSettings(c.kafkaHost)
         val source = Consumer.committableSource(settings, Subscriptions.topics(c.filledTopic.topic))
         ReactiveKafkaConsumerTestFixture(c.filledTopic.topic, msgCount, source, c.numberOfPartitions)
-      }
-    )
+      })
 
   def noopFixtureGen(c: RunTestCommand) =
     FixtureGen[ReactiveKafkaConsumerTestFixture[ConsumerRecord[Array[Byte], String]]](
       c,
       msgCount => {
         ReactiveKafkaConsumerTestFixture("topic", msgCount, null, c.numberOfPartitions)
-      }
-    )
+      })
 
 }

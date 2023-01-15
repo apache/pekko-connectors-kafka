@@ -5,7 +5,7 @@
 
 package akka.kafka.benchmarks
 
-import akka.kafka.benchmarks.BenchmarksBase.{topic_2000_100, topic_2000_500, topic_2000_5000, topic_2000_5000_8}
+import akka.kafka.benchmarks.BenchmarksBase.{ topic_2000_100, topic_2000_500, topic_2000_5000, topic_2000_5000_8 }
 import akka.kafka.benchmarks.Timed.runPerfTest
 import akka.kafka.benchmarks.app.RunTestCommand
 

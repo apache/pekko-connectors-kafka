@@ -16,7 +16,7 @@ import akka.kafka.ConsumerMessage.{
   TransactionalMessage,
   _
 }
-import org.apache.kafka.clients.consumer.{ConsumerRecord, OffsetAndMetadata}
+import org.apache.kafka.clients.consumer.{ ConsumerRecord, OffsetAndMetadata }
 import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.requests.OffsetFetchResponse
 
@@ -58,12 +58,10 @@ private[kafka] trait TransactionalMessageBuilder[K, V]
       GroupTopicPartition(
         groupId = groupId,
         topic = rec.topic,
-        partition = rec.partition
-      ),
+        partition = rec.partition),
       offset = rec.offset,
       committedMarker,
-      fromPartitionedSource
-    )
+      fromPartitionedSource)
     ConsumerMessage.TransactionalMessage(rec, offset)
   }
 }
@@ -78,12 +76,10 @@ private[kafka] trait TransactionalOffsetContextBuilder[K, V]
       GroupTopicPartition(
         groupId = groupId,
         topic = rec.topic,
-        partition = rec.partition
-      ),
+        partition = rec.partition),
       offset = rec.offset,
       committedMarker,
-      fromPartitionedSource
-    )
+      fromPartitionedSource)
     (rec, offset)
   }
 }
@@ -100,10 +96,8 @@ private[kafka] trait CommittableMessageBuilder[K, V] extends MessageBuilder[K, V
       GroupTopicPartition(
         groupId = groupId,
         topic = rec.topic,
-        partition = rec.partition
-      ),
-      offset = rec.offset
-    )
+        partition = rec.partition),
+      offset = rec.offset)
     ConsumerMessage.CommittableMessage(rec, CommittableOffsetImpl(offset, metadataFromRecord(rec))(committer))
   }
 }
@@ -126,10 +120,8 @@ private[kafka] trait OffsetContextBuilder[K, V]
       GroupTopicPartition(
         groupId = groupId,
         topic = rec.topic,
-        partition = rec.partition
-      ),
-      offset = rec.offset
-    )
+        partition = rec.partition),
+      offset = rec.offset)
     (rec, CommittableOffsetImpl(offset, metadataFromRecord(rec))(committer))
   }
 }
@@ -137,10 +129,8 @@ private[kafka] trait OffsetContextBuilder[K, V]
 /** Internal API */
 @InternalApi private[kafka] final case class CommittableOffsetImpl(
     override val partitionOffset: ConsumerMessage.PartitionOffset,
-    override val metadata: String
-)(
-    val committer: KafkaAsyncConsumerCommitterRef
-) extends CommittableOffsetMetadata {
+    override val metadata: String)(
+    val committer: KafkaAsyncConsumerCommitterRef) extends CommittableOffsetMetadata {
   override def commitScaladsl(): Future[Done] = commitInternal()
   override def commitJavadsl(): CompletionStage[Done] = commitInternal().toJava
   override def commitInternal(): Future[Done] = KafkaAsyncConsumerCommitterRef.commit(this)
@@ -163,22 +153,20 @@ private[kafka] trait CommittedMarker {
 private[kafka] final class CommittableOffsetBatchImpl(
     private[kafka] val offsetsAndMetadata: Map[GroupTopicPartition, OffsetAndMetadata],
     private val committers: Map[GroupTopicPartition, KafkaAsyncConsumerCommitterRef],
-    override val batchSize: Long
-) extends CommittableOffsetBatch {
+    override val batchSize: Long) extends CommittableOffsetBatch {
   def offsets: Map[GroupTopicPartition, Long] = offsetsAndMetadata.view.mapValues(_.offset() - 1L).toMap
 
   def updated(committable: Committable): CommittableOffsetBatch = committable match {
-    case offset: CommittableOffset => updatedWithOffset(offset)
+    case offset: CommittableOffset     => updatedWithOffset(offset)
     case batch: CommittableOffsetBatch => updatedWithBatch(batch)
-    case null => throw new IllegalArgumentException(s"unexpected Committable [null]")
-    case _ => throw new IllegalArgumentException(s"unexpected Committable [${committable.getClass}]")
+    case null                          => throw new IllegalArgumentException(s"unexpected Committable [null]")
+    case _                             => throw new IllegalArgumentException(s"unexpected Committable [${committable.getClass}]")
   }
 
   private[internal] def committerFor(groupTopicPartition: GroupTopicPartition) =
     committers.getOrElse(
       groupTopicPartition,
-      throw new IllegalStateException(s"Unknown committer, got [$groupTopicPartition] (${committers.keys})")
-    )
+      throw new IllegalStateException(s"Unknown committer, got [$groupTopicPartition] (${committers.keys})"))
 
   private def updatedWithOffset(newOffset: CommittableOffset): CommittableOffsetBatch = {
     val partitionOffset = newOffset.partitionOffset
@@ -198,8 +186,7 @@ private[kafka] final class CommittableOffsetBatchImpl(
       case _ =>
         throw new IllegalArgumentException(
           s"Unknown CommittableOffset, got [${newOffset.getClass.getName}], " +
-          s"expected [${classOf[CommittableOffsetImpl].getName}]"
-        )
+          s"expected [${classOf[CommittableOffsetImpl].getName}]")
     }
 
     // the last `KafkaAsyncConsumerCommitterRef` wins (see https://github.com/akka/alpakka-kafka/issues/942)
@@ -217,8 +204,7 @@ private[kafka] final class CommittableOffsetBatchImpl(
       case _ =>
         throw new IllegalArgumentException(
           s"Unknown CommittableOffsetBatch, got [${committableOffsetBatch.getClass.getName}], " +
-          s"expected [${classOf[CommittableOffsetBatchImpl].getName}]"
-        )
+          s"expected [${classOf[CommittableOffsetBatchImpl].getName}]")
     }
 
   override def getOffsets: java.util.Map[GroupTopicPartition, Long] = offsets.asJava

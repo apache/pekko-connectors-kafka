@@ -10,17 +10,17 @@ import java.util.concurrent.atomic.AtomicReference
 
 import akka.kafka._
 import akka.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import akka.stream.scaladsl.{Keep, Source}
+import akka.stream.scaladsl.{ Keep, Source }
 import akka.stream.testkit.TestSubscriber
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import akka.stream.testkit.scaladsl.TestSink
 import akka.testkit.TestProbe
-import akka.{Done, NotUsed}
-import org.apache.kafka.clients.consumer.{ConsumerConfig, ConsumerPartitionAssignor, ConsumerRecord}
+import akka.{ Done, NotUsed }
+import org.apache.kafka.clients.consumer.{ ConsumerConfig, ConsumerPartitionAssignor, ConsumerRecord }
 import org.apache.kafka.clients.consumer.internals.AbstractPartitionAssignor
 import org.apache.kafka.common.TopicPartition
 import org.scalatest.Inside
-import org.slf4j.{Logger, LoggerFactory}
+import org.slf4j.{ Logger, LoggerFactory }
 
 import scala.concurrent.duration._
 import scala.jdk.CollectionConverters._
@@ -57,9 +57,7 @@ class RebalanceSpec extends SpecBase with TestcontainersKafkaLike with Inside {
 
       AlpakkaAssignor.clientIdToPartitionMap.set(
         Map(
-          consumerClientId1 -> Set(tp0, tp1)
-        )
-      )
+          consumerClientId1 -> Set(tp0, tp1)))
 
       log.debug("Subscribe to the topic (without demand)")
       val probe1rebalanceActor = TestProbe()
@@ -72,8 +70,7 @@ class RebalanceSpec extends SpecBase with TestcontainersKafkaLike with Inside {
       log.debug("Await initial partition assignment")
       probe1rebalanceActor.expectMsg(
         TopicPartitionsAssigned(probe1subscription,
-                                Set(new TopicPartition(topic1, partition0), new TopicPartition(topic1, partition1)))
-      )
+          Set(new TopicPartition(topic1, partition0), new TopicPartition(topic1, partition1))))
 
       log.debug("read one message from probe1 with partition 1")
       probe1.requestNext()
@@ -81,9 +78,7 @@ class RebalanceSpec extends SpecBase with TestcontainersKafkaLike with Inside {
       AlpakkaAssignor.clientIdToPartitionMap.set(
         Map(
           consumerClientId1 -> Set(tp0),
-          consumerClientId2 -> Set(tp1)
-        )
-      )
+          consumerClientId2 -> Set(tp1)))
 
       log.debug("Subscribe to the topic (without demand)")
       val probe2rebalanceActor = TestProbe()
@@ -96,16 +91,13 @@ class RebalanceSpec extends SpecBase with TestcontainersKafkaLike with Inside {
       log.debug("Await a revoke to consumer 1")
       probe1rebalanceActor.expectMsg(
         TopicPartitionsRevoked(probe1subscription,
-                               Set(new TopicPartition(topic1, partition0), new TopicPartition(topic1, partition1)))
-      )
+          Set(new TopicPartition(topic1, partition0), new TopicPartition(topic1, partition1))))
 
       log.debug("the rebalance finishes")
       probe1rebalanceActor.expectMsg(
-        TopicPartitionsAssigned(probe1subscription, Set(new TopicPartition(topic1, partition0)))
-      )
+        TopicPartitionsAssigned(probe1subscription, Set(new TopicPartition(topic1, partition0))))
       probe2rebalanceActor.expectMsg(
-        TopicPartitionsAssigned(probe2subscription, Set(new TopicPartition(topic1, partition1)))
-      )
+        TopicPartitionsAssigned(probe2subscription, Set(new TopicPartition(topic1, partition1))))
 
       log.debug("resume demand on both consumers")
       probe1.request(count)
@@ -128,8 +120,8 @@ class RebalanceSpec extends SpecBase with TestcontainersKafkaLike with Inside {
     "be removed from the partitioned source stage buffer when a partition is revoked" in assertAllStagesStopped {
       def subSourcesWithProbes(
           partitions: Int,
-          probe: TestSubscriber.Probe[(TopicPartition, Source[ConsumerRecord[String, String], NotUsed])]
-      ): Seq[(TopicPartition, TestSubscriber.Probe[ConsumerRecord[String, String]])] =
+          probe: TestSubscriber.Probe[(TopicPartition, Source[ConsumerRecord[String, String], NotUsed])])
+          : Seq[(TopicPartition, TestSubscriber.Probe[ConsumerRecord[String, String]])] =
         probe
           .expectNextN(partitions.toLong)
           .map {
@@ -139,8 +131,8 @@ class RebalanceSpec extends SpecBase with TestcontainersKafkaLike with Inside {
 
       def runForSubSource(
           partition: Int,
-          subSourcesWithProbes: Seq[(TopicPartition, TestSubscriber.Probe[ConsumerRecord[String, String]])]
-      )(fun: TestSubscriber.Probe[ConsumerRecord[String, String]] => Unit) =
+          subSourcesWithProbes: Seq[(TopicPartition, TestSubscriber.Probe[ConsumerRecord[String, String]])])(
+          fun: TestSubscriber.Probe[ConsumerRecord[String, String]] => Unit) =
         subSourcesWithProbes
           .find { case (tp, _) => tp.partition() == partition }
           .foreach { case (_, probe) => fun(probe) }
@@ -161,9 +153,7 @@ class RebalanceSpec extends SpecBase with TestcontainersKafkaLike with Inside {
 
       AlpakkaAssignor.clientIdToPartitionMap.set(
         Map(
-          consumerClientId1 -> Set(tp0, tp1)
-        )
-      )
+          consumerClientId1 -> Set(tp0, tp1)))
 
       log.debug("Subscribe to the topic (without demand)")
       val probe1rebalanceActor = TestProbe()
@@ -176,8 +166,7 @@ class RebalanceSpec extends SpecBase with TestcontainersKafkaLike with Inside {
       log.debug("Await initial partition assignment")
       probe1rebalanceActor.expectMsg(
         TopicPartitionsAssigned(probe1subscription,
-                                Set(new TopicPartition(topic1, partition0), new TopicPartition(topic1, partition1)))
-      )
+          Set(new TopicPartition(topic1, partition0), new TopicPartition(topic1, partition1))))
 
       log.debug("read 2 sub sources returned by partitioned source")
       probe1.request(2)
@@ -191,9 +180,7 @@ class RebalanceSpec extends SpecBase with TestcontainersKafkaLike with Inside {
       AlpakkaAssignor.clientIdToPartitionMap.set(
         Map(
           consumerClientId1 -> Set(tp0),
-          consumerClientId2 -> Set(tp1)
-        )
-      )
+          consumerClientId2 -> Set(tp1)))
 
       log.debug("Subscribe to the topic (without demand)")
       val probe2rebalanceActor = TestProbe()
@@ -209,16 +196,13 @@ class RebalanceSpec extends SpecBase with TestcontainersKafkaLike with Inside {
       log.debug("Await a revoke to consumer 1")
       probe1rebalanceActor.expectMsg(
         TopicPartitionsRevoked(probe1subscription,
-                               Set(new TopicPartition(topic1, partition0), new TopicPartition(topic1, partition1)))
-      )
+          Set(new TopicPartition(topic1, partition0), new TopicPartition(topic1, partition1))))
 
       log.debug("the rebalance finishes")
       probe1rebalanceActor.expectMsg(
-        TopicPartitionsAssigned(probe1subscription, Set(new TopicPartition(topic1, partition0)))
-      )
+        TopicPartitionsAssigned(probe1subscription, Set(new TopicPartition(topic1, partition0))))
       probe2rebalanceActor.expectMsg(
-        TopicPartitionsAssigned(probe2subscription, Set(new TopicPartition(topic1, partition1)))
-      )
+        TopicPartitionsAssigned(probe2subscription, Set(new TopicPartition(topic1, partition1))))
 
       log.debug("resume demand on both consumers")
       runForSubSource(partition = 1, probe1RunningSubSourceProbes)(_.request(count))
@@ -265,8 +249,8 @@ class AlpakkaAssignor extends AbstractPartitionAssignor {
 
   override def assign(
       partitionsPerTopic: util.Map[String, Integer],
-      subscriptions: util.Map[String, ConsumerPartitionAssignor.Subscription]
-  ): util.Map[String, util.List[TopicPartition]] = {
+      subscriptions: util.Map[String, ConsumerPartitionAssignor.Subscription])
+      : util.Map[String, util.List[TopicPartition]] = {
     val clientIdToPartitionMap = AlpakkaAssignor.clientIdToPartitionMap.get()
 
     val mapTps = clientIdToPartitionMap.values.flatten.toSet
@@ -278,8 +262,7 @@ class AlpakkaAssignor extends AbstractPartitionAssignor {
 
     if (missingFromMap.nonEmpty)
       throw new Exception(
-        s"Missing the following partition assignments from the static assignment map: $missingFromMap"
-      )
+        s"Missing the following partition assignments from the static assignment map: $missingFromMap")
 
     val assignments = for {
       memberId <- subscriptions.keySet().asScala

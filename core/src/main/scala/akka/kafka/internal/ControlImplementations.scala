@@ -4,22 +4,22 @@
  */
 
 package akka.kafka.internal
-import java.util.concurrent.{CompletionStage, Executor}
+import java.util.concurrent.{ CompletionStage, Executor }
 
 import akka.Done
 import akka.actor.ActorRef
 import akka.annotation.InternalApi
 import akka.dispatch.ExecutionContexts
-import akka.kafka.internal.KafkaConsumerActor.Internal.{ConsumerMetrics, RequestMetrics}
-import akka.kafka.{javadsl, scaladsl}
+import akka.kafka.internal.KafkaConsumerActor.Internal.{ ConsumerMetrics, RequestMetrics }
+import akka.kafka.{ javadsl, scaladsl }
 import akka.stream.SourceShape
 import akka.stream.stage.GraphStageLogic
 import akka.util.Timeout
-import org.apache.kafka.common.{Metric, MetricName}
+import org.apache.kafka.common.{ Metric, MetricName }
 
 import scala.jdk.CollectionConverters._
-import scala.compat.java8.FutureConverters.{CompletionStageOps, FutureOps}
-import scala.concurrent.{ExecutionContext, Future, Promise}
+import scala.compat.java8.FutureConverters.{ CompletionStageOps, FutureOps }
+import scala.concurrent.{ ExecutionContext, Future, Promise }
 
 private object PromiseControl {
   sealed trait ControlOperation
@@ -43,10 +43,10 @@ private trait PromiseControl extends GraphStageLogic with scaladsl.Consumer.Cont
   private val shutdownPromise: Promise[Done] = Promise()
   private val stopPromise: Promise[Done] = Promise()
 
-  private val controlCallback = getAsyncCallback[ControlOperation]({
-    case ControlStop => performStop()
+  private val controlCallback = getAsyncCallback[ControlOperation] {
+    case ControlStop     => performStop()
     case ControlShutdown => performShutdown()
-  })
+  }
 
   def onStop() =
     stopPromise.trySuccess(Done)

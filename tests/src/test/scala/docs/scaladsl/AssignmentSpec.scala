@@ -7,9 +7,9 @@ package docs.scaladsl
 
 import akka.Done
 import akka.kafka.Subscriptions
-import akka.kafka.scaladsl.{Consumer, Producer, SpecBase}
+import akka.kafka.scaladsl.{ Consumer, Producer, SpecBase }
 import akka.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import akka.stream.scaladsl.{Sink, Source}
+import akka.stream.scaladsl.{ Sink, Source }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.TopicPartition
@@ -172,7 +172,7 @@ class AssignmentSpec extends SpecBase with TestcontainersKafkaLike {
     "fail the stream with invalid topic for assignments" in {
       val streamCompletion = Consumer
         .plainSource(consumerDefaults.withGroupId(createGroupId()),
-                     Subscriptions.assignment(new TopicPartition("illegal topic name", 2)))
+          Subscriptions.assignment(new TopicPartition("illegal topic name", 2)))
         .runWith(Sink.ignore)
       streamCompletion.failed.futureValue shouldBe a[org.apache.kafka.common.errors.InvalidTopicException]
     }
@@ -189,8 +189,7 @@ class AssignmentSpec extends SpecBase with TestcontainersKafkaLike {
         .plainSource(
           consumerDefaults.withGroupId(createGroupId()),
           Subscriptions.assignmentOffsetsForTimes(new TopicPartition("topic", 0) -> 232L,
-                                                  new TopicPartition("topic", 1) -> -232L)
-        )
+            new TopicPartition("topic", 1) -> -232L))
         .runWith(Sink.ignore)
       streamCompletion.failed.futureValue shouldBe a[java.lang.IllegalArgumentException]
     }

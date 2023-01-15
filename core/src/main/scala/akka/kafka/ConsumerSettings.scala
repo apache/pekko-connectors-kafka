@@ -6,19 +6,19 @@
 package akka.kafka
 
 import java.util.Optional
-import java.util.concurrent.{CompletionStage, Executor}
+import java.util.concurrent.{ CompletionStage, Executor }
 
 import akka.annotation.InternalApi
 import akka.kafka.internal._
 import akka.util.JavaDurationConverters._
 import com.typesafe.config.Config
-import org.apache.kafka.clients.consumer.{Consumer, ConsumerConfig, KafkaConsumer}
+import org.apache.kafka.clients.consumer.{ Consumer, ConsumerConfig, KafkaConsumer }
 import org.apache.kafka.common.serialization.Deserializer
 
 import scala.jdk.CollectionConverters._
 import scala.compat.java8.OptionConverters._
 import scala.compat.java8.FutureConverters._
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.{ ExecutionContext, Future }
 import scala.concurrent.duration._
 
 object ConsumerSettings {
@@ -33,8 +33,7 @@ object ConsumerSettings {
   def apply[K, V](
       system: akka.actor.ActorSystem,
       keyDeserializer: Option[Deserializer[K]],
-      valueDeserializer: Option[Deserializer[V]]
-  ): ConsumerSettings[K, V] = {
+      valueDeserializer: Option[Deserializer[V]]): ConsumerSettings[K, V] = {
     val config = system.settings.config.getConfig(configPath)
     apply(config, keyDeserializer, valueDeserializer)
   }
@@ -49,8 +48,7 @@ object ConsumerSettings {
   def apply[K, V](
       system: akka.actor.ClassicActorSystemProvider,
       keyDeserializer: Option[Deserializer[K]],
-      valueDeserializer: Option[Deserializer[V]]
-  ): ConsumerSettings[K, V] =
+      valueDeserializer: Option[Deserializer[V]]): ConsumerSettings[K, V] =
     apply(system.classicSystem, keyDeserializer, valueDeserializer)
 
   /**
@@ -61,19 +59,16 @@ object ConsumerSettings {
   def apply[K, V](
       config: Config,
       keyDeserializer: Option[Deserializer[K]],
-      valueDeserializer: Option[Deserializer[V]]
-  ): ConsumerSettings[K, V] = {
+      valueDeserializer: Option[Deserializer[V]]): ConsumerSettings[K, V] = {
     val properties = ConfigSettings.parseKafkaClientsProperties(config.getConfig("kafka-clients"))
     require(
       keyDeserializer != null &&
       (keyDeserializer.isDefined || properties.contains(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG)),
-      "Key deserializer should be defined or declared in configuration"
-    )
+      "Key deserializer should be defined or declared in configuration")
     require(
       valueDeserializer != null &&
       (valueDeserializer.isDefined || properties.contains(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG)),
-      "Value deserializer should be defined or declared in configuration"
-    )
+      "Value deserializer should be defined or declared in configuration")
     val pollInterval = config.getDuration("poll-interval").asScala
     val pollTimeout = config.getDuration("poll-timeout").asScala
     val stopTimeout = config.getDuration("stop-timeout").asScala
@@ -90,8 +85,7 @@ object ConsumerSettings {
     val connectionCheckerSettings = ConnectionCheckerSettings(config.getConfig(ConnectionCheckerSettings.configPath))
     val partitionHandlerWarning = config.getDuration("partition-handler-warning").asScala
     val resetProtectionThreshold = OffsetResetProtectionSettings(
-      config.getConfig(OffsetResetProtectionSettings.configPath)
-    )
+      config.getConfig(OffsetResetProtectionSettings.configPath))
 
     new ConsumerSettings[K, V](
       properties,
@@ -114,8 +108,7 @@ object ConsumerSettings {
       ConsumerSettings.createKafkaConsumer,
       connectionCheckerSettings,
       partitionHandlerWarning,
-      resetProtectionThreshold
-    )
+      resetProtectionThreshold)
   }
 
   /**
@@ -126,8 +119,7 @@ object ConsumerSettings {
   def apply[K, V](
       system: akka.actor.ActorSystem,
       keyDeserializer: Deserializer[K],
-      valueDeserializer: Deserializer[V]
-  ): ConsumerSettings[K, V] =
+      valueDeserializer: Deserializer[V]): ConsumerSettings[K, V] =
     apply(system, Option(keyDeserializer), Option(valueDeserializer))
 
   /**
@@ -140,8 +132,7 @@ object ConsumerSettings {
   def apply[K, V](
       system: akka.actor.ClassicActorSystemProvider,
       keyDeserializer: Deserializer[K],
-      valueDeserializer: Deserializer[V]
-  ): ConsumerSettings[K, V] =
+      valueDeserializer: Deserializer[V]): ConsumerSettings[K, V] =
     apply(system, Option(keyDeserializer), Option(valueDeserializer))
 
   /**
@@ -152,8 +143,7 @@ object ConsumerSettings {
   def apply[K, V](
       config: Config,
       keyDeserializer: Deserializer[K],
-      valueDeserializer: Deserializer[V]
-  ): ConsumerSettings[K, V] =
+      valueDeserializer: Deserializer[V]): ConsumerSettings[K, V] =
     apply(config, Option(keyDeserializer), Option(valueDeserializer))
 
   /**
@@ -164,8 +154,7 @@ object ConsumerSettings {
   def create[K, V](
       system: akka.actor.ActorSystem,
       keyDeserializer: Optional[Deserializer[K]],
-      valueDeserializer: Optional[Deserializer[V]]
-  ): ConsumerSettings[K, V] =
+      valueDeserializer: Optional[Deserializer[V]]): ConsumerSettings[K, V] =
     apply(system, keyDeserializer.asScala, valueDeserializer.asScala)
 
   /**
@@ -178,8 +167,7 @@ object ConsumerSettings {
   def create[K, V](
       system: akka.actor.ClassicActorSystemProvider,
       keyDeserializer: Optional[Deserializer[K]],
-      valueDeserializer: Optional[Deserializer[V]]
-  ): ConsumerSettings[K, V] =
+      valueDeserializer: Optional[Deserializer[V]]): ConsumerSettings[K, V] =
     apply(system, keyDeserializer.asScala, valueDeserializer.asScala)
 
   /**
@@ -190,8 +178,7 @@ object ConsumerSettings {
   def create[K, V](
       config: Config,
       keyDeserializer: Optional[Deserializer[K]],
-      valueDeserializer: Optional[Deserializer[V]]
-  ): ConsumerSettings[K, V] =
+      valueDeserializer: Optional[Deserializer[V]]): ConsumerSettings[K, V] =
     apply(config, keyDeserializer.asScala, valueDeserializer.asScala)
 
   /**
@@ -202,8 +189,7 @@ object ConsumerSettings {
   def create[K, V](
       system: akka.actor.ActorSystem,
       keyDeserializer: Deserializer[K],
-      valueDeserializer: Deserializer[V]
-  ): ConsumerSettings[K, V] =
+      valueDeserializer: Deserializer[V]): ConsumerSettings[K, V] =
     apply(system, keyDeserializer, valueDeserializer)
 
   /**
@@ -216,8 +202,7 @@ object ConsumerSettings {
   def create[K, V](
       system: akka.actor.ClassicActorSystemProvider,
       keyDeserializer: Deserializer[K],
-      valueDeserializer: Deserializer[V]
-  ): ConsumerSettings[K, V] =
+      valueDeserializer: Deserializer[V]): ConsumerSettings[K, V] =
     apply(system, keyDeserializer, valueDeserializer)
 
   /**
@@ -228,8 +213,7 @@ object ConsumerSettings {
   def create[K, V](
       config: Config,
       keyDeserializer: Deserializer[K],
-      valueDeserializer: Deserializer[V]
-  ): ConsumerSettings[K, V] =
+      valueDeserializer: Deserializer[V]): ConsumerSettings[K, V] =
     apply(config, keyDeserializer, valueDeserializer)
 
   /**
@@ -237,8 +221,8 @@ object ConsumerSettings {
    */
   def createKafkaConsumer[K, V](settings: ConsumerSettings[K, V]): Consumer[K, V] =
     new KafkaConsumer[K, V](settings.getProperties,
-                            settings.keyDeserializerOpt.orNull,
-                            settings.valueDeserializerOpt.orNull)
+      settings.keyDeserializerOpt.orNull,
+      settings.valueDeserializerOpt.orNull)
 
 }
 
@@ -271,8 +255,7 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
     val consumerFactory: ConsumerSettings[K, V] => Consumer[K, V],
     val connectionCheckerSettings: ConnectionCheckerSettings,
     val partitionHandlerWarning: FiniteDuration,
-    val resetProtectionSettings: OffsetResetProtectionSettings
-) {
+    val resetProtectionSettings: OffsetResetProtectionSettings) {
 
   /**
    * A comma-separated list of host/port pairs to use for establishing the initial connection to the Kafka cluster.
@@ -457,8 +440,7 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
    * Enable kafka connection checker with provided settings
    */
   def withConnectionChecker(
-      kafkaConnectionCheckerConfig: ConnectionCheckerSettings
-  ): ConsumerSettings[K, V] =
+      kafkaConnectionCheckerConfig: ConnectionCheckerSettings): ConsumerSettings[K, V] =
     copy(connectionCheckerConfig = kafkaConnectionCheckerConfig)
 
   /**
@@ -522,16 +504,15 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
    * @since 2.0.0
    */
   def withEnrichCompletionStage(
-      value: java.util.function.Function[ConsumerSettings[K, V], CompletionStage[ConsumerSettings[K, V]]]
-  ): ConsumerSettings[K, V] =
+      value: java.util.function.Function[ConsumerSettings[K, V], CompletionStage[ConsumerSettings[K, V]]])
+      : ConsumerSettings[K, V] =
     copy(enrichAsync = Some((s: ConsumerSettings[K, V]) => value.apply(s).toScala))
 
   /**
    * Replaces the default Kafka consumer creation logic.
    */
   def withConsumerFactory(
-      factory: ConsumerSettings[K, V] => Consumer[K, V]
-  ): ConsumerSettings[K, V] = copy(consumerFactory = factory)
+      factory: ConsumerSettings[K, V] => Consumer[K, V]): ConsumerSettings[K, V] = copy(consumerFactory = factory)
 
   /**
    * Set the protection for unintentional offset reset.
@@ -570,8 +551,7 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
       consumerFactory: ConsumerSettings[K, V] => Consumer[K, V] = consumerFactory,
       connectionCheckerConfig: ConnectionCheckerSettings = connectionCheckerSettings,
       partitionHandlerWarning: FiniteDuration = partitionHandlerWarning,
-      resetProtectionSettings: OffsetResetProtectionSettings = resetProtectionSettings
-  ): ConsumerSettings[K, V] =
+      resetProtectionSettings: OffsetResetProtectionSettings = resetProtectionSettings): ConsumerSettings[K, V] =
     new ConsumerSettings[K, V](
       properties,
       keyDeserializer,
@@ -593,8 +573,7 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
       consumerFactory,
       connectionCheckerConfig,
       partitionHandlerWarning,
-      resetProtectionSettings
-    )
+      resetProtectionSettings)
 
   /**
    * Applies `enrichAsync` to complement these settings from asynchronous sources.
@@ -612,8 +591,7 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
   def createKafkaConsumer(): Consumer[K, V] =
     if (enrichAsync.isDefined) {
       throw new IllegalStateException(
-        "Asynchronous settings enrichment is set via `withEnrichAsync` or `withEnrichCompletionStage`, you must use `createKafkaConsumerAsync` or `createKafkaConsumerCompletionStage` to apply it"
-      )
+        "Asynchronous settings enrichment is set via `withEnrichAsync` or `withEnrichCompletionStage`, you must use `createKafkaConsumerAsync` or `createKafkaConsumerCompletionStage` to apply it")
     } else {
       consumerFactory.apply(this)
     }

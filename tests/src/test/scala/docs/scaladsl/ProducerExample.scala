@@ -7,10 +7,10 @@ package docs.scaladsl
 
 import akka.Done
 import akka.kafka.ProducerMessage.MultiResultPart
-import akka.kafka.scaladsl.{Consumer, Producer}
+import akka.kafka.scaladsl.{ Consumer, Producer }
 import akka.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import akka.kafka.{ProducerMessage, ProducerSettings, Subscriptions}
-import akka.stream.scaladsl.{Keep, Sink, Source}
+import akka.kafka.{ ProducerMessage, ProducerSettings, Subscriptions }
+import akka.stream.scaladsl.{ Keep, Sink, Source }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.serialization.StringSerializer
@@ -62,7 +62,7 @@ class ProducerExample extends DocsSpecBase with TestcontainersKafkaLike {
     waitBeforeValidation()
     done.futureValue should be(Done)
     control2.shutdown().futureValue should be(Done)
-    result.futureValue should have size (100)
+    result.futureValue should have size 100
   }
 
   "PlainSink with shared producer" should "work" in assertAllStagesStopped {
@@ -86,7 +86,7 @@ class ProducerExample extends DocsSpecBase with TestcontainersKafkaLike {
     done.futureValue should be(Done)
     waitBeforeValidation()
     control2.shutdown().futureValue should be(Done)
-    result.futureValue should have size (100)
+    result.futureValue should have size 100
     // #plainSinkWithProducer
 
     // close the producer after use
@@ -116,14 +116,12 @@ class ProducerExample extends DocsSpecBase with TestcontainersKafkaLike {
   def createMessage[KeyType, ValueType, PassThroughType](
       key: KeyType,
       value: ValueType,
-      passThrough: PassThroughType
-  ): ProducerMessage.Envelope[KeyType, ValueType, PassThroughType] = {
+      passThrough: PassThroughType): ProducerMessage.Envelope[KeyType, ValueType, PassThroughType] = {
     // #singleMessage
     val single: ProducerMessage.Envelope[KeyType, ValueType, PassThroughType] =
       ProducerMessage.single(
         new ProducerRecord("topicName", key, value),
-        passThrough
-      )
+        passThrough)
     // #singleMessage
     single
   }
@@ -131,18 +129,15 @@ class ProducerExample extends DocsSpecBase with TestcontainersKafkaLike {
   def createMultiMessage[KeyType, ValueType, PassThroughType](
       key: KeyType,
       value: ValueType,
-      passThrough: PassThroughType
-  ): ProducerMessage.Envelope[KeyType, ValueType, PassThroughType] = {
+      passThrough: PassThroughType): ProducerMessage.Envelope[KeyType, ValueType, PassThroughType] = {
     import scala.collection.immutable
     // #multiMessage
     val multi: ProducerMessage.Envelope[KeyType, ValueType, PassThroughType] =
       ProducerMessage.multi(
         immutable.Seq(
           new ProducerRecord("topicName", key, value),
-          new ProducerRecord("anotherTopic", key, value)
-        ),
-        passThrough
-      )
+          new ProducerRecord("anotherTopic", key, value)),
+        passThrough)
     // #multiMessage
     multi
   }
@@ -150,13 +145,11 @@ class ProducerExample extends DocsSpecBase with TestcontainersKafkaLike {
   def createPassThroughMessage[KeyType, ValueType, PassThroughType](
       key: KeyType,
       value: ValueType,
-      passThrough: PassThroughType
-  ): ProducerMessage.Envelope[KeyType, ValueType, PassThroughType] = {
+      passThrough: PassThroughType): ProducerMessage.Envelope[KeyType, ValueType, PassThroughType] = {
     // #passThroughMessage
     val ptm: ProducerMessage.Envelope[KeyType, ValueType, PassThroughType] =
       ProducerMessage.passThrough(
-        passThrough
-      )
+        passThrough)
     // #passThroughMessage
     ptm
   }
@@ -173,8 +166,7 @@ class ProducerExample extends DocsSpecBase with TestcontainersKafkaLike {
         val value = number.toString
         ProducerMessage.single(
           new ProducerRecord(topic, partition, "key", value),
-          number
-        )
+          number)
       }
       .via(Producer.flexiFlow(producerSettings))
       .map {
@@ -203,7 +195,7 @@ class ProducerExample extends DocsSpecBase with TestcontainersKafkaLike {
     done.futureValue should be(Done)
     waitBeforeValidation()
     control2.shutdown().futureValue should be(Done)
-    result.futureValue should have size (100)
+    result.futureValue should have size 100
   }
 
   // This showed a race fixed in https://github.com/akka/alpakka-kafka/pull/1025

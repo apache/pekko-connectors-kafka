@@ -13,19 +13,18 @@ import akka.kafka.internal.ProducerStage.ProducerCompletionState
 import akka.stream.ActorAttributes.SupervisionStrategy
 import akka.stream.Supervision.Decider
 import akka.stream.stage._
-import akka.stream.{Attributes, FlowShape, Supervision}
-import org.apache.kafka.clients.producer.{Callback, ProducerRecord, RecordMetadata}
+import akka.stream.{ Attributes, FlowShape, Supervision }
+import org.apache.kafka.clients.producer.{ Callback, ProducerRecord, RecordMetadata }
 
-import scala.concurrent.{ExecutionContext, Future, Promise}
-import scala.util.{Failure, Success, Try}
+import scala.concurrent.{ ExecutionContext, Future, Promise }
+import scala.util.{ Failure, Success, Try }
 
 /**
  * INTERNAL API
  */
 @InternalApi
 private[kafka] class DefaultProducerStage[K, V, P, IN <: Envelope[K, V, P], OUT <: Results[K, V, P]](
-    val settings: ProducerSettings[K, V]
-) extends GraphStage[FlowShape[IN, Future[OUT]]]
+    val settings: ProducerSettings[K, V]) extends GraphStage[FlowShape[IN, Future[OUT]]]
     with ProducerStage[K, V, P, IN, OUT] {
 
   override def createLogic(inheritedAttributes: Attributes): GraphStageLogic =
@@ -39,8 +38,7 @@ private[kafka] class DefaultProducerStage[K, V, P, IN <: Envelope[K, V, P], OUT 
  */
 private class DefaultProducerStageLogic[K, V, P, IN <: Envelope[K, V, P], OUT <: Results[K, V, P]](
     stage: ProducerStage[K, V, P, IN, OUT],
-    inheritedAttributes: Attributes
-) extends TimerGraphStageLogic(stage.shape)
+    inheritedAttributes: Attributes) extends TimerGraphStageLogic(stage.shape)
     with StageIdLogging
     with DeferredProducer[K, V]
     with ProducerCompletionState {
@@ -78,9 +76,9 @@ private class DefaultProducerStageLogic[K, V, P, IN <: Envelope[K, V, P], OUT <:
   private def checkForCompletion(): Unit =
     if (isClosed(stage.in) && awaitingConfirmation == 0) {
       completionState match {
-        case Some(Success(_)) => onCompletionSuccess()
+        case Some(Success(_))  => onCompletionSuccess()
         case Some(Failure(ex)) => onCompletionFailure(ex)
-        case None => failStage(new IllegalStateException("Stage completed, but there is no info about status"))
+        case None              => failStage(new IllegalStateException("Stage completed, but there is no info about status"))
       }
     }
 
@@ -104,9 +102,10 @@ private class DefaultProducerStageLogic[K, V, P, IN <: Envelope[K, V, P], OUT <:
 
   protected def resumeDemand(tryToPull: Boolean = true): Unit = {
     log.debug("Resume demand")
-    setHandler(stage.out, new OutHandler {
-      override def onPull(): Unit = tryPull(stage.in)
-    })
+    setHandler(stage.out,
+      new OutHandler {
+        override def onPull(): Unit = tryPull(stage.in)
+      })
     // kick off demand for more messages if we're resuming demand
     if (tryToPull && isAvailable(stage.out) && !hasBeenPulled(stage.in)) {
       tryPull(stage.in)
@@ -124,8 +123,7 @@ private class DefaultProducerStageLogic[K, V, P, IN <: Envelope[K, V, P], OUT <:
       stage.out,
       new OutHandler {
         override def onPull(): Unit = ()
-      }
-    )
+      })
   }
 
   protected def initialInHandler(): Unit = producingInHandler()

@@ -23,8 +23,7 @@ class ConfigSettingsSpec extends AnyWordSpec with Matchers with LogCapturing {
         kafka-client.bootstrap.foo = baz
         kafka-client.foo = bar
         kafka-client.client.id = client1
-        """
-        )
+        """)
         .withFallback(ConfigFactory.load())
         .getConfig("kafka-client")
       val settings = ConfigSettings.parseKafkaClientsProperties(conf)

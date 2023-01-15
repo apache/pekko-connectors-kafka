@@ -6,13 +6,13 @@
 package akka.kafka.javadsl
 
 import java.util
-import java.util.concurrent.{CompletionStage, Executor, Executors}
+import java.util.concurrent.{ CompletionStage, Executor, Executors }
 import java.util.concurrent.atomic.AtomicBoolean
 
 import akka.Done
 import akka.kafka.internal.ConsumerControlAsJava
 import akka.kafka.tests.scaladsl.LogCapturing
-import org.apache.kafka.common.{Metric, MetricName}
+import org.apache.kafka.common.{ Metric, MetricName }
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -23,7 +23,7 @@ import scala.language.reflectiveCalls
 
 object ControlSpec {
   def createControl(stopFuture: Future[Done] = Future.successful(Done),
-                    shutdownFuture: Future[Done] = Future.successful(Done)) = {
+      shutdownFuture: Future[Done] = Future.successful(Done)) = {
     val control = new akka.kafka.scaladsl.ControlSpec.ControlImpl(stopFuture, shutdownFuture)
     val wrapped = new ConsumerControlAsJava(control)
     new Consumer.Control {
@@ -57,8 +57,7 @@ class ControlSpec extends AnyWordSpec with ScalaFutures with Matchers with LogCa
 
       val drainingControl = Consumer.createDrainingControl(
         control,
-        Future.failed[String](new RuntimeException("expected")).toJava
-      )
+        Future.failed[String](new RuntimeException("expected")).toJava)
       val value = drainingControl.drainAndShutdown(ec).toScala.failed.futureValue
       value shouldBe a[RuntimeException]
       value.getMessage should be("expected")
@@ -70,8 +69,7 @@ class ControlSpec extends AnyWordSpec with ScalaFutures with Matchers with LogCa
 
       val drainingControl = Consumer.createDrainingControl(
         control,
-        Future.failed[String](new RuntimeException("expected")).toJava
-      )
+        Future.failed[String](new RuntimeException("expected")).toJava)
       val value = drainingControl.drainAndShutdown(ec).toScala.failed.futureValue
       value shouldBe a[RuntimeException]
       value.getMessage should be("expected")
