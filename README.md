@@ -40,7 +40,7 @@ Contributing
 
 Contributions are very welcome. If you have an idea on how to improve Pekko, don't hesitate to create an issue or submit a pull request.
 
-See [CONTRIBUTING.md](https://github.com/apache/incubator-pekko/blob/main/CONTRIBUTING.md) for details on the development workflow and how to create your pull request.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for details on the development workflow and how to create your pull request.
 
 Caveat Emptor
 -------------
