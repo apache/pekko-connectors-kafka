@@ -160,6 +160,7 @@ lazy val core = project
   .disablePlugins(SitePlugin)
   .settings(commonSettings)
   .settings(VersionGenerator.settings)
+  .settings(MetaInfLicenseNoticeCopy.settings)
   .settings(
     name := "pekko-connectors-kafka",
     AutomaticModuleName.settings("akka.stream.alpakka.kafka"),
@@ -175,6 +176,7 @@ lazy val testkit = project
   .enablePlugins(AutomateHeaderPlugin)
   .disablePlugins(SitePlugin)
   .settings(commonSettings)
+  .settings(MetaInfLicenseNoticeCopy.settings)
   .settings(
     name := "pekko-connectors-kafka-testkit",
     AutomaticModuleName.settings("akka.stream.alpakka.kafka.testkit"),
@@ -194,6 +196,7 @@ lazy val `cluster-sharding` = project
   .enablePlugins(AutomateHeaderPlugin)
   .disablePlugins(SitePlugin)
   .settings(commonSettings)
+  .settings(MetaInfLicenseNoticeCopy.settings)
   .settings(
     name := "pekko-connectors-kafka-cluster-sharding",
     AutomaticModuleName.settings("akka.stream.alpakka.kafka.cluster.sharding"),
@@ -305,6 +308,7 @@ lazy val benchmarks = project
   .disablePlugins(MimaPlugin, SitePlugin)
   .configs(IntegrationTest)
   .settings(commonSettings)
+  .settings(MetaInfLicenseNoticeCopy.settings)
   .settings(Defaults.itSettings)
   .settings(headerSettings(IntegrationTest))
   .settings(
