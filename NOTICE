@@ -8,5 +8,5 @@ This product contains significant parts that were originally based on software f
 Copyright (C) 2014 - 2016 Softwaremill [http://softwaremill.com]
 Copyright (C) 2016 - 2022 Lightbend Inc. [http://www.lightbend.com]
 
-Apache Pekko is derived from Akka 2.6.x, the last version that was distributed under the
+Apache Pekko Connectors Kafka is derived from Alpakka Kafka 3.0.x, the last version that was distributed under the
 Apache License, Version 2.0 License.
