@@ -408,7 +408,9 @@ class CommitCollectorStageSpec(_system: ActorSystem)
   }
 
   private def streamProbesWithOffsetFactory(
-      committerSettings: CommitterSettings) = {
+      committerSettings: CommitterSettings): (TestPublisher.Probe[Committable],
+      Consumer.Control,
+      TestSubscriber.Probe[CommittableOffsetBatch], TestOffsetFactory) = {
     val (source, control, sink) = streamProbes(committerSettings)
     val factory = TestOffsetFactory(new TestBatchCommitter(committerSettings))
     (source, control, sink, factory)
