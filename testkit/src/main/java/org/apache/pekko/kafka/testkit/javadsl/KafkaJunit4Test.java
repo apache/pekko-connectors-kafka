@@ -3,10 +3,10 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.testkit.javadsl;
+package org.apache.pekko.kafka.testkit.javadsl;
 
-import akka.actor.ActorSystem;
-import akka.actor.ClassicActorSystemProvider;
+import org.apache.pekko.actor.ActorSystem;
+import org.apache.pekko.actor.ClassicActorSystemProvider;
 import akka.stream.Materializer;
 import akka.stream.testkit.javadsl.StreamTestKit;
 import org.junit.After;

@@ -3,17 +3,17 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.testkit.javadsl;
+package org.apache.pekko.kafka.testkit.javadsl;
 
 import akka.Done;
-import akka.actor.ActorSystem;
-import akka.actor.ClassicActorSystemProvider;
+import org.apache.pekko.actor.ActorSystem;
+import org.apache.pekko.actor.ClassicActorSystemProvider;
 import akka.japi.Pair;
-import akka.kafka.Subscriptions;
-import akka.kafka.javadsl.Consumer;
-import akka.kafka.javadsl.Producer;
-import akka.kafka.testkit.internal.KafkaTestKitChecks;
-import akka.kafka.testkit.internal.KafkaTestKitClass;
+import org.apache.pekko.kafka.Subscriptions;
+import org.apache.pekko.kafka.javadsl.Consumer;
+import org.apache.pekko.kafka.javadsl.Producer;
+import org.apache.pekko.kafka.testkit.internal.KafkaTestKitChecks;
+import org.apache.pekko.kafka.testkit.internal.KafkaTestKitClass;
 import akka.stream.Materializer;
 import akka.stream.javadsl.Sink;
 import akka.stream.javadsl.Source;
