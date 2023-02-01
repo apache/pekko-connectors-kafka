@@ -8,7 +8,7 @@ package org.apache.pekko.kafka.javadsl
 import java.util.concurrent.{ CompletionStage, Executor }
 
 import org.apache.pekko.actor.{ ActorRef, ActorSystem }
-import akka.dispatch.ExecutionContexts
+import org.apache.pekko.dispatch.ExecutionContexts
 import org.apache.pekko.kafka.ConsumerSettings
 import org.apache.pekko.util.Timeout
 import org.apache.kafka.clients.consumer.OffsetAndMetadata

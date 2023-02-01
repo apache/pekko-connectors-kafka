@@ -9,8 +9,8 @@ import org.apache.pekko.annotation.InternalApi
 import org.apache.pekko.kafka.{ AutoSubscription, ManualSubscription, Subscription }
 import org.apache.pekko.kafka.Subscriptions._
 import org.apache.pekko.kafka.scaladsl.PartitionAssignmentHandler
-import akka.stream.stage.GraphStageLogic.StageActor
-import akka.stream.stage.{ AsyncCallback, GraphStageLogic }
+import org.apache.pekko.stream.stage.GraphStageLogic.StageActor
+import org.apache.pekko.stream.stage.{ AsyncCallback, GraphStageLogic }
 import org.apache.kafka.common.TopicPartition
 
 /**

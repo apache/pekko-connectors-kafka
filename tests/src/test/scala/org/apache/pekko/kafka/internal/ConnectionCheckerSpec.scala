@@ -10,7 +10,7 @@ import org.apache.pekko.kafka.Metadata
 import org.apache.pekko.kafka.ConnectionCheckerSettings
 import org.apache.pekko.kafka.KafkaConnectionFailed
 import org.apache.pekko.kafka.tests.scaladsl.LogCapturing
-import akka.testkit.TestKit
+import org.apache.pekko.testkit.TestKit
 import com.typesafe.config.ConfigFactory
 import org.apache.kafka.common.errors.TimeoutException
 import org.scalatest.wordspec.AnyWordSpecLike

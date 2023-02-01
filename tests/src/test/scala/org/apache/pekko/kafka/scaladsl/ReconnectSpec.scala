@@ -5,11 +5,11 @@
 
 package org.apache.pekko.kafka.scaladsl
 
-import akka.Done
+import org.apache.pekko.Done
 import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import akka.stream.scaladsl.{ Keep, Sink, Source, SourceQueueWithComplete, Tcp }
-import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
-import akka.stream.{ KillSwitches, OverflowStrategy, UniqueKillSwitch }
+import org.apache.pekko.stream.scaladsl.{ Keep, Sink, Source, SourceQueueWithComplete, Tcp }
+import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import org.apache.pekko.stream.{ KillSwitches, OverflowStrategy, UniqueKillSwitch }
 import org.apache.kafka.clients.producer.ProducerRecord
 
 import scala.concurrent.duration._

@@ -7,11 +7,11 @@ package org.apache.pekko.kafka.testkit.javadsl
 
 import java.util.concurrent.{ CompletableFuture, CompletionStage, Executor }
 
-import akka.Done
+import org.apache.pekko.Done
 import org.apache.pekko.annotation.ApiMayChange
 import org.apache.pekko.kafka.javadsl.Consumer
-import akka.stream.javadsl.{ Flow, Keep, Source }
-import akka.stream.{ scaladsl, KillSwitch, KillSwitches }
+import org.apache.pekko.stream.javadsl.{ Flow, Keep, Source }
+import org.apache.pekko.stream.{ scaladsl, KillSwitch, KillSwitches }
 import org.apache.kafka.common.{ Metric, MetricName }
 
 /**

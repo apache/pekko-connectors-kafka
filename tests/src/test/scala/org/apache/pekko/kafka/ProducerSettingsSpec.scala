@@ -7,7 +7,7 @@ package org.apache.pekko.kafka
 
 import org.apache.pekko.actor.ActorSystem
 import org.apache.pekko.kafka.tests.scaladsl.LogCapturing
-import akka.testkit.TestKit
+import org.apache.pekko.testkit.TestKit
 import com.typesafe.config.ConfigFactory
 import org.apache.kafka.common.config.SslConfigs
 import org.apache.kafka.common.serialization.{ ByteArraySerializer, StringSerializer }

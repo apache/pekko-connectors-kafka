@@ -7,11 +7,11 @@ package org.apache.pekko.kafka.benchmarks
 
 import java.lang.management.{ BufferPoolMXBean, ManagementFactory, MemoryType }
 
-import akka.NotUsed
+import org.apache.pekko.NotUsed
 import org.apache.pekko.actor.Cancellable
 import org.apache.pekko.kafka.scaladsl.Consumer.Control
-import akka.stream.Materializer
-import akka.stream.scaladsl.{ Keep, Sink, Source }
+import org.apache.pekko.stream.Materializer
+import org.apache.pekko.stream.scaladsl.{ Keep, Sink, Source }
 import com.codahale.metrics.{ Histogram, MetricRegistry }
 import javax.management.remote.{ JMXConnectorFactory, JMXServiceURL }
 import javax.management.{ Attribute, MBeanServerConnection, ObjectName }

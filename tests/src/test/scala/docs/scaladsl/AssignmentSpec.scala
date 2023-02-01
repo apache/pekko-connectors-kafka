@@ -5,12 +5,12 @@
 
 package docs.scaladsl
 
-import akka.Done
+import org.apache.pekko.Done
 import org.apache.pekko.kafka.Subscriptions
 import org.apache.pekko.kafka.scaladsl.{ Consumer, Producer, SpecBase }
 import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import akka.stream.scaladsl.{ Sink, Source }
-import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import org.apache.pekko.stream.scaladsl.{ Sink, Source }
+import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.TopicPartition
 

@@ -11,8 +11,8 @@ import org.apache.pekko.kafka.scaladsl.Consumer
 import org.apache.pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
 import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
 import org.apache.pekko.kafka.{ KafkaConsumerActor, Subscriptions }
-import akka.stream.scaladsl.{ Keep, Sink }
-import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import org.apache.pekko.stream.scaladsl.{ Keep, Sink }
+import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.apache.kafka.common.{ Metric, MetricName, TopicPartition }
 
 import scala.annotation.nowarn

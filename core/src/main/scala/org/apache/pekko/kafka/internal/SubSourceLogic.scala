@@ -5,7 +5,7 @@
 
 package org.apache.pekko.kafka.internal
 
-import akka.NotUsed
+import org.apache.pekko.NotUsed
 import org.apache.pekko.actor.Status
 import org.apache.pekko.actor.{ ActorRef, ExtendedActorSystem, Terminated }
 import org.apache.pekko.annotation.InternalApi
@@ -14,11 +14,11 @@ import org.apache.pekko.kafka.internal.SubSourceLogic._
 import org.apache.pekko.kafka.{ AutoSubscription, ConsumerFailed, ConsumerSettings, RestrictedConsumer }
 import org.apache.pekko.kafka.scaladsl.Consumer.Control
 import org.apache.pekko.kafka.scaladsl.PartitionAssignmentHandler
-import akka.pattern.{ ask, AskTimeoutException }
-import akka.stream.scaladsl.Source
-import akka.stream.stage.GraphStageLogic.StageActor
-import akka.stream.stage._
-import akka.stream.{ Attributes, Outlet, SourceShape }
+import org.apache.pekko.pattern.{ ask, AskTimeoutException }
+import org.apache.pekko.stream.scaladsl.Source
+import org.apache.pekko.stream.stage.GraphStageLogic.StageActor
+import org.apache.pekko.stream.stage._
+import org.apache.pekko.stream.{ Attributes, Outlet, SourceShape }
 import org.apache.pekko.util.Timeout
 import org.apache.kafka.common.TopicPartition
 

@@ -7,7 +7,7 @@ package docs.scaladsl
 
 import java.util.concurrent.atomic.{ AtomicLong, AtomicReference }
 
-import akka.Done
+import org.apache.pekko.Done
 import org.apache.pekko.actor.typed.Behavior
 import org.apache.pekko.actor.typed.scaladsl.Behaviors
 import org.apache.pekko.actor.{ Actor, ActorLogging, Props }
@@ -15,9 +15,9 @@ import org.apache.pekko.kafka._
 import org.apache.pekko.kafka.scaladsl.Consumer.DrainingControl
 import org.apache.pekko.kafka.scaladsl._
 import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import akka.stream.RestartSettings
-import akka.stream.scaladsl.{ Keep, RestartSource, Sink }
-import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import org.apache.pekko.stream.RestartSettings
+import org.apache.pekko.stream.scaladsl.{ Keep, RestartSource, Sink }
+import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.apache.kafka.clients.consumer.{ ConsumerConfig, ConsumerRecord }
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.TopicPartition

@@ -7,7 +7,7 @@ package org.apache.pekko.kafka.javadsl
 
 import java.util.concurrent.CompletionStage
 
-import akka.Done
+import org.apache.pekko.Done
 import org.apache.pekko.actor.{ ActorSystem, ClassicActorSystemProvider }
 import org.apache.pekko.kafka.ProducerMessage._
 import org.apache.pekko.kafka.{ scaladsl, ProducerSettings }

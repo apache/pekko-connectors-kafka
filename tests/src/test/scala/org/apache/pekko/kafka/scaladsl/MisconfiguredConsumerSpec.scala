@@ -8,9 +8,9 @@ package org.apache.pekko.kafka.scaladsl
 import org.apache.pekko.actor.ActorSystem
 import org.apache.pekko.kafka.tests.scaladsl.LogCapturing
 import org.apache.pekko.kafka.{ ConsumerSettings, Subscriptions }
-import akka.stream.scaladsl.Sink
-import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
-import akka.testkit.TestKit
+import org.apache.pekko.stream.scaladsl.Sink
+import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import org.apache.pekko.testkit.TestKit
 import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.scalatest.concurrent.{ Eventually, IntegrationPatience, ScalaFutures }

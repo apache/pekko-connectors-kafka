@@ -8,14 +8,14 @@ package org.apache.pekko.kafka.javadsl
 import java.util.concurrent.CompletionStage
 
 import org.apache.pekko.annotation.ApiMayChange
-import akka.japi.Pair
+import org.apache.pekko.japi.Pair
 import org.apache.pekko.kafka.ConsumerMessage.{ PartitionOffset, TransactionalMessage }
 import org.apache.pekko.kafka.ProducerMessage._
 import org.apache.pekko.kafka._
 import org.apache.pekko.kafka.internal.{ ConsumerControlAsJava, TransactionalSourceWithOffsetContext }
 import org.apache.pekko.kafka.javadsl.Consumer.Control
-import akka.stream.javadsl._
-import akka.{ Done, NotUsed }
+import org.apache.pekko.stream.javadsl._
+import org.apache.pekko.{ Done, NotUsed }
 import org.apache.kafka.clients.consumer.ConsumerRecord
 
 import scala.compat.java8.FutureConverters.FutureOps

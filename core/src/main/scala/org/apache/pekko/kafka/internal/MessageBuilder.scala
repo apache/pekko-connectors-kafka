@@ -6,7 +6,7 @@
 package org.apache.pekko.kafka.internal
 import java.util.concurrent.CompletionStage
 
-import akka.Done
+import org.apache.pekko.Done
 import org.apache.pekko.annotation.InternalApi
 import org.apache.pekko.kafka.ConsumerMessage
 import org.apache.pekko.kafka.ConsumerMessage.{

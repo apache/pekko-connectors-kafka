@@ -8,8 +8,8 @@ package org.apache.pekko.kafka.internal
 import org.apache.pekko.annotation.InternalApi
 import org.apache.pekko.kafka.CommitterSettings
 import org.apache.pekko.kafka.ConsumerMessage.{ Committable, CommittableOffsetBatch }
-import akka.stream._
-import akka.stream.stage._
+import org.apache.pekko.stream._
+import org.apache.pekko.stream.stage._
 
 /**
  * INTERNAL API.

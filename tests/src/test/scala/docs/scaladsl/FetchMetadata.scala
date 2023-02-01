@@ -14,7 +14,7 @@ import org.scalatest.time.{ Seconds, Span }
 // #metadataClient
 import org.apache.pekko.actor.ActorRef
 import org.apache.pekko.kafka.{ KafkaConsumerActor, Metadata }
-import akka.pattern.ask
+import org.apache.pekko.pattern.ask
 import org.apache.pekko.util.Timeout
 import org.apache.kafka.common.TopicPartition
 

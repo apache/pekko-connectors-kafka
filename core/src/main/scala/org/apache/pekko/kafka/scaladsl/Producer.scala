@@ -10,9 +10,9 @@ import org.apache.pekko.kafka.ConsumerMessage.Committable
 import org.apache.pekko.kafka.ProducerMessage._
 import org.apache.pekko.kafka.internal.{ CommittingProducerSinkStage, DefaultProducerStage }
 import org.apache.pekko.kafka.{ CommitterSettings, ConsumerMessage, ProducerSettings }
-import akka.stream.ActorAttributes
-import akka.stream.scaladsl.{ Flow, FlowWithContext, Keep, Sink }
-import akka.{ Done, NotUsed }
+import org.apache.pekko.stream.ActorAttributes
+import org.apache.pekko.stream.scaladsl.{ Flow, FlowWithContext, Keep, Sink }
+import org.apache.pekko.{ Done, NotUsed }
 import org.apache.kafka.clients.producer.ProducerRecord
 
 import scala.concurrent.Future

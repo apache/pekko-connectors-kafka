@@ -9,18 +9,18 @@ import java.time.Duration
 import java.util
 import java.util.concurrent.TimeUnit
 
-import akka.Done
+import org.apache.pekko.Done
 import org.apache.pekko.actor.ActorSystem
-import akka.event.LoggingAdapter
+import org.apache.pekko.event.LoggingAdapter
 import org.apache.pekko.kafka._
 import org.apache.pekko.kafka.scaladsl.Consumer.Control
 import org.apache.pekko.kafka.scaladsl.{ Consumer, Producer }
 import org.apache.pekko.kafka.testkit.internal.{ KafkaTestKit, KafkaTestKitChecks }
-import akka.stream.{ Materializer, SystemMaterializer }
-import akka.stream.scaladsl.{ Keep, Source }
-import akka.stream.testkit.TestSubscriber
-import akka.stream.testkit.scaladsl.TestSink
-import akka.testkit.TestKit
+import org.apache.pekko.stream.{ Materializer, SystemMaterializer }
+import org.apache.pekko.stream.scaladsl.{ Keep, Source }
+import org.apache.pekko.stream.testkit.TestSubscriber
+import org.apache.pekko.stream.testkit.scaladsl.TestSink
+import org.apache.pekko.testkit.TestKit
 import org.apache.kafka.clients.admin._
 import org.apache.kafka.clients.producer.{ Producer => KProducer, ProducerRecord }
 import org.apache.kafka.common.ConsumerGroupState

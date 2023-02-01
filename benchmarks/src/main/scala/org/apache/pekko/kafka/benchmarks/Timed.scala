@@ -10,9 +10,9 @@ import java.util.concurrent.{ ForkJoinPool, TimeUnit }
 
 import org.apache.pekko.kafka.benchmarks.InflightMetrics.{ BrokerMetricRequest, ConsumerMetricRequest }
 import org.apache.pekko.kafka.benchmarks.app.RunTestCommand
-import akka.stream.Materializer
-import akka.stream.alpakka.csv.scaladsl.CsvFormatting
-import akka.stream.scaladsl.{ FileIO, Sink, Source }
+import org.apache.pekko.stream.Materializer
+import org.apache.pekko.stream.alpakka.csv.scaladsl.CsvFormatting
+import org.apache.pekko.stream.scaladsl.{ FileIO, Sink, Source }
 import com.codahale.metrics._
 import com.typesafe.scalalogging.LazyLogging
 

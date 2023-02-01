@@ -5,11 +5,11 @@
 
 package org.apache.pekko.kafka.testkit.scaladsl
 
-import akka.Done
+import org.apache.pekko.Done
 import org.apache.pekko.annotation.ApiMayChange
 import org.apache.pekko.kafka.scaladsl.Consumer
-import akka.stream.scaladsl.{ Flow, Keep, Source }
-import akka.stream.{ KillSwitch, KillSwitches }
+import org.apache.pekko.stream.scaladsl.{ Flow, Keep, Source }
+import org.apache.pekko.stream.{ KillSwitch, KillSwitches }
 import org.apache.kafka.common.{ Metric, MetricName }
 
 import scala.concurrent.{ Future, Promise }

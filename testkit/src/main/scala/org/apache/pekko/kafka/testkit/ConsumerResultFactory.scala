@@ -5,7 +5,7 @@
 
 package org.apache.pekko.kafka.testkit
 
-import akka.Done
+import org.apache.pekko.Done
 import org.apache.pekko.annotation.ApiMayChange
 import org.apache.pekko.kafka.ConsumerMessage
 import org.apache.pekko.kafka.ConsumerMessage.{ CommittableOffset, GroupTopicPartition, PartitionOffsetCommittedMarker }

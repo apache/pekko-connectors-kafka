@@ -7,9 +7,9 @@ package org.apache.pekko.kafka.internal
 
 import java.util.concurrent.atomic.AtomicLong
 
-import akka.Done
+import org.apache.pekko.Done
 import org.apache.pekko.actor.ActorSystem
-import akka.event.LoggingAdapter
+import org.apache.pekko.event.LoggingAdapter
 import org.apache.pekko.kafka.internal.KafkaConsumerActor.Internal
 import org.apache.pekko.kafka.scaladsl.Consumer.DrainingControl
 import org.apache.pekko.kafka.scaladsl.Producer
@@ -17,10 +17,10 @@ import org.apache.pekko.kafka.testkit.ConsumerResultFactory
 import org.apache.pekko.kafka.testkit.scaladsl.{ ConsumerControlFactory, Slf4jToAkkaLoggingAdapter }
 import org.apache.pekko.kafka.tests.scaladsl.LogCapturing
 import org.apache.pekko.kafka._
-import akka.stream.scaladsl.{ Keep, Source }
-import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
-import akka.stream.{ ActorAttributes, Supervision }
-import akka.testkit.{ TestKit, TestProbe }
+import org.apache.pekko.stream.scaladsl.{ Keep, Source }
+import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import org.apache.pekko.stream.{ ActorAttributes, Supervision }
+import org.apache.pekko.testkit.{ TestKit, TestProbe }
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.clients.producer._
 import org.apache.kafka.common.TopicPartition

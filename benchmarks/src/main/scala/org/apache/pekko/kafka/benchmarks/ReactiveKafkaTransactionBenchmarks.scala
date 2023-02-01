@@ -8,8 +8,8 @@ package org.apache.pekko.kafka.benchmarks
 import org.apache.pekko.kafka.ProducerMessage
 import org.apache.pekko.kafka.ProducerMessage.{ Result, Results }
 import org.apache.pekko.kafka.benchmarks.ReactiveKafkaTransactionFixtures._
-import akka.stream.Materializer
-import akka.stream.scaladsl.{ Keep, Sink }
+import org.apache.pekko.stream.Materializer
+import org.apache.pekko.stream.scaladsl.{ Keep, Sink }
 import com.codahale.metrics.Meter
 import com.typesafe.scalalogging.LazyLogging
 import org.apache.kafka.clients.producer.ProducerRecord

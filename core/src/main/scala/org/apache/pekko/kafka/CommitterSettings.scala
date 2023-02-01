@@ -104,7 +104,7 @@ object CommitterSettings {
    * Create settings from the default configuration
    * `akka.kafka.committer`.
    */
-  def apply(actorSystem: akka.actor.ActorSystem): CommitterSettings =
+  def apply(actorSystem: org.apache.pekko.actor.ActorSystem): CommitterSettings =
     apply(actorSystem.settings.config.getConfig(configPath))
 
   /**
@@ -113,7 +113,7 @@ object CommitterSettings {
    *
    * For use with the `akka.actor.typed` API.
    */
-  def apply(actorSystem: akka.actor.ClassicActorSystemProvider): CommitterSettings =
+  def apply(actorSystem: org.apache.pekko.actor.ClassicActorSystemProvider): CommitterSettings =
     apply(actorSystem.classicSystem.settings.config.getConfig(configPath))
 
   /**
@@ -133,7 +133,7 @@ object CommitterSettings {
    * Java API: Create settings from the default configuration
    * `akka.kafka.committer`.
    */
-  def create(actorSystem: akka.actor.ActorSystem): CommitterSettings =
+  def create(actorSystem: org.apache.pekko.actor.ActorSystem): CommitterSettings =
     apply(actorSystem)
 
   /**
@@ -142,7 +142,7 @@ object CommitterSettings {
    *
    * For use with the `akka.actor.typed` API.
    */
-  def create(actorSystem: akka.actor.ClassicActorSystemProvider): CommitterSettings =
+  def create(actorSystem: org.apache.pekko.actor.ClassicActorSystemProvider): CommitterSettings =
     apply(actorSystem)
 
   /**
@@ -156,7 +156,7 @@ object CommitterSettings {
 
 /**
  * Settings for committer. See `akka.kafka.committer` section in
- * reference.conf. Note that the [[akka.kafka.CommitterSettings$ companion]] object provides
+ * reference.conf. Note that the [[org.apache.pekko.kafka.CommitterSettings$ companion]] object provides
  * `apply` and `create` functions for convenient construction of the settings, together with
  * the `with` methods.
  */

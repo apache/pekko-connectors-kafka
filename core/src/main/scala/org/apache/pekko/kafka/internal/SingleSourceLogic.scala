@@ -10,7 +10,7 @@ import org.apache.pekko.annotation.InternalApi
 import org.apache.pekko.kafka.internal.KafkaConsumerActor.Internal.Messages
 import org.apache.pekko.kafka.scaladsl.PartitionAssignmentHandler
 import org.apache.pekko.kafka.{ ConsumerSettings, RestrictedConsumer, Subscription }
-import akka.stream.SourceShape
+import org.apache.pekko.stream.SourceShape
 import org.apache.kafka.common.TopicPartition
 
 import scala.concurrent.{ Future, Promise }

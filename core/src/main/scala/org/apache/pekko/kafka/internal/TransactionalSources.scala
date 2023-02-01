@@ -7,7 +7,7 @@ package org.apache.pekko.kafka.internal
 
 import java.util.Locale
 
-import akka.{ Done, NotUsed }
+import org.apache.pekko.{ Done, NotUsed }
 import org.apache.pekko.actor.{ ActorRef, Status, Terminated }
 import org.apache.pekko.actor.Status.Failure
 import org.apache.pekko.annotation.InternalApi
@@ -18,9 +18,9 @@ import org.apache.pekko.kafka.internal.TransactionalSubSourceStageLogic.Draining
 import org.apache.pekko.kafka.scaladsl.Consumer.Control
 import org.apache.pekko.kafka.scaladsl.PartitionAssignmentHandler
 import org.apache.pekko.kafka.{ AutoSubscription, ConsumerFailed, ConsumerSettings, RestrictedConsumer, Subscription }
-import akka.stream.SourceShape
-import akka.stream.scaladsl.Source
-import akka.stream.stage.{ AsyncCallback, GraphStageLogic }
+import org.apache.pekko.stream.SourceShape
+import org.apache.pekko.stream.scaladsl.Source
+import org.apache.pekko.stream.stage.{ AsyncCallback, GraphStageLogic }
 import org.apache.pekko.util.Timeout
 import org.apache.kafka.clients.consumer.{ ConsumerConfig, ConsumerRecord, OffsetAndMetadata }
 import org.apache.kafka.common.{ IsolationLevel, TopicPartition }
@@ -171,7 +171,7 @@ private[internal] abstract class TransactionalSourceLogic[K, V, Msg](shape: Sour
   }
 
   private def waitForDraining(partitions: Set[TopicPartition]): Boolean = {
-    import akka.pattern.ask
+    import org.apache.pekko.pattern.ask
     implicit val timeout = Timeout(consumerSettings.commitTimeout)
     try {
       Await.result(ask(stageActor.ref, Drain(partitions, None, Drained)), timeout.duration)
@@ -253,7 +253,7 @@ private[kafka] final class TransactionalSubSource[K, V](
       }
 
       private def waitForDraining(partitions: Set[TopicPartition]): Boolean = {
-        import akka.pattern.ask
+        import org.apache.pekko.pattern.ask
         implicit val timeout = Timeout(txConsumerSettings.commitTimeout)
         try {
           val drainCommandFutures =
@@ -285,7 +285,7 @@ private object TransactionalSourceLogic {
   private[internal] final case class CommittedMarkerRef(sourceActor: ActorRef, commitTimeout: FiniteDuration)(
       implicit ec: ExecutionContext) extends CommittedMarker {
     override def committed(offsets: Map[TopicPartition, OffsetAndMetadata]): Future[Done] = {
-      import akka.pattern.ask
+      import org.apache.pekko.pattern.ask
       sourceActor
         .ask(Committed(offsets))(Timeout(commitTimeout))
         .map(_ => Done)

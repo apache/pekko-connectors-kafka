@@ -6,7 +6,7 @@
 package org.apache.pekko.kafka.scaladsl
 
 import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.apache.kafka.common.{ PartitionInfo, TopicPartition }
 
 import scala.language.postfixOps

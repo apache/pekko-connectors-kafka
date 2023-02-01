@@ -8,7 +8,7 @@ package org.apache.pekko.kafka
 import java.util.Objects
 import java.util.concurrent.CompletionStage
 
-import akka.Done
+import org.apache.pekko.Done
 import org.apache.pekko.annotation.{ DoNotInherit, InternalApi }
 import org.apache.pekko.kafka.internal.{ CommittableOffsetBatchImpl, CommittedMarker }
 import org.apache.kafka.clients.consumer.ConsumerRecord

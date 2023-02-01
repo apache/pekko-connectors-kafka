@@ -80,7 +80,7 @@ final case class TopicPartitionsRevoked(sub: Subscription, topicPartitions: Set[
 object Subscriptions {
 
   /** INTERNAL API */
-  @akka.annotation.InternalApi
+  @org.apache.pekko.annotation.InternalApi
   private[kafka] final case class TopicSubscription(
       tps: Set[String],
       rebalanceListener: Option[ActorRef],
@@ -101,7 +101,7 @@ object Subscriptions {
   }
 
   /** INTERNAL API */
-  @akka.annotation.InternalApi
+  @org.apache.pekko.annotation.InternalApi
   private[kafka] final case class TopicSubscriptionPattern(
       pattern: String,
       rebalanceListener: Option[ActorRef],
@@ -121,14 +121,14 @@ object Subscriptions {
   }
 
   /** INTERNAL API */
-  @akka.annotation.InternalApi
+  @org.apache.pekko.annotation.InternalApi
   private[kafka] final case class Assignment(tps: Set[TopicPartition]) extends ManualSubscription {
     def withRebalanceListener(ref: ActorRef): Assignment = this
     def renderStageAttribute: String = s"${tps.mkString(" ")}"
   }
 
   /** INTERNAL API */
-  @akka.annotation.InternalApi
+  @org.apache.pekko.annotation.InternalApi
   private[kafka] final case class AssignmentWithOffset(tps: Map[TopicPartition, Long]) extends ManualSubscription {
     def withRebalanceListener(ref: ActorRef): AssignmentWithOffset = this
     def renderStageAttribute: String =
@@ -136,7 +136,7 @@ object Subscriptions {
   }
 
   /** INTERNAL API */
-  @akka.annotation.InternalApi
+  @org.apache.pekko.annotation.InternalApi
   private[kafka] final case class AssignmentOffsetsForTimes(timestampsToSearch: Map[TopicPartition, Long])
       extends ManualSubscription {
     def withRebalanceListener(ref: ActorRef): AssignmentOffsetsForTimes = this

@@ -8,7 +8,7 @@ package org.apache.pekko.kafka.internal
 import org.apache.pekko.actor.ActorRef
 import org.apache.pekko.annotation.InternalApi
 import org.apache.pekko.kafka.ManualSubscription
-import akka.stream.SourceShape
+import org.apache.pekko.stream.SourceShape
 
 import scala.concurrent.Future
 

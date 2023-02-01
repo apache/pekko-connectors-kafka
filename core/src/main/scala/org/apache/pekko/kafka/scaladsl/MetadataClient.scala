@@ -8,10 +8,10 @@ package org.apache.pekko.kafka.scaladsl
 import java.util.concurrent.atomic.AtomicLong
 
 import org.apache.pekko.actor.{ ActorRef, ActorSystem, ExtendedActorSystem }
-import akka.dispatch.ExecutionContexts
+import org.apache.pekko.dispatch.ExecutionContexts
 import org.apache.pekko.kafka.Metadata._
 import org.apache.pekko.kafka.{ ConsumerSettings, KafkaConsumerActor }
-import akka.pattern.ask
+import org.apache.pekko.pattern.ask
 import org.apache.pekko.util.Timeout
 import org.apache.kafka.clients.consumer.OffsetAndMetadata
 import org.apache.kafka.common.{ PartitionInfo, TopicPartition }

@@ -9,10 +9,10 @@ import org.apache.pekko.actor.ActorSystem
 import org.apache.pekko.kafka.ConsumerMessage.CommittableOffset
 import org.apache.pekko.kafka.scaladsl.{ Committer, Consumer }
 import org.apache.pekko.kafka.{ CommitterSettings, ConsumerMessage, ProducerMessage }
-import akka.stream.scaladsl.{ Flow, Keep, Source }
-import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
-import akka.testkit.TestKit
-import akka.{ Done, NotUsed }
+import org.apache.pekko.stream.scaladsl.{ Flow, Keep, Source }
+import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import org.apache.pekko.testkit.TestKit
+import org.apache.pekko.{ Done, NotUsed }
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.scalatest.BeforeAndAfterAll

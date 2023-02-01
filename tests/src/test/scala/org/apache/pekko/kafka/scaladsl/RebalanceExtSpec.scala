@@ -10,10 +10,10 @@ import java.util.concurrent.atomic.AtomicInteger
 import org.apache.pekko.kafka.ConsumerMessage.{ CommittableMessage, CommittableOffset }
 import org.apache.pekko.kafka._
 import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import akka.stream._
-import akka.stream.scaladsl.{ Flow, Keep, Sink, Source }
-import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
-import akka.{ Done, NotUsed }
+import org.apache.pekko.stream._
+import org.apache.pekko.stream.scaladsl.{ Flow, Keep, Sink, Source }
+import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import org.apache.pekko.{ Done, NotUsed }
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.common.TopicPartition
 import org.scalatest._

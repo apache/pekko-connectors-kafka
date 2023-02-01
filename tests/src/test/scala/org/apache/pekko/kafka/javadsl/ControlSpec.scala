@@ -9,7 +9,7 @@ import java.util
 import java.util.concurrent.{ CompletionStage, Executor, Executors }
 import java.util.concurrent.atomic.AtomicBoolean
 
-import akka.Done
+import org.apache.pekko.Done
 import org.apache.pekko.kafka.internal.ConsumerControlAsJava
 import org.apache.pekko.kafka.tests.scaladsl.LogCapturing
 import org.apache.kafka.common.{ Metric, MetricName }

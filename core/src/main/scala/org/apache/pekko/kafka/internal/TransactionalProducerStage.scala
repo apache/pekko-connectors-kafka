@@ -5,15 +5,15 @@
 
 package org.apache.pekko.kafka.internal
 
-import akka.Done
+import org.apache.pekko.Done
 import org.apache.pekko.annotation.InternalApi
 import org.apache.pekko.kafka.ConsumerMessage.{ GroupTopicPartition, PartitionOffsetCommittedMarker }
 import org.apache.pekko.kafka.ProducerMessage.{ Envelope, Results }
 import org.apache.pekko.kafka.internal.DeferredProducer._
 import org.apache.pekko.kafka.internal.ProducerStage.ProducerCompletionState
 import org.apache.pekko.kafka.{ ConsumerMessage, ProducerSettings }
-import akka.stream.stage._
-import akka.stream.{ Attributes, FlowShape }
+import org.apache.pekko.stream.stage._
+import org.apache.pekko.stream.{ Attributes, FlowShape }
 import org.apache.kafka.clients.consumer.{ ConsumerGroupMetadata, OffsetAndMetadata }
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.TopicPartition

@@ -5,7 +5,7 @@
 
 package org.apache.pekko.kafka.internal
 import org.apache.pekko.annotation.InternalApi
-import akka.stream.stage.{ AsyncCallback, GraphStageLogic }
+import org.apache.pekko.stream.stage.{ AsyncCallback, GraphStageLogic }
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.common.TopicPartition
 

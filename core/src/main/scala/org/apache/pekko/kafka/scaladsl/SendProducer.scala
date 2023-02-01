@@ -5,7 +5,7 @@
 
 package org.apache.pekko.kafka.scaladsl
 
-import akka.Done
+import org.apache.pekko.Done
 import org.apache.pekko.actor.{ ActorSystem, ClassicActorSystemProvider }
 import org.apache.pekko.kafka.ProducerMessage._
 import org.apache.pekko.kafka.ProducerSettings

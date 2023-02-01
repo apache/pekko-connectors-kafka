@@ -7,13 +7,13 @@ package org.apache.pekko.kafka.scaladsl
 
 import java.util.concurrent.ConcurrentLinkedQueue
 
-import akka.Done
+import org.apache.pekko.Done
 import org.apache.pekko.kafka._
 import org.apache.pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
 import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
-import akka.stream.scaladsl.Keep
-import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
-import akka.stream.testkit.scaladsl.TestSink
+import org.apache.pekko.stream.scaladsl.Keep
+import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import org.apache.pekko.stream.testkit.scaladsl.TestSink
 
 import scala.concurrent.Await
 import scala.concurrent.duration._

@@ -9,7 +9,7 @@ import java.util
 
 import org.apache.pekko.actor.ActorRef
 import org.apache.pekko.annotation.InternalApi
-import akka.event.LoggingAdapter
+import org.apache.pekko.event.LoggingAdapter
 import org.apache.pekko.kafka.OffsetResetProtectionSettings
 import org.apache.pekko.kafka.internal.KafkaConsumerActor.Internal.Seek
 import org.apache.kafka.clients.consumer.{ ConsumerRecord, ConsumerRecords, OffsetAndMetadata }

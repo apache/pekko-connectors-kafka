@@ -45,7 +45,7 @@ object ProducerSettings {
    * For use with the `akka.actor.typed` API.
    */
   def apply[K, V](
-      system: akka.actor.ClassicActorSystemProvider,
+      system: org.apache.pekko.actor.ClassicActorSystemProvider,
       keySerializer: Option[Serializer[K]],
       valueSerializer: Option[Serializer[V]]): ProducerSettings[K, V] =
     apply(system.classicSystem, keySerializer, valueSerializer)
@@ -105,7 +105,7 @@ object ProducerSettings {
    * For use with the `akka.actor.typed` API.
    */
   def apply[K, V](
-      system: akka.actor.ClassicActorSystemProvider,
+      system: org.apache.pekko.actor.ClassicActorSystemProvider,
       keySerializer: Serializer[K],
       valueSerializer: Serializer[V]): ProducerSettings[K, V] =
     apply(system, Option(keySerializer), Option(valueSerializer))
@@ -140,7 +140,7 @@ object ProducerSettings {
    * For use with the `akka.actor.typed` API.
    */
   def create[K, V](
-      system: akka.actor.ClassicActorSystemProvider,
+      system: org.apache.pekko.actor.ClassicActorSystemProvider,
       keySerializer: Optional[Serializer[K]],
       valueSerializer: Optional[Serializer[V]]): ProducerSettings[K, V] =
     apply(system, keySerializer.asScala, valueSerializer.asScala)
@@ -175,7 +175,7 @@ object ProducerSettings {
    * For use with the `akka.actor.typed` API.
    */
   def create[K, V](
-      system: akka.actor.ClassicActorSystemProvider,
+      system: org.apache.pekko.actor.ClassicActorSystemProvider,
       keySerializer: Serializer[K],
       valueSerializer: Serializer[V]): ProducerSettings[K, V] =
     apply(system, keySerializer, valueSerializer)

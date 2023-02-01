@@ -16,9 +16,9 @@ import org.apache.pekko.kafka.internal.{
 }
 import org.apache.pekko.kafka.scaladsl.Consumer.Control
 import org.apache.pekko.kafka.{ AutoSubscription, ConsumerMessage, ConsumerSettings, ProducerSettings, Subscription }
-import akka.stream.ActorAttributes
-import akka.stream.scaladsl.{ Flow, FlowWithContext, Keep, Sink, Source, SourceWithContext }
-import akka.{ Done, NotUsed }
+import org.apache.pekko.stream.ActorAttributes
+import org.apache.pekko.stream.scaladsl.{ Flow, FlowWithContext, Keep, Sink, Source, SourceWithContext }
+import org.apache.pekko.{ Done, NotUsed }
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.common.TopicPartition
 

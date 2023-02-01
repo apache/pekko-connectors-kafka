@@ -7,16 +7,16 @@ package org.apache.pekko.kafka.scaladsl
 
 import java.util.concurrent.atomic.AtomicLong
 
-import akka.Done
+import org.apache.pekko.Done
 import org.apache.pekko.kafka.ConsumerMessage.CommittableOffsetBatch
 import org.apache.pekko.kafka._
 import org.apache.pekko.kafka.scaladsl.Consumer.DrainingControl
 import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import akka.pattern.ask
-import akka.stream.scaladsl.{ Keep, Sink, Source }
-import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
-import akka.stream.testkit.scaladsl.TestSink
-import akka.testkit.TestProbe
+import org.apache.pekko.pattern.ask
+import org.apache.pekko.stream.scaladsl.{ Keep, Sink, Source }
+import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import org.apache.pekko.stream.testkit.scaladsl.TestSink
+import org.apache.pekko.testkit.TestProbe
 import org.apache.pekko.util.Timeout
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.ProducerRecord

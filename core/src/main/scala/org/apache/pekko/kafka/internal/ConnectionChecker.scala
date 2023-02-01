@@ -7,7 +7,7 @@ package org.apache.pekko.kafka.internal
 
 import org.apache.pekko.actor.{ Actor, ActorLogging, Props, Timers }
 import org.apache.pekko.annotation.InternalApi
-import akka.event.LoggingReceive
+import org.apache.pekko.event.LoggingReceive
 import org.apache.pekko.kafka.{ ConnectionCheckerSettings, KafkaConnectionFailed, Metadata }
 import org.apache.kafka.common.errors.TimeoutException
 

@@ -46,7 +46,7 @@ object ConsumerSettings {
    * For use with the `akka.actor.typed` API.
    */
   def apply[K, V](
-      system: akka.actor.ClassicActorSystemProvider,
+      system: org.apache.pekko.actor.ClassicActorSystemProvider,
       keyDeserializer: Option[Deserializer[K]],
       valueDeserializer: Option[Deserializer[V]]): ConsumerSettings[K, V] =
     apply(system.classicSystem, keyDeserializer, valueDeserializer)
@@ -130,7 +130,7 @@ object ConsumerSettings {
    * For use with the `akka.actor.typed` API.
    */
   def apply[K, V](
-      system: akka.actor.ClassicActorSystemProvider,
+      system: org.apache.pekko.actor.ClassicActorSystemProvider,
       keyDeserializer: Deserializer[K],
       valueDeserializer: Deserializer[V]): ConsumerSettings[K, V] =
     apply(system, Option(keyDeserializer), Option(valueDeserializer))
@@ -165,7 +165,7 @@ object ConsumerSettings {
    * For use with the `akka.actor.typed` API.
    */
   def create[K, V](
-      system: akka.actor.ClassicActorSystemProvider,
+      system: org.apache.pekko.actor.ClassicActorSystemProvider,
       keyDeserializer: Optional[Deserializer[K]],
       valueDeserializer: Optional[Deserializer[V]]): ConsumerSettings[K, V] =
     apply(system, keyDeserializer.asScala, valueDeserializer.asScala)
@@ -200,7 +200,7 @@ object ConsumerSettings {
    * For use with the `akka.actor.typed` API.
    */
   def create[K, V](
-      system: akka.actor.ClassicActorSystemProvider,
+      system: org.apache.pekko.actor.ClassicActorSystemProvider,
       keyDeserializer: Deserializer[K],
       valueDeserializer: Deserializer[V]): ConsumerSettings[K, V] =
     apply(system, keyDeserializer, valueDeserializer)

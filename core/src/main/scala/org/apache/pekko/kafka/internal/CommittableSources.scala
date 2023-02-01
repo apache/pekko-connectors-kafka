@@ -7,18 +7,18 @@ package org.apache.pekko.kafka.internal
 
 import org.apache.pekko.actor.ActorRef
 import org.apache.pekko.annotation.InternalApi
-import akka.dispatch.ExecutionContexts
+import org.apache.pekko.dispatch.ExecutionContexts
 import org.apache.pekko.kafka.ConsumerMessage.{ CommittableMessage, CommittableOffset }
 import org.apache.pekko.kafka._
 import org.apache.pekko.kafka.internal.KafkaConsumerActor.Internal.{ Commit, CommitSingle, CommitWithoutReply }
 import org.apache.pekko.kafka.internal.SubSourceLogic._
 import org.apache.pekko.kafka.scaladsl.Consumer.Control
-import akka.pattern.AskTimeoutException
-import akka.stream.SourceShape
-import akka.stream.scaladsl.Source
-import akka.stream.stage.{ AsyncCallback, GraphStageLogic }
+import org.apache.pekko.pattern.AskTimeoutException
+import org.apache.pekko.stream.SourceShape
+import org.apache.pekko.stream.scaladsl.Source
+import org.apache.pekko.stream.stage.{ AsyncCallback, GraphStageLogic }
 import org.apache.pekko.util.Timeout
-import akka.{ Done, NotUsed }
+import org.apache.pekko.{ Done, NotUsed }
 import org.apache.kafka.clients.consumer.{ ConsumerConfig, ConsumerRecord, OffsetAndMetadata }
 import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.requests.OffsetFetchResponse
@@ -198,7 +198,7 @@ private[kafka] class KafkaAsyncConsumerCommitterRef(private val consumerActor: A
   }
 
   private def sendWithReply(msg: AnyRef): Future[Done] = {
-    import akka.pattern.ask
+    import org.apache.pekko.pattern.ask
     consumerActor
       .ask(msg)(Timeout(commitTimeout))
       .map(_ => Done)(ExecutionContexts.parasitic)

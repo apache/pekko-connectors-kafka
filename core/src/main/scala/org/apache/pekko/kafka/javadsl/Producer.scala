@@ -10,8 +10,8 @@ import org.apache.pekko.annotation.ApiMayChange
 import org.apache.pekko.kafka.ConsumerMessage.Committable
 import org.apache.pekko.kafka.ProducerMessage._
 import org.apache.pekko.kafka.{ scaladsl, CommitterSettings, ConsumerMessage, ProducerSettings }
-import akka.stream.javadsl.{ Flow, FlowWithContext, Sink }
-import akka.{ japi, Done, NotUsed }
+import org.apache.pekko.stream.javadsl.{ Flow, FlowWithContext, Sink }
+import org.apache.pekko.{ japi, Done, NotUsed }
 import org.apache.kafka.clients.producer.ProducerRecord
 
 import scala.annotation.nowarn

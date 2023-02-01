@@ -11,7 +11,7 @@ import org.apache.pekko.kafka.benchmarks.app.RunTestCommand
 import org.apache.pekko.kafka.scaladsl.Consumer
 import org.apache.pekko.kafka.scaladsl.Consumer.Control
 import org.apache.pekko.kafka.{ ConsumerSettings, Subscriptions }
-import akka.stream.scaladsl.Source
+import org.apache.pekko.stream.scaladsl.Source
 import org.apache.kafka.clients.consumer.{ ConsumerConfig, ConsumerRecord }
 import org.apache.kafka.common.serialization.{ ByteArrayDeserializer, StringDeserializer }
 

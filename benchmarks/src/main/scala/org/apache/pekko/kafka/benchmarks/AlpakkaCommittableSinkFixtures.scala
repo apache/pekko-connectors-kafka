@@ -5,7 +5,7 @@
 
 package org.apache.pekko.kafka.benchmarks
 
-import akka.Done
+import org.apache.pekko.Done
 import org.apache.pekko.actor.ActorSystem
 import org.apache.pekko.kafka.ConsumerMessage.{ Committable, CommittableMessage }
 import org.apache.pekko.kafka.ProducerMessage.Envelope
@@ -13,8 +13,8 @@ import org.apache.pekko.kafka.benchmarks.app.RunTestCommand
 import org.apache.pekko.kafka.scaladsl.Consumer.{ Control, DrainingControl }
 import org.apache.pekko.kafka.scaladsl.{ Committer, Consumer, Producer }
 import org.apache.pekko.kafka._
-import akka.stream.Materializer
-import akka.stream.scaladsl.{ Keep, Sink, Source }
+import org.apache.pekko.stream.Materializer
+import org.apache.pekko.stream.scaladsl.{ Keep, Sink, Source }
 import com.codahale.metrics.Meter
 import com.typesafe.scalalogging.LazyLogging
 import org.apache.kafka.clients.consumer.ConsumerConfig

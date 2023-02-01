@@ -7,8 +7,8 @@ package org.apache.pekko.kafka.scaladsl
 
 import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
 import org.apache.pekko.kafka.Subscriptions
-import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
-import akka.stream.testkit.scaladsl.TestSink
+import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import org.apache.pekko.stream.testkit.scaladsl.TestSink
 import org.apache.kafka.common.TopicPartition
 import org.scalatest.Inside
 import org.scalatest.concurrent.IntegrationPatience

@@ -7,14 +7,14 @@ package org.apache.pekko.kafka
 
 import java.util.concurrent.atomic.AtomicInteger
 
-import akka.Done
+import org.apache.pekko.Done
 import org.apache.pekko.kafka.scaladsl.Consumer.Control
 import org.apache.pekko.kafka.scaladsl.{ Consumer, SpecBase, Transactional }
 import org.apache.pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
 import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
-import akka.stream._
-import akka.stream.scaladsl.{ Flow, Keep, RestartSource, Sink }
-import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import org.apache.pekko.stream._
+import org.apache.pekko.stream.scaladsl.{ Flow, Keep, RestartSource, Sink }
+import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.scalatest.concurrent.PatienceConfiguration.Interval
 import org.scalatest.concurrent.ScalaFutures

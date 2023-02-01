@@ -5,15 +5,15 @@
 
 package org.apache.pekko.kafka.internal
 
-import akka.NotUsed
+import org.apache.pekko.NotUsed
 import org.apache.pekko.actor.ActorRef
 import org.apache.pekko.annotation.InternalApi
 import org.apache.pekko.kafka.scaladsl.Consumer.Control
 import org.apache.pekko.kafka.{ AutoSubscription, ConsumerSettings, ManualSubscription, Subscription }
 import org.apache.pekko.kafka.internal.SubSourceLogic._
-import akka.stream.SourceShape
-import akka.stream.scaladsl.Source
-import akka.stream.stage.{ AsyncCallback, GraphStageLogic }
+import org.apache.pekko.stream.SourceShape
+import org.apache.pekko.stream.scaladsl.Source
+import org.apache.pekko.stream.stage.{ AsyncCallback, GraphStageLogic }
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.common.TopicPartition
 

@@ -9,7 +9,7 @@ import java.time.Duration
 import java.util
 import java.util.concurrent.atomic.AtomicInteger
 
-import akka.Done
+import org.apache.pekko.Done
 import org.apache.kafka.clients.consumer._
 import org.apache.kafka.common.{ Metric, MetricName, PartitionInfo, TopicPartition }
 import org.slf4j.{ Logger, LoggerFactory }

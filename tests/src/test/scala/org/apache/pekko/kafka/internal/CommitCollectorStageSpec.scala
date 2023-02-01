@@ -6,20 +6,20 @@
 package org.apache.pekko.kafka.internal
 
 import java.util.concurrent.atomic.AtomicLong
-import akka.Done
+import org.apache.pekko.Done
 import org.apache.pekko.actor.ActorSystem
-import akka.event.LoggingAdapter
+import org.apache.pekko.event.LoggingAdapter
 import org.apache.pekko.kafka.ConsumerMessage.{ Committable, CommittableOffset, CommittableOffsetBatch }
 import org.apache.pekko.kafka.scaladsl.{ Committer, Consumer }
 import org.apache.pekko.kafka.testkit.ConsumerResultFactory
 import org.apache.pekko.kafka.testkit.scaladsl.{ ConsumerControlFactory, Slf4jToAkkaLoggingAdapter }
 import org.apache.pekko.kafka.tests.scaladsl.LogCapturing
 import org.apache.pekko.kafka.{ CommitWhen, CommitterSettings, Repeated }
-import akka.stream.scaladsl.Keep
-import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
-import akka.stream.testkit.scaladsl.{ TestSink, TestSource }
-import akka.stream.testkit.{ TestPublisher, TestSubscriber }
-import akka.testkit.TestKit
+import org.apache.pekko.stream.scaladsl.Keep
+import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import org.apache.pekko.stream.testkit.scaladsl.{ TestSink, TestSource }
+import org.apache.pekko.stream.testkit.{ TestPublisher, TestSubscriber }
+import org.apache.pekko.testkit.TestKit
 import org.apache.kafka.clients.consumer.OffsetAndMetadata
 import org.apache.kafka.common.TopicPartition
 import org.scalatest.concurrent.{ Eventually, IntegrationPatience, ScalaFutures }

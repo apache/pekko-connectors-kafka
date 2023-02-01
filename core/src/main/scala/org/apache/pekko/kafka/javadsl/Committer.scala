@@ -7,11 +7,11 @@ package org.apache.pekko.kafka.javadsl
 import java.util.concurrent.CompletionStage
 
 import org.apache.pekko.annotation.ApiMayChange
-import akka.japi.Pair
-import akka.{ Done, NotUsed }
+import org.apache.pekko.japi.Pair
+import org.apache.pekko.{ Done, NotUsed }
 import org.apache.pekko.kafka.ConsumerMessage.{ Committable, CommittableOffsetBatch }
 import org.apache.pekko.kafka.{ scaladsl, CommitterSettings }
-import akka.stream.javadsl.{ Flow, FlowWithContext, Sink }
+import org.apache.pekko.stream.javadsl.{ Flow, FlowWithContext, Sink }
 
 import scala.compat.java8.FutureConverters.FutureOps
 

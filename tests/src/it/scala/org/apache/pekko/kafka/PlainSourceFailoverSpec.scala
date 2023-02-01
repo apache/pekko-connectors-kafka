@@ -8,8 +8,8 @@ package org.apache.pekko.kafka
 import org.apache.pekko.kafka.scaladsl.{ Consumer, Producer, SpecBase }
 import org.apache.pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
 import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
-import akka.stream.scaladsl.{ Sink, Source }
-import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import org.apache.pekko.stream.scaladsl.{ Sink, Source }
+import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.{ ProducerConfig, ProducerRecord }
 import org.apache.kafka.common.config.TopicConfig

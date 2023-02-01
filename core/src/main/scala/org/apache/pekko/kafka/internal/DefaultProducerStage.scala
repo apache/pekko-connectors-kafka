@@ -5,15 +5,15 @@
 
 package org.apache.pekko.kafka.internal
 
-import akka.Done
+import org.apache.pekko.Done
 import org.apache.pekko.annotation.InternalApi
 import org.apache.pekko.kafka.ProducerMessage._
 import org.apache.pekko.kafka.ProducerSettings
 import org.apache.pekko.kafka.internal.ProducerStage.ProducerCompletionState
-import akka.stream.ActorAttributes.SupervisionStrategy
-import akka.stream.Supervision.Decider
-import akka.stream.stage._
-import akka.stream.{ Attributes, FlowShape, Supervision }
+import org.apache.pekko.stream.ActorAttributes.SupervisionStrategy
+import org.apache.pekko.stream.Supervision.Decider
+import org.apache.pekko.stream.stage._
+import org.apache.pekko.stream.{ Attributes, FlowShape, Supervision }
 import org.apache.kafka.clients.producer.{ Callback, ProducerRecord, RecordMetadata }
 
 import scala.concurrent.{ ExecutionContext, Future, Promise }

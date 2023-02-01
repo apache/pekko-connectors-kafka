@@ -8,7 +8,7 @@ package org.apache.pekko.kafka.internal
 import org.apache.pekko.kafka.CommitWhen.OffsetFirstObserved
 import org.apache.pekko.kafka.CommitterSettings
 import org.apache.pekko.kafka.ConsumerMessage.{ Committable, CommittableOffset, CommittableOffsetBatch, GroupTopicPartition }
-import akka.stream.stage.GraphStageLogic
+import org.apache.pekko.stream.stage.GraphStageLogic
 
 /**
  * Shared commit observation logic between [[GraphStageLogic]] that facilitate offset commits,

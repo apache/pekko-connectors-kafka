@@ -6,12 +6,12 @@
 package org.apache.pekko.kafka.internal
 
 import org.apache.pekko.actor.ActorSystem
-import akka.event.LoggingAdapter
+import org.apache.pekko.event.LoggingAdapter
 import org.apache.pekko.kafka.OffsetResetProtectionSettings
 import org.apache.pekko.kafka.internal.KafkaConsumerActor.Internal.Seek
 import org.apache.pekko.kafka.testkit.scaladsl.Slf4jToAkkaLoggingAdapter
 import org.apache.pekko.kafka.tests.scaladsl.LogCapturing
-import akka.testkit.{ ImplicitSender, TestKit }
+import org.apache.pekko.testkit.{ ImplicitSender, TestKit }
 import org.apache.kafka.clients.consumer.{ ConsumerRecord, ConsumerRecords }
 import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.header.internals.RecordHeaders

@@ -8,14 +8,14 @@ package org.apache.pekko.kafka.benchmarks
 import java.util.concurrent.atomic.AtomicInteger
 
 import org.apache.pekko.actor.ActorSystem
-import akka.dispatch.ExecutionContexts
+import org.apache.pekko.dispatch.ExecutionContexts
 import org.apache.pekko.kafka.ConsumerMessage.CommittableMessage
 import org.apache.pekko.kafka.benchmarks.InflightMetrics.{ BrokerMetricRequest, ConsumerMetricRequest }
 import org.apache.pekko.kafka.scaladsl.Committer
 import org.apache.pekko.kafka.scaladsl.Consumer.DrainingControl
 import org.apache.pekko.kafka.{ CommitDelivery, CommitterSettings }
-import akka.stream.Materializer
-import akka.stream.scaladsl.{ Keep, Sink, Source }
+import org.apache.pekko.stream.Materializer
+import org.apache.pekko.stream.scaladsl.{ Keep, Sink, Source }
 import com.codahale.metrics.Meter
 import com.typesafe.scalalogging.LazyLogging
 import org.apache.kafka.clients.consumer.ConsumerRecord

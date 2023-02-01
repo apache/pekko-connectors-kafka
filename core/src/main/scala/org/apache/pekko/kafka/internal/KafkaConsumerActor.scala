@@ -8,7 +8,7 @@ package org.apache.pekko.kafka.internal
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.locks.LockSupport
 import java.util.regex.Pattern
-import akka.Done
+import org.apache.pekko.Done
 import org.apache.pekko.actor.Status.Failure
 import org.apache.pekko.actor.{
   Actor,
@@ -22,7 +22,7 @@ import org.apache.pekko.actor.{
 }
 import org.apache.pekko.annotation.InternalApi
 import org.apache.pekko.util.JavaDurationConverters._
-import akka.event.LoggingReceive
+import org.apache.pekko.event.LoggingReceive
 import org.apache.pekko.kafka.KafkaConsumerActor.{ StopLike, StoppingException }
 import org.apache.pekko.kafka._
 import org.apache.pekko.kafka.scaladsl.PartitionAssignmentHandler
@@ -398,7 +398,7 @@ import scala.util.control.NonFatal
         owner.foreach(_ ! Failure(e))
         throw e
       case None =>
-        import akka.pattern.pipe
+        import org.apache.pekko.pattern.pipe
         implicit val ec: ExecutionContext = context.dispatcher
         context.become(expectSettings)
         updateSettings.pipeTo(self)

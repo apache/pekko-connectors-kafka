@@ -9,9 +9,9 @@ import org.apache.pekko.actor.{ ActorRef, Status, Terminated }
 import org.apache.pekko.annotation.InternalApi
 import org.apache.pekko.kafka.Subscriptions.{ Assignment, AssignmentOffsetsForTimes, AssignmentWithOffset }
 import org.apache.pekko.kafka.{ ConsumerFailed, ManualSubscription }
-import akka.stream.SourceShape
-import akka.stream.stage.GraphStageLogic.StageActor
-import akka.stream.stage.{ AsyncCallback, GraphStageLogic, OutHandler }
+import org.apache.pekko.stream.SourceShape
+import org.apache.pekko.stream.stage.GraphStageLogic.StageActor
+import org.apache.pekko.stream.stage.{ AsyncCallback, GraphStageLogic, OutHandler }
 import org.apache.kafka.common.TopicPartition
 
 import scala.annotation.tailrec

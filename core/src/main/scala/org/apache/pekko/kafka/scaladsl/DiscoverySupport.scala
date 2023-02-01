@@ -7,7 +7,7 @@ package org.apache.pekko.kafka.scaladsl
 
 import org.apache.pekko.actor.{ ActorSystem, ActorSystemImpl, ClassicActorSystemProvider }
 import org.apache.pekko.annotation.InternalApi
-import akka.discovery.{ Discovery, ServiceDiscovery }
+import org.apache.pekko.discovery.{ Discovery, ServiceDiscovery }
 import org.apache.pekko.kafka.{ ConsumerSettings, ProducerSettings }
 import org.apache.pekko.util.JavaDurationConverters._
 import com.typesafe.config.Config

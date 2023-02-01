@@ -5,7 +5,7 @@
 
 package docs.scaladsl
 
-import akka.NotUsed
+import org.apache.pekko.NotUsed
 import org.apache.pekko.actor.typed.scaladsl.Behaviors
 import org.apache.pekko.actor.typed.scaladsl.adapter._
 import org.apache.pekko.actor.typed.{ ActorSystem, Behavior }
@@ -15,7 +15,7 @@ import org.apache.pekko.cluster.sharding.typed.scaladsl.{ ClusterSharding, Entit
 import org.apache.pekko.kafka.cluster.sharding.KafkaClusterSharding
 import org.apache.pekko.kafka.scaladsl.Consumer
 import org.apache.pekko.kafka.{ ConsumerRebalanceEvent, ConsumerSettings, Subscriptions }
-import akka.stream.scaladsl.{ Flow, Sink }
+import org.apache.pekko.stream.scaladsl.{ Flow, Sink }
 import org.apache.kafka.common.serialization.{ ByteArrayDeserializer, StringDeserializer }
 
 import scala.concurrent.Future

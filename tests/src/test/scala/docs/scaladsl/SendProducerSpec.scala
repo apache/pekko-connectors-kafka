@@ -5,12 +5,12 @@
 
 package docs.scaladsl
 
-import akka.Done
+import org.apache.pekko.Done
 import org.apache.pekko.kafka.ProducerMessage.MultiResult
 import org.apache.pekko.kafka.scaladsl.{ Consumer, SendProducer }
 import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
 import org.apache.pekko.kafka.{ ConsumerSettings, ProducerMessage, Subscriptions }
-import akka.stream.scaladsl.{ Keep, Sink }
+import org.apache.pekko.stream.scaladsl.{ Keep, Sink }
 import org.apache.kafka.clients.producer.{ ProducerRecord, RecordMetadata }
 
 import scala.collection.immutable

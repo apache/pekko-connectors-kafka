@@ -7,18 +7,18 @@ package org.apache.pekko.kafka.internal
 
 import java.util.concurrent.atomic.AtomicInteger
 
-import akka.Done
+import org.apache.pekko.Done
 import org.apache.pekko.actor.ActorSystem
 import org.apache.pekko.kafka.ConsumerMessage._
 import org.apache.pekko.kafka._
 import org.apache.pekko.kafka.scaladsl.Consumer.Control
 import org.apache.pekko.kafka.scaladsl.{ Committer, Consumer }
 import org.apache.pekko.kafka.tests.scaladsl.LogCapturing
-import akka.stream._
-import akka.stream.scaladsl._
-import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
-import akka.stream.testkit.scaladsl.TestSink
-import akka.testkit.TestKit
+import org.apache.pekko.stream._
+import org.apache.pekko.stream.scaladsl._
+import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import org.apache.pekko.stream.testkit.scaladsl.TestSink
+import org.apache.pekko.testkit.TestKit
 import com.typesafe.config.ConfigFactory
 import org.apache.kafka.clients.consumer._
 import org.apache.kafka.common.TopicPartition

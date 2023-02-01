@@ -6,12 +6,12 @@
 package org.apache.pekko.kafka.scaladsl
 
 import org.apache.pekko.annotation.ApiMayChange
-import akka.dispatch.ExecutionContexts
+import org.apache.pekko.dispatch.ExecutionContexts
 import org.apache.pekko.kafka.CommitterSettings
 import org.apache.pekko.kafka.ConsumerMessage.{ Committable, CommittableOffsetBatch }
 import org.apache.pekko.kafka.internal.CommitCollectorStage
-import akka.stream.scaladsl.{ Flow, FlowWithContext, Keep, Sink }
-import akka.{ Done, NotUsed }
+import org.apache.pekko.stream.scaladsl.{ Flow, FlowWithContext, Keep, Sink }
+import org.apache.pekko.{ Done, NotUsed }
 
 import scala.concurrent.Future
 

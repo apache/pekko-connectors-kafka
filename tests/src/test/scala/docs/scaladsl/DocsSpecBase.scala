@@ -5,10 +5,10 @@
 
 package docs.scaladsl
 
-import akka.NotUsed
+import org.apache.pekko.NotUsed
 import org.apache.pekko.kafka.testkit.scaladsl.KafkaSpec
 import org.apache.pekko.kafka.testkit.internal.TestFrameworkInterface
-import akka.stream.scaladsl.Flow
+import org.apache.pekko.stream.scaladsl.Flow
 import org.scalatest.Suite
 import org.scalatest.concurrent.{ Eventually, IntegrationPatience, ScalaFutures }
 import org.scalatest.flatspec.AnyFlatSpecLike

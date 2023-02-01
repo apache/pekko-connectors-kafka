@@ -12,12 +12,12 @@ import org.apache.pekko.kafka.ProducerMessage._
 import org.apache.pekko.kafka.scaladsl.Producer
 import org.apache.pekko.kafka.tests.scaladsl.LogCapturing
 import org.apache.pekko.kafka.{ ConsumerMessage, ProducerMessage, ProducerSettings }
-import akka.stream.scaladsl.{ Flow, Keep, Sink, Source }
-import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
-import akka.stream.testkit.scaladsl.{ TestSink, TestSource }
-import akka.stream.{ ActorAttributes, Supervision }
-import akka.testkit.TestKit
-import akka.{ Done, NotUsed }
+import org.apache.pekko.stream.scaladsl.{ Flow, Keep, Sink, Source }
+import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import org.apache.pekko.stream.testkit.scaladsl.{ TestSink, TestSource }
+import org.apache.pekko.stream.{ ActorAttributes, Supervision }
+import org.apache.pekko.testkit.TestKit
+import org.apache.pekko.{ Done, NotUsed }
 import com.typesafe.config.ConfigFactory
 import org.apache.kafka.clients.consumer.{ ConsumerGroupMetadata, OffsetAndMetadata }
 import org.apache.kafka.clients.producer._

@@ -6,15 +6,15 @@
 package docs.scaladsl
 
 // #oneToMany
-import akka.{ Done, NotUsed }
+import org.apache.pekko.{ Done, NotUsed }
 import org.apache.pekko.kafka.ConsumerMessage.{ CommittableOffset, CommittableOffsetBatch }
 import org.apache.pekko.kafka.ProducerMessage.Envelope
 import org.apache.pekko.kafka.scaladsl.Consumer.DrainingControl
 import org.apache.pekko.kafka.{ ProducerMessage, Subscriptions }
 import org.apache.pekko.kafka.scaladsl.{ Committer, Consumer, Producer }
 import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import akka.stream.scaladsl.{ Keep, Sink }
-import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import org.apache.pekko.stream.scaladsl.{ Keep, Sink }
+import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.apache.kafka.clients.producer.ProducerRecord
 
 import scala.collection.immutable
