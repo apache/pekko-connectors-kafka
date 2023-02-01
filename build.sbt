@@ -32,7 +32,7 @@ val confluentLibsExclusionRules = Seq(
 ThisBuild / resolvers ++= Seq(
   // for Jupiter interface (JUnit 5)
   Resolver.jcenterRepo,
-  "Apache Snapshot Repo".at("https://repository.apache.org/content/groups/snapshots/"))
+  "Apache Snapshot Repo" at "https://repository.apache.org/content/groups/snapshots/")
 
 TaskKey[Unit]("verifyCodeFmt") := {
   javafmtCheckAll.all(ScopeFilter(inAnyProject)).result.value.toEither.left.foreach { _ =>
@@ -46,8 +46,8 @@ addCommandAlias("verifyDocs", ";+doc ;unidoc ;docs/paradoxBrowse")
 
 val commonSettings = Def.settings(
   organization := "org.apache.pekko",
-  organizationName := "Lightbend Inc.",
-  organizationHomepage := Some(url("https://www.lightbend.com/")),
+  organizationName := "Apache Software Foundation",
+  organizationHomepage := Some(url("https://www.apache.org")),
   homepage := Some(url("https://doc.akka.io/docs/alpakka-kafka/current")),
   scmInfo := Some(ScmInfo(url("https://github.com/akka/alpakka-kafka"), "git@github.com:akka/alpakka-kafka.git")),
   developers += Developer("contributors",
@@ -240,8 +240,8 @@ lazy val tests = project
       "org.mockito" % "mockito-core" % "4.6.1" % Test,
       "com.thesamet.scalapb" %% "scalapb-runtime" % "0.10.11" % Test),
     resolvers ++= Seq(
-      "Confluent Maven Repo".at("https://packages.confluent.io/maven/"),
-      "Apache Snapshot Repo".at("https://repository.apache.org/content/groups/snapshots/")),
+      "Confluent Maven Repo" at "https://packages.confluent.io/maven/",
+      "Apache Snapshot Repo" at "https://repository.apache.org/content/groups/snapshots/"),
     publish / skip := true,
     Test / fork := true,
     Test / parallelExecution := false,
