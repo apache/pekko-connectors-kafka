@@ -5,17 +5,20 @@
 
 package org.apache.pekko.kafka.benchmarks
 
-import java.nio.file.Paths
-import java.util.concurrent.{ ForkJoinPool, TimeUnit }
-
+import akka.stream.alpakka.csv.scaladsl.CsvQuotingStyle
+import com.codahale.metrics._
+import com.typesafe.scalalogging.LazyLogging
+import org.apache.pekko.NotUsed
 import org.apache.pekko.kafka.benchmarks.InflightMetrics.{ BrokerMetricRequest, ConsumerMetricRequest }
 import org.apache.pekko.kafka.benchmarks.app.RunTestCommand
 import org.apache.pekko.stream.Materializer
-import org.apache.pekko.stream.alpakka.csv.scaladsl.CsvFormatting
-import org.apache.pekko.stream.scaladsl.{ FileIO, Sink, Source }
-import com.codahale.metrics._
-import com.typesafe.scalalogging.LazyLogging
+import org.apache.pekko.stream.scaladsl.{ FileIO, Flow, Sink, Source }
+import org.apache.pekko.util.ByteString
 
+import java.nio.charset.{ Charset, StandardCharsets }
+import java.nio.file.Paths
+import java.util.concurrent.{ ForkJoinPool, TimeUnit }
+import scala.collection.immutable
 import scala.concurrent.duration._
 import scala.concurrent.{ Await, ExecutionContext, Future }
 
@@ -44,12 +47,30 @@ object Timed extends LazyLogging {
     val metricsReportDetailPath = benchmarkReportBasePath.resolve(Paths.get(s"$testName-inflight-metrics-details.csv"))
     require(inflight.size > 1, "At least 2 records (a header and a data row) are required to make a report.")
     val summary = Source(List(inflight.head, inflight.last))
-      .via(CsvFormatting.format())
+      .via(format())
       .alsoTo(Sink.foreach(bs => logger.info(bs.utf8String)))
       .runWith(FileIO.toPath(metricsReportPath))
-    val details = Source(inflight).via(CsvFormatting.format()).runWith(FileIO.toPath(metricsReportDetailPath))
+    val details = Source(inflight).via(format()).runWith(FileIO.toPath(metricsReportDetailPath))
     implicit val ec: ExecutionContext = mat.executionContext
     Await.result(Future.sequence(List(summary, details)), 10.seconds)
+  }
+
+  private def format[T <: immutable.Iterable[String]](
+      delimiter: Char = ',',
+      quoteChar: Char = '"',
+      escapeChar: Char = '\\',
+      endOfLine: String = "\r\n",
+      quotingStyle: CsvQuotingStyle = CsvQuotingStyle.Required,
+      charset: Charset = StandardCharsets.UTF_8,
+      byteOrderMark: Option[ByteString] = None): Flow[T, ByteString, NotUsed] = {
+    val formatter =
+      new CsvFormatter(delimiter, quoteChar, escapeChar, endOfLine, quotingStyle, charset)
+    byteOrderMark.fold {
+      Flow[T].map(formatter.toCsv).named("CsvFormatting")
+    } { bom =>
+      Flow[T].map(formatter.toCsv).named("CsvFormatting").prepend(Source.single(bom))
+    }
+
   }
 
   def runPerfTest[F](command: RunTestCommand, fixtureGen: FixtureGen[F], testBody: (F, Meter) => Unit): Unit = {

@@ -28,11 +28,11 @@ final class SendProducer[K, V] private (val settings: ProducerSettings[K, V], sy
    *
    * It publishes records to Kafka topics conditionally:
    *
-   * - [[akka.kafka.ProducerMessage.Message Message]] publishes a single message to its topic, and completes the future with [[akka.kafka.ProducerMessage.Result Result]]
+   * - [[org.apache.pekko.kafka.ProducerMessage.Message Message]] publishes a single message to its topic, and completes the future with [[org.apache.pekko.kafka.ProducerMessage.Result Result]]
    *
-   * - [[akka.kafka.ProducerMessage.MultiMessage MultiMessage]] publishes all messages in its `records` field, and completes the future with [[akka.kafka.ProducerMessage.MultiResult MultiResult]]
+   * - [[org.apache.pekko.kafka.ProducerMessage.MultiMessage MultiMessage]] publishes all messages in its `records` field, and completes the future with [[org.apache.pekko.kafka.ProducerMessage.MultiResult MultiResult]]
    *
-   * - [[akka.kafka.ProducerMessage.PassThroughMessage PassThroughMessage]] does not publish anything, and completes the future with [[akka.kafka.ProducerMessage.PassThroughResult PassThroughResult]]
+   * - [[org.apache.pekko.kafka.ProducerMessage.PassThroughMessage PassThroughMessage]] does not publish anything, and completes the future with [[org.apache.pekko.kafka.ProducerMessage.PassThroughResult PassThroughResult]]
    *
    * The messages support passing through arbitrary data.
    */

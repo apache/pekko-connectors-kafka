@@ -46,7 +46,7 @@ object Transactional {
   def sourceWithOffsetContext[K, V](
       consumerSettings: ConsumerSettings[K, V],
       subscription: Subscription): SourceWithContext[ConsumerRecord[K, V], PartitionOffset, Control] =
-    akka.stream.scaladsl.Source
+    org.apache.pekko.stream.scaladsl.Source
       .fromGraph(new TransactionalSourceWithOffsetContext[K, V](consumerSettings, subscription))
       .mapMaterializedValue(ConsumerControlAsJava.apply)
       .asSourceWithContext(_._2)
@@ -100,10 +100,10 @@ object Transactional {
   def sinkWithOffsetContext[K, V](
       settings: ProducerSettings[K, V],
       transactionalId: String): Sink[Pair[Envelope[K, V, NotUsed], PartitionOffset], CompletionStage[Done]] =
-    akka.stream.scaladsl
+    org.apache.pekko.stream.scaladsl
       .Flow[Pair[Envelope[K, V, NotUsed], PartitionOffset]]
       .map(_.toScala)
-      .toMat(scaladsl.Transactional.sinkWithOffsetContext(settings, transactionalId))(akka.stream.scaladsl.Keep.right)
+      .toMat(scaladsl.Transactional.sinkWithOffsetContext(settings, transactionalId))(org.apache.pekko.stream.scaladsl.Keep.right)
       .mapMaterializedValue(_.toJava)
       .asJava
 

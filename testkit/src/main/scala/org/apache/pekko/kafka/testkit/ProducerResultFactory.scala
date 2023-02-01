@@ -14,7 +14,7 @@ import scala.jdk.CollectionConverters._
 import scala.collection.immutable
 
 /**
- * Factory methods to create instances that normally are emitted by [[akka.kafka.scaladsl.Producer]] and [[akka.kafka.javadsl.Producer]] flows.
+ * Factory methods to create instances that normally are emitted by [[org.apache.pekko.kafka.scaladsl.Producer]] and [[org.apache.pekko.kafka.javadsl.Producer]] flows.
  */
 @ApiMayChange
 object ProducerResultFactory {

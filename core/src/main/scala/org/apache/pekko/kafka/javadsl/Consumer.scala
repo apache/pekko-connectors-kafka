@@ -177,7 +177,7 @@ object Consumer {
       subscription: Subscription): SourceWithContext[ConsumerRecord[K, V], CommittableOffset, Control] =
     // TODO this could use `scaladsl committableSourceWithContext` but `mapMaterializedValue` is not available, yet
     // See https://github.com/akka/akka/issues/26836
-    akka.stream.scaladsl.Source
+    org.apache.pekko.stream.scaladsl.Source
       .fromGraph(new SourceWithOffsetContext[K, V](settings, subscription))
       .mapMaterializedValue(ConsumerControlAsJava.apply)
       .asSourceWithContext(_._2)
@@ -207,7 +207,7 @@ object Consumer {
       : SourceWithContext[ConsumerRecord[K, V], CommittableOffset, Control] =
     // TODO this could use `scaladsl committableSourceWithContext` but `mapMaterializedValue` is not available, yet
     // See https://github.com/akka/akka/issues/26836
-    akka.stream.scaladsl.Source
+    org.apache.pekko.stream.scaladsl.Source
       .fromGraph(
         new SourceWithOffsetContext[K, V](settings,
           subscription,

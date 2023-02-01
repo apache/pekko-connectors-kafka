@@ -44,7 +44,7 @@ private final class CommitCollectorStageLogic(
 
   // Context propagation is needed to notify Lightbend Telemetry to keep the context in case of a deferred downstream
   // push call that might not happen during onPush but later onTimer, onPull, or only during the next onPush call.
-  private val contextPropagation = akka.stream.impl.ContextPropagation()
+  private val contextPropagation = org.apache.pekko.stream.impl.ContextPropagation()
   private var contextSuspended = false
 
   override protected def logSource: Class[_] = classOf[CommitCollectorStageLogic]

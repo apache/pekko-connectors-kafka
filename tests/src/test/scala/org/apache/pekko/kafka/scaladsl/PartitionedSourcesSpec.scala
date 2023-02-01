@@ -553,7 +553,7 @@ class PartitionedSourcesSpec extends SpecBase with TestcontainersKafkaLike with 
                   exceptionTriggered.set(true)
                   Future.failed(new RuntimeException("FAIL"))
                 } else {
-                  akka.pattern.after(50.millis, system.scheduler)(Future.successful(m))
+                  org.apache.pekko.pattern.after(50.millis, system.scheduler)(Future.successful(m))
                 }
               }
               .log(s"subsource $tp pre commit")

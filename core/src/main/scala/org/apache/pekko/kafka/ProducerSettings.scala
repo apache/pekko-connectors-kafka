@@ -202,7 +202,7 @@ object ProducerSettings {
 
 /**
  * Settings for producers. See `akka.kafka.producer` section in
- * reference.conf. Note that the [[akka.kafka.ProducerSettings$ companion]] object provides
+ * reference.conf. Note that the [[org.apache.pekko.kafka.ProducerSettings$ companion]] object provides
  * `apply` and `create` functions for convenient construction of the settings, together with
  * the `with` methods.
  *

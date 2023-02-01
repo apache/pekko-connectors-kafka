@@ -60,7 +60,7 @@ import scala.util.control.NonFatal
     final case class RegisterSubStage(tps: Set[TopicPartition]) extends NoSerializationVerificationNeeded
     final case class Seek(tps: Map[TopicPartition, Long]) extends NoSerializationVerificationNeeded
     final case class RequestMessages(requestId: Int, tps: Set[TopicPartition]) extends NoSerializationVerificationNeeded
-    val Stop = akka.kafka.KafkaConsumerActor.Stop
+    val Stop = org.apache.pekko.kafka.KafkaConsumerActor.Stop
     final case class StopFromStage(stageId: String) extends StopLike
     final case class Commit(tp: TopicPartition, offsetAndMetadata: OffsetAndMetadata)
         extends NoSerializationVerificationNeeded

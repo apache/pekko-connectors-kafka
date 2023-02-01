@@ -16,7 +16,7 @@ import org.apache.kafka.common.TopicPartition
 import scala.concurrent.Future
 
 /**
- * Factory methods to create instances that normally are emitted by [[akka.kafka.scaladsl.Consumer]] and [[akka.kafka.javadsl.Consumer]] flows.
+ * Factory methods to create instances that normally are emitted by [[org.apache.pekko.kafka.scaladsl.Consumer]] and [[org.apache.pekko.kafka.javadsl.Consumer]] flows.
  */
 @ApiMayChange
 object ConsumerResultFactory {

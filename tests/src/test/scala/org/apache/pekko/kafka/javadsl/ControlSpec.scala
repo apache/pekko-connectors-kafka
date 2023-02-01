@@ -24,7 +24,7 @@ import scala.language.reflectiveCalls
 object ControlSpec {
   def createControl(stopFuture: Future[Done] = Future.successful(Done),
       shutdownFuture: Future[Done] = Future.successful(Done)) = {
-    val control = new akka.kafka.scaladsl.ControlSpec.ControlImpl(stopFuture, shutdownFuture)
+    val control = new org.apache.pekko.kafka.scaladsl.ControlSpec.ControlImpl(stopFuture, shutdownFuture)
     val wrapped = new ConsumerControlAsJava(control)
     new Consumer.Control {
       def shutdownCalled: AtomicBoolean = control.shutdownCalled

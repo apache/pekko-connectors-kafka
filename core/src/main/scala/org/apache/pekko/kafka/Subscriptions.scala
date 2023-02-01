@@ -16,10 +16,10 @@ import scala.jdk.CollectionConverters._
 
 sealed trait Subscription {
 
-  /** ActorRef which is to receive [[akka.kafka.ConsumerRebalanceEvent]] signals when rebalancing happens */
+  /** ActorRef which is to receive [[org.apache.pekko.kafka.ConsumerRebalanceEvent]] signals when rebalancing happens */
   def rebalanceListener: Option[ActorRef]
 
-  /** Configure this actor ref to receive [[akka.kafka.ConsumerRebalanceEvent]] signals */
+  /** Configure this actor ref to receive [[org.apache.pekko.kafka.ConsumerRebalanceEvent]] signals */
   def withRebalanceListener(ref: ActorRef): Subscription
 
   def renderStageAttribute: String
@@ -46,13 +46,13 @@ sealed trait ManualSubscription extends Subscription {
  */
 sealed trait AutoSubscription extends Subscription {
 
-  /** ActorRef which is to receive [[akka.kafka.ConsumerRebalanceEvent]] signals when rebalancing happens */
+  /** ActorRef which is to receive [[org.apache.pekko.kafka.ConsumerRebalanceEvent]] signals when rebalancing happens */
   def rebalanceListener: Option[ActorRef]
 
   @InternalApi
   def partitionAssignmentHandler: scaladsl.PartitionAssignmentHandler
 
-  /** Configure this actor ref to receive [[akka.kafka.ConsumerRebalanceEvent]] signals */
+  /** Configure this actor ref to receive [[org.apache.pekko.kafka.ConsumerRebalanceEvent]] signals */
   def withRebalanceListener(ref: ActorRef): AutoSubscription
 
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/985")

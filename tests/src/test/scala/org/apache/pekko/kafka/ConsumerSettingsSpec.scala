@@ -30,10 +30,10 @@ class ConsumerSettingsSpec
 
     "handle nested kafka-clients properties" in {
       val conf = ConfigFactory.parseString("""
-        akka.kafka.consumer.kafka-clients.bootstrap.servers = "localhost:9092"
-        akka.kafka.consumer.kafka-clients.bootstrap.foo = baz
-        akka.kafka.consumer.kafka-clients.foo = bar
-        akka.kafka.consumer.kafka-clients.client.id = client1
+        org.apache.pekko.kafka.consumer.kafka-clients.bootstrap.servers = "localhost:9092"
+        org.apache.pekko.kafka.consumer.kafka-clients.bootstrap.foo = baz
+        org.apache.pekko.kafka.consumer.kafka-clients.foo = bar
+        org.apache.pekko.kafka.consumer.kafka-clients.client.id = client1
         """).withFallback(ConfigFactory.load()).getConfig("akka.kafka.consumer")
       val settings = ConsumerSettings(conf, new ByteArrayDeserializer, new StringDeserializer)
       settings.getProperty("bootstrap.servers") should ===("localhost:9092")
@@ -46,10 +46,10 @@ class ConsumerSettingsSpec
       val conf = ConfigFactory
         .parseString(
           """
-        akka.kafka.consumer.kafka-clients.bootstrap.servers = "localhost:9092"
-        akka.kafka.consumer.kafka-clients.key.deserializer = org.apache.kafka.common.serialization.StringDeserializer
-        akka.kafka.consumer.kafka-clients.value.deserializer = org.apache.kafka.common.serialization.StringDeserializer
-        akka.kafka.consumer.kafka-clients.client.id = client1
+        org.apache.pekko.kafka.consumer.kafka-clients.bootstrap.servers = "localhost:9092"
+        org.apache.pekko.kafka.consumer.kafka-clients.key.deserializer = org.apache.kafka.common.serialization.StringDeserializer
+        org.apache.pekko.kafka.consumer.kafka-clients.value.deserializer = org.apache.kafka.common.serialization.StringDeserializer
+        org.apache.pekko.kafka.consumer.kafka-clients.client.id = client1
         """)
         .withFallback(ConfigFactory.load())
         .getConfig("akka.kafka.consumer")
@@ -59,8 +59,8 @@ class ConsumerSettingsSpec
 
     "handle deserializers passed as args config" in {
       val conf = ConfigFactory.parseString("""
-        akka.kafka.consumer.kafka-clients.bootstrap.servers = "localhost:9092"
-        akka.kafka.consumer.kafka-clients.parallelism = 1
+        org.apache.pekko.kafka.consumer.kafka-clients.bootstrap.servers = "localhost:9092"
+        org.apache.pekko.kafka.consumer.kafka-clients.parallelism = 1
         """).withFallback(ConfigFactory.load()).getConfig("akka.kafka.consumer")
       val settings = ConsumerSettings(conf, new ByteArrayDeserializer, new StringDeserializer)
       settings.getProperty("bootstrap.servers") should ===("localhost:9092")
@@ -70,9 +70,9 @@ class ConsumerSettingsSpec
       val conf = ConfigFactory
         .parseString(
           """
-        akka.kafka.consumer.kafka-clients.bootstrap.servers = "localhost:9092"
-        akka.kafka.consumer.kafka-clients.value.deserializer = org.apache.kafka.common.serialization.StringDeserializer
-        akka.kafka.consumer.kafka-clients.client.id = client1
+        org.apache.pekko.kafka.consumer.kafka-clients.bootstrap.servers = "localhost:9092"
+        org.apache.pekko.kafka.consumer.kafka-clients.value.deserializer = org.apache.kafka.common.serialization.StringDeserializer
+        org.apache.pekko.kafka.consumer.kafka-clients.client.id = client1
         """)
         .withFallback(ConfigFactory.load())
         .getConfig("akka.kafka.consumer")
@@ -84,9 +84,9 @@ class ConsumerSettingsSpec
       val conf = ConfigFactory
         .parseString(
           """
-        akka.kafka.consumer.kafka-clients.bootstrap.servers = "localhost:9092"
-        akka.kafka.consumer.kafka-clients.key.deserializer = org.apache.kafka.common.serialization.StringDeserializer
-        akka.kafka.consumer.kafka-clients.client.id = client1
+        org.apache.pekko.kafka.consumer.kafka-clients.bootstrap.servers = "localhost:9092"
+        org.apache.pekko.kafka.consumer.kafka-clients.key.deserializer = org.apache.kafka.common.serialization.StringDeserializer
+        org.apache.pekko.kafka.consumer.kafka-clients.client.id = client1
         """)
         .withFallback(ConfigFactory.load())
         .getConfig("akka.kafka.consumer")
@@ -110,9 +110,9 @@ class ConsumerSettingsSpec
       val conf = ConfigFactory
         .parseString(
           """
-        akka.kafka.consumer.kafka-clients.bootstrap.servers = "localhost:9092"
-        akka.kafka.consumer.kafka-clients.key.deserializer = org.apache.kafka.common.serialization.StringDeserializer
-        akka.kafka.consumer.kafka-clients.client.id = client1
+        org.apache.pekko.kafka.consumer.kafka-clients.bootstrap.servers = "localhost:9092"
+        org.apache.pekko.kafka.consumer.kafka-clients.key.deserializer = org.apache.kafka.common.serialization.StringDeserializer
+        org.apache.pekko.kafka.consumer.kafka-clients.client.id = client1
         """)
         .withFallback(ConfigFactory.load())
         .getConfig("akka.kafka.consumer")
@@ -125,8 +125,8 @@ class ConsumerSettingsSpec
 
     "throw IllegalArgumentException if no value deserializer defined (null case). Key serializer passed as args config" in {
       val conf = ConfigFactory.parseString("""
-        akka.kafka.consumer.kafka-clients.bootstrap.servers = "localhost:9092"
-        akka.kafka.consumer.kafka-clients.client.id = client1
+        org.apache.pekko.kafka.consumer.kafka-clients.bootstrap.servers = "localhost:9092"
+        org.apache.pekko.kafka.consumer.kafka-clients.client.id = client1
         """).withFallback(ConfigFactory.load()).getConfig("akka.kafka.consumer")
       val exception = intercept[IllegalArgumentException] {
         ConsumerSettings(conf, new ByteArrayDeserializer, null)
@@ -139,9 +139,9 @@ class ConsumerSettingsSpec
       val conf = ConfigFactory
         .parseString(
           """
-        akka.kafka.consumer.kafka-clients.bootstrap.servers = "localhost:9092"
-        akka.kafka.consumer.kafka-clients.key.deserializer = org.apache.kafka.common.serialization.StringDeserializer
-        akka.kafka.consumer.kafka-clients.client.id = client1
+        org.apache.pekko.kafka.consumer.kafka-clients.bootstrap.servers = "localhost:9092"
+        org.apache.pekko.kafka.consumer.kafka-clients.key.deserializer = org.apache.kafka.common.serialization.StringDeserializer
+        org.apache.pekko.kafka.consumer.kafka-clients.client.id = client1
         """)
         .withFallback(ConfigFactory.load())
         .getConfig("akka.kafka.consumer")
@@ -156,9 +156,9 @@ class ConsumerSettingsSpec
       val conf = ConfigFactory
         .parseString(
           """
-        akka.kafka.consumer.kafka-clients.bootstrap.servers = "localhost:9092"
-        akka.kafka.consumer.kafka-clients.value.deserializer = org.apache.kafka.common.serialization.StringDeserializer
-        akka.kafka.consumer.kafka-clients.client.id = client1
+        org.apache.pekko.kafka.consumer.kafka-clients.bootstrap.servers = "localhost:9092"
+        org.apache.pekko.kafka.consumer.kafka-clients.value.deserializer = org.apache.kafka.common.serialization.StringDeserializer
+        org.apache.pekko.kafka.consumer.kafka-clients.client.id = client1
         """)
         .withFallback(ConfigFactory.load())
         .getConfig("akka.kafka.consumer")
@@ -171,8 +171,8 @@ class ConsumerSettingsSpec
 
     "throw IllegalArgumentException if no key deserializer defined (null case). Value serializer passed as args config" in {
       val conf = ConfigFactory.parseString("""
-        akka.kafka.consumer.kafka-clients.bootstrap.servers = "localhost:9092"
-        akka.kafka.consumer.kafka-clients.client.id = client1
+        org.apache.pekko.kafka.consumer.kafka-clients.bootstrap.servers = "localhost:9092"
+        org.apache.pekko.kafka.consumer.kafka-clients.client.id = client1
         """).withFallback(ConfigFactory.load()).getConfig("akka.kafka.consumer")
       val exception = intercept[IllegalArgumentException] {
         ConsumerSettings(conf, null, new ByteArrayDeserializer)
@@ -185,9 +185,9 @@ class ConsumerSettingsSpec
       val conf = ConfigFactory
         .parseString(
           """
-        akka.kafka.consumer.kafka-clients.bootstrap.servers = "localhost:9092"
-        akka.kafka.consumer.kafka-clients.value.deserializer = org.apache.kafka.common.serialization.StringDeserializer
-        akka.kafka.consumer.kafka-clients.client.id = client1
+        org.apache.pekko.kafka.consumer.kafka-clients.bootstrap.servers = "localhost:9092"
+        org.apache.pekko.kafka.consumer.kafka-clients.value.deserializer = org.apache.kafka.common.serialization.StringDeserializer
+        org.apache.pekko.kafka.consumer.kafka-clients.client.id = client1
         """)
         .withFallback(ConfigFactory.load())
         .getConfig("akka.kafka.consumer")
@@ -250,8 +250,8 @@ object ConsumerSettingsSpec {
       }
       // #discovery-service
       // #discovery-with-config
-      akka.discovery.method = config
-      akka.discovery.config.services = {
+      org.apache.pekko.discovery.method = config
+      org.apache.pekko.discovery.config.services = {
         kafkaService1 = {
           endpoints = [
             { host = "cat", port = 1233 }

@@ -15,7 +15,7 @@ import org.apache.pekko.stream.{ scaladsl, KillSwitch, KillSwitches }
 import org.apache.kafka.common.{ Metric, MetricName }
 
 /**
- * Helper factory to create [[akka.kafka.javadsl.Consumer.Control]] instances when
+ * Helper factory to create [[org.apache.pekko.kafka.javadsl.Consumer.Control]] instances when
  * testing without a Kafka broker.
  */
 @ApiMayChange

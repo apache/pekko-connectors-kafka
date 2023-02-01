@@ -228,7 +228,7 @@ object ConsumerSettings {
 
 /**
  * Settings for consumers. See `akka.kafka.consumer` section in
- * `reference.conf`. Note that the [[akka.kafka.ConsumerSettings$ companion]] object provides
+ * `reference.conf`. Note that the [[org.apache.pekko.kafka.ConsumerSettings$ companion]] object provides
  * `apply` and `create` functions for convenient construction of the settings, together with
  * the `with` methods.
  *
@@ -376,7 +376,7 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
 
   /**
    * If offset commit requests are not completed within this timeout
-   * the returned Future is completed with [[akka.kafka.CommitTimeoutException]].
+   * the returned Future is completed with [[org.apache.pekko.kafka.CommitTimeoutException]].
    */
   def withCommitTimeout(commitTimeout: FiniteDuration): ConsumerSettings[K, V] =
     copy(commitTimeout = commitTimeout)
@@ -384,7 +384,7 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
   /**
    * Java API:
    * If offset commit requests are not completed within this timeout
-   * the returned Future is completed with [[akka.kafka.CommitTimeoutException]].
+   * the returned Future is completed with [[org.apache.pekko.kafka.CommitTimeoutException]].
    */
   def withCommitTimeout(commitTimeout: java.time.Duration): ConsumerSettings[K, V] =
     copy(commitTimeout = commitTimeout.asScala)
@@ -404,7 +404,7 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
 
   /**
    * Fully qualified config path which holds the dispatcher configuration
-   * to be used by the [[akka.kafka.KafkaConsumerActor]]. Some blocking may occur.
+   * to be used by the [[org.apache.pekko.kafka.KafkaConsumerActor]]. Some blocking may occur.
    */
   def withDispatcher(dispatcher: String): ConsumerSettings[K, V] =
     copy(dispatcher = dispatcher)

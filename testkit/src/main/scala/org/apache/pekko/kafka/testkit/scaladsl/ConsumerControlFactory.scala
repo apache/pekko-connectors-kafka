@@ -15,7 +15,7 @@ import org.apache.kafka.common.{ Metric, MetricName }
 import scala.concurrent.{ Future, Promise }
 
 /**
- * Helper factory to create [[akka.kafka.scaladsl.Consumer.Control]] instances when
+ * Helper factory to create [[org.apache.pekko.kafka.scaladsl.Consumer.Control]] instances when
  * testing without a Kafka broker.
  */
 @ApiMayChange

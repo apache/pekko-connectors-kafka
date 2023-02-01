@@ -42,7 +42,7 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
   /**
    * API MAY CHANGE
    *
-   * Asynchronously return a [[akka.cluster.sharding.typed.ShardingMessageExtractor]] with a default hashing strategy
+   * Asynchronously return a [[org.apache.pekko.cluster.sharding.typed.ShardingMessageExtractor]] with a default hashing strategy
    * based on Apache Kafka's [[org.apache.kafka.clients.producer.internals.DefaultPartitioner]].
    *
    * The number of partitions to use with the hashing strategy will be automatically determined by querying the Kafka
@@ -50,7 +50,7 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
    * the Kafka Consumer connection required to retrieve the number of partitions. Each call to this method will result
    * in a round trip to Kafka. This method should only be called once per entity type [[M]], per local actor system.
    *
-   * All topics used in a Consumer [[akka.kafka.Subscription]] must contain the same number of partitions to ensure
+   * All topics used in a Consumer [[org.apache.pekko.kafka.Subscription]] must contain the same number of partitions to ensure
    * that entities are routed to the same Entity type.
    */
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/1074")
@@ -64,7 +64,7 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
    *
    * API MAY CHANGE
    *
-   * Asynchronously return a [[akka.cluster.sharding.typed.ShardingMessageExtractor]] with a default hashing strategy
+   * Asynchronously return a [[org.apache.pekko.cluster.sharding.typed.ShardingMessageExtractor]] with a default hashing strategy
    * based on Apache Kafka's [[org.apache.kafka.clients.producer.internals.DefaultPartitioner]].
    *
    * The number of partitions to use with the hashing strategy will be automatically determined by querying the Kafka
@@ -72,7 +72,7 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
    * the Kafka Consumer connection required to retrieve the number of partitions. Each call to this method will result
    * in a round trip to Kafka. This method should only be called once per entity type [[M]], per local actor system.
    *
-   * All topics used in a Consumer [[akka.kafka.Subscription]] must contain the same number of partitions to ensure
+   * All topics used in a Consumer [[org.apache.pekko.kafka.Subscription]] must contain the same number of partitions to ensure
    * that entities are routed to the same Entity type.
    */
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/1074")
@@ -86,12 +86,12 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
   /**
    * API MAY CHANGE
    *
-   * Asynchronously return a [[akka.cluster.sharding.typed.ShardingMessageExtractor]] with a default hashing strategy
+   * Asynchronously return a [[org.apache.pekko.cluster.sharding.typed.ShardingMessageExtractor]] with a default hashing strategy
    * based on Apache Kafka's [[org.apache.kafka.clients.producer.internals.DefaultPartitioner]].
    *
    * The number of partitions to use with the hashing strategy is provided explicitly with [[kafkaPartitions]].
    *
-   * All topics used in a Consumer [[akka.kafka.Subscription]] must contain the same number of partitions to ensure
+   * All topics used in a Consumer [[org.apache.pekko.kafka.Subscription]] must contain the same number of partitions to ensure
    * that entities are routed to the same Entity type.
    */
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/1074")
@@ -101,7 +101,7 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
   /**
    * API MAY CHANGE
    *
-   * Asynchronously return a [[akka.cluster.sharding.typed.ShardingMessageExtractor]] with a default hashing strategy
+   * Asynchronously return a [[org.apache.pekko.cluster.sharding.typed.ShardingMessageExtractor]] with a default hashing strategy
    * based on Apache Kafka's [[org.apache.kafka.clients.producer.internals.DefaultPartitioner]].
    *
    * The number of partitions to use with the hashing strategy will be automatically determined by querying the Kafka
@@ -110,7 +110,7 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
    * a field from the Entity to use as the entity id for the hashing strategy. Each call to this method will result
    * in a round trip to Kafka. This method should only be called once per entity type [[M]], per local actor system.
    *
-   * All topics used in a Consumer [[akka.kafka.Subscription]] must contain the same number of partitions to ensure
+   * All topics used in a Consumer [[org.apache.pekko.kafka.Subscription]] must contain the same number of partitions to ensure
    * that entities are routed to the same Entity type.
    */
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/1074")
@@ -126,7 +126,7 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
    *
    * API MAY CHANGE
    *
-   * Asynchronously return a [[akka.cluster.sharding.typed.ShardingMessageExtractor]] with a default hashing strategy
+   * Asynchronously return a [[org.apache.pekko.cluster.sharding.typed.ShardingMessageExtractor]] with a default hashing strategy
    * based on Apache Kafka's [[org.apache.kafka.clients.producer.internals.DefaultPartitioner]].
    *
    * The number of partitions to use with the hashing strategy will be automatically determined by querying the Kafka
@@ -135,7 +135,7 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
    * a field from the Entity to use as the entity id for the hashing strategy. Each call to this method will result
    * in a round trip to Kafka. This method should only be called once per entity type [[M]], per local actor system.
    *
-   * All topics used in a Consumer [[akka.kafka.Subscription]] must contain the same number of partitions to ensure
+   * All topics used in a Consumer [[org.apache.pekko.kafka.Subscription]] must contain the same number of partitions to ensure
    * that entities are routed to the same Entity type.
    */
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/1074")
@@ -152,12 +152,12 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
   /**
    * API MAY CHANGE
    *
-   * Asynchronously return a [[akka.cluster.sharding.typed.ShardingMessageExtractor]] with a default hashing strategy
+   * Asynchronously return a [[org.apache.pekko.cluster.sharding.typed.ShardingMessageExtractor]] with a default hashing strategy
    * based on Apache Kafka's [[org.apache.kafka.clients.producer.internals.DefaultPartitioner]].
    *
    * The number of partitions to use with the hashing strategy is provided explicitly with [[kafkaPartitions]].
    *
-   * All topics used in a Consumer [[akka.kafka.Subscription]] must contain the same number of partitions to ensure
+   * All topics used in a Consumer [[org.apache.pekko.kafka.Subscription]] must contain the same number of partitions to ensure
    * that entities are routed to the same Entity type.
    */
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/1074")
@@ -168,12 +168,12 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
   /**
    * API MAY CHANGE
    *
-   * Asynchronously return a [[akka.cluster.sharding.typed.ShardingMessageExtractor]] with a default hashing strategy
+   * Asynchronously return a [[org.apache.pekko.cluster.sharding.typed.ShardingMessageExtractor]] with a default hashing strategy
    * based on Apache Kafka's [[org.apache.kafka.clients.producer.internals.DefaultPartitioner]].
    *
    * The number of partitions to use with the hashing strategy is provided explicitly with [[kafkaPartitions]].
    *
-   * All topics used in a Consumer [[akka.kafka.Subscription]] must contain the same number of partitions to ensure
+   * All topics used in a Consumer [[org.apache.pekko.kafka.Subscription]] must contain the same number of partitions to ensure
    * that entities are routed to the same Entity type.
    */
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/1074")
@@ -200,7 +200,7 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
   }
 
   private val rebalanceListeners =
-    new ConcurrentHashMap[EntityTypeKey[_], akka.actor.typed.ActorRef[ConsumerRebalanceEvent]]()
+    new ConcurrentHashMap[EntityTypeKey[_], org.apache.pekko.actor.typed.ActorRef[ConsumerRebalanceEvent]]()
 
   /**
    * API MAY CHANGE
@@ -210,16 +210,16 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
    * the rebalance listener will use the [[ExternalShardAllocation]] client to update the External Sharding strategy
    * accordingly so that entities are (eventually) routed to the local Akka cluster member.
    *
-   * Returns an Akka typed [[akka.actor.typed.ActorRef]]. This must be converted to a classic actor before it can be
+   * Returns an Akka typed [[org.apache.pekko.actor.typed.ActorRef]]. This must be converted to a classic actor before it can be
    * passed to an Alpakka Kafka [[ConsumerSettings]].
    *
    * {{{
    * import org.apache.pekko.actor.typed.scaladsl.adapter._
-   * val listenerClassicActorRef: akka.actor.ActorRef = listenerTypedActorRef.toClassic
+   * val listenerClassicActorRef: org.apache.pekko.actor.ActorRef = listenerTypedActorRef.toClassic
    * }}}
    */
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/1074")
-  def rebalanceListener(typeKey: EntityTypeKey[_]): akka.actor.typed.ActorRef[ConsumerRebalanceEvent] = {
+  def rebalanceListener(typeKey: EntityTypeKey[_]): org.apache.pekko.actor.typed.ActorRef[ConsumerRebalanceEvent] = {
     rebalanceListeners.computeIfAbsent(typeKey,
       _ => {
         system.toTyped
@@ -237,18 +237,18 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
    * the rebalance listener will use the [[ExternalShardAllocation]] client to update the External Sharding strategy
    * accordingly so that entities are (eventually) routed to the local Akka cluster member.
    *
-   * Returns an Akka typed [[akka.actor.typed.ActorRef]]. This must be converted to a classic actor before it can be
+   * Returns an Akka typed [[org.apache.pekko.actor.typed.ActorRef]]. This must be converted to a classic actor before it can be
    * passed to an Alpakka Kafka [[ConsumerSettings]].
    *
    * {{{
    * import org.apache.pekko.actor.typed.scaladsl.adapter._
-   * val listenerClassicActorRef: akka.actor.ActorRef = listenerTypedActorRef.toClassic
+   * val listenerClassicActorRef: org.apache.pekko.actor.ActorRef = listenerTypedActorRef.toClassic
    * }}}
    */
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/1074")
   def rebalanceListener(
-      typeKey: akka.cluster.sharding.typed.javadsl.EntityTypeKey[_])
-      : akka.actor.typed.ActorRef[ConsumerRebalanceEvent] = {
+      typeKey: org.apache.pekko.cluster.sharding.typed.javadsl.EntityTypeKey[_])
+      : org.apache.pekko.actor.typed.ActorRef[ConsumerRebalanceEvent] = {
     rebalanceListener(typeKey.asScala)
   }
 }

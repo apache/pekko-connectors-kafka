@@ -34,7 +34,7 @@ import scala.concurrent.{ Future, Promise }
   final def createConsumerActor(): ActorRef = {
     val extendedActorSystem = materializer.system.asInstanceOf[ExtendedActorSystem]
     val actor =
-      extendedActorSystem.systemActorOf(akka.kafka.KafkaConsumerActor.props(sourceActor.ref, settings),
+      extendedActorSystem.systemActorOf(org.apache.pekko.kafka.KafkaConsumerActor.props(sourceActor.ref, settings),
         s"kafka-consumer-$actorNumber")
     consumerPromise.success(actor)
     actor

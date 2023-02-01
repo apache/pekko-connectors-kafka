@@ -40,10 +40,10 @@ import ch.qos.logback.core.AppenderBase
  *
  * Logging from tests can be silenced by this appender. When there is a test failure
  * the captured logging events are flushed to the appenders defined for the
- * akka.actor.testkit.typed.internal.CapturingAppenderDelegate logger.
+ * org.apache.pekko.actor.testkit.typed.internal.CapturingAppenderDelegate logger.
  *
- * The flushing on test failure is handled by [[akka.actor.testkit.typed.scaladsl.LogCapturing]]
- * for ScalaTest and [[akka.actor.testkit.typed.javadsl.LogCapturing]] for JUnit.
+ * The flushing on test failure is handled by [[org.apache.pekko.actor.testkit.typed.scaladsl.LogCapturing]]
+ * for ScalaTest and [[org.apache.pekko.actor.testkit.typed.javadsl.LogCapturing]] for JUnit.
  *
  * Use configuration like the following the logback-test.xml:
  *

@@ -86,7 +86,7 @@ private class SubSourceLogic[K, V, Msg](
     }
     consumerActor = {
       val extendedActorSystem = materializer.system.asInstanceOf[ExtendedActorSystem]
-      extendedActorSystem.systemActorOf(akka.kafka.KafkaConsumerActor.props(sourceActor.ref, settings),
+      extendedActorSystem.systemActorOf(org.apache.pekko.kafka.KafkaConsumerActor.props(sourceActor.ref, settings),
         s"kafka-consumer-$actorNumber")
     }
     consumerPromise.success(consumerActor)
@@ -315,7 +315,7 @@ private object SubSourceLogic {
   /**
    * Internal API
    *
-   * SubSourceStageLogic [[akka.kafka.scaladsl.Consumer.Control]] and the stage actor [[ActorRef]]
+   * SubSourceStageLogic [[org.apache.pekko.kafka.scaladsl.Consumer.Control]] and the stage actor [[ActorRef]]
    */
   @InternalApi
   final case class ControlAndStageActor(control: Control, stageActor: ActorRef)

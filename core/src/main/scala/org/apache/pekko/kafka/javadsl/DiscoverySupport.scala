@@ -18,7 +18,7 @@ import scala.concurrent.Future
 /**
  * Scala API.
  *
- * Reads Kafka bootstrap servers from configured sources via [[akka.discovery.Discovery]] configuration.
+ * Reads Kafka bootstrap servers from configured sources via [[org.apache.pekko.discovery.Discovery]] configuration.
  */
 object DiscoverySupport {
 

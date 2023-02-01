@@ -18,7 +18,7 @@ import scala.compat.java8.FutureConverters._
 import scala.concurrent.ExecutionContextExecutor
 import scala.jdk.CollectionConverters._
 
-class MetadataClient private (metadataClient: akka.kafka.scaladsl.MetadataClient) {
+class MetadataClient private (metadataClient: org.apache.pekko.kafka.scaladsl.MetadataClient) {
 
   def getBeginningOffsets[K, V](
       partitions: java.util.Set[TopicPartition]): CompletionStage[java.util.Map[TopicPartition, java.lang.Long]] =
@@ -89,7 +89,7 @@ object MetadataClient {
 
   def create(consumerActor: ActorRef, timeout: Timeout, executor: Executor): MetadataClient = {
     implicit val ec: ExecutionContextExecutor = ExecutionContexts.fromExecutor(executor)
-    val metadataClient = akka.kafka.scaladsl.MetadataClient.create(consumerActor, timeout)
+    val metadataClient = org.apache.pekko.kafka.scaladsl.MetadataClient.create(consumerActor, timeout)
     new MetadataClient(metadataClient)
   }
 
@@ -97,7 +97,7 @@ object MetadataClient {
       timeout: Timeout,
       system: ActorSystem,
       executor: Executor): MetadataClient = {
-    val metadataClient = akka.kafka.scaladsl.MetadataClient
+    val metadataClient = org.apache.pekko.kafka.scaladsl.MetadataClient
       .create(consumerSettings, timeout)(system, ExecutionContexts.fromExecutor(executor))
     new MetadataClient(metadataClient)
   }

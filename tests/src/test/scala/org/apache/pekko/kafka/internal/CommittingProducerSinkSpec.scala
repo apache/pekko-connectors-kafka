@@ -460,7 +460,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
     eventually {
       producer.history.asScala should have size 2
     }
-    control.drainAndShutdown().failed.futureValue shouldBe an[akka.kafka.CommitTimeoutException]
+    control.drainAndShutdown().failed.futureValue shouldBe an[org.apache.pekko.kafka.CommitTimeoutException]
   }
 
   it should "choose to ignore producer errors" in assertAllStagesStopped {
@@ -582,7 +582,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
     eventually {
       producer.history.asScala should have size 2
     }
-    control.drainAndShutdown().failed.futureValue shouldBe an[akka.kafka.CommitTimeoutException]
+    control.drainAndShutdown().failed.futureValue shouldBe an[org.apache.pekko.kafka.CommitTimeoutException]
   }
 
   it should "ignore commit timeout" in assertAllStagesStopped {

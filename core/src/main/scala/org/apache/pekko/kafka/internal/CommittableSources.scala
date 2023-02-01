@@ -177,9 +177,9 @@ private[kafka] object KafkaAsyncConsumerCommitterRef {
 /**
  * Internal API.
  *
- * Sends [[akka.kafka.internal.KafkaConsumerActor.Internal.Commit]],
- * [[akka.kafka.internal.KafkaConsumerActor.Internal.CommitSingle]] and
- * [[akka.kafka.internal.KafkaConsumerActor.Internal.CommitWithoutReply]] messages to the consumer actor.
+ * Sends [[org.apache.pekko.kafka.internal.KafkaConsumerActor.Internal.Commit]],
+ * [[org.apache.pekko.kafka.internal.KafkaConsumerActor.Internal.CommitSingle]] and
+ * [[org.apache.pekko.kafka.internal.KafkaConsumerActor.Internal.CommitWithoutReply]] messages to the consumer actor.
  */
 @InternalApi
 private[kafka] class KafkaAsyncConsumerCommitterRef(private val consumerActor: ActorRef,

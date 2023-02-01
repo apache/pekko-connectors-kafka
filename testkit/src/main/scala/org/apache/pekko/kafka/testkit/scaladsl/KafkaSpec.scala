@@ -47,7 +47,7 @@ abstract class KafkaSpec(_kafkaPort: Int, val zooKeeperPort: Int, actorSystem: A
 
   implicit val ec: ExecutionContext = system.dispatcher
   implicit val mat: Materializer = SystemMaterializer(system).materializer
-  implicit val scheduler: akka.actor.Scheduler = system.scheduler
+  implicit val scheduler: org.apache.pekko.actor.Scheduler = system.scheduler
 
   var testProducer: KProducer[String, String] = _
 

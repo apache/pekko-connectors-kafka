@@ -11,7 +11,7 @@ import org.apache.kafka.common.TopicPartition
 
 /**
  * Offers parts of the [[org.apache.kafka.clients.consumer.Consumer]] API which becomes available to
- * the [[akka.kafka.scaladsl.PartitionAssignmentHandler]] callbacks.
+ * the [[org.apache.pekko.kafka.scaladsl.PartitionAssignmentHandler]] callbacks.
  */
 @ApiMayChange
 final class RestrictedConsumer(consumer: Consumer[_, _], duration: java.time.Duration) {

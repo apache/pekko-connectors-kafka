@@ -57,11 +57,11 @@ object Producer {
    *
    * It publishes records to Kafka topics conditionally:
    *
-   * - [[akka.kafka.ProducerMessage.Message Message]] publishes a single message to its topic, and commits the offset
+   * - [[org.apache.pekko.kafka.ProducerMessage.Message Message]] publishes a single message to its topic, and commits the offset
    *
-   * - [[akka.kafka.ProducerMessage.MultiMessage MultiMessage]] publishes all messages in its `records` field, and commits the offset
+   * - [[org.apache.pekko.kafka.ProducerMessage.MultiMessage MultiMessage]] publishes all messages in its `records` field, and commits the offset
    *
-   * - [[akka.kafka.ProducerMessage.PassThroughMessage PassThroughMessage]] does not publish anything, but commits the offset
+   * - [[org.apache.pekko.kafka.ProducerMessage.PassThroughMessage PassThroughMessage]] does not publish anything, but commits the offset
    *
    * Note that there is a risk that something fails after publishing but before
    * committing, so it is "at-least once delivery" semantics.
@@ -86,11 +86,11 @@ object Producer {
    *
    * It publishes records to Kafka topics conditionally:
    *
-   * - [[akka.kafka.ProducerMessage.Message Message]] publishes a single message to its topic, and commits the offset
+   * - [[org.apache.pekko.kafka.ProducerMessage.Message Message]] publishes a single message to its topic, and commits the offset
    *
-   * - [[akka.kafka.ProducerMessage.MultiMessage MultiMessage]] publishes all messages in its `records` field, and commits the offset
+   * - [[org.apache.pekko.kafka.ProducerMessage.MultiMessage MultiMessage]] publishes all messages in its `records` field, and commits the offset
    *
-   * - [[akka.kafka.ProducerMessage.PassThroughMessage PassThroughMessage]] does not publish anything, but commits the offset
+   * - [[org.apache.pekko.kafka.ProducerMessage.PassThroughMessage PassThroughMessage]] does not publish anything, but commits the offset
    *
    * Note that there is always a risk that something fails after publishing but before
    * committing, so it is "at-least once delivery" semantics.
@@ -112,11 +112,11 @@ object Producer {
    *
    * It publishes records to Kafka topics conditionally:
    *
-   * - [[akka.kafka.ProducerMessage.Message Message]] publishes a single message to its topic, and commits the offset
+   * - [[org.apache.pekko.kafka.ProducerMessage.Message Message]] publishes a single message to its topic, and commits the offset
    *
-   * - [[akka.kafka.ProducerMessage.MultiMessage MultiMessage]] publishes all messages in its `records` field, and commits the offset
+   * - [[org.apache.pekko.kafka.ProducerMessage.MultiMessage MultiMessage]] publishes all messages in its `records` field, and commits the offset
    *
-   * - [[akka.kafka.ProducerMessage.PassThroughMessage PassThroughMessage]] does not publish anything, but commits the offset
+   * - [[org.apache.pekko.kafka.ProducerMessage.PassThroughMessage PassThroughMessage]] does not publish anything, but commits the offset
    *
    * Note that there is a risk that something fails after publishing but before
    * committing, so it is "at-least once delivery" semantics.
@@ -135,11 +135,11 @@ object Producer {
    *
    * It publishes records to Kafka topics conditionally:
    *
-   * - [[akka.kafka.ProducerMessage.Message Message]] publishes a single message to its topic, and commits the offset
+   * - [[org.apache.pekko.kafka.ProducerMessage.Message Message]] publishes a single message to its topic, and commits the offset
    *
-   * - [[akka.kafka.ProducerMessage.MultiMessage MultiMessage]] publishes all messages in its `records` field, and commits the offset
+   * - [[org.apache.pekko.kafka.ProducerMessage.MultiMessage MultiMessage]] publishes all messages in its `records` field, and commits the offset
    *
-   * - [[akka.kafka.ProducerMessage.PassThroughMessage PassThroughMessage]] does not publish anything, but commits the offset
+   * - [[org.apache.pekko.kafka.ProducerMessage.PassThroughMessage PassThroughMessage]] does not publish anything, but commits the offset
    *
    * Note that there is a risk that something fails after publishing but before
    * committing, so it is "at-least once delivery" semantics.
@@ -147,16 +147,16 @@ object Producer {
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/880")
   def committableSinkWithOffsetContext[K, V, IN <: Envelope[K, V, _], C <: Committable](
       producerSettings: ProducerSettings[K, V],
-      committerSettings: CommitterSettings): Sink[akka.japi.Pair[IN, C], CompletionStage[Done]] =
+      committerSettings: CommitterSettings): Sink[org.apache.pekko.japi.Pair[IN, C], CompletionStage[Done]] =
     committableSink(producerSettings, committerSettings)
-      .contramap(new akka.japi.function.Function[japi.Pair[IN, C], Envelope[K, V, C]] {
+      .contramap(new org.apache.pekko.japi.function.Function[japi.Pair[IN, C], Envelope[K, V, C]] {
         override def apply(p: japi.Pair[IN, C]) = p.first.withPassThrough(p.second)
       })
 
   /**
    * Create a flow to publish records to Kafka topics and then pass it on.
    *
-   * The records must be wrapped in a [[akka.kafka.ProducerMessage.Message Message]] and continue in the stream as [[akka.kafka.ProducerMessage.Result Result]].
+   * The records must be wrapped in a [[org.apache.pekko.kafka.ProducerMessage.Message Message]] and continue in the stream as [[org.apache.pekko.kafka.ProducerMessage.Result Result]].
    *
    * The messages support the possibility to pass through arbitrary data, which can for example be a [[ConsumerMessage.CommittableOffset CommittableOffset]]
    * or [[ConsumerMessage.CommittableOffsetBatch CommittableOffsetBatch]] that can
@@ -180,11 +180,11 @@ object Producer {
    *
    * It publishes records to Kafka topics conditionally:
    *
-   * - [[akka.kafka.ProducerMessage.Message Message]] publishes a single message to its topic, and continues in the stream as [[akka.kafka.ProducerMessage.Result Result]]
+   * - [[org.apache.pekko.kafka.ProducerMessage.Message Message]] publishes a single message to its topic, and continues in the stream as [[org.apache.pekko.kafka.ProducerMessage.Result Result]]
    *
-   * - [[akka.kafka.ProducerMessage.MultiMessage MultiMessage]] publishes all messages in its `records` field, and continues in the stream as [[akka.kafka.ProducerMessage.MultiResult MultiResult]]
+   * - [[org.apache.pekko.kafka.ProducerMessage.MultiMessage MultiMessage]] publishes all messages in its `records` field, and continues in the stream as [[org.apache.pekko.kafka.ProducerMessage.MultiResult MultiResult]]
    *
-   * - [[akka.kafka.ProducerMessage.PassThroughMessage PassThroughMessage]] does not publish anything, and continues in the stream as [[akka.kafka.ProducerMessage.PassThroughResult PassThroughResult]]
+   * - [[org.apache.pekko.kafka.ProducerMessage.PassThroughMessage PassThroughMessage]] does not publish anything, and continues in the stream as [[org.apache.pekko.kafka.ProducerMessage.PassThroughResult PassThroughResult]]
    *
    * The messages support the possibility to pass through arbitrary data, which can for example be a [[ConsumerMessage.CommittableOffset CommittableOffset]]
    * or [[ConsumerMessage.CommittableOffsetBatch CommittableOffsetBatch]] that can
@@ -204,11 +204,11 @@ object Producer {
    *
    * It publishes records to Kafka topics conditionally:
    *
-   * - [[akka.kafka.ProducerMessage.Message Message]] publishes a single message to its topic, and continues in the stream as [[akka.kafka.ProducerMessage.Result Result]]
+   * - [[org.apache.pekko.kafka.ProducerMessage.Message Message]] publishes a single message to its topic, and continues in the stream as [[org.apache.pekko.kafka.ProducerMessage.Result Result]]
    *
-   * - [[akka.kafka.ProducerMessage.MultiMessage MultiMessage]] publishes all messages in its `records` field, and continues in the stream as [[akka.kafka.ProducerMessage.MultiResult MultiResult]]
+   * - [[org.apache.pekko.kafka.ProducerMessage.MultiMessage MultiMessage]] publishes all messages in its `records` field, and continues in the stream as [[org.apache.pekko.kafka.ProducerMessage.MultiResult MultiResult]]
    *
-   * - [[akka.kafka.ProducerMessage.PassThroughMessage PassThroughMessage]] does not publish anything, and continues in the stream as [[akka.kafka.ProducerMessage.PassThroughResult PassThroughResult]]
+   * - [[org.apache.pekko.kafka.ProducerMessage.PassThroughMessage PassThroughMessage]] does not publish anything, and continues in the stream as [[org.apache.pekko.kafka.ProducerMessage.PassThroughResult PassThroughResult]]
    *
    * This flow is intended to be used with Akka's [flow with context](https://doc.akka.io/docs/akka/current/stream/operators/Flow/asFlowWithContext.html).
    *
@@ -222,7 +222,7 @@ object Producer {
   /**
    * Create a flow to publish records to Kafka topics and then pass it on.
    *
-   * The records must be wrapped in a [[akka.kafka.ProducerMessage.Message Message]] and continue in the stream as [[akka.kafka.ProducerMessage.Result Result]].
+   * The records must be wrapped in a [[org.apache.pekko.kafka.ProducerMessage.Message Message]] and continue in the stream as [[org.apache.pekko.kafka.ProducerMessage.Result Result]].
    *
    * The messages support the possibility to pass through arbitrary data, which can for example be a [[ConsumerMessage.CommittableOffset CommittableOffset]]
    * or [[ConsumerMessage.CommittableOffsetBatch CommittableOffsetBatch]] that can
@@ -244,11 +244,11 @@ object Producer {
    *
    * It publishes records to Kafka topics conditionally:
    *
-   * - [[akka.kafka.ProducerMessage.Message Message]] publishes a single message to its topic, and continues in the stream as [[akka.kafka.ProducerMessage.Result Result]]
+   * - [[org.apache.pekko.kafka.ProducerMessage.Message Message]] publishes a single message to its topic, and continues in the stream as [[org.apache.pekko.kafka.ProducerMessage.Result Result]]
    *
-   * - [[akka.kafka.ProducerMessage.MultiMessage MultiMessage]] publishes all messages in its `records` field, and continues in the stream as [[akka.kafka.ProducerMessage.MultiResult MultiResult]]
+   * - [[org.apache.pekko.kafka.ProducerMessage.MultiMessage MultiMessage]] publishes all messages in its `records` field, and continues in the stream as [[org.apache.pekko.kafka.ProducerMessage.MultiResult MultiResult]]
    *
-   * - [[akka.kafka.ProducerMessage.PassThroughMessage PassThroughMessage]] does not publish anything, and continues in the stream as [[akka.kafka.ProducerMessage.PassThroughResult PassThroughResult]]
+   * - [[org.apache.pekko.kafka.ProducerMessage.PassThroughMessage PassThroughMessage]] does not publish anything, and continues in the stream as [[org.apache.pekko.kafka.ProducerMessage.PassThroughResult PassThroughResult]]
    *
    * The messages support the possibility to pass through arbitrary data, which can for example be a [[ConsumerMessage.CommittableOffset CommittableOffset]]
    * or [[ConsumerMessage.CommittableOffsetBatch CommittableOffsetBatch]] that can
@@ -272,11 +272,11 @@ object Producer {
    *
    * It publishes records to Kafka topics conditionally:
    *
-   * - [[akka.kafka.ProducerMessage.Message Message]] publishes a single message to its topic, and continues in the stream as [[akka.kafka.ProducerMessage.Result Result]]
+   * - [[org.apache.pekko.kafka.ProducerMessage.Message Message]] publishes a single message to its topic, and continues in the stream as [[org.apache.pekko.kafka.ProducerMessage.Result Result]]
    *
-   * - [[akka.kafka.ProducerMessage.MultiMessage MultiMessage]] publishes all messages in its `records` field, and continues in the stream as [[akka.kafka.ProducerMessage.MultiResult MultiResult]]
+   * - [[org.apache.pekko.kafka.ProducerMessage.MultiMessage MultiMessage]] publishes all messages in its `records` field, and continues in the stream as [[org.apache.pekko.kafka.ProducerMessage.MultiResult MultiResult]]
    *
-   * - [[akka.kafka.ProducerMessage.PassThroughMessage PassThroughMessage]] does not publish anything, and continues in the stream as [[akka.kafka.ProducerMessage.PassThroughResult PassThroughResult]]
+   * - [[org.apache.pekko.kafka.ProducerMessage.PassThroughMessage PassThroughMessage]] does not publish anything, and continues in the stream as [[org.apache.pekko.kafka.ProducerMessage.PassThroughResult PassThroughResult]]
    *
    * This flow is intended to be used with Akka's [flow with context](https://doc.akka.io/docs/akka/current/stream/operators/Flow/asFlowWithContext.html).
    *

@@ -70,12 +70,12 @@ object ClusterShardingExample {
 
   // #rebalance-listener
   // obtain an Akka classic ActorRef that will handle consumer group rebalance events
-  val rebalanceListener: akka.actor.typed.ActorRef[ConsumerRebalanceEvent] =
+  val rebalanceListener: org.apache.pekko.actor.typed.ActorRef[ConsumerRebalanceEvent] =
     KafkaClusterSharding(system.toClassic).rebalanceListener(typeKey)
 
   // convert the rebalance listener to a classic ActorRef until Alpakka Kafka supports Akka Typed
   import org.apache.pekko.actor.typed.scaladsl.adapter._
-  val rebalanceListenerClassic: akka.actor.ActorRef = rebalanceListener.toClassic
+  val rebalanceListenerClassic: org.apache.pekko.actor.ActorRef = rebalanceListener.toClassic
 
   val consumerSettings =
     ConsumerSettings(system.toClassic, new StringDeserializer, new ByteArrayDeserializer)

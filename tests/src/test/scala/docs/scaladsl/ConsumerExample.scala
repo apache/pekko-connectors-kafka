@@ -407,13 +407,13 @@ class ConsumerExample extends DocsSpecBase with TestcontainersKafkaLike {
     val guardian = Behaviors.setup[Nothing] { context =>
     //#withTypedRebalanceListenerActor
     
-    val typedRef: akka.actor.typed.ActorRef[ConsumerRebalanceEvent] =
+    val typedRef: org.apache.pekko.actor.typed.ActorRef[ConsumerRebalanceEvent] =
       context.spawn(rebalanceListener(), "rebalance-listener")
 
     // adds support for actors to a classic actor system and context
     import org.apache.pekko.actor.typed.scaladsl.adapter._
       
-    val classicRef: akka.actor.ActorRef = typedRef.toClassic  
+    val classicRef: org.apache.pekko.actor.ActorRef = typedRef.toClassic  
 
     val subscription = Subscriptions
       .topics(topic)
@@ -440,7 +440,7 @@ class ConsumerExample extends DocsSpecBase with TestcontainersKafkaLike {
     }
 
     // fixme: get typed system from existing `system`
-    val typed = akka.actor.typed.ActorSystem[Nothing](guardian, "typed-rebalance-listener-example")
+    val typed = org.apache.pekko.actor.typed.ActorSystem[Nothing](guardian, "typed-rebalance-listener-example")
     typed.whenTerminated.futureValue shouldBe Done
   }
 

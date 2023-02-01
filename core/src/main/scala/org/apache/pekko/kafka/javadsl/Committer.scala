@@ -54,10 +54,10 @@ object Committer {
   @ApiMayChange
   def sinkWithOffsetContext[E, C <: Committable](
       settings: CommitterSettings): Sink[Pair[E, C], CompletionStage[Done]] =
-    akka.stream.scaladsl
+    org.apache.pekko.stream.scaladsl
       .Flow[Pair[E, C]]
       .map(_.toScala)
-      .toMat(scaladsl.Committer.sinkWithOffsetContext(settings))(akka.stream.scaladsl.Keep.right)
+      .toMat(scaladsl.Committer.sinkWithOffsetContext(settings))(org.apache.pekko.stream.scaladsl.Keep.right)
       .mapMaterializedValue[CompletionStage[Done]](_.toJava)
       .asJava[Pair[E, C]]
 }
