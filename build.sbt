@@ -317,6 +317,8 @@ lazy val benchmarks = project
     name := "pekko-connectors-kafka-benchmarks",
     publish / skip := true,
     IntegrationTest / parallelExecution := false,
+    // TODO => what is going on
+    libraryDependencySchemes += "org.scala-lang.modules" %% "scala-java8-compat" % VersionScheme.Always,
     libraryDependencies ++= Seq(
       "com.typesafe.scala-logging" %% "scala-logging" % "3.9.5",
       "io.dropwizard.metrics" % "metrics-core" % "4.2.11",
