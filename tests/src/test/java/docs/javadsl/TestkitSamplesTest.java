@@ -5,20 +5,20 @@
 
 package docs.javadsl;
 
-import akka.Done;
-import akka.NotUsed;
-import akka.actor.ActorSystem;
-import akka.japi.Pair;
-import akka.kafka.CommitterSettings;
-import akka.kafka.ConsumerMessage;
-import akka.kafka.ProducerMessage;
-import akka.kafka.javadsl.Committer;
-import akka.kafka.javadsl.Consumer;
-import akka.kafka.tests.javadsl.LogCapturingJunit4;
-import akka.stream.javadsl.Flow;
-import akka.stream.javadsl.Keep;
-import akka.stream.javadsl.Source;
-import akka.testkit.javadsl.TestKit;
+import org.apache.pekko.Done;
+import org.apache.pekko.NotUsed;
+import org.apache.pekko.actor.ActorSystem;
+import org.apache.pekko.japi.Pair;
+import org.apache.pekko.kafka.CommitterSettings;
+import org.apache.pekko.kafka.ConsumerMessage;
+import org.apache.pekko.kafka.ProducerMessage;
+import org.apache.pekko.kafka.javadsl.Committer;
+import org.apache.pekko.kafka.javadsl.Consumer;
+import org.apache.pekko.kafka.tests.javadsl.LogCapturingJunit4;
+import org.apache.pekko.stream.javadsl.Flow;
+import org.apache.pekko.stream.javadsl.Keep;
+import org.apache.pekko.stream.javadsl.Source;
+import org.apache.pekko.testkit.javadsl.TestKit;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.junit.AfterClass;
@@ -29,9 +29,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.*;
 
 // #factories
-import akka.kafka.testkit.ConsumerResultFactory;
-import akka.kafka.testkit.ProducerResultFactory;
-import akka.kafka.testkit.javadsl.ConsumerControlFactory;
+import org.apache.pekko.kafka.testkit.ConsumerResultFactory;
+import org.apache.pekko.kafka.testkit.ProducerResultFactory;
+import org.apache.pekko.kafka.testkit.javadsl.ConsumerControlFactory;
 // #factories
 
 import java.util.Arrays;

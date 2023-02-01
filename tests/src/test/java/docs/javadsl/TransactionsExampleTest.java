@@ -5,17 +5,17 @@
 
 package docs.javadsl;
 
-import akka.Done;
-import akka.NotUsed;
-import akka.actor.ActorSystem;
-import akka.kafka.*;
-import akka.kafka.javadsl.Consumer;
-import akka.kafka.javadsl.Transactional;
-import akka.kafka.testkit.javadsl.TestcontainersKafkaJunit4Test;
-import akka.kafka.tests.javadsl.LogCapturingJunit4;
-import akka.stream.RestartSettings;
-import akka.stream.javadsl.*;
-import akka.testkit.javadsl.TestKit;
+import org.apache.pekko.Done;
+import org.apache.pekko.NotUsed;
+import org.apache.pekko.actor.ActorSystem;
+import org.apache.pekko.kafka.*;
+import org.apache.pekko.kafka.javadsl.Consumer;
+import org.apache.pekko.kafka.javadsl.Transactional;
+import org.apache.pekko.kafka.testkit.TestcontainersKafkaJunit4Test;
+import org.apache.pekko.kafka.tests.javadsl.LogCapturingJunit4;
+import org.apache.pekko.stream.RestartSettings;
+import org.apache.pekko.stream.javadsl.*;
+import org.apache.pekko.testkit.javadsl.TestKit;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.junit.AfterClass;

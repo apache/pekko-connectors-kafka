@@ -3,13 +3,14 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package org.apache.pekko.kafka.testkit.javadsl;
+package org.apache.pekko.kafka.testkit;
 
 import org.apache.pekko.actor.ActorSystem;
 import org.apache.pekko.actor.ClassicActorSystemProvider;
 import org.apache.pekko.kafka.testkit.KafkaTestkitTestcontainersSettings;
 import org.apache.pekko.kafka.testkit.internal.TestcontainersKafka;
-import akka.stream.Materializer;
+import org.apache.pekko.stream.Materializer;
+import org.apache.pekko.kafka.testkit.javadsl.KafkaJunit4Test;
 import org.junit.After;
 import org.junit.Before;
 

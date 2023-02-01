@@ -3,9 +3,9 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.testkit.internal;
+package org.apache.pekko.kafka.testkit.internal;
 
-import akka.annotation.InternalApi;
+import org.apache.pekko.annotation.InternalApi;
 import org.rnorth.ducttape.unreliables.Unreliables;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

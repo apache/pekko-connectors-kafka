@@ -5,18 +5,18 @@
 
 package org.apache.pekko.kafka.testkit.javadsl;
 
-import akka.Done;
+import org.apache.pekko.Done;
 import org.apache.pekko.actor.ActorSystem;
 import org.apache.pekko.actor.ClassicActorSystemProvider;
-import akka.japi.Pair;
+import org.apache.pekko.japi.Pair;
 import org.apache.pekko.kafka.Subscriptions;
 import org.apache.pekko.kafka.javadsl.Consumer;
 import org.apache.pekko.kafka.javadsl.Producer;
 import org.apache.pekko.kafka.testkit.internal.KafkaTestKitChecks;
 import org.apache.pekko.kafka.testkit.internal.KafkaTestKitClass;
-import akka.stream.Materializer;
-import akka.stream.javadsl.Sink;
-import akka.stream.javadsl.Source;
+import org.apache.pekko.stream.Materializer;
+import org.apache.pekko.stream.javadsl.Sink;
+import org.apache.pekko.stream.javadsl.Source;
 import org.apache.kafka.clients.admin.ConsumerGroupDescription;
 import org.apache.kafka.clients.admin.DescribeClusterResult;
 import org.apache.kafka.clients.admin.MemberDescription;

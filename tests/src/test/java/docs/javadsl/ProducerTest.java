@@ -5,19 +5,19 @@
 
 package docs.javadsl;
 
-import akka.Done;
-import akka.actor.ActorSystem;
-import akka.kafka.*;
-import akka.kafka.javadsl.Consumer;
-import akka.kafka.javadsl.Producer;
+import org.apache.pekko.Done;
+import org.apache.pekko.actor.ActorSystem;
+import org.apache.pekko.kafka.*;
+import org.apache.pekko.kafka.javadsl.Consumer;
+import org.apache.pekko.kafka.javadsl.Producer;
 // #testkit
-import akka.kafka.testkit.javadsl.TestcontainersKafkaTest;
+import org.apache.pekko.kafka.testkit.TestcontainersKafkaTest;
 // #testkit
-import akka.kafka.tests.javadsl.LogCapturingExtension;
-import akka.stream.javadsl.Sink;
-import akka.stream.javadsl.Source;
+import org.apache.pekko.kafka.tests.javadsl.LogCapturingExtension;
+import org.apache.pekko.stream.javadsl.Sink;
+import org.apache.pekko.stream.javadsl.Source;
 // #testkit
-import akka.testkit.javadsl.TestKit;
+import org.apache.pekko.testkit.javadsl.TestKit;
 // #testkit
 import com.typesafe.config.Config;
 import org.apache.kafka.clients.consumer.ConsumerRecord;

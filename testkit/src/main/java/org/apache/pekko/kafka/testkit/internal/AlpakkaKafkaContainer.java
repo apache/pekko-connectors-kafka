@@ -3,9 +3,9 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.testkit.internal;
+package org.apache.pekko.kafka.testkit.internal;
 
-import akka.annotation.InternalApi;
+import org.apache.pekko.annotation.InternalApi;
 import com.github.dockerjava.api.command.InspectContainerResponse;
 import com.github.dockerjava.api.model.ContainerNetwork;
 import org.testcontainers.containers.GenericContainer;

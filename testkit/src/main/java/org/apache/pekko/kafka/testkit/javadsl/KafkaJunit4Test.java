@@ -7,8 +7,8 @@ package org.apache.pekko.kafka.testkit.javadsl;
 
 import org.apache.pekko.actor.ActorSystem;
 import org.apache.pekko.actor.ClassicActorSystemProvider;
-import akka.stream.Materializer;
-import akka.stream.testkit.javadsl.StreamTestKit;
+import org.apache.pekko.stream.Materializer;
+import org.apache.pekko.stream.testkit.javadsl.StreamTestKit;
 import org.junit.After;
 import org.junit.Before;
 

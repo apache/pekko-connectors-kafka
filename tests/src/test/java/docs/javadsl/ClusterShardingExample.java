@@ -5,24 +5,24 @@
 
 package docs.javadsl;
 
-import akka.NotUsed;
-import akka.actor.typed.ActorSystem;
-import akka.actor.typed.Behavior;
-import akka.actor.typed.javadsl.Adapter;
-import akka.actor.typed.javadsl.Behaviors;
-import akka.cluster.sharding.external.ExternalShardAllocationStrategy;
-import akka.cluster.sharding.typed.javadsl.ClusterSharding;
-import akka.cluster.sharding.typed.javadsl.Entity;
-import akka.cluster.sharding.typed.javadsl.EntityTypeKey;
-import akka.kafka.AutoSubscription;
-import akka.kafka.ConsumerRebalanceEvent;
-import akka.kafka.ConsumerSettings;
-import akka.kafka.Subscriptions;
-import akka.kafka.cluster.sharding.KafkaClusterSharding;
-import akka.kafka.javadsl.Consumer;
-import akka.stream.javadsl.Flow;
-import akka.stream.javadsl.Sink;
-import akka.util.Timeout;
+import org.apache.pekko.NotUsed;
+import org.apache.pekko.actor.typed.ActorSystem;
+import org.apache.pekko.actor.typed.Behavior;
+import org.apache.pekko.actor.typed.javadsl.Adapter;
+import org.apache.pekko.actor.typed.javadsl.Behaviors;
+import org.apache.pekko.cluster.sharding.external.ExternalShardAllocationStrategy;
+import org.apache.pekko.cluster.sharding.typed.javadsl.ClusterSharding;
+import org.apache.pekko.cluster.sharding.typed.javadsl.Entity;
+import org.apache.pekko.cluster.sharding.typed.javadsl.EntityTypeKey;
+import org.apache.pekko.kafka.AutoSubscription;
+import org.apache.pekko.kafka.ConsumerRebalanceEvent;
+import org.apache.pekko.kafka.ConsumerSettings;
+import org.apache.pekko.kafka.Subscriptions;
+import org.apache.pekko.kafka.cluster.sharding.KafkaClusterSharding;
+import org.apache.pekko.kafka.javadsl.Consumer;
+import org.apache.pekko.stream.javadsl.Flow;
+import org.apache.pekko.stream.javadsl.Sink;
+import org.apache.pekko.util.Timeout;
 import org.apache.kafka.common.serialization.ByteArrayDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
