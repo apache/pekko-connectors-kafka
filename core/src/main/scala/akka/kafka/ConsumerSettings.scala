@@ -9,7 +9,7 @@ import java.util.Optional
 import java.util.concurrent.{ CompletionStage, Executor }
 
 import org.apache.pekko.annotation.InternalApi
-import akka.kafka.internal._
+import org.apache.pekko.kafka.internal._
 import org.apache.pekko.util.JavaDurationConverters._
 import com.typesafe.config.Config
 import org.apache.kafka.clients.consumer.{ Consumer, ConsumerConfig, KafkaConsumer }

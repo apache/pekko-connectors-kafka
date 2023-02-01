@@ -6,8 +6,8 @@
 package docs.scaladsl
 
 import akka.NotUsed
-import akka.kafka.testkit.scaladsl.KafkaSpec
-import akka.kafka.testkit.internal.TestFrameworkInterface
+import org.apache.pekko.kafka.testkit.scaladsl.KafkaSpec
+import org.apache.pekko.kafka.testkit.internal.TestFrameworkInterface
 import akka.stream.scaladsl.Flow
 import org.scalatest.Suite
 import org.scalatest.concurrent.{ Eventually, IntegrationPatience, ScalaFutures }

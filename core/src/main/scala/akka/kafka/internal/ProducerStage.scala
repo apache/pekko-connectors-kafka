@@ -6,8 +6,8 @@
 package org.apache.pekko.kafka.internal
 
 import org.apache.pekko.annotation.InternalApi
-import akka.kafka.ProducerMessage._
-import akka.kafka.ProducerSettings
+import org.apache.pekko.kafka.ProducerMessage._
+import org.apache.pekko.kafka.ProducerSettings
 import akka.stream._
 
 import scala.concurrent.Future

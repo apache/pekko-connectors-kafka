@@ -8,9 +8,9 @@ package org.apache.pekko.kafka.scaladsl
 import java.util.concurrent.ConcurrentLinkedQueue
 
 import akka.Done
-import akka.kafka._
-import akka.kafka.testkit.KafkaTestkitTestcontainersSettings
-import akka.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
+import org.apache.pekko.kafka._
+import org.apache.pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
+import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
 import akka.stream.scaladsl.Keep
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import akka.stream.testkit.scaladsl.TestSink

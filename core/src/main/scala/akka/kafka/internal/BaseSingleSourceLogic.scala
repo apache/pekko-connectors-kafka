@@ -7,8 +7,8 @@ package org.apache.pekko.kafka.internal
 
 import org.apache.pekko.actor.{ ActorRef, Status, Terminated }
 import org.apache.pekko.annotation.InternalApi
-import akka.kafka.Subscriptions.{ Assignment, AssignmentOffsetsForTimes, AssignmentWithOffset }
-import akka.kafka.{ ConsumerFailed, ManualSubscription }
+import org.apache.pekko.kafka.Subscriptions.{ Assignment, AssignmentOffsetsForTimes, AssignmentWithOffset }
+import org.apache.pekko.kafka.{ ConsumerFailed, ManualSubscription }
 import akka.stream.SourceShape
 import akka.stream.stage.GraphStageLogic.StageActor
 import akka.stream.stage.{ AsyncCallback, GraphStageLogic, OutHandler }

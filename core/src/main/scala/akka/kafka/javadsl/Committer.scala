@@ -9,8 +9,8 @@ import java.util.concurrent.CompletionStage
 import org.apache.pekko.annotation.ApiMayChange
 import akka.japi.Pair
 import akka.{ Done, NotUsed }
-import akka.kafka.ConsumerMessage.{ Committable, CommittableOffsetBatch }
-import akka.kafka.{ scaladsl, CommitterSettings }
+import org.apache.pekko.kafka.ConsumerMessage.{ Committable, CommittableOffsetBatch }
+import org.apache.pekko.kafka.{ scaladsl, CommitterSettings }
 import akka.stream.javadsl.{ Flow, FlowWithContext, Sink }
 
 import scala.compat.java8.FutureConverters.FutureOps

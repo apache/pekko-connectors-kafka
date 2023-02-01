@@ -9,12 +9,12 @@ import java.util.concurrent.atomic.AtomicLong
 import akka.Done
 import org.apache.pekko.actor.ActorSystem
 import akka.event.LoggingAdapter
-import akka.kafka.ConsumerMessage.{ Committable, CommittableOffset, CommittableOffsetBatch }
-import akka.kafka.scaladsl.{ Committer, Consumer }
-import akka.kafka.testkit.ConsumerResultFactory
-import akka.kafka.testkit.scaladsl.{ ConsumerControlFactory, Slf4jToAkkaLoggingAdapter }
-import akka.kafka.tests.scaladsl.LogCapturing
-import akka.kafka.{ CommitWhen, CommitterSettings, Repeated }
+import org.apache.pekko.kafka.ConsumerMessage.{ Committable, CommittableOffset, CommittableOffsetBatch }
+import org.apache.pekko.kafka.scaladsl.{ Committer, Consumer }
+import org.apache.pekko.kafka.testkit.ConsumerResultFactory
+import org.apache.pekko.kafka.testkit.scaladsl.{ ConsumerControlFactory, Slf4jToAkkaLoggingAdapter }
+import org.apache.pekko.kafka.tests.scaladsl.LogCapturing
+import org.apache.pekko.kafka.{ CommitWhen, CommitterSettings, Repeated }
 import akka.stream.scaladsl.Keep
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import akka.stream.testkit.scaladsl.{ TestSink, TestSource }

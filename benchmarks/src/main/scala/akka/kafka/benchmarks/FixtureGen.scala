@@ -5,6 +5,6 @@
 
 package org.apache.pekko.kafka.benchmarks
 
-import akka.kafka.benchmarks.app.RunTestCommand
+import org.apache.pekko.kafka.benchmarks.app.RunTestCommand
 
 case class FixtureGen[F](command: RunTestCommand, generate: Int => F)

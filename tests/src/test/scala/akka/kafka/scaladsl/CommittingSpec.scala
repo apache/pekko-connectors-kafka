@@ -9,11 +9,11 @@ import java.util.concurrent.atomic.AtomicInteger
 import java.util.function.IntUnaryOperator
 
 import org.apache.pekko.actor.ActorRef
-import akka.kafka.ConsumerMessage.{ CommittableOffsetBatch, GroupTopicPartition }
-import akka.kafka.ProducerMessage.MultiMessage
-import akka.kafka._
-import akka.kafka.internal.CommittableOffsetBatchImpl
-import akka.kafka.testkit.scaladsl.TestcontainersKafkaLike
+import org.apache.pekko.kafka.ConsumerMessage.{ CommittableOffsetBatch, GroupTopicPartition }
+import org.apache.pekko.kafka.ProducerMessage.MultiMessage
+import org.apache.pekko.kafka._
+import org.apache.pekko.kafka.internal.CommittableOffsetBatchImpl
+import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
 import akka.stream.RestartSettings
 import akka.stream.scaladsl.{ Keep, RestartSource, Sink, Source }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped

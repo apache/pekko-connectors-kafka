@@ -9,11 +9,11 @@ import akka.NotUsed
 import org.apache.pekko.actor.Status
 import org.apache.pekko.actor.{ ActorRef, ExtendedActorSystem, Terminated }
 import org.apache.pekko.annotation.InternalApi
-import akka.kafka.internal.KafkaConsumerActor.Internal.RegisterSubStage
-import akka.kafka.internal.SubSourceLogic._
-import akka.kafka.{ AutoSubscription, ConsumerFailed, ConsumerSettings, RestrictedConsumer }
-import akka.kafka.scaladsl.Consumer.Control
-import akka.kafka.scaladsl.PartitionAssignmentHandler
+import org.apache.pekko.kafka.internal.KafkaConsumerActor.Internal.RegisterSubStage
+import org.apache.pekko.kafka.internal.SubSourceLogic._
+import org.apache.pekko.kafka.{ AutoSubscription, ConsumerFailed, ConsumerSettings, RestrictedConsumer }
+import org.apache.pekko.kafka.scaladsl.Consumer.Control
+import org.apache.pekko.kafka.scaladsl.PartitionAssignmentHandler
 import akka.pattern.{ ask, AskTimeoutException }
 import akka.stream.scaladsl.Source
 import akka.stream.stage.GraphStageLogic.StageActor

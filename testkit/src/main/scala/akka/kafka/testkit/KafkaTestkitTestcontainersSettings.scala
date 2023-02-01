@@ -9,7 +9,7 @@ import java.time.Duration
 import java.util.function.Consumer
 
 import org.apache.pekko.actor.ActorSystem
-import akka.kafka.testkit.internal.AlpakkaKafkaContainer
+import org.apache.pekko.kafka.testkit.internal.AlpakkaKafkaContainer
 import org.apache.pekko.util.JavaDurationConverters._
 import com.typesafe.config.Config
 import org.testcontainers.containers.GenericContainer

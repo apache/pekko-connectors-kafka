@@ -9,7 +9,7 @@ import java.util.concurrent.{ CompletionStage, Executor }
 
 import org.apache.pekko.actor.{ ActorRef, ActorSystem }
 import akka.dispatch.ExecutionContexts
-import akka.kafka.ConsumerSettings
+import org.apache.pekko.kafka.ConsumerSettings
 import org.apache.pekko.util.Timeout
 import org.apache.kafka.clients.consumer.OffsetAndMetadata
 import org.apache.kafka.common.{ PartitionInfo, TopicPartition }

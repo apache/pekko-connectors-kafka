@@ -11,9 +11,9 @@ import org.apache.pekko.actor.ActorRef
 import org.apache.pekko.annotation.ApiMayChange
 import akka.dispatch.ExecutionContexts
 import akka.japi.Pair
-import akka.kafka.ConsumerMessage.{ CommittableMessage, CommittableOffset }
-import akka.kafka._
-import akka.kafka.internal.{ ConsumerControlAsJava, SourceWithOffsetContext }
+import org.apache.pekko.kafka.ConsumerMessage.{ CommittableMessage, CommittableOffset }
+import org.apache.pekko.kafka._
+import org.apache.pekko.kafka.internal.{ ConsumerControlAsJava, SourceWithOffsetContext }
 import akka.stream.javadsl.{ Source, SourceWithContext }
 import akka.{ Done, NotUsed }
 import org.apache.kafka.clients.consumer.ConsumerRecord

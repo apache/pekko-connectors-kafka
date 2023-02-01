@@ -5,8 +5,8 @@
 
 package org.apache.pekko.kafka.benchmarks
 
-import akka.kafka.benchmarks.PerfFixtureHelpers.FilledTopic
-import akka.kafka.benchmarks.app.RunTestCommand
+import org.apache.pekko.kafka.benchmarks.PerfFixtureHelpers.FilledTopic
+import org.apache.pekko.kafka.benchmarks.app.RunTestCommand
 import org.apache.kafka.clients.producer.KafkaProducer
 
 case class KafkaProducerTestFixture(topic: String,

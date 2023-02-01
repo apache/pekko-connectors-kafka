@@ -8,9 +8,9 @@ package org.apache.pekko.kafka
 import java.util.concurrent.atomic.AtomicInteger
 
 import akka.Done
-import akka.kafka.scaladsl.SpecBase
-import akka.kafka.testkit.KafkaTestkitTestcontainersSettings
-import akka.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
+import org.apache.pekko.kafka.scaladsl.SpecBase
+import org.apache.pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
+import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
 import akka.stream._
 import akka.stream.scaladsl.{ Keep, RestartSource, Sink }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped

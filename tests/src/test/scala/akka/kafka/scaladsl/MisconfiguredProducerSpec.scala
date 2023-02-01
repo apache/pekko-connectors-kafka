@@ -6,8 +6,8 @@
 package org.apache.pekko.kafka.scaladsl
 
 import org.apache.pekko.actor.ActorSystem
-import akka.kafka.ProducerSettings
-import akka.kafka.tests.scaladsl.LogCapturing
+import org.apache.pekko.kafka.ProducerSettings
+import org.apache.pekko.kafka.tests.scaladsl.LogCapturing
 import akka.stream.scaladsl.Source
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import akka.testkit.TestKit

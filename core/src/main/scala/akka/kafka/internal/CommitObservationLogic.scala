@@ -5,9 +5,9 @@
 
 package org.apache.pekko.kafka.internal
 
-import akka.kafka.CommitWhen.OffsetFirstObserved
-import akka.kafka.CommitterSettings
-import akka.kafka.ConsumerMessage.{ Committable, CommittableOffset, CommittableOffsetBatch, GroupTopicPartition }
+import org.apache.pekko.kafka.CommitWhen.OffsetFirstObserved
+import org.apache.pekko.kafka.CommitterSettings
+import org.apache.pekko.kafka.ConsumerMessage.{ Committable, CommittableOffset, CommittableOffsetBatch, GroupTopicPartition }
 import akka.stream.stage.GraphStageLogic
 
 /**

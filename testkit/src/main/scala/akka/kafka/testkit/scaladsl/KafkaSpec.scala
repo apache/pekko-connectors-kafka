@@ -12,10 +12,10 @@ import java.util.concurrent.TimeUnit
 import akka.Done
 import org.apache.pekko.actor.ActorSystem
 import akka.event.LoggingAdapter
-import akka.kafka._
-import akka.kafka.scaladsl.Consumer.Control
-import akka.kafka.scaladsl.{ Consumer, Producer }
-import akka.kafka.testkit.internal.{ KafkaTestKit, KafkaTestKitChecks }
+import org.apache.pekko.kafka._
+import org.apache.pekko.kafka.scaladsl.Consumer.Control
+import org.apache.pekko.kafka.scaladsl.{ Consumer, Producer }
+import org.apache.pekko.kafka.testkit.internal.{ KafkaTestKit, KafkaTestKitChecks }
 import akka.stream.{ Materializer, SystemMaterializer }
 import akka.stream.scaladsl.{ Keep, Source }
 import akka.stream.testkit.TestSubscriber

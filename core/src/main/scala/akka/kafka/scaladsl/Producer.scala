@@ -6,10 +6,10 @@
 package org.apache.pekko.kafka.scaladsl
 
 import org.apache.pekko.annotation.ApiMayChange
-import akka.kafka.ConsumerMessage.Committable
-import akka.kafka.ProducerMessage._
-import akka.kafka.internal.{ CommittingProducerSinkStage, DefaultProducerStage }
-import akka.kafka.{ CommitterSettings, ConsumerMessage, ProducerSettings }
+import org.apache.pekko.kafka.ConsumerMessage.Committable
+import org.apache.pekko.kafka.ProducerMessage._
+import org.apache.pekko.kafka.internal.{ CommittingProducerSinkStage, DefaultProducerStage }
+import org.apache.pekko.kafka.{ CommitterSettings, ConsumerMessage, ProducerSettings }
 import akka.stream.ActorAttributes
 import akka.stream.scaladsl.{ Flow, FlowWithContext, Keep, Sink }
 import akka.{ Done, NotUsed }

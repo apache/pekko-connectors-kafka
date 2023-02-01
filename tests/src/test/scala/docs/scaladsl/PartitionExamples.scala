@@ -7,10 +7,10 @@ package docs.scaladsl
 
 import org.apache.pekko.actor.ActorRef
 import org.apache.pekko.actor.typed.scaladsl.Behaviors
-import akka.kafka.scaladsl.Consumer
-import akka.kafka.testkit.KafkaTestkitTestcontainersSettings
-import akka.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
-import akka.kafka.{ KafkaConsumerActor, Subscriptions }
+import org.apache.pekko.kafka.scaladsl.Consumer
+import org.apache.pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
+import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
+import org.apache.pekko.kafka.{ KafkaConsumerActor, Subscriptions }
 import akka.stream.scaladsl.{ Keep, Sink }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.apache.kafka.common.{ Metric, MetricName, TopicPartition }

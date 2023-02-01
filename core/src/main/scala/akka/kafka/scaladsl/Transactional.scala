@@ -6,16 +6,16 @@
 package org.apache.pekko.kafka.scaladsl
 
 import org.apache.pekko.annotation.{ ApiMayChange, InternalApi }
-import akka.kafka.ConsumerMessage.{ PartitionOffset, TransactionalMessage }
-import akka.kafka.ProducerMessage._
-import akka.kafka.internal.{
+import org.apache.pekko.kafka.ConsumerMessage.{ PartitionOffset, TransactionalMessage }
+import org.apache.pekko.kafka.ProducerMessage._
+import org.apache.pekko.kafka.internal.{
   TransactionalProducerStage,
   TransactionalSource,
   TransactionalSourceWithOffsetContext,
   TransactionalSubSource
 }
-import akka.kafka.scaladsl.Consumer.Control
-import akka.kafka.{ AutoSubscription, ConsumerMessage, ConsumerSettings, ProducerSettings, Subscription }
+import org.apache.pekko.kafka.scaladsl.Consumer.Control
+import org.apache.pekko.kafka.{ AutoSubscription, ConsumerMessage, ConsumerSettings, ProducerSettings, Subscription }
 import akka.stream.ActorAttributes
 import akka.stream.scaladsl.{ Flow, FlowWithContext, Keep, Sink, Source, SourceWithContext }
 import akka.{ Done, NotUsed }

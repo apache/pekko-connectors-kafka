@@ -8,10 +8,10 @@ package docs.scaladsl
 import java.nio.charset.StandardCharsets
 
 import akka.Done
-import akka.kafka._
-import akka.kafka.scaladsl._
-import akka.kafka.testkit.KafkaTestkitTestcontainersSettings
-import akka.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
+import org.apache.pekko.kafka._
+import org.apache.pekko.kafka.scaladsl._
+import org.apache.pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
+import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
 import akka.stream.scaladsl.{ Keep, Sink, Source }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import akka.stream.testkit.scaladsl.TestSink

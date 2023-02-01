@@ -8,8 +8,8 @@ package org.apache.pekko.kafka.scaladsl
 import java.util.concurrent.atomic.AtomicBoolean
 
 import akka.Done
-import akka.kafka.scaladsl.Consumer.DrainingControl
-import akka.kafka.tests.scaladsl.LogCapturing
+import org.apache.pekko.kafka.scaladsl.Consumer.DrainingControl
+import org.apache.pekko.kafka.tests.scaladsl.LogCapturing
 import org.apache.kafka.common.{ Metric, MetricName }
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.wordspec.AnyWordSpec

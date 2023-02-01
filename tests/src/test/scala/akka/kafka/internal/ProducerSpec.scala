@@ -7,11 +7,11 @@ package org.apache.pekko.kafka.internal
 
 import java.util.concurrent.CompletableFuture
 import org.apache.pekko.actor.ActorSystem
-import akka.kafka.ConsumerMessage.{ GroupTopicPartition, PartitionOffset, PartitionOffsetCommittedMarker }
-import akka.kafka.ProducerMessage._
-import akka.kafka.scaladsl.Producer
-import akka.kafka.tests.scaladsl.LogCapturing
-import akka.kafka.{ ConsumerMessage, ProducerMessage, ProducerSettings }
+import org.apache.pekko.kafka.ConsumerMessage.{ GroupTopicPartition, PartitionOffset, PartitionOffsetCommittedMarker }
+import org.apache.pekko.kafka.ProducerMessage._
+import org.apache.pekko.kafka.scaladsl.Producer
+import org.apache.pekko.kafka.tests.scaladsl.LogCapturing
+import org.apache.pekko.kafka.{ ConsumerMessage, ProducerMessage, ProducerSettings }
 import akka.stream.scaladsl.{ Flow, Keep, Sink, Source }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import akka.stream.testkit.scaladsl.{ TestSink, TestSource }

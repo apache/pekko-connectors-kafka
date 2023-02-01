@@ -5,13 +5,13 @@
 
 package org.apache.pekko.kafka.benchmarks
 
-import akka.kafka.benchmarks.BenchmarksBase._
-import akka.kafka.benchmarks.InflightMetrics._
-import akka.kafka.benchmarks.PerfFixtureHelpers.FilledTopic
-import akka.kafka.benchmarks.Timed.{ runPerfTest, runPerfTestInflightMetrics }
-import akka.kafka.benchmarks.app.RunTestCommand
-import akka.kafka.testkit.KafkaTestkitTestcontainersSettings
-import akka.kafka.testkit.scaladsl.TestcontainersKafkaLike
+import org.apache.pekko.kafka.benchmarks.BenchmarksBase._
+import org.apache.pekko.kafka.benchmarks.InflightMetrics._
+import org.apache.pekko.kafka.benchmarks.PerfFixtureHelpers.FilledTopic
+import org.apache.pekko.kafka.benchmarks.Timed.{ runPerfTest, runPerfTestInflightMetrics }
+import org.apache.pekko.kafka.benchmarks.app.RunTestCommand
+import org.apache.pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
+import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
 import com.typesafe.config.Config
 
 object BenchmarksBase {

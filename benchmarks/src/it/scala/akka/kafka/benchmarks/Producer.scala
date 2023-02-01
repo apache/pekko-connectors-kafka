@@ -5,9 +5,9 @@
 
 package org.apache.pekko.kafka.benchmarks
 
-import akka.kafka.benchmarks.BenchmarksBase.{ topic_2000_100, topic_2000_500, topic_2000_5000, topic_2000_5000_8 }
-import akka.kafka.benchmarks.Timed.runPerfTest
-import akka.kafka.benchmarks.app.RunTestCommand
+import org.apache.pekko.kafka.benchmarks.BenchmarksBase.{ topic_2000_100, topic_2000_500, topic_2000_5000, topic_2000_5000_8 }
+import org.apache.pekko.kafka.benchmarks.Timed.runPerfTest
+import org.apache.pekko.kafka.benchmarks.app.RunTestCommand
 
 class ApacheKafkaPlainProducer extends BenchmarksBase() {
   private val prefix = "apache-kafka-plain-producer"

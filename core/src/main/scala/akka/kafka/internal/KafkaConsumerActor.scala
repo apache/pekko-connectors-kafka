@@ -23,9 +23,9 @@ import org.apache.pekko.actor.{
 import org.apache.pekko.annotation.InternalApi
 import org.apache.pekko.util.JavaDurationConverters._
 import akka.event.LoggingReceive
-import akka.kafka.KafkaConsumerActor.{ StopLike, StoppingException }
-import akka.kafka._
-import akka.kafka.scaladsl.PartitionAssignmentHandler
+import org.apache.pekko.kafka.KafkaConsumerActor.{ StopLike, StoppingException }
+import org.apache.pekko.kafka._
+import org.apache.pekko.kafka.scaladsl.PartitionAssignmentHandler
 import org.apache.kafka.clients.consumer._
 import org.apache.kafka.common.errors.RebalanceInProgressException
 import org.apache.kafka.common.{ Metric, MetricName, TopicPartition }

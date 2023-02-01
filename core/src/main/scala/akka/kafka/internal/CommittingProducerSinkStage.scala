@@ -9,9 +9,9 @@ import java.util.concurrent.atomic.AtomicInteger
 
 import akka.Done
 import org.apache.pekko.annotation.InternalApi
-import akka.kafka.ConsumerMessage.{ Committable, CommittableOffsetBatch }
-import akka.kafka.ProducerMessage._
-import akka.kafka.{ CommitDelivery, CommitterSettings, ProducerSettings }
+import org.apache.pekko.kafka.ConsumerMessage.{ Committable, CommittableOffsetBatch }
+import org.apache.pekko.kafka.ProducerMessage._
+import org.apache.pekko.kafka.{ CommitDelivery, CommitterSettings, ProducerSettings }
 import akka.stream.ActorAttributes.SupervisionStrategy
 import akka.stream.Supervision.Decider
 import akka.stream.stage._

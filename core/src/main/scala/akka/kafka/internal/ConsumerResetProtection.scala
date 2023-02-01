@@ -10,8 +10,8 @@ import java.util
 import org.apache.pekko.actor.ActorRef
 import org.apache.pekko.annotation.InternalApi
 import akka.event.LoggingAdapter
-import akka.kafka.OffsetResetProtectionSettings
-import akka.kafka.internal.KafkaConsumerActor.Internal.Seek
+import org.apache.pekko.kafka.OffsetResetProtectionSettings
+import org.apache.pekko.kafka.internal.KafkaConsumerActor.Internal.Seek
 import org.apache.kafka.clients.consumer.{ ConsumerRecord, ConsumerRecords, OffsetAndMetadata }
 import org.apache.kafka.common.TopicPartition
 

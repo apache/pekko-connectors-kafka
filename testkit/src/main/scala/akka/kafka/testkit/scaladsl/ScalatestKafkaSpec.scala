@@ -5,7 +5,7 @@
 
 package org.apache.pekko.kafka.testkit.scaladsl
 
-import akka.kafka.testkit.internal.TestFrameworkInterface
+import org.apache.pekko.kafka.testkit.internal.TestFrameworkInterface
 import org.scalatest.Suite
 
 abstract class ScalatestKafkaSpec(kafkaPort: Int)

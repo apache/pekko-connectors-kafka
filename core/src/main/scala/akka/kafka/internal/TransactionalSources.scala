@@ -11,13 +11,13 @@ import akka.{ Done, NotUsed }
 import org.apache.pekko.actor.{ ActorRef, Status, Terminated }
 import org.apache.pekko.actor.Status.Failure
 import org.apache.pekko.annotation.InternalApi
-import akka.kafka.ConsumerMessage.{ PartitionOffset, TransactionalMessage }
-import akka.kafka.internal.KafkaConsumerActor.Internal.Revoked
-import akka.kafka.internal.SubSourceLogic._
-import akka.kafka.internal.TransactionalSubSourceStageLogic.DrainingComplete
-import akka.kafka.scaladsl.Consumer.Control
-import akka.kafka.scaladsl.PartitionAssignmentHandler
-import akka.kafka.{ AutoSubscription, ConsumerFailed, ConsumerSettings, RestrictedConsumer, Subscription }
+import org.apache.pekko.kafka.ConsumerMessage.{ PartitionOffset, TransactionalMessage }
+import org.apache.pekko.kafka.internal.KafkaConsumerActor.Internal.Revoked
+import org.apache.pekko.kafka.internal.SubSourceLogic._
+import org.apache.pekko.kafka.internal.TransactionalSubSourceStageLogic.DrainingComplete
+import org.apache.pekko.kafka.scaladsl.Consumer.Control
+import org.apache.pekko.kafka.scaladsl.PartitionAssignmentHandler
+import org.apache.pekko.kafka.{ AutoSubscription, ConsumerFailed, ConsumerSettings, RestrictedConsumer, Subscription }
 import akka.stream.SourceShape
 import akka.stream.scaladsl.Source
 import akka.stream.stage.{ AsyncCallback, GraphStageLogic }

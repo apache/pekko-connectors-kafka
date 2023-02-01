@@ -7,11 +7,11 @@ package org.apache.pekko.kafka.internal
 
 import akka.Done
 import org.apache.pekko.actor.ActorSystem
-import akka.kafka.ConsumerMessage._
-import akka.kafka.scaladsl.Consumer
-import akka.kafka.scaladsl.Consumer.Control
-import akka.kafka.tests.scaladsl.LogCapturing
-import akka.kafka.{ CommitTimeoutException, ConsumerSettings, Repeated, Subscriptions }
+import org.apache.pekko.kafka.ConsumerMessage._
+import org.apache.pekko.kafka.scaladsl.Consumer
+import org.apache.pekko.kafka.scaladsl.Consumer.Control
+import org.apache.pekko.kafka.tests.scaladsl.LogCapturing
+import org.apache.pekko.kafka.{ CommitTimeoutException, ConsumerSettings, Repeated, Subscriptions }
 import akka.stream.scaladsl._
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import akka.stream.testkit.scaladsl.TestSink

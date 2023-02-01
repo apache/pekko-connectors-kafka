@@ -7,9 +7,9 @@ package org.apache.pekko.kafka.internal
 
 import akka.Done
 import org.apache.pekko.annotation.InternalApi
-import akka.kafka.ProducerMessage._
-import akka.kafka.ProducerSettings
-import akka.kafka.internal.ProducerStage.ProducerCompletionState
+import org.apache.pekko.kafka.ProducerMessage._
+import org.apache.pekko.kafka.ProducerSettings
+import org.apache.pekko.kafka.internal.ProducerStage.ProducerCompletionState
 import akka.stream.ActorAttributes.SupervisionStrategy
 import akka.stream.Supervision.Decider
 import akka.stream.stage._

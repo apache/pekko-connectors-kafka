@@ -6,9 +6,9 @@
 package docs.scaladsl
 
 import org.apache.pekko.actor.ActorSystem
-import akka.kafka.ConsumerMessage.CommittableOffset
-import akka.kafka.scaladsl.{ Committer, Consumer }
-import akka.kafka.{ CommitterSettings, ConsumerMessage, ProducerMessage }
+import org.apache.pekko.kafka.ConsumerMessage.CommittableOffset
+import org.apache.pekko.kafka.scaladsl.{ Committer, Consumer }
+import org.apache.pekko.kafka.{ CommitterSettings, ConsumerMessage, ProducerMessage }
 import akka.stream.scaladsl.{ Flow, Keep, Source }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import akka.testkit.TestKit
@@ -39,8 +39,8 @@ class TestkitSamplesSpec
     val committerSettings = CommitterSettings(system)
 
     // #factories
-    import akka.kafka.testkit.scaladsl.ConsumerControlFactory
-    import akka.kafka.testkit.{ ConsumerResultFactory, ProducerResultFactory }
+    import org.apache.pekko.kafka.testkit.scaladsl.ConsumerControlFactory
+    import org.apache.pekko.kafka.testkit.{ ConsumerResultFactory, ProducerResultFactory }
 
     // create elements emitted by the mocked Consumer
     val elements = (0 to 10).map { i =>

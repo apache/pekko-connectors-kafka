@@ -6,11 +6,11 @@
 package org.apache.pekko.kafka.benchmarks
 
 import org.apache.pekko.actor.ActorSystem
-import akka.kafka.ConsumerMessage.CommittableMessage
-import akka.kafka.benchmarks.app.RunTestCommand
-import akka.kafka.scaladsl.Consumer
-import akka.kafka.scaladsl.Consumer.Control
-import akka.kafka.{ ConsumerSettings, Subscriptions }
+import org.apache.pekko.kafka.ConsumerMessage.CommittableMessage
+import org.apache.pekko.kafka.benchmarks.app.RunTestCommand
+import org.apache.pekko.kafka.scaladsl.Consumer
+import org.apache.pekko.kafka.scaladsl.Consumer.Control
+import org.apache.pekko.kafka.{ ConsumerSettings, Subscriptions }
 import akka.stream.scaladsl.Source
 import org.apache.kafka.clients.consumer.{ ConsumerConfig, ConsumerRecord }
 import org.apache.kafka.common.serialization.{ ByteArrayDeserializer, StringDeserializer }

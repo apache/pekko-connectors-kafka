@@ -8,10 +8,10 @@ package org.apache.pekko.kafka.scaladsl
 import java.util.concurrent.atomic.AtomicLong
 
 import akka.Done
-import akka.kafka.ConsumerMessage.CommittableOffsetBatch
-import akka.kafka._
-import akka.kafka.scaladsl.Consumer.DrainingControl
-import akka.kafka.testkit.scaladsl.TestcontainersKafkaLike
+import org.apache.pekko.kafka.ConsumerMessage.CommittableOffsetBatch
+import org.apache.pekko.kafka._
+import org.apache.pekko.kafka.scaladsl.Consumer.DrainingControl
+import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
 import akka.pattern.ask
 import akka.stream.scaladsl.{ Keep, Sink, Source }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped

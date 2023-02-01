@@ -7,12 +7,12 @@ package docs.scaladsl
 
 // #oneToMany
 import akka.{ Done, NotUsed }
-import akka.kafka.ConsumerMessage.{ CommittableOffset, CommittableOffsetBatch }
-import akka.kafka.ProducerMessage.Envelope
-import akka.kafka.scaladsl.Consumer.DrainingControl
-import akka.kafka.{ ProducerMessage, Subscriptions }
-import akka.kafka.scaladsl.{ Committer, Consumer, Producer }
-import akka.kafka.testkit.scaladsl.TestcontainersKafkaLike
+import org.apache.pekko.kafka.ConsumerMessage.{ CommittableOffset, CommittableOffsetBatch }
+import org.apache.pekko.kafka.ProducerMessage.Envelope
+import org.apache.pekko.kafka.scaladsl.Consumer.DrainingControl
+import org.apache.pekko.kafka.{ ProducerMessage, Subscriptions }
+import org.apache.pekko.kafka.scaladsl.{ Committer, Consumer, Producer }
+import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
 import akka.stream.scaladsl.{ Keep, Sink }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.apache.kafka.clients.producer.ProducerRecord

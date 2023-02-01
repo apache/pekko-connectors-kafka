@@ -5,9 +5,9 @@
 
 package org.apache.pekko.kafka.benchmarks
 
-import akka.kafka.benchmarks.BenchmarksBase.{ topic_100_100, topic_100_5000 }
-import akka.kafka.benchmarks.Timed.runPerfTest
-import akka.kafka.benchmarks.app.RunTestCommand
+import org.apache.pekko.kafka.benchmarks.BenchmarksBase.{ topic_100_100, topic_100_5000 }
+import org.apache.pekko.kafka.benchmarks.Timed.runPerfTest
+import org.apache.pekko.kafka.benchmarks.app.RunTestCommand
 
 /**
  * Compares the `CommittingProducerSinkStage` with the composed implementation of `Producer.flexiFlow` and `Committer.sink`.

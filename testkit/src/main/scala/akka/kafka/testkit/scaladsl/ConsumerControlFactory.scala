@@ -7,7 +7,7 @@ package org.apache.pekko.kafka.testkit.scaladsl
 
 import akka.Done
 import org.apache.pekko.annotation.ApiMayChange
-import akka.kafka.scaladsl.Consumer
+import org.apache.pekko.kafka.scaladsl.Consumer
 import akka.stream.scaladsl.{ Flow, Keep, Source }
 import akka.stream.{ KillSwitch, KillSwitches }
 import org.apache.kafka.common.{ Metric, MetricName }

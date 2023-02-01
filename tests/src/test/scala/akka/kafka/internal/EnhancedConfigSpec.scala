@@ -5,7 +5,7 @@
 
 package org.apache.pekko.kafka.internal
 
-import akka.kafka.tests.scaladsl.LogCapturing
+import org.apache.pekko.kafka.tests.scaladsl.LogCapturing
 import com.typesafe.config.ConfigFactory
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec

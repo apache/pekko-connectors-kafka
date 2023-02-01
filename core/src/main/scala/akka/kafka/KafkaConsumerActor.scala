@@ -7,7 +7,7 @@ package org.apache.pekko.kafka
 
 import org.apache.pekko.actor.{ ActorRef, NoSerializationVerificationNeeded, Props }
 import org.apache.pekko.annotation.InternalApi
-import akka.kafka.internal.{ KafkaConsumerActor => InternalKafkaConsumerActor }
+import org.apache.pekko.kafka.internal.{ KafkaConsumerActor => InternalKafkaConsumerActor }
 
 object KafkaConsumerActor {
 

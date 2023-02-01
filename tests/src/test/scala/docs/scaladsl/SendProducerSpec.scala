@@ -6,10 +6,10 @@
 package docs.scaladsl
 
 import akka.Done
-import akka.kafka.ProducerMessage.MultiResult
-import akka.kafka.scaladsl.{ Consumer, SendProducer }
-import akka.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import akka.kafka.{ ConsumerSettings, ProducerMessage, Subscriptions }
+import org.apache.pekko.kafka.ProducerMessage.MultiResult
+import org.apache.pekko.kafka.scaladsl.{ Consumer, SendProducer }
+import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
+import org.apache.pekko.kafka.{ ConsumerSettings, ProducerMessage, Subscriptions }
 import akka.stream.scaladsl.{ Keep, Sink }
 import org.apache.kafka.clients.producer.{ ProducerRecord, RecordMetadata }
 

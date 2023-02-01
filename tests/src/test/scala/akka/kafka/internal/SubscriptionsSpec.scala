@@ -7,8 +7,8 @@ package org.apache.pekko.kafka.internal
 
 import java.net.URLEncoder
 
-import akka.kafka.tests.scaladsl.LogCapturing
-import akka.kafka.{ Subscription, Subscriptions }
+import org.apache.pekko.kafka.tests.scaladsl.LogCapturing
+import org.apache.pekko.kafka.{ Subscription, Subscriptions }
 import org.apache.pekko.util.ByteString
 import org.apache.kafka.common.TopicPartition
 import org.scalatest.matchers.should.Matchers

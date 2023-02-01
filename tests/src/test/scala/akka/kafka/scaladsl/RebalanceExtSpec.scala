@@ -7,9 +7,9 @@ package org.apache.pekko.kafka.scaladsl
 
 import java.util.concurrent.atomic.AtomicInteger
 
-import akka.kafka.ConsumerMessage.{ CommittableMessage, CommittableOffset }
-import akka.kafka._
-import akka.kafka.testkit.scaladsl.TestcontainersKafkaLike
+import org.apache.pekko.kafka.ConsumerMessage.{ CommittableMessage, CommittableOffset }
+import org.apache.pekko.kafka._
+import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
 import akka.stream._
 import akka.stream.scaladsl.{ Flow, Keep, Sink, Source }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped

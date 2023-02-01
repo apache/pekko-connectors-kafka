@@ -6,7 +6,7 @@
 package org.apache.pekko.kafka.testkit
 
 import org.apache.pekko.annotation.ApiMayChange
-import akka.kafka.ProducerMessage
+import org.apache.pekko.kafka.ProducerMessage
 import org.apache.kafka.clients.producer.{ ProducerRecord, RecordMetadata }
 import org.apache.kafka.common.TopicPartition
 

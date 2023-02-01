@@ -10,13 +10,13 @@ import java.util.concurrent.atomic.AtomicLong
 import akka.Done
 import org.apache.pekko.actor.ActorSystem
 import akka.event.LoggingAdapter
-import akka.kafka.internal.KafkaConsumerActor.Internal
-import akka.kafka.scaladsl.Consumer.DrainingControl
-import akka.kafka.scaladsl.Producer
-import akka.kafka.testkit.ConsumerResultFactory
-import akka.kafka.testkit.scaladsl.{ ConsumerControlFactory, Slf4jToAkkaLoggingAdapter }
-import akka.kafka.tests.scaladsl.LogCapturing
-import akka.kafka._
+import org.apache.pekko.kafka.internal.KafkaConsumerActor.Internal
+import org.apache.pekko.kafka.scaladsl.Consumer.DrainingControl
+import org.apache.pekko.kafka.scaladsl.Producer
+import org.apache.pekko.kafka.testkit.ConsumerResultFactory
+import org.apache.pekko.kafka.testkit.scaladsl.{ ConsumerControlFactory, Slf4jToAkkaLoggingAdapter }
+import org.apache.pekko.kafka.tests.scaladsl.LogCapturing
+import org.apache.pekko.kafka._
 import akka.stream.scaladsl.{ Keep, Source }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import akka.stream.{ ActorAttributes, Supervision }

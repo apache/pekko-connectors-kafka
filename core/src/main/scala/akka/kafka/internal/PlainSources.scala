@@ -8,9 +8,9 @@ package org.apache.pekko.kafka.internal
 import akka.NotUsed
 import org.apache.pekko.actor.ActorRef
 import org.apache.pekko.annotation.InternalApi
-import akka.kafka.scaladsl.Consumer.Control
-import akka.kafka.{ AutoSubscription, ConsumerSettings, ManualSubscription, Subscription }
-import akka.kafka.internal.SubSourceLogic._
+import org.apache.pekko.kafka.scaladsl.Consumer.Control
+import org.apache.pekko.kafka.{ AutoSubscription, ConsumerSettings, ManualSubscription, Subscription }
+import org.apache.pekko.kafka.internal.SubSourceLogic._
 import akka.stream.SourceShape
 import akka.stream.scaladsl.Source
 import akka.stream.stage.{ AsyncCallback, GraphStageLogic }

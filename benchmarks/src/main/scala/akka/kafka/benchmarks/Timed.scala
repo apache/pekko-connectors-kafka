@@ -8,8 +8,8 @@ package org.apache.pekko.kafka.benchmarks
 import java.nio.file.Paths
 import java.util.concurrent.{ ForkJoinPool, TimeUnit }
 
-import akka.kafka.benchmarks.InflightMetrics.{ BrokerMetricRequest, ConsumerMetricRequest }
-import akka.kafka.benchmarks.app.RunTestCommand
+import org.apache.pekko.kafka.benchmarks.InflightMetrics.{ BrokerMetricRequest, ConsumerMetricRequest }
+import org.apache.pekko.kafka.benchmarks.app.RunTestCommand
 import akka.stream.Materializer
 import akka.stream.alpakka.csv.scaladsl.CsvFormatting
 import akka.stream.scaladsl.{ FileIO, Sink, Source }

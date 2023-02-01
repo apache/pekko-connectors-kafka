@@ -7,7 +7,7 @@ package org.apache.pekko.kafka.internal
 
 import org.apache.pekko.annotation.InternalApi
 import akka.dispatch.ExecutionContexts
-import akka.kafka.ProducerSettings
+import org.apache.pekko.kafka.ProducerSettings
 import akka.stream.stage._
 import org.apache.pekko.util.JavaDurationConverters._
 import org.apache.kafka.clients.producer.Producer

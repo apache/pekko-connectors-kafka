@@ -5,7 +5,7 @@
 
 package org.apache.pekko.kafka.internal
 
-import akka.kafka.tests.scaladsl.LogCapturing
+import org.apache.pekko.kafka.tests.scaladsl.LogCapturing
 import org.apache.kafka.clients.consumer.OffsetAndMetadata
 import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.requests.OffsetFetchResponse

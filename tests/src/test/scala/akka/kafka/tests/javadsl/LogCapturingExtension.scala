@@ -5,7 +5,7 @@
 
 package org.apache.pekko.kafka.tests.javadsl
 
-import akka.kafka.tests.CapturingAppender
+import org.apache.pekko.kafka.tests.CapturingAppender
 import org.junit.jupiter.api.extension.{ AfterTestExecutionCallback, BeforeTestExecutionCallback, ExtensionContext }
 
 class LogCapturingExtension extends BeforeTestExecutionCallback with AfterTestExecutionCallback {

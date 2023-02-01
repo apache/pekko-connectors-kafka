@@ -8,11 +8,11 @@ package org.apache.pekko.kafka.internal
 import org.apache.pekko.actor.ActorRef
 import org.apache.pekko.annotation.InternalApi
 import akka.dispatch.ExecutionContexts
-import akka.kafka.ConsumerMessage.{ CommittableMessage, CommittableOffset }
-import akka.kafka._
-import akka.kafka.internal.KafkaConsumerActor.Internal.{ Commit, CommitSingle, CommitWithoutReply }
-import akka.kafka.internal.SubSourceLogic._
-import akka.kafka.scaladsl.Consumer.Control
+import org.apache.pekko.kafka.ConsumerMessage.{ CommittableMessage, CommittableOffset }
+import org.apache.pekko.kafka._
+import org.apache.pekko.kafka.internal.KafkaConsumerActor.Internal.{ Commit, CommitSingle, CommitWithoutReply }
+import org.apache.pekko.kafka.internal.SubSourceLogic._
+import org.apache.pekko.kafka.scaladsl.Consumer.Control
 import akka.pattern.AskTimeoutException
 import akka.stream.SourceShape
 import akka.stream.scaladsl.Source

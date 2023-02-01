@@ -10,9 +10,9 @@ import java.util.concurrent.atomic.{ AtomicBoolean, AtomicLong }
 import java.util.function.LongBinaryOperator
 
 import akka.Done
-import akka.kafka._
-import akka.kafka.scaladsl.Consumer.DrainingControl
-import akka.kafka.testkit.scaladsl.TestcontainersKafkaLike
+import org.apache.pekko.kafka._
+import org.apache.pekko.kafka.scaladsl.Consumer.DrainingControl
+import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
 import akka.stream.{ KillSwitches, OverflowStrategy }
 import akka.stream.scaladsl.{ Keep, Sink, Source }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped

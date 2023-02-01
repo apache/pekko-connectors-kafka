@@ -7,9 +7,9 @@ package org.apache.pekko.kafka.testkit
 
 import akka.Done
 import org.apache.pekko.annotation.ApiMayChange
-import akka.kafka.ConsumerMessage
-import akka.kafka.ConsumerMessage.{ CommittableOffset, GroupTopicPartition, PartitionOffsetCommittedMarker }
-import akka.kafka.internal.{ CommittableOffsetImpl, KafkaAsyncConsumerCommitterRef }
+import org.apache.pekko.kafka.ConsumerMessage
+import org.apache.pekko.kafka.ConsumerMessage.{ CommittableOffset, GroupTopicPartition, PartitionOffsetCommittedMarker }
+import org.apache.pekko.kafka.internal.{ CommittableOffsetImpl, KafkaAsyncConsumerCommitterRef }
 import org.apache.kafka.clients.consumer.{ ConsumerRecord, OffsetAndMetadata }
 import org.apache.kafka.common.TopicPartition
 

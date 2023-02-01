@@ -6,8 +6,8 @@
 package org.apache.pekko.kafka.scaladsl
 
 import akka.Done
-import akka.kafka.testkit.KafkaTestkitTestcontainersSettings
-import akka.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
+import org.apache.pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
+import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 
 import scala.collection.immutable

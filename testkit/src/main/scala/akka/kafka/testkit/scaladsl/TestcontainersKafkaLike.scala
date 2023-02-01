@@ -5,8 +5,8 @@
 
 package org.apache.pekko.kafka.testkit.scaladsl
 
-import akka.kafka.testkit.KafkaTestkitTestcontainersSettings
-import akka.kafka.testkit.internal.{ AlpakkaKafkaContainer, SchemaRegistryContainer, TestcontainersKafka }
+import org.apache.pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
+import org.apache.pekko.kafka.testkit.internal.{ AlpakkaKafkaContainer, SchemaRegistryContainer, TestcontainersKafka }
 import org.testcontainers.containers.GenericContainer
 
 /**

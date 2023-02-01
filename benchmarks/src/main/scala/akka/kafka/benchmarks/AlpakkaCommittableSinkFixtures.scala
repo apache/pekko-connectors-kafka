@@ -7,12 +7,12 @@ package org.apache.pekko.kafka.benchmarks
 
 import akka.Done
 import org.apache.pekko.actor.ActorSystem
-import akka.kafka.ConsumerMessage.{ Committable, CommittableMessage }
-import akka.kafka.ProducerMessage.Envelope
-import akka.kafka.benchmarks.app.RunTestCommand
-import akka.kafka.scaladsl.Consumer.{ Control, DrainingControl }
-import akka.kafka.scaladsl.{ Committer, Consumer, Producer }
-import akka.kafka._
+import org.apache.pekko.kafka.ConsumerMessage.{ Committable, CommittableMessage }
+import org.apache.pekko.kafka.ProducerMessage.Envelope
+import org.apache.pekko.kafka.benchmarks.app.RunTestCommand
+import org.apache.pekko.kafka.scaladsl.Consumer.{ Control, DrainingControl }
+import org.apache.pekko.kafka.scaladsl.{ Committer, Consumer, Producer }
+import org.apache.pekko.kafka._
 import akka.stream.Materializer
 import akka.stream.scaladsl.{ Keep, Sink, Source }
 import com.codahale.metrics.Meter

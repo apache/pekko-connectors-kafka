@@ -5,7 +5,7 @@
 
 package org.apache.pekko.kafka.benchmarks.app
 
-import akka.kafka.benchmarks.PerfFixtureHelpers.FilledTopic
+import org.apache.pekko.kafka.benchmarks.PerfFixtureHelpers.FilledTopic
 
 case class RunTestCommand(testName: String, kafkaHost: String, filledTopic: FilledTopic) {
 

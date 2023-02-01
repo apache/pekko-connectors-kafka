@@ -9,7 +9,7 @@ import java.util.concurrent.{ CompletableFuture, CompletionStage, Executor }
 
 import akka.Done
 import org.apache.pekko.annotation.ApiMayChange
-import akka.kafka.javadsl.Consumer
+import org.apache.pekko.kafka.javadsl.Consumer
 import akka.stream.javadsl.{ Flow, Keep, Source }
 import akka.stream.{ scaladsl, KillSwitch, KillSwitches }
 import org.apache.kafka.common.{ Metric, MetricName }

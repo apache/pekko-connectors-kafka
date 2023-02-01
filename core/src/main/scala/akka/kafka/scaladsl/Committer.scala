@@ -7,9 +7,9 @@ package org.apache.pekko.kafka.scaladsl
 
 import org.apache.pekko.annotation.ApiMayChange
 import akka.dispatch.ExecutionContexts
-import akka.kafka.CommitterSettings
-import akka.kafka.ConsumerMessage.{ Committable, CommittableOffsetBatch }
-import akka.kafka.internal.CommitCollectorStage
+import org.apache.pekko.kafka.CommitterSettings
+import org.apache.pekko.kafka.ConsumerMessage.{ Committable, CommittableOffsetBatch }
+import org.apache.pekko.kafka.internal.CommitCollectorStage
 import akka.stream.scaladsl.{ Flow, FlowWithContext, Keep, Sink }
 import akka.{ Done, NotUsed }
 
@@ -32,7 +32,7 @@ object Committer {
         .fromGraph(new CommitCollectorStage(settings))
 
     // See https://github.com/akka/alpakka-kafka/issues/882
-    import akka.kafka.CommitDelivery._
+    import org.apache.pekko.kafka.CommitDelivery._
     settings.delivery match {
       case WaitForAck =>
         offsetBatches

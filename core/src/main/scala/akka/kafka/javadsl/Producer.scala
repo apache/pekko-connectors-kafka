@@ -7,9 +7,9 @@ package org.apache.pekko.kafka.javadsl
 
 import java.util.concurrent.CompletionStage
 import org.apache.pekko.annotation.ApiMayChange
-import akka.kafka.ConsumerMessage.Committable
-import akka.kafka.ProducerMessage._
-import akka.kafka.{ scaladsl, CommitterSettings, ConsumerMessage, ProducerSettings }
+import org.apache.pekko.kafka.ConsumerMessage.Committable
+import org.apache.pekko.kafka.ProducerMessage._
+import org.apache.pekko.kafka.{ scaladsl, CommitterSettings, ConsumerMessage, ProducerSettings }
 import akka.stream.javadsl.{ Flow, FlowWithContext, Sink }
 import akka.{ japi, Done, NotUsed }
 import org.apache.kafka.clients.producer.ProducerRecord

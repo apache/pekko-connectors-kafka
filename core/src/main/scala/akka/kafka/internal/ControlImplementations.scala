@@ -10,8 +10,8 @@ import akka.Done
 import org.apache.pekko.actor.ActorRef
 import org.apache.pekko.annotation.InternalApi
 import akka.dispatch.ExecutionContexts
-import akka.kafka.internal.KafkaConsumerActor.Internal.{ ConsumerMetrics, RequestMetrics }
-import akka.kafka.{ javadsl, scaladsl }
+import org.apache.pekko.kafka.internal.KafkaConsumerActor.Internal.{ ConsumerMetrics, RequestMetrics }
+import org.apache.pekko.kafka.{ javadsl, scaladsl }
 import akka.stream.SourceShape
 import akka.stream.stage.GraphStageLogic
 import org.apache.pekko.util.Timeout

@@ -8,10 +8,10 @@ import java.util.concurrent.atomic.AtomicInteger
 
 import akka.{ Done, NotUsed }
 import org.apache.pekko.actor.ActorSystem
-import akka.kafka.ConsumerMessage.PartitionOffset
-import akka.kafka.ProducerMessage.MultiMessage
-import akka.kafka.scaladsl.Consumer.Control
-import akka.kafka.scaladsl.{ Consumer, Producer, Transactional }
+import org.apache.pekko.kafka.ConsumerMessage.PartitionOffset
+import org.apache.pekko.kafka.ProducerMessage.MultiMessage
+import org.apache.pekko.kafka.scaladsl.Consumer.Control
+import org.apache.pekko.kafka.scaladsl.{ Consumer, Producer, Transactional }
 import akka.stream.Materializer
 import akka.stream.scaladsl.{ Flow, Sink, Source }
 import akka.stream.testkit.TestSubscriber

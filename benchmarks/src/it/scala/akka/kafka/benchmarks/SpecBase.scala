@@ -5,7 +5,7 @@
 
 package org.apache.pekko.kafka.benchmarks
 
-import akka.kafka.testkit.scaladsl.ScalatestKafkaSpec
+import org.apache.pekko.kafka.testkit.scaladsl.ScalatestKafkaSpec
 import org.scalatest.concurrent.{ Eventually, ScalaFutures }
 import org.scalatest.flatspec.AnyFlatSpecLike
 import org.scalatest.matchers.should.Matchers

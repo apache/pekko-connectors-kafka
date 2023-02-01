@@ -8,10 +8,10 @@ package org.apache.pekko.kafka.scaladsl
 import java.util.concurrent.atomic.AtomicBoolean
 
 import akka.Done
-import akka.kafka.ConsumerMessage.PartitionOffset
-import akka.kafka.scaladsl.Consumer.{ Control, DrainingControl }
-import akka.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import akka.kafka.{ ProducerMessage, _ }
+import org.apache.pekko.kafka.ConsumerMessage.PartitionOffset
+import org.apache.pekko.kafka.scaladsl.Consumer.{ Control, DrainingControl }
+import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
+import org.apache.pekko.kafka.{ ProducerMessage, _ }
 import akka.stream.{ OverflowStrategy, RestartSettings }
 import akka.stream.scaladsl.{ Keep, RestartSource, Sink, Source }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped

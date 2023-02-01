@@ -11,8 +11,8 @@ import java.util.concurrent.atomic.AtomicInteger
 import java.util.Arrays
 
 import org.apache.pekko.actor.ActorSystem
-import akka.kafka.testkit.KafkaTestkitSettings
-import akka.kafka.{ CommitterSettings, ConsumerSettings, ProducerSettings }
+import org.apache.pekko.kafka.testkit.KafkaTestkitSettings
+import org.apache.pekko.kafka.{ CommitterSettings, ConsumerSettings, ProducerSettings }
 import org.apache.kafka.clients.admin.{ Admin, AdminClientConfig, NewTopic }
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.common.serialization.{ Deserializer, Serializer, StringDeserializer, StringSerializer }

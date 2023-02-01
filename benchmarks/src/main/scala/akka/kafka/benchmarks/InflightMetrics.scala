@@ -9,7 +9,7 @@ import java.lang.management.{ BufferPoolMXBean, ManagementFactory, MemoryType }
 
 import akka.NotUsed
 import org.apache.pekko.actor.Cancellable
-import akka.kafka.scaladsl.Consumer.Control
+import org.apache.pekko.kafka.scaladsl.Consumer.Control
 import akka.stream.Materializer
 import akka.stream.scaladsl.{ Keep, Sink, Source }
 import com.codahale.metrics.{ Histogram, MetricRegistry }

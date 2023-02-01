@@ -5,7 +5,7 @@
 
 package org.apache.pekko.kafka.testkit.scaladsl
 
-import akka.kafka.testkit.internal.TestcontainersKafka
+import org.apache.pekko.kafka.testkit.internal.TestcontainersKafka
 
 /**
  * Uses [[https://www.testcontainers.org/ Testcontainers]] to start a Kafka broker in a Docker container once per class.

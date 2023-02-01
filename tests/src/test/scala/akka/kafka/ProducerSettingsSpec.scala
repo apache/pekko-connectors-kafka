@@ -6,7 +6,7 @@
 package org.apache.pekko.kafka
 
 import org.apache.pekko.actor.ActorSystem
-import akka.kafka.tests.scaladsl.LogCapturing
+import org.apache.pekko.kafka.tests.scaladsl.LogCapturing
 import akka.testkit.TestKit
 import com.typesafe.config.ConfigFactory
 import org.apache.kafka.common.config.SslConfigs
@@ -193,7 +193,7 @@ class ProducerSettingsSpec
       implicit val actorSystem = ActorSystem("test", config)
 
       // #discovery-settings
-      import akka.kafka.scaladsl.DiscoverySupport
+      import org.apache.pekko.kafka.scaladsl.DiscoverySupport
 
       val producerConfig = config.getConfig("discovery-producer")
       val settings = ProducerSettings(producerConfig, new StringSerializer, new StringSerializer)
@@ -210,7 +210,7 @@ class ProducerSettingsSpec
     "fail if using non-async creation with enrichAsync" in {
       implicit val actorSystem = ActorSystem("test", config)
 
-      import akka.kafka.scaladsl.DiscoverySupport
+      import org.apache.pekko.kafka.scaladsl.DiscoverySupport
 
       val producerConfig = config.getConfig("discovery-producer")
       val settings = ProducerSettings(producerConfig, new StringSerializer, new StringSerializer)

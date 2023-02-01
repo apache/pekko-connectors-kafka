@@ -5,10 +5,10 @@
 
 package org.apache.pekko.kafka.benchmarks
 
-import akka.kafka.ConsumerMessage.CommittableMessage
-import akka.kafka.ProducerMessage
-import akka.kafka.ProducerMessage.{ Result, Results }
-import akka.kafka.benchmarks.ReactiveKafkaProducerFixtures.ReactiveKafkaProducerTestFixture
+import org.apache.pekko.kafka.ConsumerMessage.CommittableMessage
+import org.apache.pekko.kafka.ProducerMessage
+import org.apache.pekko.kafka.ProducerMessage.{ Result, Results }
+import org.apache.pekko.kafka.benchmarks.ReactiveKafkaProducerFixtures.ReactiveKafkaProducerTestFixture
 import akka.stream.Materializer
 import akka.stream.scaladsl.{ Sink, Source }
 import com.codahale.metrics.Meter

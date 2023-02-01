@@ -6,10 +6,10 @@
 package org.apache.pekko.kafka.internal
 
 import org.apache.pekko.actor.{ ActorRef, ActorSystem }
-import akka.kafka.Metadata
-import akka.kafka.ConnectionCheckerSettings
-import akka.kafka.KafkaConnectionFailed
-import akka.kafka.tests.scaladsl.LogCapturing
+import org.apache.pekko.kafka.Metadata
+import org.apache.pekko.kafka.ConnectionCheckerSettings
+import org.apache.pekko.kafka.KafkaConnectionFailed
+import org.apache.pekko.kafka.tests.scaladsl.LogCapturing
 import akka.testkit.TestKit
 import com.typesafe.config.ConfigFactory
 import org.apache.kafka.common.errors.TimeoutException

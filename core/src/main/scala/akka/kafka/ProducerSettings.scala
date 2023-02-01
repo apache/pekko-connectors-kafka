@@ -9,7 +9,7 @@ import java.util.Optional
 import java.util.concurrent.{ CompletionStage, Executor }
 
 import org.apache.pekko.annotation.InternalApi
-import akka.kafka.internal.ConfigSettings
+import org.apache.pekko.kafka.internal.ConfigSettings
 import com.typesafe.config.Config
 import org.apache.kafka.clients.producer.{ KafkaProducer, Producer, ProducerConfig }
 import org.apache.kafka.common.serialization.Serializer

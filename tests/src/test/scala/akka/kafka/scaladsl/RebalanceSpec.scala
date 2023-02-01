@@ -8,8 +8,8 @@ package org.apache.pekko.kafka.scaladsl
 import java.util
 import java.util.concurrent.atomic.AtomicReference
 
-import akka.kafka._
-import akka.kafka.testkit.scaladsl.TestcontainersKafkaLike
+import org.apache.pekko.kafka._
+import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
 import akka.stream.scaladsl.{ Keep, Source }
 import akka.stream.testkit.TestSubscriber
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped

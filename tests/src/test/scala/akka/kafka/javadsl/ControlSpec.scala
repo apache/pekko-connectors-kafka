@@ -10,8 +10,8 @@ import java.util.concurrent.{ CompletionStage, Executor, Executors }
 import java.util.concurrent.atomic.AtomicBoolean
 
 import akka.Done
-import akka.kafka.internal.ConsumerControlAsJava
-import akka.kafka.tests.scaladsl.LogCapturing
+import org.apache.pekko.kafka.internal.ConsumerControlAsJava
+import org.apache.pekko.kafka.tests.scaladsl.LogCapturing
 import org.apache.kafka.common.{ Metric, MetricName }
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.matchers.should.Matchers

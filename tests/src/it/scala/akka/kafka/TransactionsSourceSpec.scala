@@ -8,10 +8,10 @@ package org.apache.pekko.kafka
 import java.util.concurrent.atomic.AtomicInteger
 
 import akka.Done
-import akka.kafka.scaladsl.Consumer.Control
-import akka.kafka.scaladsl.{ Consumer, SpecBase, Transactional }
-import akka.kafka.testkit.KafkaTestkitTestcontainersSettings
-import akka.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
+import org.apache.pekko.kafka.scaladsl.Consumer.Control
+import org.apache.pekko.kafka.scaladsl.{ Consumer, SpecBase, Transactional }
+import org.apache.pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
+import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
 import akka.stream._
 import akka.stream.scaladsl.{ Flow, Keep, RestartSource, Sink }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped

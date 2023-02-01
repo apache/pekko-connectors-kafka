@@ -7,9 +7,9 @@ package org.apache.pekko.kafka.internal
 
 import org.apache.pekko.actor.{ ActorRef, ExtendedActorSystem, Terminated }
 import org.apache.pekko.annotation.InternalApi
-import akka.kafka.internal.KafkaConsumerActor.Internal.Messages
-import akka.kafka.scaladsl.PartitionAssignmentHandler
-import akka.kafka.{ ConsumerSettings, RestrictedConsumer, Subscription }
+import org.apache.pekko.kafka.internal.KafkaConsumerActor.Internal.Messages
+import org.apache.pekko.kafka.scaladsl.PartitionAssignmentHandler
+import org.apache.pekko.kafka.{ ConsumerSettings, RestrictedConsumer, Subscription }
 import akka.stream.SourceShape
 import org.apache.kafka.common.TopicPartition
 

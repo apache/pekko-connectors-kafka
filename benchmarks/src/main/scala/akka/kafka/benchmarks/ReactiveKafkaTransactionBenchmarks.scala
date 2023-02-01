@@ -5,9 +5,9 @@
 
 package org.apache.pekko.kafka.benchmarks
 
-import akka.kafka.ProducerMessage
-import akka.kafka.ProducerMessage.{ Result, Results }
-import akka.kafka.benchmarks.ReactiveKafkaTransactionFixtures._
+import org.apache.pekko.kafka.ProducerMessage
+import org.apache.pekko.kafka.ProducerMessage.{ Result, Results }
+import org.apache.pekko.kafka.benchmarks.ReactiveKafkaTransactionFixtures._
 import akka.stream.Materializer
 import akka.stream.scaladsl.{ Keep, Sink }
 import com.codahale.metrics.Meter

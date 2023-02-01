@@ -5,7 +5,7 @@
 
 package org.apache.pekko.kafka.scaladsl
 
-import akka.kafka.testkit.scaladsl.TestcontainersKafkaLike
+import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.apache.kafka.common.{ PartitionInfo, TopicPartition }
 

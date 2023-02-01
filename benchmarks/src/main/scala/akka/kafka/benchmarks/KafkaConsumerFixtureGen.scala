@@ -5,7 +5,7 @@
 
 package org.apache.pekko.kafka.benchmarks
 
-import akka.kafka.benchmarks.app.RunTestCommand
+import org.apache.pekko.kafka.benchmarks.app.RunTestCommand
 import org.apache.kafka.clients.consumer.{ ConsumerConfig, KafkaConsumer }
 import org.apache.kafka.common.serialization.{ ByteArrayDeserializer, StringDeserializer }
 

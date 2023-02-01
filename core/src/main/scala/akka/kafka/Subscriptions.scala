@@ -7,8 +7,8 @@ package org.apache.pekko.kafka
 
 import org.apache.pekko.actor.ActorRef
 import org.apache.pekko.annotation.{ ApiMayChange, InternalApi }
-import akka.kafka.internal.PartitionAssignmentHelpers
-import akka.kafka.internal.PartitionAssignmentHelpers.EmptyPartitionAssignmentHandler
+import org.apache.pekko.kafka.internal.PartitionAssignmentHelpers
+import org.apache.pekko.kafka.internal.PartitionAssignmentHelpers.EmptyPartitionAssignmentHandler
 import org.apache.kafka.common.TopicPartition
 
 import scala.annotation.varargs

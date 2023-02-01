@@ -8,8 +8,8 @@ import java.util.concurrent.CompletionStage
 
 import akka.Done
 import org.apache.pekko.annotation.InternalApi
-import akka.kafka.ConsumerMessage
-import akka.kafka.ConsumerMessage.{
+import org.apache.pekko.kafka.ConsumerMessage
+import org.apache.pekko.kafka.ConsumerMessage.{
   CommittableMessage,
   CommittableOffsetMetadata,
   GroupTopicPartition,

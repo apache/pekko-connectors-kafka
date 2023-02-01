@@ -7,8 +7,8 @@ package org.apache.pekko.kafka.scaladsl
 
 import akka.Done
 import org.apache.pekko.actor.{ ActorSystem, ClassicActorSystemProvider }
-import akka.kafka.ProducerMessage._
-import akka.kafka.ProducerSettings
+import org.apache.pekko.kafka.ProducerMessage._
+import org.apache.pekko.kafka.ProducerSettings
 import org.apache.pekko.util.JavaDurationConverters._
 import org.apache.kafka.clients.producer.{ Callback, ProducerRecord, RecordMetadata }
 

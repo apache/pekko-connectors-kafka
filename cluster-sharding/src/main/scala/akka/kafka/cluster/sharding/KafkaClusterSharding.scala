@@ -17,8 +17,8 @@ import org.apache.pekko.cluster.sharding.external.ExternalShardAllocation
 import org.apache.pekko.cluster.sharding.typed.scaladsl.EntityTypeKey
 import org.apache.pekko.cluster.sharding.typed.{ ShardingEnvelope, ShardingMessageExtractor }
 import org.apache.pekko.cluster.typed.Cluster
-import akka.kafka.scaladsl.MetadataClient
-import akka.kafka._
+import org.apache.pekko.kafka.scaladsl.MetadataClient
+import org.apache.pekko.kafka._
 import org.apache.pekko.util.Timeout._
 import org.apache.kafka.common.utils.Utils
 

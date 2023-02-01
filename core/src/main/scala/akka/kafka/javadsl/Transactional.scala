@@ -9,11 +9,11 @@ import java.util.concurrent.CompletionStage
 
 import org.apache.pekko.annotation.ApiMayChange
 import akka.japi.Pair
-import akka.kafka.ConsumerMessage.{ PartitionOffset, TransactionalMessage }
-import akka.kafka.ProducerMessage._
-import akka.kafka._
-import akka.kafka.internal.{ ConsumerControlAsJava, TransactionalSourceWithOffsetContext }
-import akka.kafka.javadsl.Consumer.Control
+import org.apache.pekko.kafka.ConsumerMessage.{ PartitionOffset, TransactionalMessage }
+import org.apache.pekko.kafka.ProducerMessage._
+import org.apache.pekko.kafka._
+import org.apache.pekko.kafka.internal.{ ConsumerControlAsJava, TransactionalSourceWithOffsetContext }
+import org.apache.pekko.kafka.javadsl.Consumer.Control
 import akka.stream.javadsl._
 import akka.{ Done, NotUsed }
 import org.apache.kafka.clients.consumer.ConsumerRecord

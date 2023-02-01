@@ -5,7 +5,7 @@
 
 package org.apache.pekko.kafka.javadsl
 
-import akka.kafka.RestrictedConsumer
+import org.apache.pekko.kafka.RestrictedConsumer
 import org.apache.kafka.common.TopicPartition
 
 /**

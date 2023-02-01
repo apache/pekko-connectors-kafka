@@ -12,9 +12,9 @@ import org.apache.pekko.actor.typed.{ ActorSystem, Behavior }
 import org.apache.pekko.cluster.sharding.external.ExternalShardAllocationStrategy
 import org.apache.pekko.cluster.sharding.typed.ClusterShardingSettings
 import org.apache.pekko.cluster.sharding.typed.scaladsl.{ ClusterSharding, Entity, EntityTypeKey }
-import akka.kafka.cluster.sharding.KafkaClusterSharding
-import akka.kafka.scaladsl.Consumer
-import akka.kafka.{ ConsumerRebalanceEvent, ConsumerSettings, Subscriptions }
+import org.apache.pekko.kafka.cluster.sharding.KafkaClusterSharding
+import org.apache.pekko.kafka.scaladsl.Consumer
+import org.apache.pekko.kafka.{ ConsumerRebalanceEvent, ConsumerSettings, Subscriptions }
 import akka.stream.scaladsl.{ Flow, Sink }
 import org.apache.kafka.common.serialization.{ ByteArrayDeserializer, StringDeserializer }
 

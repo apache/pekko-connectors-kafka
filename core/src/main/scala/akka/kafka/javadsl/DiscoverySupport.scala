@@ -8,7 +8,7 @@ package org.apache.pekko.kafka.javadsl
 import java.util.concurrent.CompletionStage
 
 import org.apache.pekko.actor.{ ActorSystem, ClassicActorSystemProvider }
-import akka.kafka.{ scaladsl, ConsumerSettings, ProducerSettings }
+import org.apache.pekko.kafka.{ scaladsl, ConsumerSettings, ProducerSettings }
 import com.typesafe.config.Config
 
 import scala.compat.java8.FunctionConverters._

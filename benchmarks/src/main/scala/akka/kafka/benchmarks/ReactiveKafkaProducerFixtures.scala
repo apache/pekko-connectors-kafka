@@ -7,10 +7,10 @@ package org.apache.pekko.kafka.benchmarks
 
 import akka.NotUsed
 import org.apache.pekko.actor.ActorSystem
-import akka.kafka.ProducerMessage.{ Envelope, Results }
-import akka.kafka.ProducerSettings
-import akka.kafka.benchmarks.app.RunTestCommand
-import akka.kafka.scaladsl.Producer
+import org.apache.pekko.kafka.ProducerMessage.{ Envelope, Results }
+import org.apache.pekko.kafka.ProducerSettings
+import org.apache.pekko.kafka.benchmarks.app.RunTestCommand
+import org.apache.pekko.kafka.scaladsl.Producer
 import akka.stream.scaladsl.Flow
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.common.serialization.{ ByteArraySerializer, StringSerializer }

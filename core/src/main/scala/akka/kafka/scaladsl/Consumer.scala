@@ -8,9 +8,9 @@ package org.apache.pekko.kafka.scaladsl
 import org.apache.pekko.actor.ActorRef
 import org.apache.pekko.annotation.ApiMayChange
 import akka.dispatch.ExecutionContexts
-import akka.kafka.ConsumerMessage.{ CommittableMessage, CommittableOffset }
-import akka.kafka._
-import akka.kafka.internal._
+import org.apache.pekko.kafka.ConsumerMessage.{ CommittableMessage, CommittableOffset }
+import org.apache.pekko.kafka._
+import org.apache.pekko.kafka.internal._
 import akka.stream.scaladsl.{ Source, SourceWithContext }
 import akka.{ Done, NotUsed }
 import org.apache.kafka.clients.consumer.ConsumerRecord

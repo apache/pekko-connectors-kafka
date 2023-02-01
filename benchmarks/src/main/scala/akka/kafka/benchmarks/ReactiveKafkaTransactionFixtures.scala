@@ -7,12 +7,12 @@ package org.apache.pekko.kafka.benchmarks
 
 import akka.NotUsed
 import org.apache.pekko.actor.ActorSystem
-import akka.kafka.ConsumerMessage.TransactionalMessage
-import akka.kafka.ProducerMessage.{ Envelope, Results }
-import akka.kafka.benchmarks.app.RunTestCommand
-import akka.kafka.scaladsl.Consumer.Control
-import akka.kafka.scaladsl.Transactional
-import akka.kafka.{ ConsumerMessage, ConsumerSettings, ProducerSettings, Subscriptions }
+import org.apache.pekko.kafka.ConsumerMessage.TransactionalMessage
+import org.apache.pekko.kafka.ProducerMessage.{ Envelope, Results }
+import org.apache.pekko.kafka.benchmarks.app.RunTestCommand
+import org.apache.pekko.kafka.scaladsl.Consumer.Control
+import org.apache.pekko.kafka.scaladsl.Transactional
+import org.apache.pekko.kafka.{ ConsumerMessage, ConsumerSettings, ProducerSettings, Subscriptions }
 import akka.stream.scaladsl.{ Flow, Source }
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.common.serialization.{

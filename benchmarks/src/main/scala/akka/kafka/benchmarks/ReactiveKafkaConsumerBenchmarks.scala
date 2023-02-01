@@ -9,11 +9,11 @@ import java.util.concurrent.atomic.AtomicInteger
 
 import org.apache.pekko.actor.ActorSystem
 import akka.dispatch.ExecutionContexts
-import akka.kafka.ConsumerMessage.CommittableMessage
-import akka.kafka.benchmarks.InflightMetrics.{ BrokerMetricRequest, ConsumerMetricRequest }
-import akka.kafka.scaladsl.Committer
-import akka.kafka.scaladsl.Consumer.DrainingControl
-import akka.kafka.{ CommitDelivery, CommitterSettings }
+import org.apache.pekko.kafka.ConsumerMessage.CommittableMessage
+import org.apache.pekko.kafka.benchmarks.InflightMetrics.{ BrokerMetricRequest, ConsumerMetricRequest }
+import org.apache.pekko.kafka.scaladsl.Committer
+import org.apache.pekko.kafka.scaladsl.Consumer.DrainingControl
+import org.apache.pekko.kafka.{ CommitDelivery, CommitterSettings }
 import akka.stream.Materializer
 import akka.stream.scaladsl.{ Keep, Sink, Source }
 import com.codahale.metrics.Meter

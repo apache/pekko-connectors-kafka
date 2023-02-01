@@ -10,7 +10,7 @@ import java.util.concurrent.CompletionStage
 
 import akka.Done
 import org.apache.pekko.annotation.{ DoNotInherit, InternalApi }
-import akka.kafka.internal.{ CommittableOffsetBatchImpl, CommittedMarker }
+import org.apache.pekko.kafka.internal.{ CommittableOffsetBatchImpl, CommittedMarker }
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.common.TopicPartition
 

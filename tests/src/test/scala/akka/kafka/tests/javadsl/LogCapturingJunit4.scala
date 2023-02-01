@@ -5,7 +5,7 @@
 
 package org.apache.pekko.kafka.tests.javadsl
 
-import akka.kafka.tests.CapturingAppender
+import org.apache.pekko.kafka.tests.CapturingAppender
 
 import scala.util.control.NonFatal
 import org.junit.rules.TestRule

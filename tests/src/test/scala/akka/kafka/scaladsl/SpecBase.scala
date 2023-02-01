@@ -5,10 +5,10 @@
 
 package org.apache.pekko.kafka.scaladsl
 
-import akka.kafka.Repeated
-import akka.kafka.tests.scaladsl.LogCapturing
+import org.apache.pekko.kafka.Repeated
+import org.apache.pekko.kafka.tests.scaladsl.LogCapturing
 // #testkit
-import akka.kafka.testkit.scaladsl.ScalatestKafkaSpec
+import org.apache.pekko.kafka.testkit.scaladsl.ScalatestKafkaSpec
 import org.scalatest.concurrent.{ Eventually, IntegrationPatience, ScalaFutures }
 import org.scalatest.wordspec.AnyWordSpecLike
 import org.scalatest.matchers.should.Matchers
@@ -31,7 +31,7 @@ abstract class SpecBase(kafkaPort: Int)
 // #testkit
 
 // #testcontainers
-import akka.kafka.testkit.scaladsl.TestcontainersKafkaLike
+import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
 
 class TestcontainersSampleSpec extends SpecBase with TestcontainersKafkaLike {
   // ...
@@ -39,8 +39,8 @@ class TestcontainersSampleSpec extends SpecBase with TestcontainersKafkaLike {
 // #testcontainers
 
 // #testcontainers-settings
-import akka.kafka.testkit.KafkaTestkitTestcontainersSettings
-import akka.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
+import org.apache.pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
+import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
 
 class TestcontainersNewSettingsSampleSpec extends SpecBase with TestcontainersKafkaPerClassLike {
 

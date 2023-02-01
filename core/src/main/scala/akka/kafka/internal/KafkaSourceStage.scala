@@ -6,7 +6,7 @@
 package org.apache.pekko.kafka.internal
 
 import org.apache.pekko.annotation.InternalApi
-import akka.kafka.scaladsl.Consumer._
+import org.apache.pekko.kafka.scaladsl.Consumer._
 import akka.stream._
 import akka.stream.stage.{ GraphStageLogic, GraphStageWithMaterializedValue }
 

@@ -9,8 +9,8 @@ import java.util.concurrent.atomic.AtomicLong
 
 import org.apache.pekko.actor.{ ActorRef, ActorSystem, ExtendedActorSystem }
 import akka.dispatch.ExecutionContexts
-import akka.kafka.Metadata._
-import akka.kafka.{ ConsumerSettings, KafkaConsumerActor }
+import org.apache.pekko.kafka.Metadata._
+import org.apache.pekko.kafka.{ ConsumerSettings, KafkaConsumerActor }
 import akka.pattern.ask
 import org.apache.pekko.util.Timeout
 import org.apache.kafka.clients.consumer.OffsetAndMetadata

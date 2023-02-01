@@ -5,7 +5,7 @@
 
 package org.apache.pekko.kafka.benchmarks
 
-import akka.kafka.benchmarks.KafkaConsumerBenchmarks.pollTimeoutMs
+import org.apache.pekko.kafka.benchmarks.KafkaConsumerBenchmarks.pollTimeoutMs
 import com.codahale.metrics.Meter
 import com.typesafe.scalalogging.LazyLogging
 import org.apache.kafka.clients.consumer._
