@@ -3,14 +3,14 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.testkit
+package org.apache.pekko.kafka.testkit
 
 import java.time.Duration
 import java.util.function.Consumer
 
-import akka.actor.ActorSystem
+import org.apache.pekko.actor.ActorSystem
 import akka.kafka.testkit.internal.AlpakkaKafkaContainer
-import akka.util.JavaDurationConverters._
+import org.apache.pekko.util.JavaDurationConverters._
 import com.typesafe.config.Config
 import org.testcontainers.containers.GenericContainer
 

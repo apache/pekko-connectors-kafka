@@ -3,9 +3,9 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.internal
+package org.apache.pekko.kafka.internal
 
-import akka.actor.{ ActorRef, ActorSystem }
+import org.apache.pekko.actor.{ ActorRef, ActorSystem }
 import akka.kafka.Metadata
 import akka.kafka.ConnectionCheckerSettings
 import akka.kafka.KafkaConnectionFailed

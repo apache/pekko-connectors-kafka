@@ -3,11 +3,11 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.internal
+package org.apache.pekko.kafka.internal
 
 import java.util.concurrent.atomic.AtomicLong
 import akka.Done
-import akka.actor.ActorSystem
+import org.apache.pekko.actor.ActorSystem
 import akka.event.LoggingAdapter
 import akka.kafka.ConsumerMessage.{ Committable, CommittableOffset, CommittableOffsetBatch }
 import akka.kafka.scaladsl.{ Committer, Consumer }
@@ -465,7 +465,7 @@ class CommitCollectorStageSpec(_system: ActorSystem)
       promisedCommit.future
     }
 
-    private[akka] val underlying =
+    private[pekko] val underlying =
       new KafkaAsyncConsumerCommitterRef(consumerActor = null, commitSettings.maxInterval)(system.dispatcher) {
 
         override def commitSingle(topicPartition: TopicPartition, offset: OffsetAndMetadata): Future[Done] = {

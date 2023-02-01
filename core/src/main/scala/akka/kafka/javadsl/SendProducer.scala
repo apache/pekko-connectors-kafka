@@ -3,12 +3,12 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.javadsl
+package org.apache.pekko.kafka.javadsl
 
 import java.util.concurrent.CompletionStage
 
 import akka.Done
-import akka.actor.{ ActorSystem, ClassicActorSystemProvider }
+import org.apache.pekko.actor.{ ActorSystem, ClassicActorSystemProvider }
 import akka.kafka.ProducerMessage._
 import akka.kafka.{ scaladsl, ProducerSettings }
 import org.apache.kafka.clients.producer.{ ProducerRecord, RecordMetadata }

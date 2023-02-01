@@ -3,13 +3,13 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.internal
+package org.apache.pekko.kafka.internal
 
-import akka.annotation.InternalApi
+import org.apache.pekko.annotation.InternalApi
 import akka.dispatch.ExecutionContexts
 import akka.kafka.ProducerSettings
 import akka.stream.stage._
-import akka.util.JavaDurationConverters._
+import org.apache.pekko.util.JavaDurationConverters._
 import org.apache.kafka.clients.producer.Producer
 
 import scala.util.control.NonFatal

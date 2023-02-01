@@ -3,9 +3,9 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.tests
+package org.apache.pekko.kafka.tests
 
-import akka.annotation.InternalApi
+import org.apache.pekko.annotation.InternalApi
 import ch.qos.logback.classic.spi.ILoggingEvent
 import ch.qos.logback.core.AppenderBase
 
@@ -14,7 +14,7 @@ import ch.qos.logback.core.AppenderBase
  *
  * INTERNAL API
  */
-@InternalApi private[akka] object CapturingAppender {
+@InternalApi private[pekko] object CapturingAppender {
   import LogbackUtil._
 
   private val CapturingAppenderName = "CapturingAppender"
@@ -59,7 +59,7 @@ import ch.qos.logback.core.AppenderBase
  *     </root>
  * }}}
  */
-@InternalApi private[akka] class CapturingAppender extends AppenderBase[ILoggingEvent] {
+@InternalApi private[pekko] class CapturingAppender extends AppenderBase[ILoggingEvent] {
   import LogbackUtil._
 
   private var buffer: Vector[ILoggingEvent] = Vector.empty

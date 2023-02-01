@@ -3,14 +3,14 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka
+package org.apache.pekko.kafka
 
 import java.util.Optional
 import java.util.concurrent.{ CompletionStage, Executor }
 
-import akka.annotation.InternalApi
+import org.apache.pekko.annotation.InternalApi
 import akka.kafka.internal._
-import akka.util.JavaDurationConverters._
+import org.apache.pekko.util.JavaDurationConverters._
 import com.typesafe.config.Config
 import org.apache.kafka.clients.consumer.{ Consumer, ConsumerConfig, KafkaConsumer }
 import org.apache.kafka.common.serialization.Deserializer
@@ -31,7 +31,7 @@ object ConsumerSettings {
    * Key or value deserializer can be passed explicitly or retrieved from configuration.
    */
   def apply[K, V](
-      system: akka.actor.ActorSystem,
+      system: org.apache.pekko.actor.ActorSystem,
       keyDeserializer: Option[Deserializer[K]],
       valueDeserializer: Option[Deserializer[V]]): ConsumerSettings[K, V] = {
     val config = system.settings.config.getConfig(configPath)
@@ -117,7 +117,7 @@ object ConsumerSettings {
    * Key and value serializer must be passed explicitly.
    */
   def apply[K, V](
-      system: akka.actor.ActorSystem,
+      system: org.apache.pekko.actor.ActorSystem,
       keyDeserializer: Deserializer[K],
       valueDeserializer: Deserializer[V]): ConsumerSettings[K, V] =
     apply(system, Option(keyDeserializer), Option(valueDeserializer))
@@ -152,7 +152,7 @@ object ConsumerSettings {
    * Key or value deserializer can be passed explicitly or retrieved from configuration.
    */
   def create[K, V](
-      system: akka.actor.ActorSystem,
+      system: org.apache.pekko.actor.ActorSystem,
       keyDeserializer: Optional[Deserializer[K]],
       valueDeserializer: Optional[Deserializer[V]]): ConsumerSettings[K, V] =
     apply(system, keyDeserializer.asScala, valueDeserializer.asScala)
@@ -187,7 +187,7 @@ object ConsumerSettings {
    * Key and value serializer must be passed explicitly.
    */
   def create[K, V](
-      system: akka.actor.ActorSystem,
+      system: org.apache.pekko.actor.ActorSystem,
       keyDeserializer: Deserializer[K],
       valueDeserializer: Deserializer[V]): ConsumerSettings[K, V] =
     apply(system, keyDeserializer, valueDeserializer)

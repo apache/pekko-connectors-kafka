@@ -3,7 +3,7 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.tests.javadsl
+package org.apache.pekko.kafka.tests.javadsl
 
 import akka.kafka.tests.CapturingAppender
 

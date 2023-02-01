@@ -3,7 +3,7 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.benchmarks
+package org.apache.pekko.kafka.benchmarks
 
 import akka.kafka.benchmarks.BenchmarksBase._
 import akka.kafka.benchmarks.InflightMetrics._

@@ -3,14 +3,14 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.internal
+package org.apache.pekko.kafka.internal
 
 import java.util.Locale
 
 import akka.{ Done, NotUsed }
-import akka.actor.{ ActorRef, Status, Terminated }
-import akka.actor.Status.Failure
-import akka.annotation.InternalApi
+import org.apache.pekko.actor.{ ActorRef, Status, Terminated }
+import org.apache.pekko.actor.Status.Failure
+import org.apache.pekko.annotation.InternalApi
 import akka.kafka.ConsumerMessage.{ PartitionOffset, TransactionalMessage }
 import akka.kafka.internal.KafkaConsumerActor.Internal.Revoked
 import akka.kafka.internal.SubSourceLogic._
@@ -21,7 +21,7 @@ import akka.kafka.{ AutoSubscription, ConsumerFailed, ConsumerSettings, Restrict
 import akka.stream.SourceShape
 import akka.stream.scaladsl.Source
 import akka.stream.stage.{ AsyncCallback, GraphStageLogic }
-import akka.util.Timeout
+import org.apache.pekko.util.Timeout
 import org.apache.kafka.clients.consumer.{ ConsumerConfig, ConsumerRecord, OffsetAndMetadata }
 import org.apache.kafka.common.{ IsolationLevel, TopicPartition }
 

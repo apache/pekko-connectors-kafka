@@ -3,7 +3,7 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.benchmarks.app
+package org.apache.pekko.kafka.benchmarks.app
 
 import akka.kafka.benchmarks.PerfFixtureHelpers.FilledTopic
 

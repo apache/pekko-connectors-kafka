@@ -3,10 +3,10 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.testkit.scaladsl
+package org.apache.pekko.kafka.testkit.scaladsl
 
 import akka.Done
-import akka.annotation.ApiMayChange
+import org.apache.pekko.annotation.ApiMayChange
 import akka.kafka.scaladsl.Consumer
 import akka.stream.scaladsl.{ Flow, Keep, Source }
 import akka.stream.{ KillSwitch, KillSwitches }

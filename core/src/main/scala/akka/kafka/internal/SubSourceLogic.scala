@@ -3,12 +3,12 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.internal
+package org.apache.pekko.kafka.internal
 
 import akka.NotUsed
-import akka.actor.Status
-import akka.actor.{ ActorRef, ExtendedActorSystem, Terminated }
-import akka.annotation.InternalApi
+import org.apache.pekko.actor.Status
+import org.apache.pekko.actor.{ ActorRef, ExtendedActorSystem, Terminated }
+import org.apache.pekko.annotation.InternalApi
 import akka.kafka.internal.KafkaConsumerActor.Internal.RegisterSubStage
 import akka.kafka.internal.SubSourceLogic._
 import akka.kafka.{ AutoSubscription, ConsumerFailed, ConsumerSettings, RestrictedConsumer }
@@ -19,7 +19,7 @@ import akka.stream.scaladsl.Source
 import akka.stream.stage.GraphStageLogic.StageActor
 import akka.stream.stage._
 import akka.stream.{ Attributes, Outlet, SourceShape }
-import akka.util.Timeout
+import org.apache.pekko.util.Timeout
 import org.apache.kafka.common.TopicPartition
 
 import scala.annotation.tailrec

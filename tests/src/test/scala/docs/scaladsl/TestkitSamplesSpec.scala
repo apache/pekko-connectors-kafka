@@ -5,7 +5,7 @@
 
 package docs.scaladsl
 
-import akka.actor.ActorSystem
+import org.apache.pekko.actor.ActorSystem
 import akka.kafka.ConsumerMessage.CommittableOffset
 import akka.kafka.scaladsl.{ Committer, Consumer }
 import akka.kafka.{ CommitterSettings, ConsumerMessage, ProducerMessage }

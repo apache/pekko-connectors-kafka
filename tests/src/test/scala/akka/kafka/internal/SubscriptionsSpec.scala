@@ -3,13 +3,13 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.internal
+package org.apache.pekko.kafka.internal
 
 import java.net.URLEncoder
 
 import akka.kafka.tests.scaladsl.LogCapturing
 import akka.kafka.{ Subscription, Subscriptions }
-import akka.util.ByteString
+import org.apache.pekko.util.ByteString
 import org.apache.kafka.common.TopicPartition
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec

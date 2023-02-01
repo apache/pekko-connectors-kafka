@@ -3,10 +3,10 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.internal
+package org.apache.pekko.kafka.internal
 
 import akka.Done
-import akka.actor.ActorSystem
+import org.apache.pekko.actor.ActorSystem
 import akka.kafka.ConsumerMessage._
 import akka.kafka.scaladsl.Consumer
 import akka.kafka.scaladsl.Consumer.Control

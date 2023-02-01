@@ -3,14 +3,14 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.testkit.scaladsl
+package org.apache.pekko.kafka.testkit.scaladsl
 
 import java.time.Duration
 import java.util
 import java.util.concurrent.TimeUnit
 
 import akka.Done
-import akka.actor.ActorSystem
+import org.apache.pekko.actor.ActorSystem
 import akka.event.LoggingAdapter
 import akka.kafka._
 import akka.kafka.scaladsl.Consumer.Control

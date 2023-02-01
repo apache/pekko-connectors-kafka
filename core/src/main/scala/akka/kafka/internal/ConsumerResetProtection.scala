@@ -3,12 +3,12 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.internal
+package org.apache.pekko.kafka.internal
 
 import java.util
 
-import akka.actor.ActorRef
-import akka.annotation.InternalApi
+import org.apache.pekko.actor.ActorRef
+import org.apache.pekko.annotation.InternalApi
 import akka.event.LoggingAdapter
 import akka.kafka.OffsetResetProtectionSettings
 import akka.kafka.internal.KafkaConsumerActor.Internal.Seek

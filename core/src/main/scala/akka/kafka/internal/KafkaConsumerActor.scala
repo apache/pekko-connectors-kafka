@@ -3,14 +3,14 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.internal
+package org.apache.pekko.kafka.internal
 
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.locks.LockSupport
 import java.util.regex.Pattern
 import akka.Done
-import akka.actor.Status.Failure
-import akka.actor.{
+import org.apache.pekko.actor.Status.Failure
+import org.apache.pekko.actor.{
   Actor,
   ActorRef,
   DeadLetterSuppression,
@@ -20,8 +20,8 @@ import akka.actor.{
   Terminated,
   Timers
 }
-import akka.annotation.InternalApi
-import akka.util.JavaDurationConverters._
+import org.apache.pekko.annotation.InternalApi
+import org.apache.pekko.util.JavaDurationConverters._
 import akka.event.LoggingReceive
 import akka.kafka.KafkaConsumerActor.{ StopLike, StoppingException }
 import akka.kafka._

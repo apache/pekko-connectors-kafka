@@ -3,9 +3,9 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.tests
+package org.apache.pekko.kafka.tests
 
-import akka.annotation.InternalApi
+import org.apache.pekko.annotation.InternalApi
 import ch.qos.logback.classic.Level
 import org.slf4j.LoggerFactory
 
@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory
  *
  * INTERNAL API
  */
-@InternalApi private[akka] object LogbackUtil {
+@InternalApi private[pekko] object LogbackUtil {
   def loggerNameOrRoot(loggerName: String): String =
     if (loggerName == "") org.slf4j.Logger.ROOT_LOGGER_NAME else loggerName
 

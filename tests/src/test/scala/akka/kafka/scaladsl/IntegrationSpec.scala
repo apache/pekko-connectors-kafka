@@ -3,7 +3,7 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.scaladsl
+package org.apache.pekko.kafka.scaladsl
 
 import java.util.concurrent.atomic.AtomicLong
 
@@ -17,7 +17,7 @@ import akka.stream.scaladsl.{ Keep, Sink, Source }
 import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import akka.stream.testkit.scaladsl.TestSink
 import akka.testkit.TestProbe
-import akka.util.Timeout
+import org.apache.pekko.util.Timeout
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.{ Metric, MetricName, TopicPartition }

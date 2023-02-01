@@ -9,7 +9,7 @@ val Nightly = sys.env.get("EVENT_NAME").contains("schedule")
 val Scala213 = "2.13.8"
 
 val AkkaBinaryVersionForDocs = "2.6"
-val akkaVersion = "2.6.19"
+val pekkoVersion = "0.0.0+26546-767209a8-SNAPSHOT"
 
 // Keep .scala-steward.conf pin in sync
 val kafkaVersion = "3.0.1"
@@ -31,7 +31,8 @@ val confluentLibsExclusionRules = Seq(
 
 ThisBuild / resolvers ++= Seq(
   // for Jupiter interface (JUnit 5)
-  Resolver.jcenterRepo)
+  Resolver.jcenterRepo,
+  "Apache Snapshot Repo".at("https://repository.apache.org/content/groups/snapshots/"))
 
 TaskKey[Unit]("verifyCodeFmt") := {
   javafmtCheckAll.all(ScopeFilter(inAnyProject)).result.value.toEither.left.foreach { _ =>
@@ -44,7 +45,7 @@ addCommandAlias("verifyCodeStyle", "headerCheck; verifyCodeFmt")
 addCommandAlias("verifyDocs", ";+doc ;unidoc ;docs/paradoxBrowse")
 
 val commonSettings = Def.settings(
-  organization := "com.typesafe.akka",
+  organization := "org.apache.pekko",
   organizationName := "Lightbend Inc.",
   organizationHomepage := Some(url("https://www.lightbend.com/")),
   homepage := Some(url("https://doc.akka.io/docs/alpakka-kafka/current")),
@@ -165,8 +166,8 @@ lazy val core = project
     name := "pekko-connectors-kafka",
     AutomaticModuleName.settings("akka.stream.alpakka.kafka"),
     libraryDependencies ++= Seq(
-      "com.typesafe.akka" %% "akka-stream" % akkaVersion,
-      "com.typesafe.akka" %% "akka-discovery" % akkaVersion % Provided,
+      "org.apache.pekko" %% "pekko-stream" % pekkoVersion,
+      "org.apache.pekko" %% "pekko-discovery" % pekkoVersion % Provided,
       "org.apache.kafka" % "kafka-clients" % kafkaVersion),
     mimaPreviousArtifacts := Set.empty, // temporarily disable mima checks
     mimaBinaryIssueFilters += ProblemFilters.exclude[Problem]("akka.kafka.internal.*"))
@@ -182,7 +183,7 @@ lazy val testkit = project
     AutomaticModuleName.settings("akka.stream.alpakka.kafka.testkit"),
     JupiterKeys.junitJupiterVersion := "5.8.2",
     libraryDependencies ++= Seq(
-      "com.typesafe.akka" %% "akka-stream-testkit" % akkaVersion,
+      "org.apache.pekko" %% "pekko-stream-testkit" % pekkoVersion,
       "org.testcontainers" % "kafka" % testcontainersVersion % Provided,
       "org.scalatest" %% "scalatest" % scalatestVersion % Provided,
       "junit" % "junit" % "4.13.2" % Provided,
@@ -201,7 +202,7 @@ lazy val `cluster-sharding` = project
     name := "pekko-connectors-kafka-cluster-sharding",
     AutomaticModuleName.settings("akka.stream.alpakka.kafka.cluster.sharding"),
     libraryDependencies ++= Seq(
-      "com.typesafe.akka" %% "akka-cluster-sharding-typed" % akkaVersion),
+      "org.apache.pekko" %% "pekko-cluster-sharding-typed" % pekkoVersion),
     mimaPreviousArtifacts := Set.empty // temporarily disable mima checks
   )
 
@@ -216,7 +217,7 @@ lazy val tests = project
   .settings(
     name := "pekko-connectors-kafka-tests",
     libraryDependencies ++= Seq(
-      "com.typesafe.akka" %% "akka-discovery" % akkaVersion,
+      "org.apache.pekko" %% "pekko-discovery" % pekkoVersion,
       "com.google.protobuf" % "protobuf-java" % "3.19.1", // use the same version as in scalapb
       ("io.confluent" % "kafka-avro-serializer" % confluentAvroSerializerVersion % Test).excludeAll(
         confluentLibsExclusionRules: _*),
@@ -231,7 +232,7 @@ lazy val tests = project
       "org.hamcrest" % "hamcrest-library" % "2.2" % Test,
       "org.hamcrest" % "hamcrest" % "2.2" % Test,
       "net.aichler" % "jupiter-interface" % JupiterKeys.jupiterVersion.value % Test,
-      "com.typesafe.akka" %% "akka-slf4j" % akkaVersion % Test,
+      "org.apache.pekko" %% "pekko-slf4j" % pekkoVersion % Test,
       "ch.qos.logback" % "logback-classic" % "1.2.11" % Test,
       "org.slf4j" % "log4j-over-slf4j" % slf4jVersion % Test,
       // Schema registry uses Glassfish which uses java.util.logging
@@ -239,7 +240,8 @@ lazy val tests = project
       "org.mockito" % "mockito-core" % "4.6.1" % Test,
       "com.thesamet.scalapb" %% "scalapb-runtime" % "0.10.11" % Test),
     resolvers ++= Seq(
-      "Confluent Maven Repo".at("https://packages.confluent.io/maven/")),
+      "Confluent Maven Repo".at("https://packages.confluent.io/maven/"),
+      "Apache Snapshot Repo".at("https://repository.apache.org/content/groups/snapshots/")),
     publish / skip := true,
     Test / fork := true,
     Test / parallelExecution := false,
@@ -274,7 +276,7 @@ lazy val docs = project
       "scaladoc.akka.kafka.base_url" -> s"/${(Preprocess / siteSubdirName).value}/",
       "javadoc.akka.kafka.base_url" -> "",
       // Akka
-      "akka.version" -> akkaVersion,
+      "pekko.version" -> pekkoVersion,
       "extref.akka.base_url" -> s"https://doc.akka.io/docs/akka/$AkkaBinaryVersionForDocs/%s",
       "scaladoc.akka.base_url" -> s"https://doc.akka.io/api/akka/$AkkaBinaryVersionForDocs/",
       "javadoc.akka.base_url" -> s"https://doc.akka.io/japi/akka/$AkkaBinaryVersionForDocs/",
@@ -322,6 +324,6 @@ lazy val benchmarks = project
       "org.slf4j" % "log4j-over-slf4j" % slf4jVersion,
       "com.lightbend.akka" %% "akka-stream-alpakka-csv" % "3.0.4",
       "org.testcontainers" % "kafka" % testcontainersVersion % IntegrationTest,
-      "com.typesafe.akka" %% "akka-slf4j" % akkaVersion % IntegrationTest,
-      "com.typesafe.akka" %% "akka-stream-testkit" % akkaVersion % IntegrationTest,
+      "org.apache.pekko" %% "pekko-slf4j" % pekkoVersion % IntegrationTest,
+      "org.apache.pekko" %% "pekko-stream-testkit" % pekkoVersion % IntegrationTest,
       "org.scalatest" %% "scalatest" % scalatestVersion % IntegrationTest))

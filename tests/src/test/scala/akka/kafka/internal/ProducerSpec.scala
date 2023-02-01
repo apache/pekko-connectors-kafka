@@ -3,10 +3,10 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.internal
+package org.apache.pekko.kafka.internal
 
 import java.util.concurrent.CompletableFuture
-import akka.actor.ActorSystem
+import org.apache.pekko.actor.ActorSystem
 import akka.kafka.ConsumerMessage.{ GroupTopicPartition, PartitionOffset, PartitionOffsetCommittedMarker }
 import akka.kafka.ProducerMessage._
 import akka.kafka.scaladsl.Producer

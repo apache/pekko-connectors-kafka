@@ -3,13 +3,13 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.scaladsl
+package org.apache.pekko.kafka.scaladsl
 
 import akka.Done
-import akka.actor.{ ActorSystem, ClassicActorSystemProvider }
+import org.apache.pekko.actor.{ ActorSystem, ClassicActorSystemProvider }
 import akka.kafka.ProducerMessage._
 import akka.kafka.ProducerSettings
-import akka.util.JavaDurationConverters._
+import org.apache.pekko.util.JavaDurationConverters._
 import org.apache.kafka.clients.producer.{ Callback, ProducerRecord, RecordMetadata }
 
 import scala.concurrent.{ ExecutionContext, Future, Promise }

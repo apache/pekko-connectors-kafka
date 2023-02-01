@@ -3,16 +3,16 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.scaladsl
+package org.apache.pekko.kafka.scaladsl
 
 import java.util.concurrent.atomic.AtomicLong
 
-import akka.actor.{ ActorRef, ActorSystem, ExtendedActorSystem }
+import org.apache.pekko.actor.{ ActorRef, ActorSystem, ExtendedActorSystem }
 import akka.dispatch.ExecutionContexts
 import akka.kafka.Metadata._
 import akka.kafka.{ ConsumerSettings, KafkaConsumerActor }
 import akka.pattern.ask
-import akka.util.Timeout
+import org.apache.pekko.util.Timeout
 import org.apache.kafka.clients.consumer.OffsetAndMetadata
 import org.apache.kafka.common.{ PartitionInfo, TopicPartition }
 

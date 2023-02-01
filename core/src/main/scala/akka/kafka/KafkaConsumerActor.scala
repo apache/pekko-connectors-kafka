@@ -3,10 +3,10 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka
+package org.apache.pekko.kafka
 
-import akka.actor.{ ActorRef, NoSerializationVerificationNeeded, Props }
-import akka.annotation.InternalApi
+import org.apache.pekko.actor.{ ActorRef, NoSerializationVerificationNeeded, Props }
+import org.apache.pekko.annotation.InternalApi
 import akka.kafka.internal.{ KafkaConsumerActor => InternalKafkaConsumerActor }
 
 object KafkaConsumerActor {

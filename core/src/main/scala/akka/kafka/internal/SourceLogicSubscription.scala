@@ -3,9 +3,9 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.internal
-import akka.actor.ActorRef
-import akka.annotation.InternalApi
+package org.apache.pekko.kafka.internal
+import org.apache.pekko.actor.ActorRef
+import org.apache.pekko.annotation.InternalApi
 import akka.kafka.{ AutoSubscription, ManualSubscription, Subscription }
 import akka.kafka.Subscriptions._
 import akka.kafka.scaladsl.PartitionAssignmentHandler

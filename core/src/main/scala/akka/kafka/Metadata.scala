@@ -3,11 +3,11 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka
+package org.apache.pekko.kafka
 
 import java.util.Optional
 
-import akka.actor.NoSerializationVerificationNeeded
+import org.apache.pekko.actor.NoSerializationVerificationNeeded
 import org.apache.kafka.clients.consumer.{ OffsetAndMetadata, OffsetAndTimestamp }
 import org.apache.kafka.common.{ PartitionInfo, TopicPartition }
 

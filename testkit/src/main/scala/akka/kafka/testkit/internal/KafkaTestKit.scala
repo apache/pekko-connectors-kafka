@@ -3,14 +3,14 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.testkit.internal
+package org.apache.pekko.kafka.testkit.internal
 
 import java.time.Duration
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.Arrays
 
-import akka.actor.ActorSystem
+import org.apache.pekko.actor.ActorSystem
 import akka.kafka.testkit.KafkaTestkitSettings
 import akka.kafka.{ CommitterSettings, ConsumerSettings, ProducerSettings }
 import org.apache.kafka.clients.admin.{ Admin, AdminClientConfig, NewTopic }

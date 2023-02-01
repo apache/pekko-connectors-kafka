@@ -3,7 +3,7 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.benchmarks
+package org.apache.pekko.kafka.benchmarks
 
 import akka.kafka.benchmarks.BenchmarksBase.{ topic_100_100, topic_100_5000 }
 import akka.kafka.benchmarks.Timed.runPerfTest

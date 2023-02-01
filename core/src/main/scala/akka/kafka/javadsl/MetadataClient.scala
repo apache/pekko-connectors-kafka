@@ -3,14 +3,14 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.javadsl
+package org.apache.pekko.kafka.javadsl
 
 import java.util.concurrent.{ CompletionStage, Executor }
 
-import akka.actor.{ ActorRef, ActorSystem }
+import org.apache.pekko.actor.{ ActorRef, ActorSystem }
 import akka.dispatch.ExecutionContexts
 import akka.kafka.ConsumerSettings
-import akka.util.Timeout
+import org.apache.pekko.util.Timeout
 import org.apache.kafka.clients.consumer.OffsetAndMetadata
 import org.apache.kafka.common.{ PartitionInfo, TopicPartition }
 

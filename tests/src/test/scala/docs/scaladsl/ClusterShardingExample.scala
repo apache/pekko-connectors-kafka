@@ -6,12 +6,12 @@
 package docs.scaladsl
 
 import akka.NotUsed
-import akka.actor.typed.scaladsl.Behaviors
-import akka.actor.typed.scaladsl.adapter._
-import akka.actor.typed.{ ActorSystem, Behavior }
-import akka.cluster.sharding.external.ExternalShardAllocationStrategy
-import akka.cluster.sharding.typed.ClusterShardingSettings
-import akka.cluster.sharding.typed.scaladsl.{ ClusterSharding, Entity, EntityTypeKey }
+import org.apache.pekko.actor.typed.scaladsl.Behaviors
+import org.apache.pekko.actor.typed.scaladsl.adapter._
+import org.apache.pekko.actor.typed.{ ActorSystem, Behavior }
+import org.apache.pekko.cluster.sharding.external.ExternalShardAllocationStrategy
+import org.apache.pekko.cluster.sharding.typed.ClusterShardingSettings
+import org.apache.pekko.cluster.sharding.typed.scaladsl.{ ClusterSharding, Entity, EntityTypeKey }
 import akka.kafka.cluster.sharding.KafkaClusterSharding
 import akka.kafka.scaladsl.Consumer
 import akka.kafka.{ ConsumerRebalanceEvent, ConsumerSettings, Subscriptions }
@@ -74,7 +74,7 @@ object ClusterShardingExample {
     KafkaClusterSharding(system.toClassic).rebalanceListener(typeKey)
 
   // convert the rebalance listener to a classic ActorRef until Alpakka Kafka supports Akka Typed
-  import akka.actor.typed.scaladsl.adapter._
+  import org.apache.pekko.actor.typed.scaladsl.adapter._
   val rebalanceListenerClassic: akka.actor.ActorRef = rebalanceListener.toClassic
 
   val consumerSettings =

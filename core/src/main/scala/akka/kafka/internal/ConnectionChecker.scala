@@ -3,10 +3,10 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.internal
+package org.apache.pekko.kafka.internal
 
-import akka.actor.{ Actor, ActorLogging, Props, Timers }
-import akka.annotation.InternalApi
+import org.apache.pekko.actor.{ Actor, ActorLogging, Props, Timers }
+import org.apache.pekko.annotation.InternalApi
 import akka.event.LoggingReceive
 import akka.kafka.{ ConnectionCheckerSettings, KafkaConnectionFailed, Metadata }
 import org.apache.kafka.common.errors.TimeoutException

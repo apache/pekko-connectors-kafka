@@ -3,9 +3,9 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.scaladsl
+package org.apache.pekko.kafka.scaladsl
 
-import akka.annotation.{ ApiMayChange, InternalApi }
+import org.apache.pekko.annotation.{ ApiMayChange, InternalApi }
 import akka.kafka.ConsumerMessage.{ PartitionOffset, TransactionalMessage }
 import akka.kafka.ProducerMessage._
 import akka.kafka.internal.{

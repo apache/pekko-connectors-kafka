@@ -3,12 +3,12 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka
+package org.apache.pekko.kafka
 
 import java.util.Optional
 import java.util.concurrent.{ CompletionStage, Executor }
 
-import akka.annotation.InternalApi
+import org.apache.pekko.annotation.InternalApi
 import akka.kafka.internal.ConfigSettings
 import com.typesafe.config.Config
 import org.apache.kafka.clients.producer.{ KafkaProducer, Producer, ProducerConfig }
@@ -17,7 +17,7 @@ import org.apache.kafka.common.serialization.Serializer
 import scala.jdk.CollectionConverters._
 import scala.compat.java8.OptionConverters._
 import scala.concurrent.duration._
-import akka.util.JavaDurationConverters._
+import org.apache.pekko.util.JavaDurationConverters._
 
 import scala.concurrent.{ ExecutionContext, Future }
 import scala.compat.java8.FutureConverters._
@@ -32,7 +32,7 @@ object ProducerSettings {
    * Key or value serializer can be passed explicitly or retrieved from configuration.
    */
   def apply[K, V](
-      system: akka.actor.ActorSystem,
+      system: org.apache.pekko.actor.ActorSystem,
       keySerializer: Option[Serializer[K]],
       valueSerializer: Option[Serializer[V]]): ProducerSettings[K, V] =
     apply(system.settings.config.getConfig(configPath), keySerializer, valueSerializer)
@@ -92,7 +92,7 @@ object ProducerSettings {
    * Key and value serializer must be passed explicitly.
    */
   def apply[K, V](
-      system: akka.actor.ActorSystem,
+      system: org.apache.pekko.actor.ActorSystem,
       keySerializer: Serializer[K],
       valueSerializer: Serializer[V]): ProducerSettings[K, V] =
     apply(system, Option(keySerializer), Option(valueSerializer))
@@ -127,7 +127,7 @@ object ProducerSettings {
    * Key or value serializer can be passed explicitly or retrieved from configuration.
    */
   def create[K, V](
-      system: akka.actor.ActorSystem,
+      system: org.apache.pekko.actor.ActorSystem,
       keySerializer: Optional[Serializer[K]],
       valueSerializer: Optional[Serializer[V]]): ProducerSettings[K, V] =
     apply(system, keySerializer.asScala, valueSerializer.asScala)
@@ -162,7 +162,7 @@ object ProducerSettings {
    * Key and value serializer must be passed explicitly.
    */
   def create[K, V](
-      system: akka.actor.ActorSystem,
+      system: org.apache.pekko.actor.ActorSystem,
       keySerializer: Serializer[K],
       valueSerializer: Serializer[V]): ProducerSettings[K, V] =
     apply(system, keySerializer, valueSerializer)

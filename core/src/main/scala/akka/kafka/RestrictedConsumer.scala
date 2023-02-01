@@ -3,9 +3,9 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka
+package org.apache.pekko.kafka
 
-import akka.annotation.ApiMayChange
+import org.apache.pekko.annotation.ApiMayChange
 import org.apache.kafka.clients.consumer.{ Consumer, OffsetAndMetadata, OffsetAndTimestamp }
 import org.apache.kafka.common.TopicPartition
 

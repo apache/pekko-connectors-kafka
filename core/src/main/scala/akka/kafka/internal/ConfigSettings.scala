@@ -3,17 +3,17 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.internal
+package org.apache.pekko.kafka.internal
 
 import java.util
 
-import akka.annotation.InternalApi
+import org.apache.pekko.annotation.InternalApi
 import com.typesafe.config.{ Config, ConfigObject }
 
 import scala.annotation.tailrec
 import scala.jdk.CollectionConverters._
 import scala.concurrent.duration.Duration
-import akka.util.JavaDurationConverters._
+import org.apache.pekko.util.JavaDurationConverters._
 
 /**
  * INTERNAL API

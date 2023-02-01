@@ -3,7 +3,7 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka
+package org.apache.pekko.kafka
 
 import akka.kafka.scaladsl.{ Consumer, Producer, SpecBase }
 import akka.kafka.testkit.KafkaTestkitTestcontainersSettings

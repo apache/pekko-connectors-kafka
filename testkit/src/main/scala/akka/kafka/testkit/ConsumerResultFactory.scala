@@ -3,10 +3,10 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.testkit
+package org.apache.pekko.kafka.testkit
 
 import akka.Done
-import akka.annotation.ApiMayChange
+import org.apache.pekko.annotation.ApiMayChange
 import akka.kafka.ConsumerMessage
 import akka.kafka.ConsumerMessage.{ CommittableOffset, GroupTopicPartition, PartitionOffsetCommittedMarker }
 import akka.kafka.internal.{ CommittableOffsetImpl, KafkaAsyncConsumerCommitterRef }

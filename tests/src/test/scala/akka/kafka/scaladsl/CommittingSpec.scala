@@ -3,12 +3,12 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.scaladsl
+package org.apache.pekko.kafka.scaladsl
 
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.function.IntUnaryOperator
 
-import akka.actor.ActorRef
+import org.apache.pekko.actor.ActorRef
 import akka.kafka.ConsumerMessage.{ CommittableOffsetBatch, GroupTopicPartition }
 import akka.kafka.ProducerMessage.MultiMessage
 import akka.kafka._

@@ -3,9 +3,9 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.internal
+package org.apache.pekko.kafka.internal
 
-import akka.actor.{ Actor, ActorLogging }
+import org.apache.pekko.actor.{ Actor, ActorLogging }
 import akka.event.LoggingAdapter
 import akka.stream.stage.{ GraphStageLogic, StageLogging }
 

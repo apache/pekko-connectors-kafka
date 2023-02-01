@@ -3,13 +3,13 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka
+package org.apache.pekko.kafka
 
 import java.util.Objects
 import java.util.concurrent.CompletionStage
 
 import akka.Done
-import akka.annotation.{ DoNotInherit, InternalApi }
+import org.apache.pekko.annotation.{ DoNotInherit, InternalApi }
 import akka.kafka.internal.{ CommittableOffsetBatchImpl, CommittedMarker }
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.common.TopicPartition

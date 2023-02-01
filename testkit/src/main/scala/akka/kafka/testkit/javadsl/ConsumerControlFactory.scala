@@ -3,12 +3,12 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.testkit.javadsl
+package org.apache.pekko.kafka.testkit.javadsl
 
 import java.util.concurrent.{ CompletableFuture, CompletionStage, Executor }
 
 import akka.Done
-import akka.annotation.ApiMayChange
+import org.apache.pekko.annotation.ApiMayChange
 import akka.kafka.javadsl.Consumer
 import akka.stream.javadsl.{ Flow, Keep, Source }
 import akka.stream.{ scaladsl, KillSwitch, KillSwitches }

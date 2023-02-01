@@ -8,9 +8,9 @@ package docs.scaladsl
 import java.util.concurrent.atomic.{ AtomicLong, AtomicReference }
 
 import akka.Done
-import akka.actor.typed.Behavior
-import akka.actor.typed.scaladsl.Behaviors
-import akka.actor.{ Actor, ActorLogging, Props }
+import org.apache.pekko.actor.typed.Behavior
+import org.apache.pekko.actor.typed.scaladsl.Behaviors
+import org.apache.pekko.actor.{ Actor, ActorLogging, Props }
 import akka.kafka._
 import akka.kafka.scaladsl.Consumer.DrainingControl
 import akka.kafka.scaladsl._
@@ -411,7 +411,7 @@ class ConsumerExample extends DocsSpecBase with TestcontainersKafkaLike {
       context.spawn(rebalanceListener(), "rebalance-listener")
 
     // adds support for actors to a classic actor system and context
-    import akka.actor.typed.scaladsl.adapter._
+    import org.apache.pekko.actor.typed.scaladsl.adapter._
       
     val classicRef: akka.actor.ActorRef = typedRef.toClassic  
 

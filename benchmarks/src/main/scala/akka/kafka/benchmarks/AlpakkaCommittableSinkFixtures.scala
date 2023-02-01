@@ -3,10 +3,10 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.benchmarks
+package org.apache.pekko.kafka.benchmarks
 
 import akka.Done
-import akka.actor.ActorSystem
+import org.apache.pekko.actor.ActorSystem
 import akka.kafka.ConsumerMessage.{ Committable, CommittableMessage }
 import akka.kafka.ProducerMessage.Envelope
 import akka.kafka.benchmarks.app.RunTestCommand

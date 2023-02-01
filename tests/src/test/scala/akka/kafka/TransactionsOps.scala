@@ -3,11 +3,11 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka
+package org.apache.pekko.kafka
 import java.util.concurrent.atomic.AtomicInteger
 
 import akka.{ Done, NotUsed }
-import akka.actor.ActorSystem
+import org.apache.pekko.actor.ActorSystem
 import akka.kafka.ConsumerMessage.PartitionOffset
 import akka.kafka.ProducerMessage.MultiMessage
 import akka.kafka.scaladsl.Consumer.Control

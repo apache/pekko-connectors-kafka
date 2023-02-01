@@ -3,11 +3,11 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.javadsl
+package org.apache.pekko.kafka.javadsl
 
 import java.util.concurrent.CompletionStage
 
-import akka.actor.{ ActorSystem, ClassicActorSystemProvider }
+import org.apache.pekko.actor.{ ActorSystem, ClassicActorSystemProvider }
 import akka.kafka.{ scaladsl, ConsumerSettings, ProducerSettings }
 import com.typesafe.config.Config
 

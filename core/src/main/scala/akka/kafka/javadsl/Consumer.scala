@@ -3,12 +3,12 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.javadsl
+package org.apache.pekko.kafka.javadsl
 
 import java.util.concurrent.{ CompletionStage, Executor }
 
-import akka.actor.ActorRef
-import akka.annotation.ApiMayChange
+import org.apache.pekko.actor.ActorRef
+import org.apache.pekko.annotation.ApiMayChange
 import akka.dispatch.ExecutionContexts
 import akka.japi.Pair
 import akka.kafka.ConsumerMessage.{ CommittableMessage, CommittableOffset }

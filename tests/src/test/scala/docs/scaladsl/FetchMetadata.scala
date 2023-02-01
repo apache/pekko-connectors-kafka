@@ -12,10 +12,10 @@ import org.scalatest.time.{ Seconds, Span }
 
 // #metadata
 // #metadataClient
-import akka.actor.ActorRef
+import org.apache.pekko.actor.ActorRef
 import akka.kafka.{ KafkaConsumerActor, Metadata }
 import akka.pattern.ask
-import akka.util.Timeout
+import org.apache.pekko.util.Timeout
 import org.apache.kafka.common.TopicPartition
 
 import scala.concurrent.Future

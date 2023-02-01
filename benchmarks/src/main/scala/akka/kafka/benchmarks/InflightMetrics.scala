@@ -3,12 +3,12 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.benchmarks
+package org.apache.pekko.kafka.benchmarks
 
 import java.lang.management.{ BufferPoolMXBean, ManagementFactory, MemoryType }
 
 import akka.NotUsed
-import akka.actor.Cancellable
+import org.apache.pekko.actor.Cancellable
 import akka.kafka.scaladsl.Consumer.Control
 import akka.stream.Materializer
 import akka.stream.scaladsl.{ Keep, Sink, Source }

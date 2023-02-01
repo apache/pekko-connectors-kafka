@@ -3,8 +3,8 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.internal
-import akka.annotation.InternalApi
+package org.apache.pekko.kafka.internal
+import org.apache.pekko.annotation.InternalApi
 import akka.stream.stage.{ AsyncCallback, GraphStageLogic }
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.common.TopicPartition

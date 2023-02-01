@@ -3,10 +3,10 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.internal
+package org.apache.pekko.kafka.internal
 
-import akka.actor.ActorRef
-import akka.annotation.InternalApi
+import org.apache.pekko.actor.ActorRef
+import org.apache.pekko.annotation.InternalApi
 import akka.dispatch.ExecutionContexts
 import akka.kafka.ConsumerMessage.{ CommittableMessage, CommittableOffset }
 import akka.kafka._
@@ -17,7 +17,7 @@ import akka.pattern.AskTimeoutException
 import akka.stream.SourceShape
 import akka.stream.scaladsl.Source
 import akka.stream.stage.{ AsyncCallback, GraphStageLogic }
-import akka.util.Timeout
+import org.apache.pekko.util.Timeout
 import akka.{ Done, NotUsed }
 import org.apache.kafka.clients.consumer.{ ConsumerConfig, ConsumerRecord, OffsetAndMetadata }
 import org.apache.kafka.common.TopicPartition

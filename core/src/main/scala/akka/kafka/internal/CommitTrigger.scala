@@ -3,9 +3,9 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.internal
+package org.apache.pekko.kafka.internal
 
-private[akka] object CommitTrigger {
+private[pekko] object CommitTrigger {
   sealed trait TriggerdBy
   case object BatchSize extends TriggerdBy {
     override def toString: String = "batch size"

@@ -3,10 +3,10 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.scaladsl
+package org.apache.pekko.kafka.scaladsl
 
-import akka.actor.ActorRef
-import akka.annotation.ApiMayChange
+import org.apache.pekko.actor.ActorRef
+import org.apache.pekko.annotation.ApiMayChange
 import akka.dispatch.ExecutionContexts
 import akka.kafka.ConsumerMessage.{ CommittableMessage, CommittableOffset }
 import akka.kafka._

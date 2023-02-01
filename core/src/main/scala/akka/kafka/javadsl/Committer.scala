@@ -3,10 +3,10 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.javadsl
+package org.apache.pekko.kafka.javadsl
 import java.util.concurrent.CompletionStage
 
-import akka.annotation.ApiMayChange
+import org.apache.pekko.annotation.ApiMayChange
 import akka.japi.Pair
 import akka.{ Done, NotUsed }
 import akka.kafka.ConsumerMessage.{ Committable, CommittableOffsetBatch }

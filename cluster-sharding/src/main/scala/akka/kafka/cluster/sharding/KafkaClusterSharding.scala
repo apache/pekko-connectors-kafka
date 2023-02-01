@@ -3,29 +3,29 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.cluster.sharding
+package org.apache.pekko.kafka.cluster.sharding
 
 import java.util.concurrent.{ CompletionStage, ConcurrentHashMap }
 import java.util.concurrent.atomic.AtomicInteger
 
-import akka.actor.typed.Behavior
-import akka.actor.typed.scaladsl.Behaviors
-import akka.actor.typed.scaladsl.adapter._
-import akka.actor.{ ActorSystem, ClassicActorSystemProvider, ExtendedActorSystem, Extension, ExtensionId }
-import akka.annotation.{ ApiMayChange, InternalApi }
-import akka.cluster.sharding.external.ExternalShardAllocation
-import akka.cluster.sharding.typed.scaladsl.EntityTypeKey
-import akka.cluster.sharding.typed.{ ShardingEnvelope, ShardingMessageExtractor }
-import akka.cluster.typed.Cluster
+import org.apache.pekko.actor.typed.Behavior
+import org.apache.pekko.actor.typed.scaladsl.Behaviors
+import org.apache.pekko.actor.typed.scaladsl.adapter._
+import org.apache.pekko.actor.{ ActorSystem, ClassicActorSystemProvider, ExtendedActorSystem, Extension, ExtensionId }
+import org.apache.pekko.annotation.{ ApiMayChange, InternalApi }
+import org.apache.pekko.cluster.sharding.external.ExternalShardAllocation
+import org.apache.pekko.cluster.sharding.typed.scaladsl.EntityTypeKey
+import org.apache.pekko.cluster.sharding.typed.{ ShardingEnvelope, ShardingMessageExtractor }
+import org.apache.pekko.cluster.typed.Cluster
 import akka.kafka.scaladsl.MetadataClient
 import akka.kafka._
-import akka.util.Timeout._
+import org.apache.pekko.util.Timeout._
 import org.apache.kafka.common.utils.Utils
 
 import scala.concurrent.duration._
 import scala.concurrent.{ ExecutionContextExecutor, Future }
 import scala.util.{ Failure, Success }
-import akka.util.JavaDurationConverters._
+import org.apache.pekko.util.JavaDurationConverters._
 import org.slf4j.LoggerFactory
 
 import scala.compat.java8.FutureConverters._
@@ -214,7 +214,7 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
    * passed to an Alpakka Kafka [[ConsumerSettings]].
    *
    * {{{
-   * import akka.actor.typed.scaladsl.adapter._
+   * import org.apache.pekko.actor.typed.scaladsl.adapter._
    * val listenerClassicActorRef: akka.actor.ActorRef = listenerTypedActorRef.toClassic
    * }}}
    */
@@ -241,7 +241,7 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
    * passed to an Alpakka Kafka [[ConsumerSettings]].
    *
    * {{{
-   * import akka.actor.typed.scaladsl.adapter._
+   * import org.apache.pekko.actor.typed.scaladsl.adapter._
    * val listenerClassicActorRef: akka.actor.ActorRef = listenerTypedActorRef.toClassic
    * }}}
    */

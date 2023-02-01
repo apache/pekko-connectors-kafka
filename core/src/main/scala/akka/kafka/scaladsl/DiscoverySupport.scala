@@ -3,13 +3,13 @@
  * Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
  */
 
-package akka.kafka.scaladsl
+package org.apache.pekko.kafka.scaladsl
 
-import akka.actor.{ ActorSystem, ActorSystemImpl, ClassicActorSystemProvider }
-import akka.annotation.InternalApi
+import org.apache.pekko.actor.{ ActorSystem, ActorSystemImpl, ClassicActorSystemProvider }
+import org.apache.pekko.annotation.InternalApi
 import akka.discovery.{ Discovery, ServiceDiscovery }
 import akka.kafka.{ ConsumerSettings, ProducerSettings }
-import akka.util.JavaDurationConverters._
+import org.apache.pekko.util.JavaDurationConverters._
 import com.typesafe.config.Config
 
 import scala.concurrent.Future
