@@ -84,7 +84,7 @@ public class ClusterShardingExample {
     // #setup-cluster-sharding
 
     // #rebalance-listener
-    akka.actor.typed.ActorRef<ConsumerRebalanceEvent> rebalanceListener =
+    org.apache.pekko.actor.typed.ActorRef<ConsumerRebalanceEvent> rebalanceListener =
         KafkaClusterSharding.get(system).rebalanceListener(typeKey);
 
     ConsumerSettings<String, byte[]> consumerSettings =

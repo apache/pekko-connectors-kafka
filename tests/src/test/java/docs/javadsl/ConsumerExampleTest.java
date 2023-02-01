@@ -538,10 +538,10 @@ class ConsumerExampleTest extends TestcontainersKafkaTest {
               Behavior<ConsumerRebalanceEvent> listener =
                   Behaviors.setup(ctx -> rebalanceListener.apply(ctx));
 
-              akka.actor.typed.ActorRef<ConsumerRebalanceEvent> typedRef =
+              org.apache.pekko.actor.typed.ActorRef<ConsumerRebalanceEvent> typedRef =
                   guardianCtx.spawn(listener, "rebalance-listener");
 
-              akka.actor.ActorRef classicRef = Adapter.toClassic(typedRef);
+              org.apache.pekko.actor.ActorRef classicRef = Adapter.toClassic(typedRef);
 
               Subscription subscription =
                   Subscriptions.topics(topic)
@@ -565,8 +565,8 @@ class ConsumerExampleTest extends TestcontainersKafkaTest {
               return Behaviors.stopped();
             });
 
-    akka.actor.typed.ActorSystem<Object> typed =
-        akka.actor.typed.ActorSystem.create(guardian, "typed-rebalance-listener-example");
+    org.apache.pekko.actor.typed.ActorSystem<Object> typed =
+        org.apache.pekko.actor.typed.ActorSystem.create(guardian, "typed-rebalance-listener-example");
     assertDone(typed.getWhenTerminated());
   }
 
