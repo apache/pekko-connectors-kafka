@@ -566,7 +566,8 @@ class ConsumerExampleTest extends TestcontainersKafkaTest {
             });
 
     org.apache.pekko.actor.typed.ActorSystem<Object> typed =
-        org.apache.pekko.actor.typed.ActorSystem.create(guardian, "typed-rebalance-listener-example");
+        org.apache.pekko.actor.typed.ActorSystem.create(
+            guardian, "typed-rebalance-listener-example");
     assertDone(typed.getWhenTerminated());
   }
 

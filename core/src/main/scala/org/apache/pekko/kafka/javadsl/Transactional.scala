@@ -103,7 +103,8 @@ object Transactional {
     org.apache.pekko.stream.scaladsl
       .Flow[Pair[Envelope[K, V, NotUsed], PartitionOffset]]
       .map(_.toScala)
-      .toMat(scaladsl.Transactional.sinkWithOffsetContext(settings, transactionalId))(org.apache.pekko.stream.scaladsl.Keep.right)
+      .toMat(scaladsl.Transactional.sinkWithOffsetContext(settings, transactionalId))(
+        org.apache.pekko.stream.scaladsl.Keep.right)
       .mapMaterializedValue(_.toJava)
       .asJava
 

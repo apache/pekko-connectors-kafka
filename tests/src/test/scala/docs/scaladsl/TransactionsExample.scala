@@ -11,7 +11,14 @@ import org.apache.pekko.Done
 import org.apache.pekko.kafka.scaladsl.Consumer.{ Control, DrainingControl }
 import org.apache.pekko.kafka.scaladsl.{ Consumer, Transactional }
 import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import org.apache.pekko.kafka.{ ConsumerSettings, ProducerMessage, ProducerSettings, Repeated, Subscriptions, TransactionsOps }
+import org.apache.pekko.kafka.{
+  ConsumerSettings,
+  ProducerMessage,
+  ProducerSettings,
+  Repeated,
+  Subscriptions,
+  TransactionsOps
+}
 import org.apache.pekko.stream.RestartSettings
 import org.apache.pekko.stream.scaladsl.{ Keep, RestartSource, Sink }
 import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
