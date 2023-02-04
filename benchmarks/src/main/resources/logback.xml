@@ -13,8 +13,8 @@
     </appender>
 
     <logger name="org.apache" level="WARN"/>
-    <logger name="akka" level="WARN"/>
-    <logger name="akka.kafka.benchmarks" level="INFO"/>
+    <logger name="org.apache.pekko" level="WARN"/>
+    <logger name="org.apache.pekko.kafka.benchmarks" level="INFO"/>
     <logger name="org.apache.kafka.common.utils.AppInfoParser" level="ERROR"/>
     <logger name="org.apache.kafka.clients.NetworkClient" level="ERROR"/>
 

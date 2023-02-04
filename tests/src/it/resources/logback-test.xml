@@ -18,15 +18,15 @@
         </encoder>
     </appender>
 
-    <appender name="CapturingAppender" class="akka.kafka.tests.CapturingAppender"/>
+    <appender name="CapturingAppender" class="org.apache.pekko.kafka.tests.CapturingAppender"/>
 
-    <logger name="akka.kafka.tests.CapturingAppenderDelegate">
+    <logger name="org.apache.pekko.kafka.tests.CapturingAppenderDelegate">
         <appender-ref ref="STDOUT"/>
     </logger>
 
-    <logger name="akka" level="DEBUG"/>
-    <logger name="akka.kafka" level="DEBUG"/>
-    <logger name="akka.kafka.test.testcontainers.logs" level="INFO" />
+    <logger name="org.apache.pekko" level="DEBUG"/>
+    <logger name="org.apache.pekko.kafka" level="DEBUG"/>
+    <logger name="org.apache.pekko.kafka.test.testcontainers.logs" level="INFO" />
     <logger name="docs.scaladsl" levle="DEBUG"/>
 
     <logger name="org.apache.zookeeper" level="WARN"/>
