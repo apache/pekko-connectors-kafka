@@ -114,10 +114,10 @@ object DiscoverySupport {
   }
 
   private def checkClassOrThrow(system: ActorSystemImpl): Unit =
-    system.dynamicAccess.getClassFor("akka.discovery.Discovery$") match {
+    system.dynamicAccess.getClassFor("org.apache.pekko.discovery.Discovery$") match {
       case Failure(_: ClassNotFoundException | _: NoClassDefFoundError) =>
         throw new IllegalStateException(
-          s"Akka Discovery is being used but the `akka-discovery` library is not on the classpath, it must be added explicitly. See https://doc.akka.io/docs/alpakka-kafka/current/discovery.html")
+          s"Pekko Discovery is being used but the `pekko-discovery` library is not on the classpath, it must be added explicitly. See https://pekko.apache.org/docs/pekko/current/discovery/index.html")
       case _ =>
     }
 
