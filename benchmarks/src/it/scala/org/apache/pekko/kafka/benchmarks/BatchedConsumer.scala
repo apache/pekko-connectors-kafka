@@ -36,7 +36,7 @@ class ApacheKafkaBatchedConsumer extends BenchmarksBase() {
   }
 }
 
-class AlpakkaKafkaBatchedConsumer extends BenchmarksBase() {
+class PekkoConnectorsKafkaBatchedConsumer extends BenchmarksBase() {
 
   it should "bench with small messages" in {
     val cmd = RunTestCommand("alpakka-kafka-batched-consumer", bootstrapServers, topic_1000_100)

@@ -50,12 +50,12 @@ class RebalanceSpec extends SpecBase with TestcontainersKafkaLike with Inside {
       val tp1 = new TopicPartition(topic1, partition1)
       val consumerSettings = consumerDefaults
         .withProperty(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "500") // 500 is the default value
-        .withProperty(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, classOf[AlpakkaAssignor].getName)
+        .withProperty(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, classOf[PekkoConnectorsAssignor].getName)
         .withGroupId(group1)
 
       awaitProduce(produce(topic1, 0 to count.toInt, partition1))
 
-      AlpakkaAssignor.clientIdToPartitionMap.set(
+      PekkoConnectorsAssignor.clientIdToPartitionMap.set(
         Map(
           consumerClientId1 -> Set(tp0, tp1)))
 
@@ -75,7 +75,7 @@ class RebalanceSpec extends SpecBase with TestcontainersKafkaLike with Inside {
       log.debug("read one message from probe1 with partition 1")
       probe1.requestNext()
 
-      AlpakkaAssignor.clientIdToPartitionMap.set(
+      PekkoConnectorsAssignor.clientIdToPartitionMap.set(
         Map(
           consumerClientId1 -> Set(tp0),
           consumerClientId2 -> Set(tp1)))
@@ -146,12 +146,12 @@ class RebalanceSpec extends SpecBase with TestcontainersKafkaLike with Inside {
       val tp1 = new TopicPartition(topic1, partition1)
       val consumerSettings = consumerDefaults
         .withProperty(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "500") // 500 is the default value
-        .withProperty(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, classOf[AlpakkaAssignor].getName)
+        .withProperty(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, classOf[PekkoConnectorsAssignor].getName)
         .withGroupId(group1)
 
       awaitProduce(produce(topic1, 0 to count.toInt, partition1))
 
-      AlpakkaAssignor.clientIdToPartitionMap.set(
+      PekkoConnectorsAssignor.clientIdToPartitionMap.set(
         Map(
           consumerClientId1 -> Set(tp0, tp1)))
 
@@ -177,7 +177,7 @@ class RebalanceSpec extends SpecBase with TestcontainersKafkaLike with Inside {
         .find { case (tp, _) => tp.partition() == partition1 }
         .foreach { case (_, probe) => probe.requestNext() }
 
-      AlpakkaAssignor.clientIdToPartitionMap.set(
+      PekkoConnectorsAssignor.clientIdToPartitionMap.set(
         Map(
           consumerClientId1 -> Set(tp0),
           consumerClientId2 -> Set(tp1)))
@@ -230,7 +230,7 @@ class RebalanceSpec extends SpecBase with TestcontainersKafkaLike with Inside {
   }
 }
 
-object AlpakkaAssignor {
+object PekkoConnectorsAssignor {
   final val clientIdToPartitionMap = new AtomicReference[Map[String, Set[TopicPartition]]]()
 }
 
@@ -242,7 +242,7 @@ object AlpakkaAssignor {
  * Pass a client.id -> Set[TopicPartition] map to `AlpakkaAssignor.clientIdToPartitionMap` **before** you anticipate a
  * rebalance to occur in your test.
  */
-class AlpakkaAssignor extends AbstractPartitionAssignor {
+class PekkoConnectorsAssignor extends AbstractPartitionAssignor {
   val log: Logger = LoggerFactory.getLogger(getClass)
 
   override def name(): String = "alpakka-test"
@@ -251,7 +251,7 @@ class AlpakkaAssignor extends AbstractPartitionAssignor {
       partitionsPerTopic: util.Map[String, Integer],
       subscriptions: util.Map[String, ConsumerPartitionAssignor.Subscription])
       : util.Map[String, util.List[TopicPartition]] = {
-    val clientIdToPartitionMap = AlpakkaAssignor.clientIdToPartitionMap.get()
+    val clientIdToPartitionMap = PekkoConnectorsAssignor.clientIdToPartitionMap.get()
 
     val mapTps = clientIdToPartitionMap.values.flatten.toSet
     val subscriptionTps = partitionsPerTopic.asScala.flatMap {

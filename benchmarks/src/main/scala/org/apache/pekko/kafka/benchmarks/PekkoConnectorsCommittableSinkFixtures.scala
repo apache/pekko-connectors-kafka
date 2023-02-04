@@ -30,13 +30,13 @@ import scala.concurrent.duration._
 import scala.concurrent.{ Await, Future, Promise }
 import scala.util.Success
 
-case class AlpakkaCommittableSinkTestFixture[SOut, FIn](sourceTopic: String,
+case class PekkoConnectorsCommittableSinkTestFixture[SOut, FIn](sourceTopic: String,
     sinkTopic: String,
     msgCount: Int,
     source: Source[SOut, Control],
     sink: Sink[FIn, Future[Done]])
 
-object AlpakkaCommittableSinkFixtures extends PerfFixtureHelpers {
+object PekkoConnectorsCommittableSinkFixtures extends PerfFixtureHelpers {
   type Key = Array[Byte]
   type Val = String
   type Message = CommittableMessage[Key, Val]
@@ -55,7 +55,7 @@ object AlpakkaCommittableSinkFixtures extends PerfFixtureHelpers {
       .withBootstrapServers(kafkaHost)
 
   def producerSink(c: RunTestCommand)(implicit actorSystem: ActorSystem) =
-    FixtureGen[AlpakkaCommittableSinkTestFixture[Message, ProducerMessage]](
+    FixtureGen[PekkoConnectorsCommittableSinkTestFixture[Message, ProducerMessage]](
       c,
       msgCount => {
         fillTopic(c.filledTopic, c.kafkaHost)
@@ -67,7 +67,7 @@ object AlpakkaCommittableSinkFixtures extends PerfFixtureHelpers {
         val sink: Sink[ProducerMessage, Future[Done]] =
           Producer.committableSink(createProducerSettings(c.kafkaHost), CommitterSettings(actorSystem))
 
-        AlpakkaCommittableSinkTestFixture[Message, ProducerMessage](c.filledTopic.topic,
+        PekkoConnectorsCommittableSinkTestFixture[Message, ProducerMessage](c.filledTopic.topic,
           sinkTopic,
           msgCount,
           source,
@@ -75,7 +75,7 @@ object AlpakkaCommittableSinkFixtures extends PerfFixtureHelpers {
       })
 
   def composedSink(c: RunTestCommand)(implicit actorSystem: ActorSystem) =
-    FixtureGen[AlpakkaCommittableSinkTestFixture[Message, ProducerMessage]](
+    FixtureGen[PekkoConnectorsCommittableSinkTestFixture[Message, ProducerMessage]](
       c,
       msgCount => {
         fillTopic(c.filledTopic, c.kafkaHost)
@@ -90,7 +90,7 @@ object AlpakkaCommittableSinkFixtures extends PerfFixtureHelpers {
             .map(_.passThrough)
             .toMat(Committer.sink(CommitterSettings(actorSystem)))(Keep.right)
 
-        AlpakkaCommittableSinkTestFixture[Message, ProducerMessage](c.filledTopic.topic,
+        PekkoConnectorsCommittableSinkTestFixture[Message, ProducerMessage](c.filledTopic.topic,
           sinkTopic,
           msgCount,
           source,
@@ -98,11 +98,11 @@ object AlpakkaCommittableSinkFixtures extends PerfFixtureHelpers {
       })
 }
 
-object AlpakkaCommittableSinkBenchmarks extends LazyLogging {
-  import AlpakkaCommittableSinkFixtures.{ Message, ProducerMessage }
+object PekkoConnectorsCommittableSinkBenchmarks extends LazyLogging {
+  import PekkoConnectorsCommittableSinkFixtures.{ Message, ProducerMessage }
 
   val streamingTimeout: FiniteDuration = 30.minutes
-  type Fixture = AlpakkaCommittableSinkTestFixture[Message, ProducerMessage]
+  type Fixture = PekkoConnectorsCommittableSinkTestFixture[Message, ProducerMessage]
 
   def run(fixture: Fixture, meter: Meter)(implicit mat: Materializer): Unit = {
     logger.debug("Creating and starting a stream")

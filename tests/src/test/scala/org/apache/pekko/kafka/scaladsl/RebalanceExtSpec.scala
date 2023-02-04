@@ -198,7 +198,7 @@ class RebalanceExtSpec extends SpecBase with TestcontainersKafkaLike with Inside
       val topicMetadata: TopicPartitionMetaData =
         createTopicMapsAndPublishMessages(topicCount, partitionCount, perPartitionMessageCount)
       val group1 = createGroupId(1)
-      val consumerSettings1 = consumerSettings(group1, "3", classOf[AlpakkaAssignor].getName)
+      val consumerSettings1 = consumerSettings(group1, "3", classOf[PekkoConnectorsAssignor].getName)
 
       // let producers publish all messages
       Await.result(Future.sequence(topicMetadata.producerTpsAck), remainingOrDefault)
@@ -207,7 +207,7 @@ class RebalanceExtSpec extends SpecBase with TestcontainersKafkaLike with Inside
         topicMetadata.tps.sortBy(a => (a.topic, a.partition))
       val t1p0 = topic1PartitionList(0)
       val t1p1 = topic1PartitionList(1)
-      AlpakkaAssignor.clientIdToPartitionMap.set(
+      PekkoConnectorsAssignor.clientIdToPartitionMap.set(
         Map(
           consumerClientId1 -> Set(t1p0),
           consumerClientId2 -> Set(t1p1)))
@@ -243,7 +243,7 @@ class RebalanceExtSpec extends SpecBase with TestcontainersKafkaLike with Inside
       // consumer-2::SubSource-topic-1-1-1-A:verify messageId=10 is received in the business logic function
 
       // consumer-2::define post-abort partition distribution
-      AlpakkaAssignor.clientIdToPartitionMap.set(
+      PekkoConnectorsAssignor.clientIdToPartitionMap.set(
         Map(
           consumerClientId2 -> Set(t1p0, t1p1)))
       // consumer-1::SubSource-topic-1-1-0-A:unblock messageId=2 from batch (1,2,3)

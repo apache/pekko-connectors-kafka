@@ -61,7 +61,7 @@ class ApacheKafkaConsumerNokafka extends BenchmarksBase() {
   }
 }
 
-class AlpakkaKafkaConsumerNokafka extends BenchmarksBase() {
+class PekkoConnectorsKafkaConsumerNokafka extends BenchmarksBase() {
   it should "bench" in {
     val cmd = RunTestCommand("alpakka-kafka-plain-consumer-nokafka", bootstrapServers, topic_2000_100)
     runPerfTest(cmd,
@@ -83,7 +83,7 @@ class ApacheKafkaPlainConsumer extends BenchmarksBase() {
   }
 }
 
-class AlpakkaKafkaPlainConsumer extends BenchmarksBase() {
+class PekkoConnectorsKafkaPlainConsumer extends BenchmarksBase() {
   it should "bench" in {
     val cmd = RunTestCommand("alpakka-kafka-plain-consumer", bootstrapServers, topic_2000_100)
     runPerfTest(cmd, ReactiveKafkaConsumerFixtures.plainSources(cmd), ReactiveKafkaConsumerBenchmarks.consumePlain)
@@ -127,7 +127,7 @@ class ApacheKafkaAtMostOnceConsumer extends BenchmarksBase() {
   }
 }
 
-class AlpakkaKafkaAtMostOnceConsumer extends BenchmarksBase() {
+class PekkoConnectorsKafkaAtMostOnceConsumer extends BenchmarksBase() {
   it should "bench" in {
     val cmd = RunTestCommand("alpakka-kafka-at-most-once-consumer", bootstrapServers, topic_50_100)
     runPerfTest(cmd,

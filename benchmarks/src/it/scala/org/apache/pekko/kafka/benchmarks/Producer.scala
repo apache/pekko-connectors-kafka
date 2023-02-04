@@ -39,7 +39,7 @@ class ApacheKafkaPlainProducer extends BenchmarksBase() {
   }
 }
 
-class AlpakkaKafkaPlainProducer extends BenchmarksBase() {
+class PekkoConnectorsKafkaPlainProducer extends BenchmarksBase() {
   private val prefix = "alpakka-kafka-plain-producer"
 
   it should "bench with small messages" in {

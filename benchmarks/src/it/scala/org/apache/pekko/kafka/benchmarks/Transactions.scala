@@ -26,7 +26,7 @@ class ApacheKafkaTransactions extends BenchmarksBase() {
   }
 }
 
-class AlpakkaKafkaTransactions extends BenchmarksBase() {
+class PekkoConnectorsKafkaTransactions extends BenchmarksBase() {
   it should "bench with small messages" in {
     val cmd = RunTestCommand("alpakka-kafka-transactions", bootstrapServers, topic_100_100)
     runPerfTest(

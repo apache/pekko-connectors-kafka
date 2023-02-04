@@ -38,7 +38,7 @@ class RawKafkaCommitEveryPollConsumer extends BenchmarksBase() {
 //  }
 }
 
-class AlpakkaCommitAndForgetConsumer extends BenchmarksBase() {
+class PekkoConnectorsCommitAndForgetConsumer extends BenchmarksBase() {
   val prefix = "alpakka-kafka-commit-and-forget-"
 
   it should "bench with small messages" in {
