@@ -63,7 +63,7 @@ Java
 
 In addition to programmatic construction of the @apidoc[ProducerSettings$] it can also be created from configuration (`application.conf`). 
 
-When creating @apidoc[ProducerSettings$] with a classic @apidoc[akka.actor.ActorSystem] or typed @apidoc[akka.actor.typed.ActorSystem] it uses the config section `akka.kafka.producer`. 
+When creating @apidoc[ProducerSettings$] with a classic @apidoc[org.apache.pekko.actor.ActorSystem] or typed @apidoc[org.apache.pekko.actor.typed.ActorSystem] it uses the config section `akka.kafka.producer`. 
 The format of these settings files are described in the [Typesafe Config Documentation](https://github.com/lightbend/config#using-hocon-the-json-superset).
 
 @@ snip [snip](/core/src/main/resources/reference.conf) { #producer-settings }
@@ -94,7 +94,7 @@ Java
 
 ## Producing messages
 
-Sinks and flows accept implementations of @apidoc[ProducerMessage.Envelope] as input. They contain an extra field to pass through data, the so called `passThrough`. Its value is passed through the flow and becomes available in the @apidoc[akka.kafka.ProducerMessage.Results]' `passThrough()`. It can for example hold a @apidoc[akka.kafka.ConsumerMessage.CommittableOffset] or @apidoc[ConsumerMessage.CommittableOffsetBatch] from a @apidoc[Consumer.committableSource](Consumer$) that can be committed after publishing to Kafka. 
+Sinks and flows accept implementations of @apidoc[ProducerMessage.Envelope] as input. They contain an extra field to pass through data, the so called `passThrough`. Its value is passed through the flow and becomes available in the @apidoc[org.apache.pekko.kafka.ProducerMessage.Results]' `passThrough()`. It can for example hold a @apidoc[org.apache.pekko.kafka.ConsumerMessage.CommittableOffset] or @apidoc[ConsumerMessage.CommittableOffsetBatch] from a @apidoc[Consumer.committableSource](Consumer$) that can be committed after publishing to Kafka. 
 
 
 ### Produce a single message to Kafka
@@ -108,7 +108,7 @@ Java
 : @@ snip [snip](/tests/src/test/java/docs/javadsl/ProducerTest.java) { #singleMessage }
 
 
-For flows the @apidoc[ProducerMessage.Message]s continue as @apidoc[akka.kafka.ProducerMessage.Result] elements containing: 
+For flows the @apidoc[ProducerMessage.Message]s continue as @apidoc[org.apache.pekko.kafka.ProducerMessage.Result] elements containing: 
  
  1. the original input message,
  1. the record metadata (Kafka @javadoc[RecordMetadata](org.apache.kafka.clients.producer.RecordMetadata) API), and
@@ -125,7 +125,7 @@ Scala
 Java
 : @@ snip [snip](/tests/src/test/java/docs/javadsl/ProducerTest.java) { #multiMessage }
 
-For flows the @apidoc[ProducerMessage.MultiMessage]s continue as @apidoc[akka.kafka.ProducerMessage.MultiResult] elements containing: 
+For flows the @apidoc[ProducerMessage.MultiMessage]s continue as @apidoc[org.apache.pekko.kafka.ProducerMessage.MultiResult] elements containing: 
  
  1. a list of @apidoc[ProducerMessage.MultiResultPart] with
     1. the original input message,
@@ -163,7 +163,7 @@ Java
 
 ## Connecting a Producer to a Consumer
 
-The `passThrough` can for example hold a @apidoc[akka.kafka.ConsumerMessage.Committable] that can be committed after publishing to Kafka. 
+The `passThrough` can for example hold a @apidoc[org.apache.pekko.kafka.ConsumerMessage.Committable] that can be committed after publishing to Kafka. 
 
 Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/ConsumerExample.scala) { #consumerToProducerSink }

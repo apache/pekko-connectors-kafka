@@ -16,29 +16,29 @@ Alpakka Kafka offers a large variety of consumers that connect to Kafka and stre
 
 These factory methods are part of the @apidoc[Consumer$] API.
 
-| Offsets handling                        | Partition aware | Subscription        | Shared consumer | Factory method | Stream element type |
-|-----------------------------------------|-----------------|---------------------|-----------------|----------------|---------------------|
-| No (auto commit can be enabled)         | No              | Topic or Partition  | No              | `plainSource` | `ConsumerRecord` |
-| No (auto commit can be enabled)         | No              | Partition           | Yes             | `plainExternalSource` | `ConsumerRecord` |
-| Explicit committing                     | No              | Topic or Partition  | No              | `committableSource` | `CommittableMessage` |
-| Explicit committing                     | No              | Partition           | Yes             | `committableExternalSource` | `CommittableMessage` |
-| Explicit committing with metadata       | No              | Topic or Partition  | No              | `commitWithMetadataSource` | `CommittableMessage` |
-| Explicit committing (with metadata)     | No              | Topic or Partition  | No              | `sourceWithOffsetContext` | `ConsumerRecord` |
-| Offset committed per element            | No              | Topic or Partition  | No              | `atMostOnceSource` | `ConsumerRecord` |
-| No (auto commit can be enabled)         | Yes             | Topic or Partition  | No              | `plainPartitionedSource` | `(TopicPartition, Source[ConsumerRecord, ..])` |
-| External to Kafka                       | Yes             | Topic or Partition  | No              | `plainPartitionedManualOffsetSource` | `(TopicPartition, Source[ConsumerRecord, ..])` |
-| Explicit committing                     | Yes             | Topic or Partition  | No              | `committablePartitionedSource` | `(TopicPartition, Source[CommittableMessage, ..])`     |
-| External to Kafka & Explicit Committing | Yes             | Topic or Partition  | No              | `committablePartitionedManualOffsetSource` | `(TopicPartition, Source[CommittableMessage, ..])` |
-| Explicit committing with metadata       | Yes             | Topic or Partition  | No              | `commitWithMetadataPartitionedSource` | `(TopicPartition, Source[CommittableMessage, ..])`  |
+| Offsets handling                        | Partition aware | Subscription       | Shared consumer | Factory method                             | Stream element type                                |
+|-----------------------------------------|-----------------|--------------------|-----------------|--------------------------------------------|----------------------------------------------------|
+| No (auto commit can be enabled)         | No              | Topic or Partition | No              | `plainSource`                              | `ConsumerRecord`                                   |
+| No (auto commit can be enabled)         | No              | Partition          | Yes             | `plainExternalSource`                      | `ConsumerRecord`                                   |
+| Explicit committing                     | No              | Topic or Partition | No              | `committableSource`                        | `CommittableMessage`                               |
+| Explicit committing                     | No              | Partition          | Yes             | `committableExternalSource`                | `CommittableMessage`                               |
+| Explicit committing with metadata       | No              | Topic or Partition | No              | `commitWithMetadataSource`                 | `CommittableMessage`                               |
+| Explicit committing (with metadata)     | No              | Topic or Partition | No              | `sourceWithOffsetContext`                  | `ConsumerRecord`                                   |
+| Offset committed per element            | No              | Topic or Partition | No              | `atMostOnceSource`                         | `ConsumerRecord`                                   |
+| No (auto commit can be enabled)         | Yes             | Topic or Partition | No              | `plainPartitionedSource`                   | `(TopicPartition, Source[ConsumerRecord, ..])`     |
+| External to Kafka                       | Yes             | Topic or Partition | No              | `plainPartitionedManualOffsetSource`       | `(TopicPartition, Source[ConsumerRecord, ..])`     |
+| Explicit committing                     | Yes             | Topic or Partition | No              | `committablePartitionedSource`             | `(TopicPartition, Source[CommittableMessage, ..])` |
+| External to Kafka & Explicit Committing | Yes             | Topic or Partition | No              | `committablePartitionedManualOffsetSource` | `(TopicPartition, Source[CommittableMessage, ..])` |
+| Explicit committing with metadata       | Yes             | Topic or Partition | No              | `commitWithMetadataPartitionedSource`      | `(TopicPartition, Source[CommittableMessage, ..])` |
 
 ### Transactional consumers
 
 These factory methods are part of the @apidoc[Transactional$]. For details see @ref[Transactions](transactions.md).
 
-| Offsets handling                  | Partition aware | Shared consumer | Factory method | Stream element type |
-|-----------------------------------|-----------------|-----------------|----------------|---------------------|
-| Transactional                     | No              | No              | `Transactional.source` | `TransactionalMessage` |
-| Transactional                     | No              | No              | `Transactional.sourceWithOffsetContext` | `ConsumerRecord` |
+| Offsets handling | Partition aware | Shared consumer | Factory method                          | Stream element type    |
+|------------------|-----------------|-----------------|-----------------------------------------|------------------------|
+| Transactional    | No              | No              | `Transactional.source`                  | `TransactionalMessage` |
+| Transactional    | No              | No              | `Transactional.sourceWithOffsetContext` | `ConsumerRecord`       |
 
 
 ## Settings
@@ -228,7 +228,7 @@ How to achieve at-least-once delivery semantics is covered in @ref:[At-Least-Onc
 
 For cases when you need to read messages from one topic, transform or enrich them, and then write to another topic you can use @apidoc[Consumer.committableSource](Consumer$) and connect it to a @apidoc[Producer.committableSink](Producer$). The `committableSink` will commit the offset back to the consumer regularly.
 
-The `committableSink` accepts implementations @apidoc[ProducerMessage.Envelope] that contain the offset to commit the consumption of the originating message (of type @apidoc[akka.kafka.ConsumerMessage.Committable]). See @ref[Producing messages](producer.md#producing-messages) about different implementations of @apidoc[ProducerMessage.Envelope].
+The `committableSink` accepts implementations @apidoc[ProducerMessage.Envelope] that contain the offset to commit the consumption of the originating message (of type @apidoc[org.apache.pekko.kafka.ConsumerMessage.Committable]). See @ref[Producing messages](producer.md#producing-messages) about different implementations of @apidoc[ProducerMessage.Envelope].
 
 Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/ConsumerExample.scala) { #consumerToProducerSink }
@@ -268,11 +268,11 @@ Java
 ## Sharing the KafkaConsumer instance
 
 If you have many streams it can be more efficient to share the underlying @javadoc[KafkaConsumer](org.apache.kafka.clients.consumer.KafkaConsumer) instance. 
-It is shared by creating a @apidoc[akka.kafka.KafkaConsumerActor$]. 
+It is shared by creating a @apidoc[org.apache.pekko.kafka.KafkaConsumerActor$]. 
 You need to create the actor and stop it by sending `KafkaConsumerActor.Stop` when it is not needed any longer. 
-You pass the classic @apidoc[akka.actor.ActorRef] as a parameter to the @apidoc[Consumer](Consumer$) factory methods.
+You pass the classic @apidoc[org.apache.pekko.actor.ActorRef] as a parameter to the @apidoc[Consumer](Consumer$) factory methods.
 
-When using a typed @apidoc[akka.actor.typed.ActorSystem] you can create the @apidoc[akka.kafka.KafkaConsumerActor$] by using the Akka typed adapter to create a classic @apidoc[akka.actor.ActorRef].
+When using a typed @apidoc[org.apache.pekko.actor.typed.ActorSystem] you can create the @apidoc[org.apache.pekko.kafka.KafkaConsumerActor$] by using the Akka typed adapter to create a classic @apidoc[org.apache.pekko.actor.ActorRef].
 Then you can carry on using the existing Alpakka Kafka API.
 
 Scala
@@ -281,7 +281,7 @@ Scala
 Java
 : @@ snip [snip](/tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #consumerActorTyped }
 
-Using the @apidoc[akka.kafka.KafkaConsumerActor$].
+Using the @apidoc[org.apache.pekko.kafka.KafkaConsumerActor$].
 
 Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/PartitionExamples.scala) { #consumerActor }
@@ -307,7 +307,7 @@ Accessing of Kafka consumer metadata is possible as described in @ref[Consumer M
 
 
 ## Controlled shutdown
-The @apidoc[Source] created with @apidoc[Consumer.plainSource](Consumer$) and similar methods materializes to a @apidoc[akka.kafka.(javadsl|scaladsl).Consumer.Control] instance. This can be used to stop the stream in a controlled manner.
+The @apidoc[Source] created with @apidoc[Consumer.plainSource](Consumer$) and similar methods materializes to a @apidoc[org.apache.pekko.kafka.(javadsl|scaladsl).Consumer.Control] instance. This can be used to stop the stream in a controlled manner.
 
 When using external offset storage, a call to `Consumer.Control.shutdown()` suffices to complete the `Source`, which starts the completion of the stream.
 

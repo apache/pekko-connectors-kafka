@@ -54,7 +54,7 @@ from consuming from specific topic partitions. Two kinds of messages will be sen
 * @apidoc[TopicPartitionsAssigned]
 * @apidoc[TopicPartitionsRevoked]
 
-You can use a typed @apidoc[akka.actor.typed.ActorRef] to implement your rebalance event listener by converting it into a classic actor ref.
+You can use a typed @apidoc[org.apache.pekko.actor.typed.ActorRef] to implement your rebalance event listener by converting it into a classic actor ref.
 See the example below and read the @extref[Coexistence](akka:/typed/coexisting.html) page of the Akka Documentation for more details on Akka Classic and Typed interoperability.
 
 Scala

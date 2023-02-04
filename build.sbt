@@ -58,7 +58,7 @@ val commonSettings = Def.settings(
     url("https://github.com/apache/incubator-pekko-connectors-kafka/graphs/contributors")),
   startYear := Some(2014),
   licenses := Seq("Apache-2.0" -> url("https://opensource.org/licenses/Apache-2.0")),
-  description := "Alpakka is a Reactive Enterprise Integration library for Java and Scala, based on Reactive Streams and Akka.",
+  description := "Pekko kafka connector is a Reactive Enterprise Integration library for Java and Scala, based on Reactive Streams and Pekko.",
   crossScalaVersions := Seq(Scala213),
   scalaVersion := Scala213,
   crossVersion := CrossVersion.binary,
@@ -250,7 +250,7 @@ lazy val tests = project
     IntegrationTest / parallelExecution := false)
 
 lazy val docs = project
-  .enablePlugins(AkkaParadoxPlugin, ParadoxSitePlugin, PreprocessPlugin, PublishRsyncPlugin)
+  .enablePlugins(ParadoxPlugin, ParadoxSitePlugin, PreprocessPlugin, PublishRsyncPlugin)
   .disablePlugins(MimaPlugin)
   .settings(commonSettings)
   .settings(
@@ -279,10 +279,11 @@ lazy val docs = project
       "javadoc.akka.kafka.base_url" -> "",
       // Akka
       "pekko.version" -> pekkoVersion,
+      "scaladoc.base_url" -> "https://pekko.apache.org/docs/pekko-connectors-kafka/current/",
       "extref.akka.base_url" -> s"https://doc.akka.io/docs/akka/$AkkaBinaryVersionForDocs/%s",
-      "scaladoc.akka.base_url" -> s"https://doc.akka.io/api/akka/$AkkaBinaryVersionForDocs/",
-      "javadoc.akka.base_url" -> s"https://doc.akka.io/japi/akka/$AkkaBinaryVersionForDocs/",
-      "javadoc.akka.link_style" -> "direct",
+      "scaladoc.pekko.base_url" -> s"https://doc.akka.io/api/akka/$AkkaBinaryVersionForDocs/",
+      "javadoc.pekko.base_url" -> s"https://doc.akka.io/japi/akka/$AkkaBinaryVersionForDocs/",
+      "javadoc.pekko.link_style" -> "direct",
       "extref.akka-management.base_url" -> s"https://doc.akka.io/docs/akka-management/current/%s",
       // Kafka
       "kafka.version" -> kafkaVersion,
@@ -300,7 +301,7 @@ lazy val docs = project
       "testcontainers.version" -> testcontainersVersion,
       "javadoc.org.testcontainers.containers.base_url" -> s"https://www.javadoc.io/doc/org.testcontainers/testcontainers/$testcontainersVersion/",
       "javadoc.org.testcontainers.containers.link_style" -> "direct"),
-    apidocRootPackage := "akka",
+    apidocRootPackage := "org.apache.pekko",
     paradoxRoots := List("index.html"),
     resolvers += Resolver.jcenterRepo,
     publishRsyncArtifacts += makeSite.value -> "www/",
