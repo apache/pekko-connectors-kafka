@@ -39,7 +39,7 @@ object TestcontainersKafka {
       kafkaBootstrapServersInternal
     }
 
-    def brokerContainers: Vector[AlpakkaKafkaContainer] = {
+    def brokerContainers: Vector[PekkoConnectorsKafkaContainer] = {
       requireStarted()
       cluster.getBrokers.asScala.toVector
     }

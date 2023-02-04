@@ -7,11 +7,10 @@ package org.apache.pekko.kafka.testkit
 
 import java.time.Duration
 import java.util.function.Consumer
-
 import org.apache.pekko.actor.ActorSystem
-import org.apache.pekko.kafka.testkit.internal.AlpakkaKafkaContainer
 import org.apache.pekko.util.JavaDurationConverters._
 import com.typesafe.config.Config
+import org.apache.pekko.kafka.testkit.internal.PekkoConnectorsKafkaContainer
 import org.testcontainers.containers.GenericContainer
 
 import scala.concurrent.duration.FiniteDuration
@@ -29,10 +28,10 @@ final class KafkaTestkitTestcontainersSettings private (
     val containerLogging: Boolean,
     val clusterStartTimeout: FiniteDuration,
     val readinessCheckTimeout: FiniteDuration,
-    val configureKafka: Vector[AlpakkaKafkaContainer] => Unit = _ => (),
-    val configureKafkaConsumer: java.util.function.Consumer[java.util.Collection[AlpakkaKafkaContainer]] =
-      new Consumer[java.util.Collection[AlpakkaKafkaContainer]]() {
-        override def accept(arg: java.util.Collection[AlpakkaKafkaContainer]): Unit = ()
+    val configureKafka: Vector[PekkoConnectorsKafkaContainer] => Unit = _ => (),
+    val configureKafkaConsumer: java.util.function.Consumer[java.util.Collection[PekkoConnectorsKafkaContainer]] =
+      new Consumer[java.util.Collection[PekkoConnectorsKafkaContainer]]() {
+        override def accept(arg: java.util.Collection[PekkoConnectorsKafkaContainer]): Unit = ()
       },
     val configureZooKeeper: GenericContainer[_] => Unit = _ => (),
     val configureZooKeeperConsumer: java.util.function.Consumer[GenericContainer[_]] =
@@ -155,13 +154,14 @@ final class KafkaTestkitTestcontainersSettings private (
    * Replaces the default Kafka testcontainers configuration logic
    */
   def withConfigureKafkaConsumer(
-      configureKafkaConsumer: java.util.function.Consumer[java.util.Collection[AlpakkaKafkaContainer]])
+      configureKafkaConsumer: java.util.function.Consumer[java.util.Collection[PekkoConnectorsKafkaContainer]])
       : KafkaTestkitTestcontainersSettings = copy(configureKafkaConsumer = configureKafkaConsumer)
 
   /**
    * Replaces the default Kafka testcontainers configuration logic
    */
-  def withConfigureKafka(configureKafka: Vector[AlpakkaKafkaContainer] => Unit): KafkaTestkitTestcontainersSettings =
+  def withConfigureKafka(
+      configureKafka: Vector[PekkoConnectorsKafkaContainer] => Unit): KafkaTestkitTestcontainersSettings =
     copy(configureKafka = configureKafka)
 
   /**
@@ -241,8 +241,8 @@ final class KafkaTestkitTestcontainersSettings private (
       containerLogging: Boolean = containerLogging,
       clusterStartTimeout: FiniteDuration = clusterStartTimeout,
       readinessCheckTimeout: FiniteDuration = readinessCheckTimeout,
-      configureKafka: Vector[AlpakkaKafkaContainer] => Unit = configureKafka,
-      configureKafkaConsumer: java.util.function.Consumer[java.util.Collection[AlpakkaKafkaContainer]] =
+      configureKafka: Vector[PekkoConnectorsKafkaContainer] => Unit = configureKafka,
+      configureKafkaConsumer: java.util.function.Consumer[java.util.Collection[PekkoConnectorsKafkaContainer]] =
         configureKafkaConsumer,
       configureZooKeeper: GenericContainer[_] => Unit = configureZooKeeper,
       configureZooKeeperConsumer: java.util.function.Consumer[GenericContainer[_]] = configureZooKeeperConsumer,

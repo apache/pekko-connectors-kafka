@@ -35,9 +35,9 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 public class KafkaContainerCluster implements Startable {
 
   public static final DockerImageName DEFAULT_ZOOKEEPER_IMAGE_NAME =
-      AlpakkaKafkaContainer.DEFAULT_ZOOKEEPER_IMAGE_NAME;
+      PekkoConnectorsKafkaContainer.DEFAULT_ZOOKEEPER_IMAGE_NAME;
   public static final DockerImageName DEFAULT_KAFKA_IMAGE_NAME =
-      AlpakkaKafkaContainer.DEFAULT_KAFKA_IMAGE_NAME;
+      PekkoConnectorsKafkaContainer.DEFAULT_KAFKA_IMAGE_NAME;
   public static final DockerImageName DEFAULT_SCHEMA_REGISTRY_IMAGE_NAME =
       SchemaRegistryContainer.DEFAULT_SCHEMA_REGISTRY_IMAGE_NAME;
   public static final Duration DEFAULT_CLUSTER_START_TIMEOUT = Duration.ofSeconds(360);
@@ -57,7 +57,7 @@ public class KafkaContainerCluster implements Startable {
   private final Duration readinessCheckTimeout;
   private final Network network;
   private final GenericContainer zookeeper;
-  private final Collection<AlpakkaKafkaContainer> brokers;
+  private final Collection<PekkoConnectorsKafkaContainer> brokers;
   private DockerImageName schemaRegistryImage;
   private Optional<SchemaRegistryContainer> schemaRegistry = Optional.empty();
 
@@ -107,18 +107,21 @@ public class KafkaContainerCluster implements Startable {
         new GenericContainer(zooKeeperImage)
             .withNetwork(network)
             .withNetworkAliases("zookeeper")
-            .withEnv("ZOOKEEPER_CLIENT_PORT", String.valueOf(AlpakkaKafkaContainer.ZOOKEEPER_PORT));
+            .withEnv(
+                "ZOOKEEPER_CLIENT_PORT",
+                String.valueOf(PekkoConnectorsKafkaContainer.ZOOKEEPER_PORT));
 
     this.brokers =
         IntStream.range(0, this.brokersNum)
             .mapToObj(
                 brokerNum ->
-                    new AlpakkaKafkaContainer(kafkaImage)
+                    new PekkoConnectorsKafkaContainer(kafkaImage)
                         .withNetwork(this.network)
                         .withBrokerNum(brokerNum)
                         .withRemoteJmxService()
                         .dependsOn(this.zookeeper)
-                        .withExternalZookeeper("zookeeper:" + AlpakkaKafkaContainer.ZOOKEEPER_PORT)
+                        .withExternalZookeeper(
+                            "zookeeper:" + PekkoConnectorsKafkaContainer.ZOOKEEPER_PORT)
                         .withEnv("KAFKA_BROKER_ID", brokerNum + "")
                         .withEnv("KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR", internalTopicsRf + "")
                         .withEnv("KAFKA_OFFSETS_TOPIC_NUM_PARTITIONS", internalTopicsRf + "")
@@ -150,13 +153,13 @@ public class KafkaContainerCluster implements Startable {
     return this.schemaRegistry;
   }
 
-  public Collection<AlpakkaKafkaContainer> getBrokers() {
+  public Collection<PekkoConnectorsKafkaContainer> getBrokers() {
     return this.brokers;
   }
 
   public String getBootstrapServers() {
     return brokers.stream()
-        .map(AlpakkaKafkaContainer::getBootstrapServers)
+        .map(PekkoConnectorsKafkaContainer::getBootstrapServers)
         .collect(Collectors.joining(","));
   }
 
@@ -234,7 +237,7 @@ public class KafkaContainerCluster implements Startable {
                   "sh",
                   "-c",
                   "zookeeper-shell zookeeper:"
-                      + AlpakkaKafkaContainer.ZOOKEEPER_PORT
+                      + PekkoConnectorsKafkaContainer.ZOOKEEPER_PORT
                       + " ls /brokers/ids | tail -n 1");
           String brokers = result.getStdout();
           return brokers != null && brokers.split(",").length == this.brokersNum;
@@ -246,11 +249,11 @@ public class KafkaContainerCluster implements Startable {
   }
 
   public void stopKafka() {
-    this.brokers.forEach(AlpakkaKafkaContainer::stopKafka);
+    this.brokers.forEach(PekkoConnectorsKafkaContainer::stopKafka);
   }
 
   public void startKafka() {
-    this.brokers.forEach(AlpakkaKafkaContainer::startKafka);
+    this.brokers.forEach(PekkoConnectorsKafkaContainer::startKafka);
     waitForClusterFormation();
   }
 
@@ -310,7 +313,7 @@ public class KafkaContainerCluster implements Startable {
     if (this.kafkaImageTag.compareTo(BOOTSTRAP_PARAM_MIN_VERSION) >= 0) {
       return "--bootstrap-server localhost:9092";
     } else {
-      return "--zookeeper zookeeper:" + AlpakkaKafkaContainer.ZOOKEEPER_PORT;
+      return "--zookeeper zookeeper:" + PekkoConnectorsKafkaContainer.ZOOKEEPER_PORT;
     }
   }
 

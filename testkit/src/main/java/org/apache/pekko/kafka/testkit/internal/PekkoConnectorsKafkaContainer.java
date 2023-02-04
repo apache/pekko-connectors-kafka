@@ -25,7 +25,7 @@ import java.util.stream.Stream;
  * needed
  */
 @InternalApi
-public class AlpakkaKafkaContainer extends GenericContainer<AlpakkaKafkaContainer> {
+public class PekkoConnectorsKafkaContainer extends GenericContainer<PekkoConnectorsKafkaContainer> {
 
   private static final String START_STOP_SCRIPT = "/testcontainers_start_stop_wrapper.sh";
 
@@ -60,11 +60,11 @@ public class AlpakkaKafkaContainer extends GenericContainer<AlpakkaKafkaContaine
 
   private boolean enableRemoteJmxService = false;
 
-  public AlpakkaKafkaContainer() {
+  public PekkoConnectorsKafkaContainer() {
     this(DEFAULT_KAFKA_IMAGE_NAME);
   }
 
-  public AlpakkaKafkaContainer(final DockerImageName dockerImageName) {
+  public PekkoConnectorsKafkaContainer(final DockerImageName dockerImageName) {
     super(dockerImageName);
 
     super.withNetwork(Network.SHARED);
@@ -88,12 +88,12 @@ public class AlpakkaKafkaContainer extends GenericContainer<AlpakkaKafkaContaine
   }
 
   @Override
-  public AlpakkaKafkaContainer withNetwork(Network network) {
+  public PekkoConnectorsKafkaContainer withNetwork(Network network) {
     useImplicitNetwork = false;
     return super.withNetwork(network);
   }
 
-  public AlpakkaKafkaContainer withBrokerNum(int brokerNum) {
+  public PekkoConnectorsKafkaContainer withBrokerNum(int brokerNum) {
     if (brokerNum != this.brokerNum) {
       this.brokerNum = brokerNum;
       return super.withNetworkAliases("broker-" + this.brokerNum)
@@ -138,17 +138,17 @@ public class AlpakkaKafkaContainer extends GenericContainer<AlpakkaKafkaContaine
     }
   }
 
-  public AlpakkaKafkaContainer withEmbeddedZookeeper() {
+  public PekkoConnectorsKafkaContainer withEmbeddedZookeeper() {
     externalZookeeperConnect = null;
     return self();
   }
 
-  public AlpakkaKafkaContainer withExternalZookeeper(String connectString) {
+  public PekkoConnectorsKafkaContainer withExternalZookeeper(String connectString) {
     externalZookeeperConnect = connectString;
     return self();
   }
 
-  public AlpakkaKafkaContainer withRemoteJmxService() {
+  public PekkoConnectorsKafkaContainer withRemoteJmxService() {
     enableRemoteJmxService = true;
     return self();
   }

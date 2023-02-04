@@ -6,7 +6,11 @@
 package org.apache.pekko.kafka.testkit.scaladsl
 
 import org.apache.pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
-import org.apache.pekko.kafka.testkit.internal.{ AlpakkaKafkaContainer, SchemaRegistryContainer, TestcontainersKafka }
+import org.apache.pekko.kafka.testkit.internal.{
+  PekkoConnectorsKafkaContainer,
+  SchemaRegistryContainer,
+  TestcontainersKafka
+}
 import org.testcontainers.containers.GenericContainer
 
 /**
@@ -19,7 +23,7 @@ import org.testcontainers.containers.GenericContainer
 trait TestcontainersKafkaLike extends TestcontainersKafka.Spec {
   override def kafkaPort: Int = TestcontainersKafka.Singleton.kafkaPort
   override def bootstrapServers: String = TestcontainersKafka.Singleton.bootstrapServers
-  override def brokerContainers: Vector[AlpakkaKafkaContainer] = TestcontainersKafka.Singleton.brokerContainers
+  override def brokerContainers: Vector[PekkoConnectorsKafkaContainer] = TestcontainersKafka.Singleton.brokerContainers
   override def zookeeperContainer: GenericContainer[_] = TestcontainersKafka.Singleton.zookeeperContainer
   override def schemaRegistryContainer: Option[SchemaRegistryContainer] =
     TestcontainersKafka.Singleton.schemaRegistryContainer

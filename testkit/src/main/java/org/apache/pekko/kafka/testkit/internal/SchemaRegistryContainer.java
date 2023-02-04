@@ -13,7 +13,7 @@ public class SchemaRegistryContainer extends GenericContainer<SchemaRegistryCont
   // Align these confluent platform constants with testkit/src/main/resources/reference.conf
   public static final DockerImageName DEFAULT_SCHEMA_REGISTRY_IMAGE_NAME =
       DockerImageName.parse("confluentinc/cp-schema-registry")
-          .withTag(AlpakkaKafkaContainer.DEFAULT_CONFLUENT_PLATFORM_VERSION);
+          .withTag(PekkoConnectorsKafkaContainer.DEFAULT_CONFLUENT_PLATFORM_VERSION);
 
   public static int SCHEMA_REGISTRY_PORT = 8081;
 
