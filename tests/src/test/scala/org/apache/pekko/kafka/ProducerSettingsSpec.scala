@@ -25,14 +25,15 @@ class ProducerSettingsSpec
 
   "ProducerSettings" must {
 
+    // TODO: Are we going to change configuration?
     "handle serializers defined in config" in {
       val conf = ConfigFactory
         .parseString(
           """
-        org.apache.pekko.kafka.producer.kafka-clients.bootstrap.servers = "localhost:9092"
-        org.apache.pekko.kafka.producer.kafka-clients.parallelism = 1
-        org.apache.pekko.kafka.producer.kafka-clients.key.serializer = org.apache.kafka.common.serialization.StringSerializer
-        org.apache.pekko.kafka.producer.kafka-clients.value.serializer = org.apache.kafka.common.serialization.StringSerializer
+        akka.kafka.producer.kafka-clients.bootstrap.servers = "localhost:9092"
+        akka.kafka.producer.kafka-clients.parallelism = 1
+        akka.kafka.producer.kafka-clients.key.serializer = org.apache.kafka.common.serialization.StringSerializer
+        akka.kafka.producer.kafka-clients.value.serializer = org.apache.kafka.common.serialization.StringSerializer
         """)
         .withFallback(ConfigFactory.load())
         .getConfig("akka.kafka.producer")
@@ -42,8 +43,8 @@ class ProducerSettingsSpec
 
     "handle serializers passed as args config" in {
       val conf = ConfigFactory.parseString("""
-        org.apache.pekko.kafka.producer.kafka-clients.bootstrap.servers = "localhost:9092"
-        org.apache.pekko.kafka.producer.kafka-clients.parallelism = 1
+        akka.kafka.producer.kafka-clients.bootstrap.servers = "localhost:9092"
+        akka.kafka.producer.kafka-clients.parallelism = 1
         """).withFallback(ConfigFactory.load()).getConfig("akka.kafka.producer")
       val settings = ProducerSettings(conf, new ByteArraySerializer, new StringSerializer)
       settings.properties("bootstrap.servers") should ===("localhost:9092")
@@ -53,9 +54,9 @@ class ProducerSettingsSpec
       val conf = ConfigFactory
         .parseString(
           """
-        org.apache.pekko.kafka.producer.kafka-clients.bootstrap.servers = "localhost:9092"
-        org.apache.pekko.kafka.producer.kafka-clients.parallelism = 1
-        org.apache.pekko.kafka.producer.kafka-clients.value.serializer = org.apache.kafka.common.serialization.StringSerializer
+        akka.kafka.producer.kafka-clients.bootstrap.servers = "localhost:9092"
+        akka.kafka.producer.kafka-clients.parallelism = 1
+        akka.kafka.producer.kafka-clients.value.serializer = org.apache.kafka.common.serialization.StringSerializer
         """)
         .withFallback(ConfigFactory.load())
         .getConfig("akka.kafka.producer")
@@ -67,9 +68,9 @@ class ProducerSettingsSpec
       val conf = ConfigFactory
         .parseString(
           """
-        org.apache.pekko.kafka.producer.kafka-clients.bootstrap.servers = "localhost:9092"
-        org.apache.pekko.kafka.producer.kafka-clients.parallelism = 1
-        org.apache.pekko.kafka.producer.kafka-clients.key.serializer = org.apache.kafka.common.serialization.StringSerializer
+        akka.kafka.producer.kafka-clients.bootstrap.servers = "localhost:9092"
+        akka.kafka.producer.kafka-clients.parallelism = 1
+        akka.kafka.producer.kafka-clients.key.serializer = org.apache.kafka.common.serialization.StringSerializer
         """)
         .withFallback(ConfigFactory.load())
         .getConfig("akka.kafka.producer")
@@ -93,9 +94,9 @@ class ProducerSettingsSpec
       val conf = ConfigFactory
         .parseString(
           """
-        org.apache.pekko.kafka.producer.kafka-clients.bootstrap.servers = "localhost:9092"
-        org.apache.pekko.kafka.producer.kafka-clients.parallelism = 1
-        org.apache.pekko.kafka.producer.kafka-clients.key.serializer = org.apache.kafka.common.serialization.StringSerializer
+        akka.kafka.producer.kafka-clients.bootstrap.servers = "localhost:9092"
+        akka.kafka.producer.kafka-clients.parallelism = 1
+        akka.kafka.producer.kafka-clients.key.serializer = org.apache.kafka.common.serialization.StringSerializer
         """)
         .withFallback(ConfigFactory.load())
         .getConfig("akka.kafka.producer")
@@ -108,8 +109,8 @@ class ProducerSettingsSpec
 
     "throw IllegalArgumentException if no value serializer defined (null case). Key serializer passed as args config" in {
       val conf = ConfigFactory.parseString("""
-        org.apache.pekko.kafka.producer.kafka-clients.bootstrap.servers = "localhost:9092"
-        org.apache.pekko.kafka.producer.kafka-clients.parallelism = 1
+        akka.kafka.producer.kafka-clients.bootstrap.servers = "localhost:9092"
+        akka.kafka.producer.kafka-clients.parallelism = 1
         """).withFallback(ConfigFactory.load()).getConfig("akka.kafka.producer")
       val exception = intercept[IllegalArgumentException] {
         ProducerSettings(conf, new ByteArraySerializer, null)
@@ -122,9 +123,9 @@ class ProducerSettingsSpec
       val conf = ConfigFactory
         .parseString(
           """
-        org.apache.pekko.kafka.producer.kafka-clients.bootstrap.servers = "localhost:9092"
-        org.apache.pekko.kafka.producer.kafka-clients.parallelism = 1
-        org.apache.pekko.kafka.producer.kafka-clients.key.serializer = org.apache.kafka.common.serialization.StringSerializer
+        akka.kafka.producer.kafka-clients.bootstrap.servers = "localhost:9092"
+        akka.kafka.producer.kafka-clients.parallelism = 1
+        akka.kafka.producer.kafka-clients.key.serializer = org.apache.kafka.common.serialization.StringSerializer
         """)
         .withFallback(ConfigFactory.load())
         .getConfig("akka.kafka.producer")
@@ -139,9 +140,9 @@ class ProducerSettingsSpec
       val conf = ConfigFactory
         .parseString(
           """
-        org.apache.pekko.kafka.producer.kafka-clients.bootstrap.servers = "localhost:9092"
-        org.apache.pekko.kafka.producer.kafka-clients.parallelism = 1
-        org.apache.pekko.kafka.producer.kafka-clients.value.serializer = org.apache.kafka.common.serialization.StringSerializer
+        akka.kafka.producer.kafka-clients.bootstrap.servers = "localhost:9092"
+        akka.kafka.producer.kafka-clients.parallelism = 1
+        akka.kafka.producer.kafka-clients.value.serializer = org.apache.kafka.common.serialization.StringSerializer
         """)
         .withFallback(ConfigFactory.load())
         .getConfig("akka.kafka.producer")
@@ -154,8 +155,8 @@ class ProducerSettingsSpec
 
     "throw IllegalArgumentException if no key serializer defined (null case). Value serializer passed as args config" in {
       val conf = ConfigFactory.parseString("""
-        org.apache.pekko.kafka.producer.kafka-clients.bootstrap.servers = "localhost:9092"
-        org.apache.pekko.kafka.producer.kafka-clients.parallelism = 1
+        akka.kafka.producer.kafka-clients.bootstrap.servers = "localhost:9092"
+        akka.kafka.producer.kafka-clients.parallelism = 1
         """).withFallback(ConfigFactory.load()).getConfig("akka.kafka.producer")
       val exception = intercept[IllegalArgumentException] {
         ProducerSettings(conf, null, new ByteArraySerializer)
@@ -168,9 +169,9 @@ class ProducerSettingsSpec
       val conf = ConfigFactory
         .parseString(
           """
-        org.apache.pekko.kafka.producer.kafka-clients.bootstrap.servers = "localhost:9092"
-        org.apache.pekko.kafka.producer.kafka-clients.parallelism = 1
-        org.apache.pekko.kafka.producer.kafka-clients.value.serializer = org.apache.kafka.common.serialization.StringSerializer
+        akka.kafka.producer.kafka-clients.bootstrap.servers = "localhost:9092"
+        akka.kafka.producer.kafka-clients.parallelism = 1
+        akka.kafka.producer.kafka-clients.value.serializer = org.apache.kafka.common.serialization.StringSerializer
         """)
         .withFallback(ConfigFactory.load())
         .getConfig("akka.kafka.producer")
@@ -235,8 +236,8 @@ object ProducerSettingsSpec {
           resolve-timeout = 10 ms
         }
         // #discovery-service
-        org.apache.pekko.discovery.method = config
-        org.apache.pekko.discovery.config.services = {
+        pekko.discovery.method = config
+        pekko.discovery.config.services = {
           kafkaService1 = {
             endpoints = [
               { host = "cat", port = 1233 }
