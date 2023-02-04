@@ -5,7 +5,6 @@
 
 package org.apache.pekko.kafka.benchmarks
 
-import akka.stream.alpakka.csv.scaladsl.CsvQuotingStyle
 import com.codahale.metrics._
 import com.typesafe.scalalogging.LazyLogging
 import org.apache.pekko.NotUsed

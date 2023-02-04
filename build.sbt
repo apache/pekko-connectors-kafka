@@ -320,13 +320,11 @@ lazy val benchmarks = project
     name := "pekko-connectors-kafka-benchmarks",
     publish / skip := true,
     IntegrationTest / parallelExecution := false,
-    libraryDependencySchemes += "org.scala-lang.modules" %% "scala-java8-compat" % VersionScheme.Always,
     libraryDependencies ++= Seq(
       "com.typesafe.scala-logging" %% "scala-logging" % "3.9.5",
       "io.dropwizard.metrics" % "metrics-core" % "4.2.11",
       "ch.qos.logback" % "logback-classic" % "1.2.11",
       "org.slf4j" % "log4j-over-slf4j" % slf4jVersion,
-      "com.lightbend.akka" %% "akka-stream-alpakka-csv" % "3.0.4",
       "org.testcontainers" % "kafka" % testcontainersVersion % IntegrationTest,
       "org.apache.pekko" %% "pekko-slf4j" % pekkoVersion % IntegrationTest,
       "org.apache.pekko" %% "pekko-stream-testkit" % pekkoVersion % IntegrationTest,
