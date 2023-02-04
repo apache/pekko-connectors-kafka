@@ -24,9 +24,6 @@ import scala.compat.java8.FutureConverters._
 
 object ProducerSettings {
 
-  // TODO: Are we going to change akka -> pekko in the first release?
-  // I saw pekko-discovery is using pekko configuration
-  // https://github.com/apache/incubator-pekko/blob/64c7ec8fa73433f222759aff51330d2cdb8265fa/discovery/src/main/resources/reference.conf#L13
   val configPath = "akka.kafka.producer"
 
   /**
