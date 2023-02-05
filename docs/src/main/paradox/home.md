@@ -1,6 +1,6 @@
 # Overview
 
-The [Alpakka project](https://doc.akka.io/docs/alpakka/current/) is an open source initiative to implement stream-aware and reactive integration pipelines for Java and Scala. It is built on top of @extref[Akka Streams](akka:stream/index.html), and has been designed from the ground up to understand streaming natively and provide a DSL for reactive and stream-oriented programming, with built-in support for backpressure. Akka Streams is a [Reactive Streams](https://www.reactive-streams.org/) and JDK 9+ @extref[java.util.concurrent.Flow](java-docs:docs/api/java.base/java/util/concurrent/Flow.html)-compliant implementation and therefore @extref[fully interoperable](akka:general/stream/stream-design.html#interoperation-with-other-reactive-streams-implementations) with other implementations.
+The [Apache Pekko Kafka connector project](https://pekko.apache.org/docs/pekko-connectors-kafka/current/) is an open source initiative to implement stream-aware and reactive integration pipelines for Java and Scala. It is built on top of @extref[Pekko Streams](pekko:stream/index.html), and has been designed from the ground up to understand streaming natively and provide a DSL for reactive and stream-oriented programming, with built-in support for backpressure. Akka Streams is a [Reactive Streams](https://www.reactive-streams.org/) and JDK 9+ @extref[java.util.concurrent.Flow](java-docs:docs/api/java.base/java/util/concurrent/Flow.html)-compliant implementation and therefore @extref[fully interoperable](pekko:general/stream/stream-design.html#interoperation-with-other-reactive-streams-implementations) with other implementations.
 
 This **Alpakka Kafka connector** lets you connect [Apache Kafka](https://kafka.apache.org/) to Akka Streams. It was formerly known as **Akka Streams Kafka** and even **Reactive Kafka**.
 
@@ -55,13 +55,13 @@ This connector depends on Akka 2.6.x and note that it is important that all `akk
 
 Alpakka Kafka APIs accept a typed @apidoc[org.apache.pekko.actor.typed.ActorSystem] or a classic @apidoc[org.apache.pekko.actor.ActorSystem] because both implement the @apidoc[org.apache.pekko.actor.ClassicActorSystemProvider] @scala[trait]@java[interface].
 There are some Alpakka Kafka APIs that only accept classic a @apidoc[org.apache.pekko.actor.ActorRef], such as the @ref[rebalance listener](./consumer-rebalance.md) API, but otherwise there is no difference between running Alpakka Kafka and any other Akka Streams implementation with a typed @apidoc[org.apache.pekko.actor.typed.ActorSystem]. 
-For more information on Akka classic and typed interoperability read the @extref[Coexistence](akka:/typed/coexisting.html) page of the Akka Documentation.
+For more information on Akka classic and typed interoperability read the @extref[Coexistence](pekko:/typed/coexisting.html) page of the Akka Documentation.
 
 The table below shows Alpakka Kafka's direct dependencies and the second tab shows all libraries it depends on transitively.
 
 @@dependencies { projectId="core" }
 
-* Akka Streams $akka.version$ @extref[documentation](akka:stream/index.html) and [sources](https://github.com/akka/akka)
+* Akka Streams $akka.version$ @extref[documentation](pekko:stream/index.html) and [sources](https://github.com/akka/akka)
 * Apache Kafka client $kafka.version$ @extref[documentation](kafka:/documentation#index) and [sources](https://github.com/apache/kafka)
 
 

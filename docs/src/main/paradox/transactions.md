@@ -93,7 +93,7 @@ Java
 
 When any stage in the stream fails the whole stream will be torn down.  In the general case it's desirable to allow transient errors to fail the whole stream because they cannot be recovered from within the application.  Transient errors can be caused by network partitions, Kafka broker failures, @javadoc[ProducerFencedException](org.apache.kafka.common.errors.ProducerFencedException)'s from other application instances, and so on.  When the stream encounters transient errors then the current transaction will be aborted before the stream is torn down.  Any produced messages that were not committed will not be available to downstream consumers as long as those consumers are configured with `isolation.level = read_committed`.
 
-For transient errors we can choose to rely on the Kafka producer's configuration to retry, or we can handle it ourselves at the Akka Streams or Application layer.  Using the @extref[RestartSource](akka:/stream/stream-error.html#delayed-restarts-with-a-backoff-stage) we can backoff connection attempts so that we don't hammer the Kafka cluster in a tight loop.
+For transient errors we can choose to rely on the Kafka producer's configuration to retry, or we can handle it ourselves at the Akka Streams or Application layer.  Using the @extref[RestartSource](pekko:/stream/stream-error.html#delayed-restarts-with-a-backoff-stage) we can backoff connection attempts so that we don't hammer the Kafka cluster in a tight loop.
 
 Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/TransactionsExample.scala) { #transactionalFailureRetry }

@@ -3,9 +3,9 @@ project.description: Akka Discovery can be used to achieve Kafka broker discover
 ---
 # Service discovery
 
-By using @extref:[Akka Discovery](akka:discovery/index.html) Alpakka Kafka may read the Kafka bootstrap server addresses from any Akka Discovery-compatible service discovery mechanism.
+By using @extref:[Pekko Discovery](pekko:discovery/index.html) Alpakka Kafka may read the Kafka bootstrap server addresses from any Akka Discovery-compatible service discovery mechanism.
 
-Akka Discovery supports Configuration (HOCON), DNS (SRV records), and aggregation of multiple discovery methods out-of-the-box. Kubernetes API, AWS API: EC2 Tag-Based Discovery, AWS API: ECS Discovery and Consul implementations for Akka Discovery are available in @extref:[Akka Management](akka-management:).
+Akka Discovery supports Configuration (HOCON), DNS (SRV records), and aggregation of multiple discovery methods out-of-the-box. Kubernetes API, AWS API: EC2 Tag-Based Discovery, AWS API: ECS Discovery and Consul implementations for Akka Discovery are available in @extref:[Pekko Management](pekko-management:).
 
 ## Dependency
 
@@ -103,7 +103,7 @@ application.conf
 
 ## Use Config (HOCON) to describe the bootstrap servers
 
-The setup below uses the built-in Akka Discovery implementation reading from Config (HOCON) files. That might be a good choice for development and testing. You may use the @extref:[Aggregate implementation](akka:discovery/index.html#discovery-method-aggregate-multiple-discovery-methods) to first use another discovery technology, before falling back to the config file.
+The setup below uses the built-in Akka Discovery implementation reading from Config (HOCON) files. That might be a good choice for development and testing. You may use the @extref:[Aggregate implementation](pekko:discovery/index.html#discovery-method-aggregate-multiple-discovery-methods) to first use another discovery technology, before falling back to the config file.
 
 application.conf
 :   @@snip [conf](/tests/src/test/scala/org/apache/pekko/kafka/ConsumerSettingsSpec.scala) { #discovery-with-config }

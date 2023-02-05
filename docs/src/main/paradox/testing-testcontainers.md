@@ -33,10 +33,10 @@ Java
 : @@snip [snip](/tests/src/test/java/docs/javadsl/TestkitTestcontainersTest.java) { #testcontainers-settings }
 
 <!-- NOTE: Can't get this working with paradox..
-To see what options are available for configuring testcontainers using `configureKafka` and `configureZooKeeper` in @apidoc[KafkaTestkitTestcontainersSettings] see the API docs for @apidoc[AlpakkaKafkaContainer] and @apidoc[org.testcontainers.containers.GenericContainer]. 
+To see what options are available for configuring testcontainers using `configureKafka` and `configureZooKeeper` in @apidoc[KafkaTestkitTestcontainersSettings] see the API docs for @apidoc[PekkoConnectorsKafkaContainer] and @apidoc[org.testcontainers.containers.GenericContainer]. 
 -->
 
-To see what options are available for configuring testcontainers using `configureKafka` and `configureZooKeeper` in @apidoc[KafkaTestkitTestcontainersSettings] see the API docs for @apidoc[AlpakkaKafkaContainer] and [`GenericContainer`](https://www.javadoc.io/static/org.testcontainers/testcontainers/$testcontainers.version$/org/testcontainers/containers/GenericContainer.html).
+To see what options are available for configuring testcontainers using `configureKafka` and `configureZooKeeper` in @apidoc[KafkaTestkitTestcontainersSettings] see the API docs for @apidoc[PekkoConnectorsKafkaContainer] and [`GenericContainer`](https://www.javadoc.io/static/org.testcontainers/testcontainers/$testcontainers.version$/org/testcontainers/containers/GenericContainer.html).
 
 ### Testing with Schema Registry
 
@@ -88,7 +88,7 @@ To ensure proper shutdown of all stages in every test, wrap your test code in @a
 
 ### One cluster for all tests
 
-By mixing in @scaladoc[TestcontainersKafkaLike](akka.kafka.testkit.scaladsl.TestcontainersKafkaLike) the Kafka Docker cluster will be started before the first test and shut down after all tests are finished.
+By mixing in @scaladoc[TestcontainersKafkaLike](org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike) the Kafka Docker cluster will be started before the first test and shut down after all tests are finished.
 
 Scala
 : @@snip [snip](/tests/src/test/scala/org/apache/pekko/kafka/scaladsl/SpecBase.scala) { #testkit #testcontainers}
@@ -97,4 +97,4 @@ With this `TestcontainersSampleSpec` class test classes can extend it to automat
 
 ### One cluster per test class
 
-By mixing in @scaladoc[TestcontainersKafkaPerClassLike](akka.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike) a specific Kafka Docker cluster will be started for that test class and stopped after its run finished.
+By mixing in @scaladoc[TestcontainersKafkaPerClassLike](org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike) a specific Kafka Docker cluster will be started for that test class and stopped after its run finished.
