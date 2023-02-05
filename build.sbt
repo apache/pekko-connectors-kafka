@@ -1,38 +1,9 @@
 import com.typesafe.tools.mima.core.{ Problem, ProblemFilters }
+import ProjectSettings.commonSettings
 
 enablePlugins(AutomateHeaderPlugin)
 
-val Nightly = sys.env.get("EVENT_NAME").contains("schedule")
-
-// align ignore-prefixes in scripts/link-validator.conf
-// align in release.yml
-val Scala213 = "2.13.8"
-
-val pekkoVersionForDocs = "current"
-val pekkoVersion = "0.0.0+26546-767209a8-SNAPSHOT"
-
-// Keep .scala-steward.conf pin in sync
-val kafkaVersion = "3.0.1"
-val KafkaVersionForDocs = "30"
-// This should align with the ScalaTest version used in the Akka 2.6.x testkit
-// https://github.com/apache/incubator-pekko/blob/main/project/Dependencies.scala#L70
-val scalatestVersion = "3.1.4"
-val testcontainersVersion = "1.16.3"
-val slf4jVersion = "1.7.36"
-// this depends on Kafka, and should be upgraded to such latest version
-// that depends on the same Kafka version, as is defined above
-// See https://mvnrepository.com/artifact/io.confluent/kafka-avro-serializer?repo=confluent-packages
-val confluentAvroSerializerVersion = "7.0.5"
-val confluentLibsExclusionRules = Seq(
-  ExclusionRule("log4j", "log4j"),
-  ExclusionRule("org.slf4j", "slf4j-log4j12"),
-  ExclusionRule("com.typesafe.scala-logging"),
-  ExclusionRule("org.apache.kafka"))
-
-ThisBuild / resolvers ++= Seq(
-  // for Jupiter interface (JUnit 5)
-  Resolver.jcenterRepo,
-  "Apache Snapshot Repo" at "https://repository.apache.org/content/groups/snapshots/")
+ThisBuild / resolvers ++= ResolverSettings.projectResolvers
 
 TaskKey[Unit]("verifyCodeFmt") := {
   javafmtCheckAll.all(ScopeFilter(inAnyProject)).result.value.toEither.left.foreach { _ =>
@@ -44,70 +15,6 @@ TaskKey[Unit]("verifyCodeFmt") := {
 addCommandAlias("verifyCodeStyle", "headerCheck; verifyCodeFmt")
 addCommandAlias("verifyDocs", ";+doc ;unidoc ;docs/paradoxBrowse")
 
-val commonSettings = Def.settings(
-  organization := "org.apache.pekko",
-  organizationName := "Apache Software Foundation",
-  organizationHomepage := Some(url("https://www.apache.org")),
-  homepage := Some(url("https://pekko.apache.org/docs/pekko-connectors-kafka/current/")),
-  scmInfo := Some(ScmInfo(url("https://github.com/apache/incubator-pekko-connectors-kafka"),
-    "git@github.com:apache/incubator-pekko-connectors-kafka.git")),
-  developers += Developer(
-    "pekko-connectors-kafka",
-    "Apache Pekko Connectors Kafka Contributors",
-    "dev@pekko.apache.org",
-    url("https://github.com/apache/incubator-pekko-connectors-kafka/graphs/contributors")),
-  startYear := Some(2014),
-  licenses := Seq("Apache-2.0" -> url("https://opensource.org/licenses/Apache-2.0")),
-  description := "Apache Pekko kafka connector is a Reactive Enterprise Integration library for Java and Scala, based on Reactive Streams and Pekko.",
-  crossScalaVersions := Seq(Scala213),
-  scalaVersion := Scala213,
-  crossVersion := CrossVersion.binary,
-  javacOptions ++= Seq(
-    "-Xlint:deprecation",
-    "-Xlint:unchecked"),
-  scalacOptions ++= Seq(
-    "-encoding",
-    "UTF-8", // yes, this is 2 args
-    "-Wconf:cat=feature:w,cat=deprecation:w,cat=unchecked:w,cat=lint:w,cat=unused:w,cat=w-flag:w") ++ {
-    if (insideCI.value && !Nightly) Seq("-Werror")
-    else Seq.empty
-  },
-  Compile / doc / scalacOptions := scalacOptions.value ++ Seq(
-    "-Wconf:cat=scaladoc:i",
-    "-doc-title",
-    "Apache Pekko Kafka Connector",
-    "-doc-version",
-    version.value,
-    "-sourcepath",
-    (ThisBuild / baseDirectory).value.toString,
-    "-skip-packages",
-    "akka.pattern:scala", // for some reason Scaladoc creates this
-    "-doc-source-url", {
-      val branch = if (isSnapshot.value) "master" else s"v${version.value}"
-      s"https://github.com/apache/incubator-pekko-connectors-kafka/tree/${branch}€{FILE_PATH_EXT}#L€{FILE_LINE}"
-    },
-    "-doc-canonical-base-url",
-    "https://pekko.apache.org/api/pekko-connectors-kafka/current/"),
-  Compile / doc / scalacOptions -= "-Xfatal-warnings",
-  // show full stack traces and test case durations
-  testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-oDF"),
-  // https://github.com/maichler/sbt-jupiter-interface#framework-options
-  // -a Show stack traces and exception class name for AssertionErrors.
-  // -v Log "test run started" / "test started" / "test run finished" events on log level "info" instead of "debug".
-  // -q Suppress stdout for successful tests.
-  // -s Try to decode Scala names in stack traces and test names.
-  testOptions += Tests.Argument(jupiterTestFramework, "-a", "-v", "-q", "-s"),
-  scalafmtOnCompile := false,
-  javafmtOnCompile := false,
-  ThisBuild / mimaReportSignatureProblems := true,
-  headerLicense := Some(
-    HeaderLicense.Custom(
-      """|Copyright (C) 2014 - 2016 Softwaremill <https://softwaremill.com>
-           |Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
-           |""".stripMargin)),
-  projectInfoVersion := (if (isSnapshot.value) "snapshot" else version.value),
-  sonatypeProfileName := "com.typesafe")
-
 lazy val `pekko-connectors-kafka` =
   project
     .in(file("."))
@@ -118,44 +25,7 @@ lazy val `pekko-connectors-kafka` =
       publish / skip := true,
       // TODO: add clusterSharding to unidocProjectFilter when we drop support for Akka 2.5
       ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(core, testkit),
-      onLoadMessage :=
-        """
-            |** Welcome to the Apache Pekko Kafka Connector! **
-            |
-            |The build has three main modules:
-            |  core - the Kafka connector sources
-            |  cluster-sharding - Akka Cluster External Sharding with the Apache Pekko Kafka Connector
-            |  tests - tests, Docker based integration tests, code for the documentation
-            |  testkit - framework for testing the connector
-            |
-            |Other modules:
-            |  docs - the sources for generating https://pekko.apache.org/docs/pekko-connectors-kafka/current/
-            |  benchmarks - compare direct Kafka API usage with Apache Pekko Kafka Connector
-            |
-            |Useful sbt tasks:
-            |
-            |  docs/previewSite
-            |    builds Paradox and Scaladoc documentation, starts a webserver and
-            |    opens a new browser window
-            |
-            |  verifyCodeStyle
-            |    checks if all of the code is formatted according to the configuration
-            |
-            |  verifyDocs
-            |    builds all of the docs
-            |
-            |  test
-            |    runs all the tests
-            |
-            |  tests/IntegrationTest/test
-            |    run integration tests backed by Docker containers
-            |
-            |  tests/testOnly -- -t "A consume-transform-produce cycle must complete in happy-path scenario"
-            |    run a single test with an exact name (use -z for partial match)
-            |
-            |  benchmarks/IntegrationTest/testOnly *.PekkoConnectorsKafkaPlainConsumer
-            |    run a single benchmark backed by Docker containers
-          """.stripMargin)
+      onLoadMessage := ProjectSettings.onLoadMessage)
     .aggregate(core, testkit, `cluster-sharding`, tests, benchmarks, docs)
 
 lazy val core = project
@@ -167,10 +37,7 @@ lazy val core = project
   .settings(
     name := "pekko-connectors-kafka",
     AutomaticModuleName.settings("org.apache.pekko.kafka"),
-    libraryDependencies ++= Seq(
-      "org.apache.pekko" %% "pekko-stream" % pekkoVersion,
-      "org.apache.pekko" %% "pekko-discovery" % pekkoVersion % Provided,
-      "org.apache.kafka" % "kafka-clients" % kafkaVersion),
+    libraryDependencies ++= Dependencies.coreDependencies,
     mimaPreviousArtifacts := Set.empty, // temporarily disable mima checks
     mimaBinaryIssueFilters += ProblemFilters.exclude[Problem]("org.apache.pekko.kafka.internal.*"))
 
@@ -184,11 +51,8 @@ lazy val testkit = project
     name := "pekko-connectors-kafka-testkit",
     AutomaticModuleName.settings("org.apache.pekko.kafka.testkit"),
     JupiterKeys.junitJupiterVersion := "5.8.2",
+    libraryDependencies ++= Dependencies.testKitDependencies,
     libraryDependencies ++= Seq(
-      "org.apache.pekko" %% "pekko-stream-testkit" % pekkoVersion,
-      "org.testcontainers" % "kafka" % testcontainersVersion % Provided,
-      "org.scalatest" %% "scalatest" % scalatestVersion % Provided,
-      "junit" % "junit" % "4.13.2" % Provided,
       "org.junit.jupiter" % "junit-jupiter-api" % JupiterKeys.junitJupiterVersion.value % Provided),
     mimaPreviousArtifacts := Set.empty, // temporarily disable mima checks
     mimaBinaryIssueFilters += ProblemFilters.exclude[Problem]("org.apache.pekko.kafka.testkit.internal.*"))
@@ -203,8 +67,7 @@ lazy val `cluster-sharding` = project
   .settings(
     name := "pekko-connectors-kafka-cluster-sharding",
     AutomaticModuleName.settings("org.apache.pekko.kafka.cluster.sharding"),
-    libraryDependencies ++= Seq(
-      "org.apache.pekko" %% "pekko-cluster-sharding-typed" % pekkoVersion),
+    libraryDependencies ++= Dependencies.clusterShardingDependencies,
     mimaPreviousArtifacts := Set.empty // temporarily disable mima checks
   )
 
@@ -218,39 +81,15 @@ lazy val tests = project
   .settings(headerSettings(IntegrationTest))
   .settings(
     name := "pekko-connectors-kafka-tests",
+    resolvers ++= ResolverSettings.testSpecificResolvers,
+    libraryDependencies ++= Dependencies.testDependencies,
     libraryDependencies ++= Seq(
-      "org.apache.pekko" %% "pekko-discovery" % pekkoVersion,
-      "com.google.protobuf" % "protobuf-java" % "3.19.1", // use the same version as in scalapb
-      ("io.confluent" % "kafka-avro-serializer" % confluentAvroSerializerVersion % Test).excludeAll(
-        confluentLibsExclusionRules: _*),
-      // See https://github.com/sbt/sbt/issues/3618#issuecomment-448951808
-      ("javax.ws.rs" % "javax.ws.rs-api" % "2.1.1").artifacts(Artifact("javax.ws.rs-api", "jar", "jar")),
-      "org.testcontainers" % "kafka" % testcontainersVersion % Test,
-      "org.scalatest" %% "scalatest" % scalatestVersion % Test,
-      "io.spray" %% "spray-json" % "1.3.6" % Test,
-      "com.fasterxml.jackson.core" % "jackson-databind" % "2.13.3" % Test, // ApacheV2
       "org.junit.vintage" % "junit-vintage-engine" % JupiterKeys.junitVintageVersion.value % Test,
-      // See http://hamcrest.org/JavaHamcrest/distributables#upgrading-from-hamcrest-1x
-      "org.hamcrest" % "hamcrest-library" % "2.2" % Test,
-      "org.hamcrest" % "hamcrest" % "2.2" % Test,
-      "net.aichler" % "jupiter-interface" % JupiterKeys.jupiterVersion.value % Test,
-      "org.apache.pekko" %% "pekko-slf4j" % pekkoVersion % Test,
-      "ch.qos.logback" % "logback-classic" % "1.2.11" % Test,
-      "org.slf4j" % "log4j-over-slf4j" % slf4jVersion % Test,
-      // Schema registry uses Glassfish which uses java.util.logging
-      "org.slf4j" % "jul-to-slf4j" % slf4jVersion % Test,
-      "org.mockito" % "mockito-core" % "4.6.1" % Test,
-      "com.thesamet.scalapb" %% "scalapb-runtime" % "0.10.11" % Test),
-    resolvers ++= Seq(
-      "Confluent Maven Repo" at "https://packages.confluent.io/maven/",
-      "Apache Snapshot Repo" at "https://repository.apache.org/content/groups/snapshots/"),
+      "net.aichler" % "jupiter-interface" % JupiterKeys.jupiterVersion.value % Test),
     publish / skip := true,
     Test / fork := true,
     Test / parallelExecution := false,
     IntegrationTest / parallelExecution := false)
-
-lazy val pekkoAPI = "https://pekko.apache.org/api"
-lazy val pekkoDocs = "https://pekko.apache.org/docs"
 
 lazy val docs = project
   .enablePlugins(ParadoxPlugin, ParadoxSitePlugin, PreprocessPlugin, PublishRsyncPlugin)
@@ -274,35 +113,7 @@ lazy val docs = project
       ("https://docs\\.oracle\\.com/en/java/javase/11/docs/api/".r,
         _ => "https://docs\\.oracle\\.com/en/java/javase/11/docs/api/")),
     Paradox / siteSubdirName := s"docs/pekko-connectors-kafka/${projectInfoVersion.value}",
-    paradoxGroups := Map("Language" -> Seq("Java", "Scala")),
-    paradoxProperties ++= Map(
-      "image.base_url" -> "images/",
-      "confluent.version" -> confluentAvroSerializerVersion,
-      "scalatest.version" -> scalatestVersion,
-      "pekko.version" -> pekkoVersion,
-      "extref.pekko.base_url" -> s"$pekkoDocs/pekko/$pekkoVersionForDocs/%s",
-      "scaladoc.org.apache.pekko.base_url" -> s"$pekkoAPI/pekko/$pekkoVersionForDocs/",
-      "javadoc.org.apache.pekko.base_url" -> s"$pekkoAPI/pekko/$pekkoVersionForDocs/",
-      "javadoc.pekko.link_style" -> "direct",
-      "extref.pekko-management.base_url" -> s"$pekkoDocs/pekko-management/$pekkoVersionForDocs/%s",
-      // Kafka
-      "kafka.version" -> kafkaVersion,
-      "extref.kafka.base_url" -> s"https://kafka.apache.org/$KafkaVersionForDocs/%s",
-      "javadoc.org.apache.kafka.base_url" -> s"https://kafka.apache.org/$KafkaVersionForDocs/javadoc/",
-      "javadoc.org.apache.kafka.link_style" -> "direct",
-      // Java
-      "extref.java-docs.base_url" -> "https://docs.oracle.com/en/java/javase/11/%s",
-      "javadoc.base_url" -> "https://docs.oracle.com/en/java/javase/11/docs/api/java.base/",
-      "javadoc.link_style" -> "direct",
-      // Scala
-      "scaladoc.scala.base_url" -> s"https://www.scala-lang.org/api/current/",
-      "scaladoc.com.typesafe.config.base_url" -> s"https://lightbend.github.io/config/latest/api/",
-      // Testcontainers
-      "testcontainers.version" -> testcontainersVersion,
-      "javadoc.org.testcontainers.containers.base_url" -> s"https://www.javadoc.io/doc/org.testcontainers/testcontainers/$testcontainersVersion/",
-      "javadoc.org.testcontainers.containers.link_style" -> "direct"),
-    apidocRootPackage := "org.apache.pekko",
-    paradoxRoots := List("index.html"),
+    ParadoxSettings.propertiesSettings,
     resolvers += Resolver.jcenterRepo,
     publishRsyncArtifacts += makeSite.value -> "www/",
     publishRsyncHost := "akkarepo@gustav.akka.io")
@@ -320,12 +131,4 @@ lazy val benchmarks = project
     name := "pekko-connectors-kafka-benchmarks",
     publish / skip := true,
     IntegrationTest / parallelExecution := false,
-    libraryDependencies ++= Seq(
-      "com.typesafe.scala-logging" %% "scala-logging" % "3.9.5",
-      "io.dropwizard.metrics" % "metrics-core" % "4.2.11",
-      "ch.qos.logback" % "logback-classic" % "1.2.11",
-      "org.slf4j" % "log4j-over-slf4j" % slf4jVersion,
-      "org.testcontainers" % "kafka" % testcontainersVersion % IntegrationTest,
-      "org.apache.pekko" %% "pekko-slf4j" % pekkoVersion % IntegrationTest,
-      "org.apache.pekko" %% "pekko-stream-testkit" % pekkoVersion % IntegrationTest,
-      "org.scalatest" %% "scalatest" % scalatestVersion % IntegrationTest))
+    libraryDependencies ++= Dependencies.benchmarkDependencies)
