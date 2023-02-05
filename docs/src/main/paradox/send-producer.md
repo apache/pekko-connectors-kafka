@@ -41,13 +41,13 @@ Scala
 Java
 : @@ snip [snip](/tests/src/test/java/docs/javadsl/SendProducerTest.java) { #multiMessage }
 
-After successful sending, a @apidoc[ProducerMessage.Message] will return a @apidoc[akka.kafka.ProducerMessage.Result] element containing:
+After successful sending, a @apidoc[ProducerMessage.Message] will return a @apidoc[org.apache.pekko.kafka.ProducerMessage.Result] element containing:
 
  1. the original input message,
  1. the record metadata (Kafka @javadoc[RecordMetadata](org.apache.kafka.clients.producer.RecordMetadata) API), and
  1. access to the `passThrough` within the message.
 
-A @apidoc[ProducerMessage.MultiMessage] will return a @apidoc[akka.kafka.ProducerMessage.MultiResult] containing:
+A @apidoc[ProducerMessage.MultiMessage] will return a @apidoc[org.apache.pekko.kafka.ProducerMessage.MultiResult] containing:
 
  1. a list of @apidoc[ProducerMessage.MultiResultPart] with
     1. the original input message,

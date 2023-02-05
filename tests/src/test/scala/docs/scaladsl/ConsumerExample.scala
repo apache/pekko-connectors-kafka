@@ -7,17 +7,17 @@ package docs.scaladsl
 
 import java.util.concurrent.atomic.{ AtomicLong, AtomicReference }
 
-import akka.Done
-import akka.actor.typed.Behavior
-import akka.actor.typed.scaladsl.Behaviors
-import akka.actor.{ Actor, ActorLogging, Props }
-import akka.kafka._
-import akka.kafka.scaladsl.Consumer.DrainingControl
-import akka.kafka.scaladsl._
-import akka.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import akka.stream.RestartSettings
-import akka.stream.scaladsl.{ Keep, RestartSource, Sink }
-import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import org.apache.pekko.Done
+import org.apache.pekko.actor.typed.Behavior
+import org.apache.pekko.actor.typed.scaladsl.Behaviors
+import org.apache.pekko.actor.{ Actor, ActorLogging, Props }
+import org.apache.pekko.kafka._
+import org.apache.pekko.kafka.scaladsl.Consumer.DrainingControl
+import org.apache.pekko.kafka.scaladsl._
+import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
+import org.apache.pekko.stream.RestartSettings
+import org.apache.pekko.stream.scaladsl.{ Keep, RestartSource, Sink }
+import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.apache.kafka.clients.consumer.{ ConsumerConfig, ConsumerRecord }
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.TopicPartition
@@ -336,7 +336,7 @@ class ConsumerExample extends DocsSpecBase with TestcontainersKafkaLike {
     val revokedPromise = Promise[Done]()
     // format: off
     //#withRebalanceListenerActor
-    import akka.kafka.{TopicPartitionsAssigned, TopicPartitionsRevoked}
+    import org.apache.pekko.kafka.{TopicPartitionsAssigned, TopicPartitionsRevoked}
 
     class RebalanceListener extends Actor with ActorLogging {
       def receive: Receive = {
@@ -385,7 +385,7 @@ class ConsumerExample extends DocsSpecBase with TestcontainersKafkaLike {
 
     // format: off
     //#withTypedRebalanceListenerActor
-    import akka.kafka.{TopicPartitionsAssigned, TopicPartitionsRevoked}
+    import org.apache.pekko.kafka.{TopicPartitionsAssigned, TopicPartitionsRevoked}
     
     def rebalanceListener(): Behavior[ConsumerRebalanceEvent] = Behaviors.receive {
       case (context, TopicPartitionsAssigned(subscription, topicPartitions)) =>
@@ -407,13 +407,13 @@ class ConsumerExample extends DocsSpecBase with TestcontainersKafkaLike {
     val guardian = Behaviors.setup[Nothing] { context =>
     //#withTypedRebalanceListenerActor
     
-    val typedRef: akka.actor.typed.ActorRef[ConsumerRebalanceEvent] =
+    val typedRef: org.apache.pekko.actor.typed.ActorRef[ConsumerRebalanceEvent] =
       context.spawn(rebalanceListener(), "rebalance-listener")
 
     // adds support for actors to a classic actor system and context
-    import akka.actor.typed.scaladsl.adapter._
+    import org.apache.pekko.actor.typed.scaladsl.adapter._
       
-    val classicRef: akka.actor.ActorRef = typedRef.toClassic  
+    val classicRef: org.apache.pekko.actor.ActorRef = typedRef.toClassic  
 
     val subscription = Subscriptions
       .topics(topic)
@@ -440,7 +440,7 @@ class ConsumerExample extends DocsSpecBase with TestcontainersKafkaLike {
     }
 
     // fixme: get typed system from existing `system`
-    val typed = akka.actor.typed.ActorSystem[Nothing](guardian, "typed-rebalance-listener-example")
+    val typed = org.apache.pekko.actor.typed.ActorSystem[Nothing](guardian, "typed-rebalance-listener-example")
     typed.whenTerminated.futureValue shouldBe Done
   }
 

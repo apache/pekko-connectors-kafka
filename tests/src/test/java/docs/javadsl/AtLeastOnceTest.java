@@ -8,13 +8,13 @@ package docs.javadsl;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import akka.NotUsed;
-import akka.actor.ActorSystem;
-import akka.kafka.testkit.javadsl.TestcontainersKafkaJunit4Test;
-import akka.kafka.tests.javadsl.LogCapturingJunit4;
-import akka.stream.javadsl.Keep;
-import akka.stream.javadsl.Sink;
-import akka.testkit.javadsl.TestKit;
+import org.apache.pekko.NotUsed;
+import org.apache.pekko.actor.ActorSystem;
+import org.apache.pekko.kafka.testkit.TestcontainersKafkaJunit4Test;
+import org.apache.pekko.kafka.tests.javadsl.LogCapturingJunit4;
+import org.apache.pekko.stream.javadsl.Keep;
+import org.apache.pekko.stream.javadsl.Sink;
+import org.apache.pekko.testkit.javadsl.TestKit;
 import org.junit.*;
 import java.util.Arrays;
 import java.util.List;
@@ -27,14 +27,14 @@ import java.util.stream.Collectors;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
 // #oneToMany #oneToConditional
-import akka.Done;
-import akka.japi.Pair;
-import akka.kafka.*;
-import akka.kafka.ConsumerMessage.CommittableOffset;
-import akka.kafka.ProducerMessage.Envelope;
-import akka.kafka.javadsl.Committer;
-import akka.kafka.javadsl.Consumer;
-import akka.kafka.javadsl.Producer;
+import org.apache.pekko.Done;
+import org.apache.pekko.japi.Pair;
+import org.apache.pekko.kafka.*;
+import org.apache.pekko.kafka.ConsumerMessage.CommittableOffset;
+import org.apache.pekko.kafka.ProducerMessage.Envelope;
+import org.apache.pekko.kafka.javadsl.Committer;
+import org.apache.pekko.kafka.javadsl.Consumer;
+import org.apache.pekko.kafka.javadsl.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
 // #oneToMany #oneToConditional

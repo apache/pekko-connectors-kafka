@@ -5,22 +5,22 @@
 
 package docs.javadsl;
 
-import akka.Done;
-import akka.actor.ActorSystem;
-import akka.kafka.AutoSubscription;
-import akka.kafka.ManualSubscription;
-import akka.kafka.ProducerMessage;
-import akka.kafka.Subscriptions;
-import akka.kafka.javadsl.Consumer;
+import org.apache.pekko.Done;
+import org.apache.pekko.actor.ActorSystem;
+import org.apache.pekko.kafka.AutoSubscription;
+import org.apache.pekko.kafka.ManualSubscription;
+import org.apache.pekko.kafka.ProducerMessage;
+import org.apache.pekko.kafka.Subscriptions;
+import org.apache.pekko.kafka.javadsl.Consumer;
 // #testkit
-import akka.kafka.testkit.javadsl.TestcontainersKafkaJunit4Test;
+import org.apache.pekko.kafka.testkit.TestcontainersKafkaJunit4Test;
 // #testkit
-import akka.kafka.javadsl.Producer;
-import akka.kafka.tests.javadsl.LogCapturingJunit4;
-import akka.stream.javadsl.Sink;
-import akka.stream.javadsl.Source;
+import org.apache.pekko.kafka.javadsl.Producer;
+import org.apache.pekko.kafka.tests.javadsl.LogCapturingJunit4;
+import org.apache.pekko.stream.javadsl.Sink;
+import org.apache.pekko.stream.javadsl.Source;
 // #testkit
-import akka.testkit.javadsl.TestKit;
+import org.apache.pekko.testkit.javadsl.TestKit;
 // #testkit
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerRecord;

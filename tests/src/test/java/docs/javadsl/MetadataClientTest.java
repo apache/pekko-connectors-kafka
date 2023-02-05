@@ -6,14 +6,14 @@
 package docs.javadsl;
 
 // #metadataClient
-import akka.actor.ActorSystem;
-import akka.kafka.ConsumerSettings;
-import akka.kafka.javadsl.MetadataClient;
-import akka.kafka.testkit.javadsl.TestcontainersKafkaJunit4Test;
-import akka.testkit.javadsl.TestKit;
-import akka.util.Timeout;
+import org.apache.pekko.actor.ActorSystem;
+import org.apache.pekko.kafka.ConsumerSettings;
+import org.apache.pekko.kafka.javadsl.MetadataClient;
+import org.apache.pekko.kafka.testkit.TestcontainersKafkaJunit4Test;
+import org.apache.pekko.testkit.javadsl.TestKit;
+import org.apache.pekko.util.Timeout;
 // #metadataClient
-import akka.kafka.tests.javadsl.LogCapturingJunit4;
+import org.apache.pekko.kafka.tests.javadsl.LogCapturingJunit4;
 import org.apache.kafka.common.PartitionInfo;
 import org.apache.kafka.common.TopicPartition;
 import org.hamcrest.core.IsInstanceOf;

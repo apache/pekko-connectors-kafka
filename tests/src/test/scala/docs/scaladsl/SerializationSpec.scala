@@ -5,14 +5,14 @@
 
 package docs.scaladsl
 
-import akka.Done
-import akka.kafka._
-import akka.kafka.scaladsl.Consumer.DrainingControl
-import akka.kafka.scaladsl._
-import akka.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import akka.stream.{ ActorAttributes, Supervision }
-import akka.stream.scaladsl.{ Sink, Source }
-import akka.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import org.apache.pekko.Done
+import org.apache.pekko.kafka._
+import org.apache.pekko.kafka.scaladsl.Consumer.DrainingControl
+import org.apache.pekko.kafka.scaladsl._
+import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
+import org.apache.pekko.stream.{ ActorAttributes, Supervision }
+import org.apache.pekko.stream.scaladsl.{ Sink, Source }
+import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.serialization._
 

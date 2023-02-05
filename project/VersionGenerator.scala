@@ -15,7 +15,7 @@ object VersionGenerator {
       sourceGenerators += generateVersion(
         sourceManaged,
         _ / "akka" / "kafka" / "Version.scala",
-        """|package akka.kafka
+        """|package org.apache.pekko.kafka
          |
          |object Version {
          |  val current: String = "%s"

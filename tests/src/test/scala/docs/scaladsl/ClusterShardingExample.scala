@@ -5,17 +5,17 @@
 
 package docs.scaladsl
 
-import akka.NotUsed
-import akka.actor.typed.scaladsl.Behaviors
-import akka.actor.typed.scaladsl.adapter._
-import akka.actor.typed.{ ActorSystem, Behavior }
-import akka.cluster.sharding.external.ExternalShardAllocationStrategy
-import akka.cluster.sharding.typed.ClusterShardingSettings
-import akka.cluster.sharding.typed.scaladsl.{ ClusterSharding, Entity, EntityTypeKey }
-import akka.kafka.cluster.sharding.KafkaClusterSharding
-import akka.kafka.scaladsl.Consumer
-import akka.kafka.{ ConsumerRebalanceEvent, ConsumerSettings, Subscriptions }
-import akka.stream.scaladsl.{ Flow, Sink }
+import org.apache.pekko.NotUsed
+import org.apache.pekko.actor.typed.scaladsl.Behaviors
+import org.apache.pekko.actor.typed.scaladsl.adapter._
+import org.apache.pekko.actor.typed.{ ActorSystem, Behavior }
+import org.apache.pekko.cluster.sharding.external.ExternalShardAllocationStrategy
+import org.apache.pekko.cluster.sharding.typed.ClusterShardingSettings
+import org.apache.pekko.cluster.sharding.typed.scaladsl.{ ClusterSharding, Entity, EntityTypeKey }
+import org.apache.pekko.kafka.cluster.sharding.KafkaClusterSharding
+import org.apache.pekko.kafka.scaladsl.Consumer
+import org.apache.pekko.kafka.{ ConsumerRebalanceEvent, ConsumerSettings, Subscriptions }
+import org.apache.pekko.stream.scaladsl.{ Flow, Sink }
 import org.apache.kafka.common.serialization.{ ByteArrayDeserializer, StringDeserializer }
 
 import scala.concurrent.Future
@@ -70,12 +70,12 @@ object ClusterShardingExample {
 
   // #rebalance-listener
   // obtain an Akka classic ActorRef that will handle consumer group rebalance events
-  val rebalanceListener: akka.actor.typed.ActorRef[ConsumerRebalanceEvent] =
+  val rebalanceListener: org.apache.pekko.actor.typed.ActorRef[ConsumerRebalanceEvent] =
     KafkaClusterSharding(system.toClassic).rebalanceListener(typeKey)
 
   // convert the rebalance listener to a classic ActorRef until Alpakka Kafka supports Akka Typed
-  import akka.actor.typed.scaladsl.adapter._
-  val rebalanceListenerClassic: akka.actor.ActorRef = rebalanceListener.toClassic
+  import org.apache.pekko.actor.typed.scaladsl.adapter._
+  val rebalanceListenerClassic: org.apache.pekko.actor.ActorRef = rebalanceListener.toClassic
 
   val consumerSettings =
     ConsumerSettings(system.toClassic, new StringDeserializer, new ByteArrayDeserializer)

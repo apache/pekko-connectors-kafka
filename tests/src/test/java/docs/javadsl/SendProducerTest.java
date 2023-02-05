@@ -5,13 +5,13 @@
 
 package docs.javadsl;
 
-import akka.actor.ActorSystem;
-import akka.kafka.ProducerMessage;
-import akka.kafka.ProducerSettings;
-import akka.kafka.javadsl.SendProducer;
-import akka.kafka.testkit.javadsl.TestcontainersKafkaTest;
-import akka.kafka.tests.javadsl.LogCapturingExtension;
-import akka.testkit.javadsl.TestKit;
+import org.apache.pekko.actor.ActorSystem;
+import org.apache.pekko.kafka.ProducerMessage;
+import org.apache.pekko.kafka.ProducerSettings;
+import org.apache.pekko.kafka.javadsl.SendProducer;
+import org.apache.pekko.kafka.testkit.TestcontainersKafkaTest;
+import org.apache.pekko.kafka.tests.javadsl.LogCapturingExtension;
+import org.apache.pekko.testkit.javadsl.TestKit;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;

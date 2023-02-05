@@ -45,7 +45,7 @@ Messages from committable sources should be processed in order, otherwise a larg
 
 Reordering would be acceptable if the original order was reconstituted before committing the offsets, but that is a fairly complex and possibly brittle process that we will not consider here.
 
-Using `mapAsync` is safe since it preserves the order of messages. That is in contrast to `mapAsyncUnordered` which would not be safe to use here. As indicated in the @extref[Akka Streams documentation](akka:/stream/stream-flows-and-basics.html#stream-ordering) almost all stages will preserve input ordering.
+Using `mapAsync` is safe since it preserves the order of messages. That is in contrast to `mapAsyncUnordered` which would not be safe to use here. As indicated in the @extref[Pekko Streams documentation](pekko:/stream/stream-flows-and-basics.html#stream-ordering) almost all stages will preserve input ordering.
 
 ### Using groupBy
 

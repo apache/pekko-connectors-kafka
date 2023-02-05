@@ -5,13 +5,13 @@
 
 package docs.javadsl;
 
-import akka.actor.ActorSystem;
-import akka.kafka.ConsumerSettings;
-import akka.kafka.ConsumerSettingsSpec$;
+import org.apache.pekko.actor.ActorSystem;
+import org.apache.pekko.kafka.ConsumerSettings;
+import org.apache.pekko.kafka.ConsumerSettingsSpec$;
 // #discovery-settings
-import akka.kafka.javadsl.DiscoverySupport;
+import org.apache.pekko.kafka.javadsl.DiscoverySupport;
 // #discovery-settings
-import akka.testkit.javadsl.TestKit;
+import org.apache.pekko.testkit.javadsl.TestKit;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import org.apache.kafka.common.serialization.StringDeserializer;

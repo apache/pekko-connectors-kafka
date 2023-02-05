@@ -5,18 +5,18 @@
 
 package docs.javadsl;
 
-import akka.Done;
-import akka.actor.ActorSystem;
-import akka.kafka.ConsumerSettings;
-import akka.kafka.ProducerSettings;
-import akka.kafka.Subscriptions;
-import akka.kafka.javadsl.Consumer;
-import akka.kafka.javadsl.Producer;
-import akka.kafka.testkit.KafkaTestkitTestcontainersSettings;
-import akka.kafka.testkit.javadsl.TestcontainersKafkaJunit4Test;
-import akka.stream.javadsl.Sink;
-import akka.stream.javadsl.Source;
-import akka.testkit.javadsl.TestKit;
+import org.apache.pekko.Done;
+import org.apache.pekko.actor.ActorSystem;
+import org.apache.pekko.kafka.ConsumerSettings;
+import org.apache.pekko.kafka.ProducerSettings;
+import org.apache.pekko.kafka.Subscriptions;
+import org.apache.pekko.kafka.javadsl.Consumer;
+import org.apache.pekko.kafka.javadsl.Producer;
+import org.apache.pekko.kafka.testkit.KafkaTestkitTestcontainersSettings;
+import org.apache.pekko.kafka.testkit.TestcontainersKafkaJunit4Test;
+import org.apache.pekko.stream.javadsl.Sink;
+import org.apache.pekko.stream.javadsl.Source;
+import org.apache.pekko.testkit.javadsl.TestKit;
 import docs.scaladsl.SampleAvroClass;
 // #imports
 import io.confluent.kafka.serializers.AbstractKafkaSchemaSerDeConfig;

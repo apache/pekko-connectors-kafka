@@ -6,13 +6,13 @@
 package docs.javadsl;
 
 // #metadata
-import akka.actor.ActorRef;
-import akka.kafka.ConsumerSettings;
-import akka.kafka.KafkaConsumerActor;
-import akka.kafka.Metadata;
-import akka.kafka.testkit.javadsl.TestcontainersKafkaJunit4Test;
-import akka.kafka.tests.javadsl.LogCapturingJunit4;
-import akka.pattern.Patterns;
+import org.apache.pekko.actor.ActorRef;
+import org.apache.pekko.kafka.ConsumerSettings;
+import org.apache.pekko.kafka.KafkaConsumerActor;
+import org.apache.pekko.kafka.Metadata;
+import org.apache.pekko.kafka.testkit.TestcontainersKafkaJunit4Test;
+import org.apache.pekko.kafka.tests.javadsl.LogCapturingJunit4;
+import org.apache.pekko.pattern.Patterns;
 import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
@@ -21,9 +21,9 @@ import java.util.stream.Collectors;
 import org.apache.kafka.common.PartitionInfo;
 
 // #metadata
-import akka.actor.ActorSystem;
+import org.apache.pekko.actor.ActorSystem;
 import java.util.concurrent.TimeUnit;
-import akka.testkit.javadsl.TestKit;
+import org.apache.pekko.testkit.javadsl.TestKit;
 import org.junit.AfterClass;
 import org.junit.Rule;
 import org.junit.Test;
