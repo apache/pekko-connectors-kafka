@@ -53,7 +53,7 @@ class OffsetResetProtectionSettings @InternalApi private[kafka] (val enable: Boo
     copy(timeThreshold = timeThreshold.asScala)
 
   override def toString: String =
-    s"pekko.kafka.OffsetResetProtectionSettings(" +
+    s"org.apache.pekko.kafka.OffsetResetProtectionSettings(" +
     s"enable=$enable," +
     s"offsetThreshold=$offsetThreshold," +
     s"timeThreshold=${timeThreshold.toCoarsest}" +

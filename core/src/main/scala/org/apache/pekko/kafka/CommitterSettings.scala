@@ -195,7 +195,7 @@ class CommitterSettings private (
     new CommitterSettings(maxBatch, maxInterval, parallelism, delivery, when)
 
   override def toString: String =
-    "pekko.kafka.CommitterSettings(" +
+    "org.apache.pekko.kafka.CommitterSettings(" +
     s"maxBatch=$maxBatch," +
     s"maxInterval=${maxInterval.toCoarsest}," +
     s"parallelism=$parallelism," +

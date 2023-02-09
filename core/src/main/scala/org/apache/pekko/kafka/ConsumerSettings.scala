@@ -623,7 +623,7 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
       }
       .sortBy(_._1)
       .mkString(",")
-    "pekko.kafka.ConsumerSettings(" +
+    "org.apache.pekko.kafka.ConsumerSettings(" +
     s"properties=$kafkaClients," +
     s"keyDeserializer=$keyDeserializerOpt," +
     s"valueDeserializer=$valueDeserializerOpt," +
