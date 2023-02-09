@@ -34,7 +34,7 @@ object DiscoverySupport {
     }
 
   /**
-   * Use Pekko Discovery to read the addresses for `serviceName` within `lookupTimeout`.
+   * Use Apache Pekko Discovery to read the addresses for `serviceName` within `lookupTimeout`.
    */
   private def bootstrapServers(
       discovery: ServiceDiscovery,
@@ -55,7 +55,7 @@ object DiscoverySupport {
   /**
    * Internal API.
    *
-   * Expect a `service` section in Config and use Pekko Discovery to read the addresses for `name` within `lookup-timeout`.
+   * Expect a `service` section in Config and use Apache Pekko Discovery to read the addresses for `name` within `lookup-timeout`.
    */
   @InternalApi
   private[kafka] def bootstrapServers(config: Config)(implicit system: ActorSystem): Future[String] = {
@@ -117,7 +117,7 @@ object DiscoverySupport {
     system.dynamicAccess.getClassFor("org.apache.pekko.discovery.Discovery$") match {
       case Failure(_: ClassNotFoundException | _: NoClassDefFoundError) =>
         throw new IllegalStateException(
-          s"Pekko Discovery is being used but the `pekko-discovery` library is not on the classpath, it must be added explicitly. See https://pekko.apache.org/docs/pekko/current/discovery/index.html")
+          s"Apache Pekko Discovery is being used but the `pekko-discovery` library is not on the classpath, it must be added explicitly. See https://pekko.apache.org/docs/pekko/current/discovery/index.html")
       case _ =>
     }
 

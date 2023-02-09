@@ -20,7 +20,7 @@ import scala.concurrent.duration.FiniteDuration
 import scala.concurrent.{ ExecutionContext, Future }
 
 /**
- * Pekko Stream connector for subscribing to Kafka topics.
+ * Apache Pekko Stream connector for subscribing to Kafka topics.
  */
 object Consumer {
 
@@ -199,7 +199,7 @@ object Consumer {
    * This is useful when "at-least once delivery" is desired, as each message will likely be
    * delivered one time but in failure cases could be duplicated.
    *
-   * It is intended to be used with Pekko's [flow with context](https://pekko.apache.org/docs/pekko/current/stream/operators/Flow/asFlowWithContext.html),
+   * It is intended to be used with Apache Pekko's [flow with context](https://pekko.apache.org/docs/pekko/current/stream/operators/Flow/asFlowWithContext.html),
    * [[Producer.flowWithContext]] and/or [[Committer.sinkWithOffsetContext]].
    */
   @ApiMayChange
@@ -219,7 +219,7 @@ object Consumer {
    * This is useful when "at-least once delivery" is desired, as each message will likely be
    * delivered one time but in failure cases could be duplicated.
    *
-   * It is intended to be used with Pekko's [flow with context](https://pekko.apache.org/docs/pekko/current/stream/operators/Flow/asFlowWithContext.html),
+   * It is intended to be used with Apache Pekko's [flow with context](https://pekko.apache.org/docs/pekko/current/stream/operators/Flow/asFlowWithContext.html),
    * [[Producer.flowWithContext]] and/or [[Committer.sinkWithOffsetContext]].
    *
    * This variant makes it possible to add additional metadata (in the form of a string)

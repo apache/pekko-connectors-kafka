@@ -205,13 +205,13 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
   /**
    * API MAY CHANGE
    *
-   * Create an Pekko Connector Kafka rebalance listener that handles [[TopicPartitionsAssigned]] events. The [[typeKey]] is
+   * Create an Apache Pekko Connector Kafka rebalance listener that handles [[TopicPartitionsAssigned]] events. The [[typeKey]] is
    * used to create the [[ExternalShardAllocation]] client. When partitions are assigned to this consumer group member
    * the rebalance listener will use the [[ExternalShardAllocation]] client to update the External Sharding strategy
-   * accordingly so that entities are (eventually) routed to the local Pekko cluster member.
+   * accordingly so that entities are (eventually) routed to the local Apache Pekko cluster member.
    *
-   * Returns an Pekko typed [[org.apache.pekko.actor.typed.ActorRef]]. This must be converted to a classic actor before it can be
-   * passed to an Pekko Connector Kafka [[ConsumerSettings]].
+   * Returns an Apache Pekko typed [[org.apache.pekko.actor.typed.ActorRef]]. This must be converted to a classic actor before it can be
+   * passed to an Apache Pekko Connector Kafka [[ConsumerSettings]].
    *
    * {{{
    * import org.apache.pekko.actor.typed.scaladsl.adapter._
@@ -232,13 +232,13 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
    *
    * API MAY CHANGE
    *
-   * Create an Pekko Connector Kafka rebalance listener that handles [[TopicPartitionsAssigned]] events. The [[typeKey]] is
+   * Create an Apache Pekko Connector Kafka rebalance listener that handles [[TopicPartitionsAssigned]] events. The [[typeKey]] is
    * used to create the [[ExternalShardAllocation]] client. When partitions are assigned to this consumer group member
    * the rebalance listener will use the [[ExternalShardAllocation]] client to update the External Sharding strategy
-   * accordingly so that entities are (eventually) routed to the local Pekko cluster member.
+   * accordingly so that entities are (eventually) routed to the local Apache Pekko cluster member.
    *
-   * Returns an Pekko typed [[org.apache.pekko.actor.typed.ActorRef]]. This must be converted to a classic actor before it can be
-   * passed to an Pekko Connector Kafka [[ConsumerSettings]].
+   * Returns an Apache Pekko typed [[org.apache.pekko.actor.typed.ActorRef]]. This must be converted to a classic actor before it can be
+   * passed to an Apache Pekko Connector Kafka [[ConsumerSettings]].
    *
    * {{{
    * import org.apache.pekko.actor.typed.scaladsl.adapter._
@@ -304,7 +304,7 @@ object KafkaClusterSharding extends ExtensionId[KafkaClusterSharding] {
 
             val updates = shardAllocationClient.updateShardLocations(partitions.map { tp =>
               val shardId = tp.partition().toString
-              // the Kafka partition number becomes the Pekko shard id
+              // the Kafka partition number becomes the Apache Pekko shard id
               (shardId, address)
             }.toMap)
 

@@ -27,7 +27,7 @@ public abstract class TestcontainersKafkaJunit4Test extends KafkaJunit4Test {
       TestcontainersKafka.Singleton().testcontainersSettings();
 
   /**
-   * @deprecated Materializer no longer necessary in Pekko 2.6, use
+   * @deprecated Materializer no longer necessary in Apache Pekko 2.6, use
    *     `TestcontainersKafkaJunit4Test(ClassicActorSystemProvider)` instead, since 2.1.0
    */
   @Deprecated

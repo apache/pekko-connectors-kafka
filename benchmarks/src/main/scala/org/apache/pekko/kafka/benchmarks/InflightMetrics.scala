@@ -151,7 +151,7 @@ private[benchmarks] trait InflightMetrics {
   }
 
   /**
-   * Return specified consumer-level metrics using Pekko Connectors Kafka's [[Control]] metrics API.
+   * Return specified consumer-level metrics using Apache Pekko Connectors Kafka's [[Control]] metrics API.
    */
   private def consumer[T](control: Control, requests: List[ConsumerMetricRequest])(
       implicit ec: ExecutionContext): Future[List[Measurement]] = {
