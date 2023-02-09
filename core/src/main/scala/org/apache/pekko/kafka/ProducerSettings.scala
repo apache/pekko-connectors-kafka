@@ -392,7 +392,7 @@ class ProducerSettings[K, V] @InternalApi private[kafka] (
       }
       .sortBy(_._1)
       .mkString(",")
-    "pekko.kafka.ProducerSettings(" +
+    "org.apache.pekko.kafka.ProducerSettings(" +
     s"properties=$kafkaClients," +
     s"keySerializer=$keySerializerOpt," +
     s"valueSerializer=$valueSerializerOpt," +
