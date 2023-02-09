@@ -33,7 +33,7 @@ import scala.compat.java8.FutureConverters._
 /**
  * API MAY CHANGE
  *
- * Pekko Extension to enable Pekko Cluster External Sharding with Alpakka Kafka.
+ * Pekko Extension to enable Pekko Cluster External Sharding with Pekko Connector Kafka.
  */
 @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/1074")
 final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension {
@@ -205,13 +205,13 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
   /**
    * API MAY CHANGE
    *
-   * Create an Alpakka Kafka rebalance listener that handles [[TopicPartitionsAssigned]] events. The [[typeKey]] is
+   * Create an Pekko Connector Kafka rebalance listener that handles [[TopicPartitionsAssigned]] events. The [[typeKey]] is
    * used to create the [[ExternalShardAllocation]] client. When partitions are assigned to this consumer group member
    * the rebalance listener will use the [[ExternalShardAllocation]] client to update the External Sharding strategy
    * accordingly so that entities are (eventually) routed to the local Pekko cluster member.
    *
    * Returns an Pekko typed [[org.apache.pekko.actor.typed.ActorRef]]. This must be converted to a classic actor before it can be
-   * passed to an Alpakka Kafka [[ConsumerSettings]].
+   * passed to an Pekko Connector Kafka [[ConsumerSettings]].
    *
    * {{{
    * import org.apache.pekko.actor.typed.scaladsl.adapter._
@@ -232,13 +232,13 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
    *
    * API MAY CHANGE
    *
-   * Create an Alpakka Kafka rebalance listener that handles [[TopicPartitionsAssigned]] events. The [[typeKey]] is
+   * Create an Pekko Connector Kafka rebalance listener that handles [[TopicPartitionsAssigned]] events. The [[typeKey]] is
    * used to create the [[ExternalShardAllocation]] client. When partitions are assigned to this consumer group member
    * the rebalance listener will use the [[ExternalShardAllocation]] client to update the External Sharding strategy
    * accordingly so that entities are (eventually) routed to the local Pekko cluster member.
    *
    * Returns an Pekko typed [[org.apache.pekko.actor.typed.ActorRef]]. This must be converted to a classic actor before it can be
-   * passed to an Alpakka Kafka [[ConsumerSettings]].
+   * passed to an Pekko Connector Kafka [[ConsumerSettings]].
    *
    * {{{
    * import org.apache.pekko.actor.typed.scaladsl.adapter._

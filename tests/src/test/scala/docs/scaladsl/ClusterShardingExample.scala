@@ -73,7 +73,7 @@ object ClusterShardingExample {
   val rebalanceListener: org.apache.pekko.actor.typed.ActorRef[ConsumerRebalanceEvent] =
     KafkaClusterSharding(system.toClassic).rebalanceListener(typeKey)
 
-  // convert the rebalance listener to a classic ActorRef until Alpakka Kafka supports Pekko Typed
+  // convert the rebalance listener to a classic ActorRef until Pekko Connector Kafka supports Pekko Typed
   import org.apache.pekko.actor.typed.scaladsl.adapter._
   val rebalanceListenerClassic: org.apache.pekko.actor.ActorRef = rebalanceListener.toClassic
 

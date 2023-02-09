@@ -39,14 +39,14 @@ class ApacheKafkaBatchedConsumer extends BenchmarksBase() {
 class PekkoConnectorsKafkaBatchedConsumer extends BenchmarksBase() {
 
   it should "bench with small messages" in {
-    val cmd = RunTestCommand("alpakka-kafka-batched-consumer", bootstrapServers, topic_1000_100)
+    val cmd = RunTestCommand("pekko-connectors-kafka-batched-consumer", bootstrapServers, topic_1000_100)
     runPerfTest(cmd,
       ReactiveKafkaConsumerFixtures.committableSources(cmd),
       ReactiveKafkaConsumerBenchmarks.consumerAtLeastOnceBatched(batchSize = 1000))
   }
 
   it should "bench with normal messages" in {
-    val cmd = RunTestCommand("alpakka-kafka-batched-consumer-normal-msg", bootstrapServers, topic_1000_5000)
+    val cmd = RunTestCommand("pekko-connectors-kafka-batched-consumer-normal-msg", bootstrapServers, topic_1000_5000)
     runPerfTest(cmd,
       ReactiveKafkaConsumerFixtures.committableSources(cmd),
       ReactiveKafkaConsumerBenchmarks.consumerAtLeastOnceBatched(batchSize = 1000))
@@ -54,7 +54,8 @@ class PekkoConnectorsKafkaBatchedConsumer extends BenchmarksBase() {
 
   it should "bench with normal messages and eight partitions" in {
     val cmd =
-      RunTestCommand("alpakka-kafka-batched-consumer-normal-msg-8-partitions", bootstrapServers, topic_1000_5000_8)
+      RunTestCommand("pekko-connectors-kafka-batched-consumer-normal-msg-8-partitions", bootstrapServers,
+        topic_1000_5000_8)
     runPerfTest(cmd,
       ReactiveKafkaConsumerFixtures.committableSources(cmd),
       ReactiveKafkaConsumerBenchmarks.consumerAtLeastOnceBatched(batchSize = 1000))
