@@ -14,7 +14,7 @@ The Apache Pekko Discovery version must match the Apache Pekko version used in y
 @@dependency [Maven,sbt,Gradle] {
   symbol=PekkoVersion
   value=$akka.version$
-  group=com.typesafe.akka
+  group=org.apache.pekko
   artifact=akka-discovery_$scala.binary.version$
   version=PekkoVersion
 }

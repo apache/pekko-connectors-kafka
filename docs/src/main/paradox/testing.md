@@ -11,14 +11,14 @@ To simplify testing of streaming integrations with Apache Pekko Connectors Kafka
 @@project-info{ projectId="testkit" }
 
 @@dependency [Maven,sbt,Gradle] {
-  group=com.typesafe.akka
-  artifact=akka-stream-kafka-testkit_$scala.binary.version$
+  group=org.apache.pekko
+  artifact=pekko-stream-kafka-testkit_$scala.binary.version$
   version=$project.version$
   scope=test
   symbol2=PekkoVersion
   value2="$akka.version$"
-  group2=com.typesafe.akka
-  artifact2=akka-stream-testkit_$scala.binary.version$
+  group2=org.apache.pekko
+  artifact2=pekko-stream-testkit_$scala.binary.version$
   version2=PekkoVersion
   scope2=test
 }

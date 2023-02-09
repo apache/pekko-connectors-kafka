@@ -3,8 +3,8 @@ project.description: Snapshot builds of Apache Pekko Connectors Kafka are provid
 ---
 # Snapshots
 
-[snapshots-badge]:  https://img.shields.io/nexus/s/com.typesafe.akka/akka-stream-kafka_2.13?server=https%3A%2F%2Foss.sonatype.org
-[snapshots]:        https://oss.sonatype.org/content/repositories/snapshots/com/typesafe/akka/akka-stream-kafka_2.13/
+[snapshots-badge]:  https://img.shields.io/nexus/s/com.typesafe.akka/pekko-stream-kafka_2.13?server=https%3A%2F%2Foss.sonatype.org
+[snapshots]:        https://oss.sonatype.org/content/repositories/snapshots/com/typesafe/akka/pekko-stream-kafka_2.13/
 
 Snapshots are published to the Sonatype Snapshot repository after every successful build on master.
 Add the following to your project build definition to resolve Apache Pekko Connectors Kafka connector snapshots:
@@ -48,4 +48,4 @@ The [snapshot documentation](https://doc.akka.io/docs/alpakka-kafka/snapshot/) i
 
 Latest published snapshot version is [![snapshots-badge][]][snapshots]
 
-The snapshot repository is cleaned from time to time with no further notice. Check [Sonatype snapshots Apache Pekko Connectors Kafka files](https://oss.sonatype.org/content/repositories/snapshots/com/typesafe/akka/akka-stream-kafka_2.13/) to see what versions are currently available.
+The snapshot repository is cleaned from time to time with no further notice. Check [Sonatype snapshots Apache Pekko Connectors Kafka files](https://oss.sonatype.org/content/repositories/snapshots/com/typesafe/akka/pekko-stream-kafka_2.13/) to see what versions are currently available.

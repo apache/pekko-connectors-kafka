@@ -11,7 +11,7 @@ The Kafka client library used by the Apache Pekko Connectors Kafka connector use
 @@dependency [Maven,sbt,Gradle] {
   symbol=PekkoVersion
   value="$akka.version$"
-  group=com.typesafe.akka
+  group=org.apache.pekko
   artifact=akka-slf4j_$scala.binary.version$
   version=PekkoVersion
   group2=ch.qos.logback

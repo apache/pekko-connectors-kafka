@@ -14,17 +14,17 @@ When partitions and shards are co-located together then there is less chance tha
 ## Dependency
 
 @@dependency [Maven,sbt,Gradle] {
-  group=com.typesafe.akka
-  artifact=akka-stream-kafka-cluster-sharding_$scala.binary.version$
+  group=org.apache.pekko
+  artifact=pekko-stream-kafka-cluster-sharding_$scala.binary.version$
   version=$project.version$
   symbol2=PekkoVersion
   value2="$akka.version$"
-  group2=com.typesafe.akka
-  artifact2=akka-cluster-sharding-typed_$scala.binary.version$
+  group2=org.apache.pekko
+  artifact2=pekko-cluster-sharding-typed_$scala.binary.version$
   version2=PekkoVersion
 }
 
-This module contains an Apache Pekko extension called `KafkaClusterSharding` and depends on `akka-cluster-sharding-typed`.
+This module contains an Apache Pekko extension called `KafkaClusterSharding` and depends on `pekko-cluster-sharding-typed`.
 
 ## Setup
 

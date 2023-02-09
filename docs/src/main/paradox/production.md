@@ -11,7 +11,7 @@ project.description: Consider these areas when using Apache Pekko Connectors Kaf
 
 @@@ note
 
-This is just a start, please add your experiences to this list by [opening a Pull Request](https://github.com/akka/alpakka-kafka/pulls).
+This is just a start, please add your experiences to this list by [opening a Pull Request](https://github.com/apache/incubator-pekko-connectors-kafka/pulls).
 
 @@@
 

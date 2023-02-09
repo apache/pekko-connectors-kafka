@@ -10,21 +10,9 @@ This **Apache Pekko Connectors Kafka connector** lets you connect [Apache Kafka]
 
 ## Matching Kafka Versions
 
-|Kafka client | Scala Versions | Apache Pekko version | Apache Pekko Connectors Kafka Connector
-|-------------|----------------|--------------|-------------------------
-|[3.0.1](https://dist.apache.org/repos/dist/release/kafka/3.0.1/RELEASE_NOTES.html) | 2.13             | 2.6.18+         | [release 3.0.1](https://github.com/akka/alpakka-kafka/releases/tag/v3.0.0)
-|[3.0.0](https://blogs.apache.org/kafka/entry/what-s-new-in-apache6)                | 2.13             | 2.6.18+         | [release 3.0.0 RC1](https://github.com/akka/alpakka-kafka/releases/tag/v3.0.0-RC1)
-|[2.7.0](https://archive.apache.org/dist/kafka/2.7.0/RELEASE_NOTES.html) | 2.13, 2.12       | 2.6.14+         | @ref:[release 2.1.0](release-notes/2.1.x.md)
-|[2.4.1](https://archive.apache.org/dist/kafka/2.4.1/RELEASE_NOTES.html) | 2.13, 2.12, 2.11 | 2.5.31+, 2.6.6+ | @ref:[release 2.0.5](release-notes/2.0.x.md)
-|[2.4.1](https://archive.apache.org/dist/kafka/2.4.1/RELEASE_NOTES.html) | 2.13, 2.12, 2.11 | 2.5.30+, 2.6.6+ | @ref:[release 2.0.4](release-notes/2.0.x.md)
-|[2.4.1](https://archive.apache.org/dist/kafka/2.4.1/RELEASE_NOTES.html) | 2.13, 2.12, 2.11 | 2.5.30+, 2.6.3+ | @ref:[release 2.0.3](release-notes/2.0.x.md)
-|[2.4.0](https://archive.apache.org/dist/kafka/2.4.0/RELEASE_NOTES.html) | 2.13, 2.12, 2.11 | 2.5.23+, 2.6.x | @ref:[release 2.0.0](release-notes/2.0.x.md)
-|[2.1.1](https://archive.apache.org/dist/kafka/2.1.1/RELEASE_NOTES.html) | 2.13, 2.12, 2.11 | 2.5.x        | @ref:[release 1.0.4](release-notes/1.0.x.md#1-0-4)
-|[2.1.1](https://archive.apache.org/dist/kafka/2.1.1/RELEASE_NOTES.html) | 2.12, 2.11       | 2.5.x        | @ref:[release 1.0.1](release-notes/1.0.x.md#1-0-1)
-|[2.1.0](https://archive.apache.org/dist/kafka/2.1.0/RELEASE_NOTES.html) | 2.12, 2.11       | 2.5.x        | @ref:[release 1.0](release-notes/1.0.x.md#1-0)
-|1.1.x        | 2.12, 2.11 | 2.5.x        | [release 0.20+](https://github.com/akka/alpakka-kafka/releases)
-|1.0.x        | 2.12, 2.11 | 2.5.x        | [release 0.20+](https://github.com/akka/alpakka-kafka/releases)
-|0.11.x       | 2.12, 2.11 | 2.5.x        | [release 0.19](https://github.com/akka/alpakka-kafka/milestone/19?closed=1)
+| Kafka client                                                                       | Scala Versions | Apache Pekko version | Apache Pekko Connectors Kafka Connector
+|------------------------------------------------------------------------------------|----------------|----------------------|-------------------------
+| [3.0.1](https://dist.apache.org/repos/dist/release/kafka/3.0.1/RELEASE_NOTES.html) | 2.13             | 1.0.0                | 1.0.0
 
 @@@ note
 
@@ -41,13 +29,13 @@ Check even Confluent's [Versions and Interoperability](https://docs.confluent.io
 ## Dependencies
 
 @@dependency [Maven,sbt,Gradle] {
-  group=com.typesafe.akka
-  artifact=akka-stream-kafka_$scala.binary.version$
+  group=org.apache.pekko
+  artifact=pekko-stream-kafka_$scala.binary.version$
   version=$project.version$
   symbol2=PekkoVersion
   value2="$akka.version$"
-  group2=com.typesafe.akka
-  artifact2=akka-stream_$scala.binary.version$
+  group2=org.apache.pekko
+  artifact2=pekko-stream_$scala.binary.version$
   version2=PekkoVersion
 }
 
@@ -82,7 +70,7 @@ To read and see how others use Apache Pekko Connectors see the [Apache Pekko Con
 
 ## Contributing
 
-Please feel free to contribute to Apache Pekko Connectors and the Apache Pekko Connectors Kafka connector by reporting issues you identify, or by suggesting changes to the code. Please refer to our [contributing instructions](https://github.com/akka/alpakka-kafka/blob/master/CONTRIBUTING.md) to learn how it can be done.
+Please feel free to contribute to Apache Pekko Connectors and the Apache Pekko Connectors Kafka connector by reporting issues you identify, or by suggesting changes to the code. Please refer to our [contributing instructions](https://github.com/apache/incubator-pekko-connectors-kafka/blob/master/CONTRIBUTING.md) to learn how it can be done.
 
 We want Apache Pekko and Apache Pekko Connectors to strive in a welcoming and open atmosphere and expect all contributors to respect our [code of conduct](https://www.lightbend.com/conduct).
 
