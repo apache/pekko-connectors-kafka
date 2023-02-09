@@ -1,16 +1,16 @@
 ---
-project.description: Consume messages from Apache Kafka in Akka Streams sources and their commit offsets to Kafka.
+project.description: Consume messages from Apache Kafka in Apache Pekko Streams sources and their commit offsets to Kafka.
 ---
 # Consumer
 
-A consumer subscribes to Kafka topics and passes the messages into an Akka Stream.
+A consumer subscribes to Kafka topics and passes the messages into an Apache Pekko Stream.
 
 The underlying implementation is using the `KafkaConsumer`, see @javadoc[Kafka API](org.apache.kafka.clients.consumer.KafkaConsumer) for a description of consumer groups, offsets, and other details.
 
 
 ## Choosing a consumer
 
-Alpakka Kafka offers a large variety of consumers that connect to Kafka and stream data. The tables below may help you to find the consumer best suited for your use-case.
+Apache Pekko Connectors Kafka offers a large variety of consumers that connect to Kafka and stream data. The tables below may help you to find the consumer best suited for your use-case.
 
 ### Consumers
 
@@ -50,7 +50,7 @@ When creating a consumer source you need to pass in @apidoc[ConsumerSettings] th
 * group id for the consumer, note that offsets are always committed for a given consumer group
 * Kafka consumer tuning parameters
 
-Alpakka Kafka's defaults for all settings are defined in `reference.conf` which is included in the library JAR.
+Apache Pekko Connectors Kafka's defaults for all settings are defined in `reference.conf` which is included in the library JAR.
 
 Important consumer settings
 : | Setting   | Description                                  |
@@ -83,7 +83,7 @@ Java
 application.conf (HOCON)
 : @@ snip [app.conf](/tests/src/test/resources/application.conf) { #consumer-config-inheritance }
 
-Read the settings that inherit the defaults from "akka.kafka.consumer" settings:
+Read the settings that inherit the defaults from "pekko.kafka.consumer" settings:
 
 Scala
 : @@ snip [read](/tests/src/test/scala/docs/scaladsl/ConsumerExample.scala) { #config-inheritance } 
@@ -96,9 +96,9 @@ Java
 
 The Kafka read offset can either be stored in Kafka (see below), or at a data store of your choice.
 
-@apidoc[Consumer.plainSource](Consumer$) { java="#plainSource[K,V](settings:akka.kafka.ConsumerSettings[K,V],subscription:akka.kafka.Subscription):akka.stream.javadsl.Source[org.apache.kafka.clients.consumer.ConsumerRecord[K,V],akka.kafka.javadsl.Consumer.Control]" scala="#plainSource[K,V](settings:akka.kafka.ConsumerSettings[K,V],subscription:akka.kafka.Subscription):akka.stream.scaladsl.Source[org.apache.kafka.clients.consumer.ConsumerRecord[K,V],akka.kafka.scaladsl.Consumer.Control]" } 
+@apidoc[Consumer.plainSource](Consumer$) { java="#plainSource[K,V](settings:pekko.kafka.ConsumerSettings[K,V],subscription:pekko.kafka.Subscription):akka.stream.javadsl.Source[org.apache.kafka.clients.consumer.ConsumerRecord[K,V],pekko.kafka.javadsl.Consumer.Control]" scala="#plainSource[K,V](settings:pekko.kafka.ConsumerSettings[K,V],subscription:pekko.kafka.Subscription):akka.stream.scaladsl.Source[org.apache.kafka.clients.consumer.ConsumerRecord[K,V],pekko.kafka.scaladsl.Consumer.Control]" } 
 and 
-@apidoc[Consumer.plainPartitionedManualOffsetSource](Consumer$) { java="#plainPartitionedManualOffsetSource[K,V](settings:akka.kafka.ConsumerSettings[K,V],subscription:akka.kafka.AutoSubscription,getOffsetsOnAssign:java.util.function.Function[java.util.Set[org.apache.kafka.common.TopicPartition],java.util.concurrent.CompletionStage[java.util.Map[org.apache.kafka.common.TopicPartition,Long]]]):akka.stream.javadsl.Source[akka.japi.Pair[org.apache.kafka.common.TopicPartition,akka.stream.javadsl.Source[org.apache.kafka.clients.consumer.ConsumerRecord[K,V],akka.NotUsed]],akka.kafka.javadsl.Consumer.Control]" scala="#plainPartitionedManualOffsetSource[K,V](settings:akka.kafka.ConsumerSettings[K,V],subscription:akka.kafka.AutoSubscription,getOffsetsOnAssign:Set[org.apache.kafka.common.TopicPartition]=%3Escala.concurrent.Future[Map[org.apache.kafka.common.TopicPartition,Long]],onRevoke:Set[org.apache.kafka.common.TopicPartition]=%3EUnit):akka.stream.scaladsl.Source[(org.apache.kafka.common.TopicPartition,akka.stream.scaladsl.Source[org.apache.kafka.clients.consumer.ConsumerRecord[K,V],akka.NotUsed]),akka.kafka.scaladsl.Consumer.Control]" }
+@apidoc[Consumer.plainPartitionedManualOffsetSource](Consumer$) { java="#plainPartitionedManualOffsetSource[K,V](settings:pekko.kafka.ConsumerSettings[K,V],subscription:pekko.kafka.AutoSubscription,getOffsetsOnAssign:java.util.function.Function[java.util.Set[org.apache.kafka.common.TopicPartition],java.util.concurrent.CompletionStage[java.util.Map[org.apache.kafka.common.TopicPartition,Long]]]):akka.stream.javadsl.Source[akka.japi.Pair[org.apache.kafka.common.TopicPartition,akka.stream.javadsl.Source[org.apache.kafka.clients.consumer.ConsumerRecord[K,V],akka.NotUsed]],pekko.kafka.javadsl.Consumer.Control]" scala="#plainPartitionedManualOffsetSource[K,V](settings:pekko.kafka.ConsumerSettings[K,V],subscription:pekko.kafka.AutoSubscription,getOffsetsOnAssign:Set[org.apache.kafka.common.TopicPartition]=%3Escala.concurrent.Future[Map[org.apache.kafka.common.TopicPartition,Long]],onRevoke:Set[org.apache.kafka.common.TopicPartition]=%3EUnit):akka.stream.scaladsl.Source[(org.apache.kafka.common.TopicPartition,akka.stream.scaladsl.Source[org.apache.kafka.clients.consumer.ConsumerRecord[K,V],akka.NotUsed]),pekko.kafka.scaladsl.Consumer.Control]" }
 can be used to emit @javadoc[ConsumerRecord](org.apache.kafka.clients.consumer.ConsumerRecord) elements
 as received from the underlying @javadoc[KafkaConsumer](org.apache.kafka.clients.consumer.KafkaConsumer). They do not have support for committing offsets to Kafka. When using
 these Sources, either store an offset externally, or use auto-commit (note that auto-commit is disabled by default).
@@ -122,7 +122,7 @@ Java
 : @@ snip [snip](/tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #plainSource }
 
 For 
-@apidoc[Consumer.plainSource](Consumer$) { java="#plainSource[K,V](settings:akka.kafka.ConsumerSettings[K,V],subscription:akka.kafka.Subscription):akka.stream.javadsl.Source[org.apache.kafka.clients.consumer.ConsumerRecord[K,V],akka.kafka.javadsl.Consumer.Control]" scala="#plainSource[K,V](settings:akka.kafka.ConsumerSettings[K,V],subscription:akka.kafka.Subscription):akka.stream.scaladsl.Source[org.apache.kafka.clients.consumer.ConsumerRecord[K,V],akka.kafka.scaladsl.Consumer.Control]" } 
+@apidoc[Consumer.plainSource](Consumer$) { java="#plainSource[K,V](settings:pekko.kafka.ConsumerSettings[K,V],subscription:pekko.kafka.Subscription):akka.stream.javadsl.Source[org.apache.kafka.clients.consumer.ConsumerRecord[K,V],pekko.kafka.javadsl.Consumer.Control]" scala="#plainSource[K,V](settings:pekko.kafka.ConsumerSettings[K,V],subscription:pekko.kafka.Subscription):akka.stream.scaladsl.Source[org.apache.kafka.clients.consumer.ConsumerRecord[K,V],pekko.kafka.scaladsl.Consumer.Control]" } 
 the @apidoc[Subscriptions.assignmentWithOffset](Subscriptions$) specifies the starting point (offset) for a given consumer group id, topic and partition. The group id is defined in the @apidoc[ConsumerSettings$].
 
 Alternatively, with @apidoc[Consumer.plainPartitionedManualOffsetSource](Consumer$), only the consumer group id and the topic are required on creation.
@@ -136,7 +136,7 @@ emits tuples of assigned topic-partition and a corresponding source, as in [Sour
 ## Offset Storage in Kafka - committing
 
 The 
-@apidoc[Consumer.committableSource](Consumer$) { java="#committableSource[K,V](settings:akka.kafka.ConsumerSettings[K,V],subscription:akka.kafka.Subscription):akka.stream.javadsl.Source[akka.kafka.ConsumerMessage.CommittableMessage[K,V],akka.kafka.javadsl.Consumer.Control]" scala="#committableSource[K,V](settings:akka.kafka.ConsumerSettings[K,V],subscription:akka.kafka.Subscription):akka.stream.scaladsl.Source[akka.kafka.ConsumerMessage.CommittableMessage[K,V],akka.kafka.scaladsl.Consumer.Control]" } 
+@apidoc[Consumer.committableSource](Consumer$) { java="#committableSource[K,V](settings:pekko.kafka.ConsumerSettings[K,V],subscription:pekko.kafka.Subscription):akka.stream.javadsl.Source[pekko.kafka.ConsumerMessage.CommittableMessage[K,V],pekko.kafka.javadsl.Consumer.Control]" scala="#committableSource[K,V](settings:pekko.kafka.ConsumerSettings[K,V],subscription:pekko.kafka.Subscription):akka.stream.scaladsl.Source[pekko.kafka.ConsumerMessage.CommittableMessage[K,V],pekko.kafka.scaladsl.Consumer.Control]" } 
 makes it possible to commit offset positions to Kafka. Compared to auto-commit this gives exact control of when a message is considered consumed.
 
 This is useful when "at-least-once" delivery is desired, as each message will likely be delivered one time, but in failure cases could be received more than once.
@@ -160,7 +160,7 @@ Scala
 Java
 : @@ snip [snip](/tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #committerSink }
  
-When creating a @apidoc[Committer.sink](Committer$) you need to pass in @apidoc[CommitterSettings$]. These may be created by passing the actor system to read the defaults from the config section `akka.kafka.committer`, or by passing a @scaladoc[Config](com.typesafe.config.Config) instance with the same structure.
+When creating a @apidoc[Committer.sink](Committer$) you need to pass in @apidoc[CommitterSettings$]. These may be created by passing the actor system to read the defaults from the config section `pekko.kafka.committer`, or by passing a @scaladoc[Config](com.typesafe.config.Config) instance with the same structure.
 
 Table
 : | Setting   | Description                                  | Default Value |
@@ -174,7 +174,7 @@ reference.conf
 
 All commit batches are aggregated internally and passed on to Kafka very often (in every poll cycle), the Committer settings configure how the stream sends the offsets to the internal actor which communicates with the Kafka broker. Increasing these values means that in case of a failure you may have to re-process more messages.
 
-If you use Kafka older than version 2.1.0 and consume from a topic with low activity, and possibly no messages arrive for more than 24 hours, consider enabling periodical commit refresh (`akka.kafka.consumer.commit-refresh-interval` configuration parameters), otherwise offsets might expire in the Kafka storage. This has been fixed in Kafka 2.1.0 (See [KAFKA-4682](https://issues.apache.org/jira/browse/KAFKA-4682)).
+If you use Kafka older than version 2.1.0 and consume from a topic with low activity, and possibly no messages arrive for more than 24 hours, consider enabling periodical commit refresh (`pekko.kafka.consumer.commit-refresh-interval` configuration parameters), otherwise offsets might expire in the Kafka storage. This has been fixed in Kafka 2.1.0 (See [KAFKA-4682](https://issues.apache.org/jira/browse/KAFKA-4682)).
 
 #### Committer variants
 
@@ -193,7 +193,7 @@ These factory methods are part of the @apidoc[Committer$].
 
 The @apidoc[Consumer.commitWithMetadataSource](Consumer$) allows you to add metadata to the committed offset based on the last consumed record.
 
-Note that the first offset provided to the consumer during a partition assignment will not contain metadata. This offset can get committed due to a periodic commit refresh (`akka.kafka.consumer.commit-refresh-interval` configuration parameters) and the commit will not contain metadata.
+Note that the first offset provided to the consumer during a partition assignment will not contain metadata. This offset can get committed due to a periodic commit refresh (`pekko.kafka.consumer.commit-refresh-interval` configuration parameters) and the commit will not contain metadata.
 
 Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/ConsumerExample.scala) { #commitWithMetadata }
@@ -272,8 +272,8 @@ It is shared by creating a @apidoc[org.apache.pekko.kafka.KafkaConsumerActor$].
 You need to create the actor and stop it by sending `KafkaConsumerActor.Stop` when it is not needed any longer. 
 You pass the classic @apidoc[org.apache.pekko.actor.ActorRef] as a parameter to the @apidoc[Consumer](Consumer$) factory methods.
 
-When using a typed @apidoc[org.apache.pekko.actor.typed.ActorSystem] you can create the @apidoc[org.apache.pekko.kafka.KafkaConsumerActor$] by using the Akka typed adapter to create a classic @apidoc[org.apache.pekko.actor.ActorRef].
-Then you can carry on using the existing Alpakka Kafka API.
+When using a typed @apidoc[org.apache.pekko.actor.typed.ActorSystem] you can create the @apidoc[org.apache.pekko.kafka.KafkaConsumerActor$] by using the Apache Pekko typed adapter to create a classic @apidoc[org.apache.pekko.actor.ActorRef].
+Then you can carry on using the existing Apache Pekko Connectors Kafka API.
 
 Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/PartitionExamples.scala) { #consumerActorTyped }

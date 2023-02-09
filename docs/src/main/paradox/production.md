@@ -1,10 +1,10 @@
 ---
-project.description: Consider these areas when using Alpakka Kafka in production.
+project.description: Consider these areas when using Apache Pekko Connectors Kafka in production.
 ---
 # Production considerations
 
 
-## Alpakka Kafka API
+## Apache Pekko Connectors Kafka API
 
 1. Do not use `Consumer.atMostOnceSource` in production as it internally commits the offset after every element.
 1. If you create `Producer` sinks in "inner flows", be sure to @ref:[share the `Producer` instance](producer.md#sharing-the-kafkaproducer-instance). This avoids the expensive creation of `KafkaProducer` instances.
@@ -16,16 +16,6 @@ This is just a start, please add your experiences to this list by [opening a Pul
 @@@
 
 
-## Monitoring and Tracing
-
-For performance monitoring consider [Lightbend Telemetry](https://developer.lightbend.com/docs/telemetry/current/home.html) which gives insights into Akka and Akka Streams.
-
-Lightbend Telemetry supports OpenTracing context propagation so that you can follow individual messages through Kafka producers and consumers.
-
-![OpenTracing with Alpakka Kafka](.../alpakka-kafka-stream-trace.png)
-
-See [Enabling OpenTracing in your app](https://developer.lightbend.com/docs/telemetry/current/extensions/opentracing/enabling.html#alpakka-kafka-configuration).
-
 ## Security setup
 
 The different security setups offered by Kafka brokers are described in the @extref[Apache Kafka documentation](kafka:/documentation.html#security).
@@ -34,11 +24,11 @@ The different security setups offered by Kafka brokers are described in the @ext
 ### SSL
 
 The properties described in Kafka's @extref[Configuring Kafka Clients for SSL](kafka:/documentation.html#security_configclients) go in the
-`akka.kafka.consumer.kafka-clients` and `akka.kafka.producer.kafka-clients` sections of the configuration, or can be added programmatically via
+`pekko.kafka.consumer.kafka-clients` and `pekko.kafka.producer.kafka-clients` sections of the configuration, or can be added programmatically via
 `ProducerSettings.withProperties` and `ConsumerSettings.withProperties`. The necessary property name constants are available in @javadoc[SslConfigs](org.apache.kafka.common.config.SslConfigs).
 
 ```hocon
-akka.kafka.producer { # and akka.kafka.consumer respectively
+pekko.kafka.producer { # and pekko.kafka.consumer respectively
   kafka-clients {
     security.protocol=SSL
     ssl.truststore.location=/var/private/ssl/kafka.client.truststore.jks
@@ -58,11 +48,11 @@ You have the option to pass the passwords as command line parameters or environm
 ### Kerberos
 
 The properties described in Kafka's @extref[Configuring Kafka Clients for Kerberos](kafka:/documentation.html#security_sasl_kerberos_clientconfig) go in the
-`akka.kafka.consumer.kafka-clients` and `akka.kafka.producer.kafka-clients` sections of the configuration, or can be added programmatically via
+`pekko.kafka.consumer.kafka-clients` and `pekko.kafka.producer.kafka-clients` sections of the configuration, or can be added programmatically via
 `ProducerSettings.withProperties` and `ConsumerSettings.withProperties`.
 
 ```hocon
-akka.kafka.producer { # and akka.kafka.consumer respectively
+pekko.kafka.producer { # and pekko.kafka.consumer respectively
   kafka-clients {
     security.protocol=SASL_PLAINTEXT # (or SASL_SSL)
     sasl.mechanism=GSSAPI

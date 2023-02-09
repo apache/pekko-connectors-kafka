@@ -1,8 +1,8 @@
 # Overview
 
-The [Apache Pekko Kafka Connector project](https://pekko.apache.org/docs/pekko-connectors-kafka/current/) is an open source initiative to implement stream-aware and reactive integration pipelines for Java and Scala. It is built on top of @extref[Pekko Streams](pekko:stream/index.html), and has been designed from the ground up to understand streaming natively and provide a DSL for reactive and stream-oriented programming, with built-in support for backpressure. Akka Streams is a [Reactive Streams](https://www.reactive-streams.org/) and JDK 9+ @extref[java.util.concurrent.Flow](java-docs:docs/api/java.base/java/util/concurrent/Flow.html)-compliant implementation and therefore @extref[fully interoperable](pekko:general/stream/stream-design.html#interoperation-with-other-reactive-streams-implementations) with other implementations.
+The [Apache Pekko Kafka Connector project](https://pekko.apache.org/docs/pekko-connectors-kafka/current/) is an open source initiative to implement stream-aware and reactive integration pipelines for Java and Scala. It is built on top of @extref[Pekko Streams](pekko:stream/index.html), and has been designed from the ground up to understand streaming natively and provide a DSL for reactive and stream-oriented programming, with built-in support for backpressure. Apache Pekko Streams is a [Reactive Streams](https://www.reactive-streams.org/) and JDK 9+ @extref[java.util.concurrent.Flow](java-docs:docs/api/java.base/java/util/concurrent/Flow.html)-compliant implementation and therefore @extref[fully interoperable](pekko:general/stream/stream-design.html#interoperation-with-other-reactive-streams-implementations) with other implementations.
 
-This **Alpakka Kafka connector** lets you connect [Apache Kafka](https://kafka.apache.org/) to Akka Streams. It was formerly known as **Akka Streams Kafka** and even **Reactive Kafka**.
+This **Apache Pekko Connectors Kafka connector** lets you connect [Apache Kafka](https://kafka.apache.org/) to Apache Pekko Streams. It was formerly known as **Apache Pekko Streams Kafka** and even **Reactive Kafka**.
 
 ## Project Info
 
@@ -10,7 +10,7 @@ This **Alpakka Kafka connector** lets you connect [Apache Kafka](https://kafka.a
 
 ## Matching Kafka Versions
 
-|Kafka client | Scala Versions | Akka version | Alpakka Kafka Connector
+|Kafka client | Scala Versions | Apache Pekko version | Apache Pekko Connectors Kafka Connector
 |-------------|----------------|--------------|-------------------------
 |[3.0.1](https://dist.apache.org/repos/dist/release/kafka/3.0.1/RELEASE_NOTES.html) | 2.13             | 2.6.18+         | [release 3.0.1](https://github.com/akka/alpakka-kafka/releases/tag/v3.0.0)
 |[3.0.0](https://blogs.apache.org/kafka/entry/what-s-new-in-apache6)                | 2.13             | 2.6.18+         | [release 3.0.0 RC1](https://github.com/akka/alpakka-kafka/releases/tag/v3.0.0-RC1)
@@ -44,47 +44,47 @@ Check even Confluent's [Versions and Interoperability](https://docs.confluent.io
   group=com.typesafe.akka
   artifact=akka-stream-kafka_$scala.binary.version$
   version=$project.version$
-  symbol2=AkkaVersion
+  symbol2=PekkoVersion
   value2="$akka.version$"
   group2=com.typesafe.akka
   artifact2=akka-stream_$scala.binary.version$
-  version2=AkkaVersion
+  version2=PekkoVersion
 }
 
-This connector depends on Akka 2.6.x and note that it is important that all `akka-*` dependencies are in the same version, so it is recommended to depend on them explicitly to avoid problems with transient dependencies causing an unlucky mix of versions.
+This connector depends on Apache Pekko 2.6.x and note that it is important that all `akka-*` dependencies are in the same version, so it is recommended to depend on them explicitly to avoid problems with transient dependencies causing an unlucky mix of versions.
 
-Alpakka Kafka APIs accept a typed @apidoc[org.apache.pekko.actor.typed.ActorSystem] or a classic @apidoc[org.apache.pekko.actor.ActorSystem] because both implement the @apidoc[org.apache.pekko.actor.ClassicActorSystemProvider] @scala[trait]@java[interface].
-There are some Alpakka Kafka APIs that only accept classic a @apidoc[org.apache.pekko.actor.ActorRef], such as the @ref[rebalance listener](./consumer-rebalance.md) API, but otherwise there is no difference between running Alpakka Kafka and any other Akka Streams implementation with a typed @apidoc[org.apache.pekko.actor.typed.ActorSystem]. 
-For more information on Akka classic and typed interoperability read the @extref[Coexistence](pekko:/typed/coexisting.html) page of the Akka Documentation.
+Apache Pekko Connectors Kafka APIs accept a typed @apidoc[org.apache.pekko.actor.typed.ActorSystem] or a classic @apidoc[org.apache.pekko.actor.ActorSystem] because both implement the @apidoc[org.apache.pekko.actor.ClassicActorSystemProvider] @scala[trait]@java[interface].
+There are some Apache Pekko Connectors Kafka APIs that only accept classic a @apidoc[org.apache.pekko.actor.ActorRef], such as the @ref[rebalance listener](./consumer-rebalance.md) API, but otherwise there is no difference between running Apache Pekko Connectors Kafka and any other Apache Pekko Streams implementation with a typed @apidoc[org.apache.pekko.actor.typed.ActorSystem]. 
+For more information on Apache Pekko classic and typed interoperability read the @extref[Coexistence](pekko:/typed/coexisting.html) page of the Apache Pekko Documentation.
 
-The table below shows Alpakka Kafka's direct dependencies and the second tab shows all libraries it depends on transitively.
+The table below shows Apache Pekko Connectors Kafka's direct dependencies and the second tab shows all libraries it depends on transitively.
 
 @@dependencies { projectId="core" }
 
-* Akka Streams $akka.version$ @extref[documentation](pekko:stream/index.html) and [sources](https://github.com/akka/akka)
+* Apache Pekko Streams $akka.version$ @extref[documentation](pekko:stream/index.html) and [sources](https://github.com/akka/akka)
 * Apache Kafka client $kafka.version$ @extref[documentation](kafka:/documentation#index) and [sources](https://github.com/apache/kafka)
 
 
 ## Scala and Java APIs
 
-Following Akka's conventions there are two separate packages named `akka.kafka.scaladsl` and `akka.kafka.javadsl`
+Following Apache Pekko's conventions there are two separate packages named `pekko.kafka.scaladsl` and `pekko.kafka.javadsl`
 with the API for Scala and Java. These packages contain `Producer` and `Consumer`
-classes with factory methods for the various Akka Streams `Flow`, `Sink` and `Source`
+classes with factory methods for the various Apache Pekko Streams `Flow`, `Sink` and `Source`
 that are producing or consuming messages to/from Kafka.
 
 
 ## Examples
 
-A few self-contained examples using Alpakka are available as [Alpakka Samples](https://akka.io/alpakka-samples/).
+A few self-contained examples using Apache Pekko Connectors are available as [Apache Pekko Connectors Samples](https://akka.io/alpakka-samples/).
 
-To read and see how others use Alpakka see the [Alpakka documentation's Webinars, Presentations and Articles](https://doc.akka.io/docs/alpakka/current/other-docs/webinars-presentations-articles.html) listing.
+To read and see how others use Apache Pekko Connectors see the [Apache Pekko Connectors documentation's Webinars, Presentations and Articles](https://doc.akka.io/docs/alpakka/current/other-docs/webinars-presentations-articles.html) listing.
 
 
 ## Contributing
 
-Please feel free to contribute to Alpakka and the Alpakka Kafka connector by reporting issues you identify, or by suggesting changes to the code. Please refer to our [contributing instructions](https://github.com/akka/alpakka-kafka/blob/master/CONTRIBUTING.md) to learn how it can be done.
+Please feel free to contribute to Apache Pekko Connectors and the Apache Pekko Connectors Kafka connector by reporting issues you identify, or by suggesting changes to the code. Please refer to our [contributing instructions](https://github.com/akka/alpakka-kafka/blob/master/CONTRIBUTING.md) to learn how it can be done.
 
-We want Akka and Alpakka to strive in a welcoming and open atmosphere and expect all contributors to respect our [code of conduct](https://www.lightbend.com/conduct).
+We want Apache Pekko and Apache Pekko Connectors to strive in a welcoming and open atmosphere and expect all contributors to respect our [code of conduct](https://www.lightbend.com/conduct).
 
 
 @@@ index

@@ -1,5 +1,5 @@
 ---
-project.description: Produce messages to Apache Kafka topics from Akka Streams with Alpakka Kafka.
+project.description: Produce messages to Apache Kafka topics from Apache Pekko Streams with Apache Pekko Connectors Kafka.
 ---
 # Producer
 
@@ -9,9 +9,9 @@ The underlying implementation is using the `KafkaProducer`, see the @javadoc[Kaf
 
 ## Choosing a producer
 
-Alpakka Kafka offers producer flows and sinks that connect to Kafka and write data. The tables below may help you to find the producer best suited for your use-case.
+Apache Pekko Connectors Kafka offers producer flows and sinks that connect to Kafka and write data. The tables below may help you to find the producer best suited for your use-case.
 
-For use-cases that don't benefit from Akka Streams, the @ref[Send Producer](send-producer.md) offers a @scala[`Future`-based]@java[`CompletionStage`-based] send API.
+For use-cases that don't benefit from Apache Pekko Streams, the @ref[Send Producer](send-producer.md) offers a @scala[`Future`-based]@java[`CompletionStage`-based] send API.
 
 ### Producers
 
@@ -37,7 +37,7 @@ For details about the batched committing see @ref:[Consumer: Offset Storage in K
 ### Transactional producers
 
 These factory methods are part of the @apidoc[Transactional$] API. For details see @ref[Transactions](transactions.md).
-Alpakka Kafka must manage the producer when using transactions.
+Apache Pekko Connectors Kafka must manage the producer when using transactions.
 
 | Factory method          | May use shared producer | Stream element type | Pass-through |
 |-------------------------|-------------------------|---------------------|--------------|
@@ -63,7 +63,7 @@ Java
 
 In addition to programmatic construction of the @apidoc[ProducerSettings$] it can also be created from configuration (`application.conf`). 
 
-When creating @apidoc[ProducerSettings$] with a classic @apidoc[org.apache.pekko.actor.ActorSystem] or typed @apidoc[org.apache.pekko.actor.typed.ActorSystem] it uses the config section `akka.kafka.producer`. 
+When creating @apidoc[ProducerSettings$] with a classic @apidoc[org.apache.pekko.actor.ActorSystem] or typed @apidoc[org.apache.pekko.actor.typed.ActorSystem] it uses the config section `pekko.kafka.producer`. 
 The format of these settings files are described in the [Typesafe Config Documentation](https://github.com/lightbend/config#using-hocon-the-json-superset).
 
 @@ snip [snip](/core/src/main/resources/reference.conf) { #producer-settings }
@@ -75,7 +75,7 @@ See Kafka's @javadoc[KafkaProducer](org.apache.kafka.clients.producer.KafkaProdu
 
 ## Producer as a Sink
 
-@apidoc[Producer.plainSink](Producer$) { java="#plainSink[K,V](settings:akka.kafka.ProducerSettings[K,V]):akka.stream.javadsl.Sink[org.apache.kafka.clients.producer.ProducerRecord[K,V],java.util.concurrent.CompletionStage[akka.Done]]" scala="#plainSink[K,V](settings:akka.kafka.ProducerSettings[K,V]):akka.stream.scaladsl.Sink[org.apache.kafka.clients.producer.ProducerRecord[K,V],scala.concurrent.Future[akka.Done]]" } 
+@apidoc[Producer.plainSink](Producer$) { java="#plainSink[K,V](settings:pekko.kafka.ProducerSettings[K,V]):akka.stream.javadsl.Sink[org.apache.kafka.clients.producer.ProducerRecord[K,V],java.util.concurrent.CompletionStage[akka.Done]]" scala="#plainSink[K,V](settings:pekko.kafka.ProducerSettings[K,V]):akka.stream.scaladsl.Sink[org.apache.kafka.clients.producer.ProducerRecord[K,V],scala.concurrent.Future[akka.Done]]" } 
 is the easiest way to publish messages. The sink consumes the Kafka type @javadoc[ProducerRecord](org.apache.kafka.clients.producer.ProducerRecord) which contains 
 
 1. a topic name to which the record is being sent, 
@@ -150,7 +150,7 @@ For flows the @apidoc[ProducerMessage.PassThroughMessage]s continue as @apidoc[P
 
 ## Producer as a Flow
 
-@apidoc[Producer.flexiFlow](Producer$) { java="#flexiFlow[K,V,PassThrough](settings:akka.kafka.ProducerSettings[K,V]):akka.stream.javadsl.Flow[akka.kafka.ProducerMessage.Envelope[K,V,PassThrough],akka.kafka.ProducerMessage.Results[K,V,PassThrough],akka.NotUsed]" scala="#flexiFlow[K,V,PassThrough](settings:akka.kafka.ProducerSettings[K,V]):akka.stream.scaladsl.Flow[akka.kafka.ProducerMessage.Envelope[K,V,PassThrough],akka.kafka.ProducerMessage.Results[K,V,PassThrough],akka.NotUsed]" }
+@apidoc[Producer.flexiFlow](Producer$) { java="#flexiFlow[K,V,PassThrough](settings:pekko.kafka.ProducerSettings[K,V]):akka.stream.javadsl.Flow[pekko.kafka.ProducerMessage.Envelope[K,V,PassThrough],pekko.kafka.ProducerMessage.Results[K,V,PassThrough],akka.NotUsed]" scala="#flexiFlow[K,V,PassThrough](settings:pekko.kafka.ProducerSettings[K,V]):akka.stream.scaladsl.Flow[pekko.kafka.ProducerMessage.Envelope[K,V,PassThrough],pekko.kafka.ProducerMessage.Results[K,V,PassThrough],akka.NotUsed]" }
 allows the stream to continue after publishing messages to Kafka. It accepts implementations of @apidoc[ProducerMessage.Envelope] as input, which continue in the flow as implementations of @apidoc[ProducerMessage.Results]. 
  
 

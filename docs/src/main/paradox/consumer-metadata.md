@@ -1,5 +1,5 @@
 ---
-project.description: Access Kafka consumer metadata by sending messages to the actor provided by Alpakka Kafka.
+project.description: Access Kafka consumer metadata by sending messages to the actor provided by Apache Pekko Connectors Kafka.
 ---
 # Consumer Metadata
 

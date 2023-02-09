@@ -1,5 +1,5 @@
 ---
-project.description: Snapshot builds of Alpakka Kafka are provided via the Sonatype snapshot repository.
+project.description: Snapshot builds of Apache Pekko Connectors Kafka are provided via the Sonatype snapshot repository.
 ---
 # Snapshots
 
@@ -7,7 +7,7 @@ project.description: Snapshot builds of Alpakka Kafka are provided via the Sonat
 [snapshots]:        https://oss.sonatype.org/content/repositories/snapshots/com/typesafe/akka/akka-stream-kafka_2.13/
 
 Snapshots are published to the Sonatype Snapshot repository after every successful build on master.
-Add the following to your project build definition to resolve Alpakka Kafka connector snapshots:
+Add the following to your project build definition to resolve Apache Pekko Connectors Kafka connector snapshots:
 
 ## Configure repository
 
@@ -48,4 +48,4 @@ The [snapshot documentation](https://doc.akka.io/docs/alpakka-kafka/snapshot/) i
 
 Latest published snapshot version is [![snapshots-badge][]][snapshots]
 
-The snapshot repository is cleaned from time to time with no further notice. Check [Sonatype snapshots Alpakka Kafka files](https://oss.sonatype.org/content/repositories/snapshots/com/typesafe/akka/akka-stream-kafka_2.13/) to see what versions are currently available.
+The snapshot repository is cleaned from time to time with no further notice. Check [Sonatype snapshots Apache Pekko Connectors Kafka files](https://oss.sonatype.org/content/repositories/snapshots/com/typesafe/akka/akka-stream-kafka_2.13/) to see what versions are currently available.

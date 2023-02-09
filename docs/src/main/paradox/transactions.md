@@ -1,5 +1,5 @@
 ---
-project.description: Alpakka has support for Kafka Transactions which provide guarantees that messages processed in a consume-transform-produce workflow are processed exactly once or not at all.
+project.description: Apache Pekko Connectors has support for Kafka Transactions which provide guarantees that messages processed in a consume-transform-produce workflow are processed exactly once or not at all.
 ---
 # Transactions
 
@@ -35,7 +35,7 @@ This can lead to several performance implications.
 
 1. A single producer per application has the opportunity to collectively batch sends to allow for better throughput.
 If we subdivide the same producing workload with multiple producers then we will lose the efficiency of consecutive batching to Kafka that one producer can manage.
-Since the Kafka Producer is threadsafe we would ideally only have one Producer per Alpakka Kafka application, but this isn't possible if we want to distribute our transactional application across multiple instances.
+Since the Kafka Producer is threadsafe we would ideally only have one Producer per Apache Pekko Connectors Kafka application, but this isn't possible if we want to distribute our transactional application across multiple instances.
 
 2. The Kafka cluster will receive more connection and request overhead because there are more batches sent from more producers.
 
@@ -62,11 +62,11 @@ A `transactional.id` must be defined and unique for each instance of the applica
 
 Kafka transactions are handled transparently to the user.  The @apidoc[Transactional.source](Transactional$) will enforce that a consumer group id is specified and the @apidoc[Transactional.flow](Transactional$) or @apidoc[Transactional.sink](Transactional$) will enforce that a `transactional.id` is specified.  All other Kafka consumer and producer properties required to enable transactions are overridden.
 
-Transactions are committed on an interval which can be controlled with the producer config `akka.kafka.producer.eos-commit-interval`, similar to how exactly once works with Kafka Streams.  The default value is `100ms`.  The larger commit interval is the more records will need to be reprocessed in the event of failure and the transaction is aborted.
+Transactions are committed on an interval which can be controlled with the producer config `pekko.kafka.producer.eos-commit-interval`, similar to how exactly once works with Kafka Streams.  The default value is `100ms`.  The larger commit interval is the more records will need to be reprocessed in the event of failure and the transaction is aborted.
 
 When the stream is materialized the producer will initialize the transaction for the provided `transactional.id` and a transaction will begin.  Every commit interval (`eos-commit-interval`) we check if there are any offsets available to commit.  If offsets exist then we suspend backpressured demand while we drain all outstanding messages that have not yet been successfully acknowledged (if any) and then commit the transaction.  After the commit succeeds a new transaction is begun and we re-initialize demand for upstream messages.
 
-Messages are also drained from the stream when the consumer gets a rebalance of partitions. In that case, the consumer will wait in the `onPartitionsRevoked` callback until all of the messages have been drained from the stream and the transaction is committed before allowing the rebalance to continue. The amount of total time the consumer will wait for draining is controlled by the `akka.kafka.consumer.commit-timeout`, and the interval between checks is controlled by the `akka.kafka.consuner.eos-draining-check-interval` configuration settings.
+Messages are also drained from the stream when the consumer gets a rebalance of partitions. In that case, the consumer will wait in the `onPartitionsRevoked` callback until all of the messages have been drained from the stream and the transaction is committed before allowing the rebalance to continue. The amount of total time the consumer will wait for draining is controlled by the `pekko.kafka.consumer.commit-timeout`, and the interval between checks is controlled by the `pekko.kafka.consuner.eos-draining-check-interval` configuration settings.
 
 To gracefully shutdown the stream and commit the current transaction you must call `shutdown()` on the @apidoc[(javadsl|scaladsl).Consumer.Control] materialized value to await all produced message acknowledgements and commit the final transaction.  
 
@@ -93,7 +93,7 @@ Java
 
 When any stage in the stream fails the whole stream will be torn down.  In the general case it's desirable to allow transient errors to fail the whole stream because they cannot be recovered from within the application.  Transient errors can be caused by network partitions, Kafka broker failures, @javadoc[ProducerFencedException](org.apache.kafka.common.errors.ProducerFencedException)'s from other application instances, and so on.  When the stream encounters transient errors then the current transaction will be aborted before the stream is torn down.  Any produced messages that were not committed will not be available to downstream consumers as long as those consumers are configured with `isolation.level = read_committed`.
 
-For transient errors we can choose to rely on the Kafka producer's configuration to retry, or we can handle it ourselves at the Akka Streams or Application layer.  Using the @extref[RestartSource](pekko:/stream/stream-error.html#delayed-restarts-with-a-backoff-stage) we can backoff connection attempts so that we don't hammer the Kafka cluster in a tight loop.
+For transient errors we can choose to rely on the Kafka producer's configuration to retry, or we can handle it ourselves at the Apache Pekko Streams or Application layer.  Using the @extref[RestartSource](pekko:/stream/stream-error.html#delayed-restarts-with-a-backoff-stage) we can backoff connection attempts so that we don't hammer the Kafka cluster in a tight loop.
 
 Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/TransactionsExample.scala) { #transactionalFailureRetry }

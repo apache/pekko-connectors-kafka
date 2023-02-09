@@ -1,5 +1,5 @@
 ---
-project.description: Alpakka Kafka provides Testcontainers support for running a Kafka cluster locally using Docker containers.
+project.description: Apache Pekko Connectors Kafka provides Testcontainers support for running a Kafka cluster locally using Docker containers.
 ---
 # Testing with a Docker Kafka cluster
 
@@ -17,7 +17,7 @@ The @apidoc[KafkaTestkitTestcontainersSettings] type can be used to perform acti
 * Overriding container settings and environment variables (i.e. to change default Broker config)
 * Apply custom docker configuration to the Kafka and ZooKeeper containers used to create a cluster
 
-To change defaults for all settings update the appropriate configuration in `akka.kafka.testkit.testcontainers`.
+To change defaults for all settings update the appropriate configuration in `pekko.kafka.testkit.testcontainers`.
 
 @@ snip [snip](/testkit/src/main/resources/reference.conf) { #testkit-testcontainers-settings }
 
@@ -53,7 +53,7 @@ You can retrieve the Schema Registry URL in your test configuration by calling `
 
 ## Testing with a Docker Kafka cluster from Java code
 
-The Alpakka Kafka testkit contains helper classes to start Kafka via Testcontainers. Alternatively, you may use just Testcontainers, as it is designed to be used with JUnit and you can follow [their documentation](https://www.testcontainers.org/modules/kafka/) to start and stop Kafka. To start a single instance for many tests see [Singleton containers](https://www.testcontainers.org/test_framework_integration/manual_lifecycle_control/).
+The Apache Pekko Connectors Kafka testkit contains helper classes to start Kafka via Testcontainers. Alternatively, you may use just Testcontainers, as it is designed to be used with JUnit and you can follow [their documentation](https://www.testcontainers.org/modules/kafka/) to start and stop Kafka. To start a single instance for many tests see [Singleton containers](https://www.testcontainers.org/test_framework_integration/manual_lifecycle_control/).
 
 The Testcontainers dependency must be added to your project explicitly.
 
@@ -84,7 +84,7 @@ The Testcontainers dependency must be added to your project explicitly.
   scope=test
 }
 
-To ensure proper shutdown of all stages in every test, wrap your test code in @apidoc[assertAllStagesStopped]((javadsl|scaladsl).StreamTestKit$). This may interfere with the `stop-timeout` which delays shutdown for Alpakka Kafka consumers. You might need to configure a shorter timeout in your `application.conf` for tests.
+To ensure proper shutdown of all stages in every test, wrap your test code in @apidoc[assertAllStagesStopped]((javadsl|scaladsl).StreamTestKit$). This may interfere with the `stop-timeout` which delays shutdown for Apache Pekko Connectors Kafka consumers. You might need to configure a shorter timeout in your `application.conf` for tests.
 
 ### One cluster for all tests
 
