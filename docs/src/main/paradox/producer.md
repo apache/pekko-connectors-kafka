@@ -75,7 +75,7 @@ See Kafka's @javadoc[KafkaProducer](org.apache.kafka.clients.producer.KafkaProdu
 
 ## Producer as a Sink
 
-@apidoc[Producer.plainSink](Producer$) { java="#plainSink[K,V](settings:pekko.kafka.ProducerSettings[K,V]):akka.stream.javadsl.Sink[org.apache.kafka.clients.producer.ProducerRecord[K,V],java.util.concurrent.CompletionStage[akka.Done]]" scala="#plainSink[K,V](settings:pekko.kafka.ProducerSettings[K,V]):akka.stream.scaladsl.Sink[org.apache.kafka.clients.producer.ProducerRecord[K,V],scala.concurrent.Future[akka.Done]]" } 
+@apidoc[Producer.plainSink](Producer$) { java="#plainSink[K,V](settings:pekko.kafka.ProducerSettings[K,V]):orh.apache.pekko.stream.javadsl.Sink[org.apache.kafka.clients.producer.ProducerRecord[K,V],java.util.concurrent.CompletionStage[akka.Done]]" scala="#plainSink[K,V](settings:pekko.kafka.ProducerSettings[K,V]):orh.apache.pekko.stream.scaladsl.Sink[org.apache.kafka.clients.producer.ProducerRecord[K,V],scala.concurrent.Future[akka.Done]]" } 
 is the easiest way to publish messages. The sink consumes the Kafka type @javadoc[ProducerRecord](org.apache.kafka.clients.producer.ProducerRecord) which contains 
 
 1. a topic name to which the record is being sent, 
@@ -150,7 +150,7 @@ For flows the @apidoc[ProducerMessage.PassThroughMessage]s continue as @apidoc[P
 
 ## Producer as a Flow
 
-@apidoc[Producer.flexiFlow](Producer$) { java="#flexiFlow[K,V,PassThrough](settings:pekko.kafka.ProducerSettings[K,V]):akka.stream.javadsl.Flow[pekko.kafka.ProducerMessage.Envelope[K,V,PassThrough],pekko.kafka.ProducerMessage.Results[K,V,PassThrough],akka.NotUsed]" scala="#flexiFlow[K,V,PassThrough](settings:pekko.kafka.ProducerSettings[K,V]):akka.stream.scaladsl.Flow[pekko.kafka.ProducerMessage.Envelope[K,V,PassThrough],pekko.kafka.ProducerMessage.Results[K,V,PassThrough],akka.NotUsed]" }
+@apidoc[Producer.flexiFlow](Producer$) { java="#flexiFlow[K,V,PassThrough](settings:pekko.kafka.ProducerSettings[K,V]):orh.apache.pekko.stream.javadsl.Flow[pekko.kafka.ProducerMessage.Envelope[K,V,PassThrough],pekko.kafka.ProducerMessage.Results[K,V,PassThrough],akka.NotUsed]" scala="#flexiFlow[K,V,PassThrough](settings:pekko.kafka.ProducerSettings[K,V]):orh.apache.pekko.stream.scaladsl.Flow[pekko.kafka.ProducerMessage.Envelope[K,V,PassThrough],pekko.kafka.ProducerMessage.Results[K,V,PassThrough],akka.NotUsed]" }
 allows the stream to continue after publishing messages to Kafka. It accepts implementations of @apidoc[ProducerMessage.Envelope] as input, which continue in the flow as implementations of @apidoc[ProducerMessage.Results]. 
  
 
