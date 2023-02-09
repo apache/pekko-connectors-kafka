@@ -15,7 +15,7 @@ object ProjectSettings {
     |
     |The build has three main modules:
     |  core - the Kafka connector sources
-    |  cluster-sharding - Akka Cluster External Sharding with the Apache Pekko Kafka Connector
+    |  cluster-sharding - Pekko Cluster External Sharding with the Apache Pekko Kafka Connector
     |  tests - tests, Docker based integration tests, code for the documentation
     |  testkit - framework for testing the connector
     |

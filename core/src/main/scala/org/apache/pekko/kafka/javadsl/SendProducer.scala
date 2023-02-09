@@ -16,7 +16,7 @@ import org.apache.kafka.clients.producer.{ ProducerRecord, RecordMetadata }
 import scala.compat.java8.FutureConverters._
 
 /**
- * Utility class for producing to Kafka without using Akka Streams.
+ * Utility class for producing to Kafka without using Pekko Streams.
  */
 final class SendProducer[K, V] private (underlying: scaladsl.SendProducer[K, V]) {
 
@@ -26,7 +26,7 @@ final class SendProducer[K, V] private (underlying: scaladsl.SendProducer[K, V])
     this(scaladsl.SendProducer(settings)(system))
 
   /**
-   * Utility class for producing to Kafka without using Akka Streams.
+   * Utility class for producing to Kafka without using Pekko Streams.
    * @param settings producer settings used to create or access the [[org.apache.kafka.clients.producer.Producer]]
    *
    * The internal asynchronous operations run on the provided `Executor` (which may be an `ActorSystem`'s dispatcher).

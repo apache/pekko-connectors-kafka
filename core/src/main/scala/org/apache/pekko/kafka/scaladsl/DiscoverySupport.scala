@@ -34,7 +34,7 @@ object DiscoverySupport {
     }
 
   /**
-   * Use Akka Discovery to read the addresses for `serviceName` within `lookupTimeout`.
+   * Use Pekko Discovery to read the addresses for `serviceName` within `lookupTimeout`.
    */
   private def bootstrapServers(
       discovery: ServiceDiscovery,
@@ -55,7 +55,7 @@ object DiscoverySupport {
   /**
    * Internal API.
    *
-   * Expect a `service` section in Config and use Akka Discovery to read the addresses for `name` within `lookup-timeout`.
+   * Expect a `service` section in Config and use Pekko Discovery to read the addresses for `name` within `lookup-timeout`.
    */
   @InternalApi
   private[kafka] def bootstrapServers(config: Config)(implicit system: ActorSystem): Future[String] = {

@@ -15,7 +15,7 @@ import org.apache.kafka.clients.producer.{ Callback, ProducerRecord, RecordMetad
 import scala.concurrent.{ ExecutionContext, Future, Promise }
 
 /**
- * Utility class for producing to Kafka without using Akka Streams.
+ * Utility class for producing to Kafka without using Pekko Streams.
  * @param settings producer settings used to create or access the [[org.apache.kafka.clients.producer.Producer]]
  */
 final class SendProducer[K, V] private (val settings: ProducerSettings[K, V], system: ActorSystem) {

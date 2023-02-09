@@ -4,7 +4,7 @@
  *
  *   https://www.apache.org/licenses/LICENSE-2.0
  *
- * This file is part of the Apache Pekko project, which was derived from Akka.
+ * This file is part of the Apache Pekko project, which was derived from Pekko.
  */
 
 import sbt.Keys._

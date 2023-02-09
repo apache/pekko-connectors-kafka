@@ -33,7 +33,7 @@ import scala.compat.java8.FutureConverters._
 /**
  * API MAY CHANGE
  *
- * Akka Extension to enable Akka Cluster External Sharding with Alpakka Kafka.
+ * Pekko Extension to enable Pekko Cluster External Sharding with Alpakka Kafka.
  */
 @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/1074")
 final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension {
@@ -208,9 +208,9 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
    * Create an Alpakka Kafka rebalance listener that handles [[TopicPartitionsAssigned]] events. The [[typeKey]] is
    * used to create the [[ExternalShardAllocation]] client. When partitions are assigned to this consumer group member
    * the rebalance listener will use the [[ExternalShardAllocation]] client to update the External Sharding strategy
-   * accordingly so that entities are (eventually) routed to the local Akka cluster member.
+   * accordingly so that entities are (eventually) routed to the local Pekko cluster member.
    *
-   * Returns an Akka typed [[org.apache.pekko.actor.typed.ActorRef]]. This must be converted to a classic actor before it can be
+   * Returns an Pekko typed [[org.apache.pekko.actor.typed.ActorRef]]. This must be converted to a classic actor before it can be
    * passed to an Alpakka Kafka [[ConsumerSettings]].
    *
    * {{{
@@ -235,9 +235,9 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
    * Create an Alpakka Kafka rebalance listener that handles [[TopicPartitionsAssigned]] events. The [[typeKey]] is
    * used to create the [[ExternalShardAllocation]] client. When partitions are assigned to this consumer group member
    * the rebalance listener will use the [[ExternalShardAllocation]] client to update the External Sharding strategy
-   * accordingly so that entities are (eventually) routed to the local Akka cluster member.
+   * accordingly so that entities are (eventually) routed to the local Pekko cluster member.
    *
-   * Returns an Akka typed [[org.apache.pekko.actor.typed.ActorRef]]. This must be converted to a classic actor before it can be
+   * Returns an Pekko typed [[org.apache.pekko.actor.typed.ActorRef]]. This must be converted to a classic actor before it can be
    * passed to an Alpakka Kafka [[ConsumerSettings]].
    *
    * {{{
@@ -304,7 +304,7 @@ object KafkaClusterSharding extends ExtensionId[KafkaClusterSharding] {
 
             val updates = shardAllocationClient.updateShardLocations(partitions.map { tp =>
               val shardId = tp.partition().toString
-              // the Kafka partition number becomes the akka shard id
+              // the Kafka partition number becomes the pekko shard id
               (shardId, address)
             }.toMap)
 

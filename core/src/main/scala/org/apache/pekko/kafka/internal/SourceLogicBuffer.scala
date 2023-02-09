@@ -13,7 +13,7 @@ import org.apache.kafka.common.TopicPartition
  * A buffer of messages provided by the [[KafkaConsumerActor]] for a Source Logic. When partitions are rebalanced
  * away from this Source Logic preemptively filter out messages for those partitions.
  *
- * NOTE: Due to the asynchronous nature of Akka Streams, it's not possible to guarantee that a message has not
+ * NOTE: Due to the asynchronous nature of Pekko Streams, it's not possible to guarantee that a message has not
  * already been sent downstream for a revoked partition before the rebalance handler invokes
  * `filterRevokedPartitionsCB`. The best we can do is filter as many messages as possible to reduce the amount of
  * duplicate messages sent downstream.
