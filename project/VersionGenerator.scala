@@ -2,7 +2,7 @@ import sbt._
 import sbt.Keys._
 
 /**
- * Generate version.conf and pekko/kafka/Version.scala files based on the version setting.
+ * Generate version.conf and org/apache/pekko/kafka/Version.scala files based on the version setting.
  *
  * This was adapted from https://github.com/apache/incubator-pekko/blob/main/project/VersionGenerator.scala
  */
@@ -14,7 +14,7 @@ object VersionGenerator {
          |"""),
       sourceGenerators += generateVersion(
         sourceManaged,
-        _ / "pekko" / "kafka" / "Version.scala",
+        _ / "org" / "apache" / "pekko" / "kafka" / "Version.scala",
         """|package org.apache.pekko.kafka
          |
          |object Version {
