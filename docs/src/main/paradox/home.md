@@ -39,7 +39,7 @@ Check even Confluent's [Versions and Interoperability](https://docs.confluent.io
   version2=PekkoVersion
 }
 
-This connector depends on Apache Pekko 2.6.x and note that it is important that all `akka-*` dependencies are in the same version, so it is recommended to depend on them explicitly to avoid problems with transient dependencies causing an unlucky mix of versions.
+This connector depends on Apache Pekko 1.0.x and note that it is important that all `pekko-*` dependencies are in the same version, so it is recommended to depend on them explicitly to avoid problems with transient dependencies causing an unlucky mix of versions.
 
 Apache Pekko Connectors Kafka APIs accept a typed @apidoc[org.apache.pekko.actor.typed.ActorSystem] or a classic @apidoc[org.apache.pekko.actor.ActorSystem] because both implement the @apidoc[org.apache.pekko.actor.ClassicActorSystemProvider] @scala[trait]@java[interface].
 There are some Apache Pekko Connectors Kafka APIs that only accept classic a @apidoc[org.apache.pekko.actor.ActorRef], such as the @ref[rebalance listener](./consumer-rebalance.md) API, but otherwise there is no difference between running Apache Pekko Connectors Kafka and any other Apache Pekko Streams implementation with a typed @apidoc[org.apache.pekko.actor.typed.ActorSystem]. 
@@ -55,7 +55,7 @@ The table below shows Apache Pekko Connectors Kafka's direct dependencies and th
 
 ## Scala and Java APIs
 
-Following Apache Pekko's conventions there are two separate packages named `pekko.kafka.scaladsl` and `pekko.kafka.javadsl`
+Following Apache Pekko's conventions, there are two separate packages named `pekko.kafka.scaladsl` and `pekko.kafka.javadsl`
 with the API for Scala and Java. These packages contain `Producer` and `Consumer`
 classes with factory methods for the various Apache Pekko Streams `Flow`, `Sink` and `Source`
 that are producing or consuming messages to/from Kafka.
@@ -65,14 +65,14 @@ that are producing or consuming messages to/from Kafka.
 
 A few self-contained examples using Apache Pekko Connectors are available as [Apache Pekko Connectors Samples](https://akka.io/alpakka-samples/).
 
-To read and see how others use Apache Pekko Connectors see the [Apache Pekko Connectors documentation's Webinars, Presentations and Articles](https://doc.akka.io/docs/alpakka/current/other-docs/webinars-presentations-articles.html) listing.
+To read and see how others use Apache Pekko Connectors, see the [Apache Pekko Connectors documentation's Webinars, Presentations and Articles](https://doc.akka.io/docs/alpakka/current/other-docs/webinars-presentations-articles.html) listing.
 
 
 ## Contributing
 
 Please feel free to contribute to Apache Pekko Connectors and the Apache Pekko Connectors Kafka connector by reporting issues you identify, or by suggesting changes to the code. Please refer to our [contributing instructions](https://github.com/apache/incubator-pekko-connectors-kafka/blob/master/CONTRIBUTING.md) to learn how it can be done.
 
-We want Apache Pekko and Apache Pekko Connectors to strive in a welcoming and open atmosphere and expect all contributors to respect our [code of conduct](https://www.lightbend.com/conduct).
+We want Apache Pekko and Apache Pekko Connectors to strive in a welcoming and open atmosphere and expect all contributors to respect our [code of conduct](https://www.apache.org/foundation/policies/conduct.html).
 
 
 @@@ index
