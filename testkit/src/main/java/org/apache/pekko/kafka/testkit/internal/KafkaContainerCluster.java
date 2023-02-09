@@ -43,7 +43,7 @@ public class KafkaContainerCluster implements Startable {
   public static final Duration DEFAULT_CLUSTER_START_TIMEOUT = Duration.ofSeconds(360);
   public static final Duration DEFAULT_READINESS_CHECK_TIMEOUT = DEFAULT_CLUSTER_START_TIMEOUT;
 
-  private static final String LOGGING_NAMESPACE_PREFIX = "akka.kafka.testkit.testcontainers.logs";
+  private static final String LOGGING_NAMESPACE_PREFIX = "pekko.kafka.testkit.testcontainers.logs";
   private static final String READINESS_CHECK_SCRIPT = "/testcontainers_readiness_check.sh";
   private static final String READINESS_CHECK_TOPIC = "ready-kafka-container-cluster";
   private static final Version BOOTSTRAP_PARAM_MIN_VERSION = new Version("5.2.0");

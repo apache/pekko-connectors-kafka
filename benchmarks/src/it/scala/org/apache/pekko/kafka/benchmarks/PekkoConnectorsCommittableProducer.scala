@@ -14,7 +14,7 @@ import org.apache.pekko.kafka.benchmarks.app.RunTestCommand
  */
 class PekkoConnectorsCommittableProducer extends BenchmarksBase() {
   it should "bench composed sink with 100b messages" in {
-    val cmd = RunTestCommand("alpakka-committable-producer-composed", bootstrapServers, topic_100_100)
+    val cmd = RunTestCommand("pekko-connectors-committable-producer-composed", bootstrapServers, topic_100_100)
     runPerfTest(
       cmd,
       PekkoConnectorsCommittableSinkFixtures.composedSink(cmd),
@@ -22,7 +22,7 @@ class PekkoConnectorsCommittableProducer extends BenchmarksBase() {
   }
 
   it should "bench composed sink with 5000b messages" in {
-    val cmd = RunTestCommand("alpakka-committable-producer-composed-5000b", bootstrapServers, topic_100_5000)
+    val cmd = RunTestCommand("pekko-connectors-committable-producer-composed-5000b", bootstrapServers, topic_100_5000)
     runPerfTest(
       cmd,
       PekkoConnectorsCommittableSinkFixtures.composedSink(cmd),
@@ -30,7 +30,7 @@ class PekkoConnectorsCommittableProducer extends BenchmarksBase() {
   }
 
   it should "bench `Producer.committableSink` with 100b messages" in {
-    val cmd = RunTestCommand("alpakka-committable-producer", bootstrapServers, topic_100_100)
+    val cmd = RunTestCommand("pekko-connectors-committable-producer", bootstrapServers, topic_100_100)
     runPerfTest(
       cmd,
       PekkoConnectorsCommittableSinkFixtures.producerSink(cmd),
@@ -38,7 +38,7 @@ class PekkoConnectorsCommittableProducer extends BenchmarksBase() {
   }
 
   it should "bench `Producer.committableSink` with 5000b messages" in {
-    val cmd = RunTestCommand("alpakka-committable-producer-5000b", bootstrapServers, topic_100_5000)
+    val cmd = RunTestCommand("pekko-connectors-committable-producer-5000b", bootstrapServers, topic_100_5000)
     runPerfTest(
       cmd,
       PekkoConnectorsCommittableSinkFixtures.producerSink(cmd),

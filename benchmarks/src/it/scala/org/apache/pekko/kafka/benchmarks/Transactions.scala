@@ -28,7 +28,7 @@ class ApacheKafkaTransactions extends BenchmarksBase() {
 
 class PekkoConnectorsKafkaTransactions extends BenchmarksBase() {
   it should "bench with small messages" in {
-    val cmd = RunTestCommand("alpakka-kafka-transactions", bootstrapServers, topic_100_100)
+    val cmd = RunTestCommand("pekko-connectors-kafka-transactions", bootstrapServers, topic_100_100)
     runPerfTest(
       cmd,
       ReactiveKafkaTransactionFixtures.transactionalSourceAndSink(cmd, commitInterval = 100.milliseconds),
@@ -36,7 +36,7 @@ class PekkoConnectorsKafkaTransactions extends BenchmarksBase() {
   }
 
   it should "bench with normal messages" in {
-    val cmd = RunTestCommand("alpakka-kafka-transactions-normal-msg", bootstrapServers, topic_100_5000)
+    val cmd = RunTestCommand("pekko-connectors-kafka-transactions-normal-msg", bootstrapServers, topic_100_5000)
     runPerfTest(
       cmd,
       ReactiveKafkaTransactionFixtures.transactionalSourceAndSink(cmd, commitInterval = 100.milliseconds),

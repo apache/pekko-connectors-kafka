@@ -18,7 +18,7 @@ import scala.annotation.nowarn
 import scala.compat.java8.FutureConverters._
 
 /**
- * Akka Stream connector for publishing messages to Kafka topics.
+ * Apache Pekko Stream connector for publishing messages to Kafka topics.
  */
 object Producer {
 
@@ -210,7 +210,7 @@ object Producer {
    *
    * - [[org.apache.pekko.kafka.ProducerMessage.PassThroughMessage PassThroughMessage]] does not publish anything, and continues in the stream as [[org.apache.pekko.kafka.ProducerMessage.PassThroughResult PassThroughResult]]
    *
-   * This flow is intended to be used with Akka's [flow with context](https://doc.akka.io/docs/akka/current/stream/operators/Flow/asFlowWithContext.html).
+   * This flow is intended to be used with Apache Pekko's [flow with context](https://pekko.apache.org/docs/pekko/current/stream/operators/Flow/asFlowWithContext.html).
    *
    * @tparam C the flow context type
    */
@@ -278,7 +278,7 @@ object Producer {
    *
    * - [[org.apache.pekko.kafka.ProducerMessage.PassThroughMessage PassThroughMessage]] does not publish anything, and continues in the stream as [[org.apache.pekko.kafka.ProducerMessage.PassThroughResult PassThroughResult]]
    *
-   * This flow is intended to be used with Akka's [flow with context](https://doc.akka.io/docs/akka/current/stream/operators/Flow/asFlowWithContext.html).
+   * This flow is intended to be used with Apache Pekko's [flow with context](https://pekko.apache.org/docs/pekko/current/stream/operators/Flow/asFlowWithContext.html).
    *
    * Supports sharing a Kafka Producer instance.
    *

@@ -21,7 +21,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord
 import scala.compat.java8.FutureConverters.FutureOps
 
 /**
- *  Akka Stream connector to support transactions between Kafka topics.
+ *  Apache Pekko Stream connector to support transactions between Kafka topics.
  */
 object Transactional {
 
@@ -39,7 +39,7 @@ object Transactional {
   /**
    * API MAY CHANGE
    *
-   * This source is intended to be used with Akka's [flow with context](https://doc.akka.io/docs/akka/current/stream/operators/Flow/asFlowWithContext.html)
+   * This source is intended to be used with Apache Pekko's [flow with context](https://pekko.apache.org/docs/pekko/current/stream/operators/Flow/asFlowWithContext.html)
    * and [[Transactional.flowWithOffsetContext]].
    */
   @ApiMayChange
@@ -125,7 +125,7 @@ object Transactional {
    * carries [[ConsumerMessage.PartitionOffset]] as context.  The flow requires a unique `transactional.id` across all app
    * instances. The flow will override producer properties to enable Kafka exactly-once transactional support.
    *
-   * This flow is intended to be used with Akka's [flow with context](https://doc.akka.io/docs/akka/current/stream/operators/Flow/asFlowWithContext.html)
+   * This flow is intended to be used with Apache Pekko's [flow with context](https://pekko.apache.org/docs/pekko/current/stream/operators/Flow/asFlowWithContext.html)
    * and [[Transactional.sourceWithOffsetContext]].
    */
   @ApiMayChange

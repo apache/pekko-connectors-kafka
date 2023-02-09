@@ -86,7 +86,7 @@ class ConsumerExampleTest extends TestcontainersKafkaTest {
   }
 
   // #settings
-  final Config config = system.settings().config().getConfig("akka.kafka.consumer");
+  final Config config = system.settings().config().getConfig("pekko.kafka.consumer");
   final ConsumerSettings<String, byte[]> consumerSettings =
       ConsumerSettings.create(config, new StringDeserializer(), new ByteArrayDeserializer())
           .withBootstrapServers("localhost:9092")

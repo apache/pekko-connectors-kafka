@@ -15,7 +15,7 @@ object ProjectSettings {
     |
     |The build has three main modules:
     |  core - the Kafka connector sources
-    |  cluster-sharding - Akka Cluster External Sharding with the Apache Pekko Kafka Connector
+    |  cluster-sharding - Apache Pekko Cluster External Sharding with the Apache Pekko Kafka Connector
     |  tests - tests, Docker based integration tests, code for the documentation
     |  testkit - framework for testing the connector
     |
@@ -64,7 +64,7 @@ object ProjectSettings {
       url("https://github.com/apache/incubator-pekko-connectors-kafka/graphs/contributors")),
     startYear := Some(2022),
     licenses := Seq("Apache-2.0" -> url("https://opensource.org/licenses/Apache-2.0")),
-    description := "Apache Pekko Kafka Connector is a Reactive Enterprise Integration library for Java and Scala, based on Reactive Streams and Pekko.",
+    description := "Apache Pekko Kafka Connector is a Reactive Enterprise Integration library for Java and Scala, based on Reactive Streams and Apache Pekko.",
     crossScalaVersions := Seq(Scala213),
     scalaVersion := Scala213,
     crossVersion := CrossVersion.binary,
@@ -87,7 +87,7 @@ object ProjectSettings {
       "-sourcepath",
       (ThisBuild / baseDirectory).value.toString,
       "-skip-packages",
-      "akka.pattern:scala", // for some reason Scaladoc creates this
+      "pekko.pattern:scala", // for some reason Scaladoc creates this
       "-doc-source-url", {
         val branch = if (isSnapshot.value) "master" else s"v${version.value}"
         s"https://github.com/apache/incubator-pekko-connectors-kafka/tree/${branch}€{FILE_PATH_EXT}#L€{FILE_LINE}"

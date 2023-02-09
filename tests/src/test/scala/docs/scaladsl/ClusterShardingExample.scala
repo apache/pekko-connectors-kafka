@@ -53,7 +53,7 @@ object ClusterShardingExample {
   // #message-extractor
 
   // #setup-cluster-sharding
-  // create an Akka Cluster Sharding `EntityTypeKey` for `User` for this Kafka Consumer Group
+  // create an Apache Pekko Cluster Sharding `EntityTypeKey` for `User` for this Kafka Consumer Group
   val groupId = "user-topic-group-id"
   val typeKey = EntityTypeKey[User](groupId)
 
@@ -69,11 +69,11 @@ object ClusterShardingExample {
   // #setup-cluster-sharding
 
   // #rebalance-listener
-  // obtain an Akka classic ActorRef that will handle consumer group rebalance events
+  // obtain an Apache Pekko classic ActorRef that will handle consumer group rebalance events
   val rebalanceListener: org.apache.pekko.actor.typed.ActorRef[ConsumerRebalanceEvent] =
     KafkaClusterSharding(system.toClassic).rebalanceListener(typeKey)
 
-  // convert the rebalance listener to a classic ActorRef until Alpakka Kafka supports Akka Typed
+  // convert the rebalance listener to a classic ActorRef until Apache Pekko Connector Kafka supports Apache Pekko Typed
   import org.apache.pekko.actor.typed.scaladsl.adapter._
   val rebalanceListenerClassic: org.apache.pekko.actor.ActorRef = rebalanceListener.toClassic
 

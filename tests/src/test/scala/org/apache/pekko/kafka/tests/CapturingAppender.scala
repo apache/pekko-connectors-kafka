@@ -10,7 +10,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent
 import ch.qos.logback.core.AppenderBase
 
 /**
- * See https://doc.akka.io/docs/akka/current/typed/testing-async.html#silence-logging-output-from-tests
+ * See https://pekko.apache.org/docs/pekko/current/typed/testing-async.html#silence-logging-output-from-tests
  *
  * INTERNAL API
  */
@@ -34,13 +34,13 @@ import ch.qos.logback.core.AppenderBase
 }
 
 /**
- * See https://doc.akka.io/docs/akka/current/typed/testing-async.html#silence-logging-output-from-tests
+ * See https://pekko.apache.org/docs/pekko/current/typed/testing-async.html#silence-logging-output-from-tests
  *
  * INTERNAL API
  *
  * Logging from tests can be silenced by this appender. When there is a test failure
  * the captured logging events are flushed to the appenders defined for the
- * org.apache.pekko.actor.testkit.typed.internal.CapturingAppenderDelegate logger.
+ * org.apache.org.apache.pekko.actor.testkit.typed.internal.CapturingAppenderDelegate logger.
  *
  * The flushing on test failure is handled by [[org.apache.pekko.actor.testkit.typed.scaladsl.LogCapturing]]
  * for ScalaTest and [[org.apache.pekko.actor.testkit.typed.javadsl.LogCapturing]] for JUnit.
@@ -48,9 +48,9 @@ import ch.qos.logback.core.AppenderBase
  * Use configuration like the following the logback-test.xml:
  *
  * {{{
- *     <appender name="CapturingAppender" class="akka.actor.testkit.typed.internal.CapturingAppender" />
+ *     <appender name="CapturingAppender" class="org.apache.pekko.actor.testkit.typed.internal.CapturingAppender" />
  *
- *     <logger name="akka.actor.testkit.typed.internal.CapturingAppenderDelegate" >
+ *     <logger name="org.apache.pekko.actor.testkit.typed.internal.CapturingAppenderDelegate" >
  *       <appender-ref ref="STDOUT"/>
  *     </logger>
  *

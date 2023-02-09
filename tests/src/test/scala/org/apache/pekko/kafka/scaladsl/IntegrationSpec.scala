@@ -235,7 +235,7 @@ class IntegrationSpec extends SpecBase with TestcontainersKafkaLike with Inside 
         Await.result(produce(topic, 1 to 100), remainingOrDefault)
 
         // Create ConsumerActor manually
-        // https://doc.akka.io/docs/akka-stream-kafka/0.20/consumer.html#sharing-kafkaconsumer
+        // https://pekko.apache.org/docs/pekko-connectors-kafka/current/consumer.html#sharing-kafkaconsumer
         val consumer = system.actorOf(KafkaConsumerActor.props(consumerDefaults.withGroupId(group)))
 
         // Timeout for metadata fetching requests

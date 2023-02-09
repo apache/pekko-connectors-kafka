@@ -283,7 +283,7 @@ final class KafkaTestkitTestcontainersSettings private (
 }
 
 object KafkaTestkitTestcontainersSettings {
-  final val ConfigPath = "akka.kafka.testkit.testcontainers"
+  final val ConfigPath = "pekko.kafka.testkit.testcontainers"
 
   /**
    * Create testkit testcontainers settings from ActorSystem settings.

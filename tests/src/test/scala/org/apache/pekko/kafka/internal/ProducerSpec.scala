@@ -49,7 +49,7 @@ class ProducerSpec(_system: ActorSystem)
     this(
       ActorSystem("ProducerSpec",
         ConfigFactory
-          .parseString("""akka.stream.materializer.debug.fuzzing-mode = on""")
+          .parseString("""pekko.stream.materializer.debug.fuzzing-mode = on""")
           .withFallback(ConfigFactory.load())))
 
   override def afterAll(): Unit = shutdown(system)
@@ -200,7 +200,7 @@ class ProducerSpec(_system: ActorSystem)
     source.sendError(sourceError)
 
     // Here we can not be sure that all messages from source delivered to producer
-    // because of buffers in akka-stream and faster error pushing that ignores buffers
+    // because of buffers in pekko-stream and faster error pushing that ignores buffers
     sink.expectError(sourceError)
 
     client.verifyClosed()
@@ -546,7 +546,7 @@ class ProducerSpec(_system: ActorSystem)
     source.sendError(new Exception())
 
     // Here we can not be sure that all messages from source delivered to producer
-    // because of buffers in akka-stream and faster error pushing that ignores buffers
+    // because of buffers in pekko-stream and faster error pushing that ignores buffers
     // TODO: we can await a tx to be initialized before sending the error (which means the producer was assigned and first msg processed). does that invalidate this test?
 
     Await.ready(sink, remainingOrDefault)

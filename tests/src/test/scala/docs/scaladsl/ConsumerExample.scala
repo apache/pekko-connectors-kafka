@@ -84,7 +84,7 @@ class ConsumerExample extends DocsSpecBase with TestcontainersKafkaLike {
 
   def createSettings(): ConsumerSettings[String, Array[Byte]] = {
     // #settings
-    val config = system.settings.config.getConfig("akka.kafka.consumer")
+    val config = system.settings.config.getConfig("pekko.kafka.consumer")
     val consumerSettings =
       ConsumerSettings(config, new StringDeserializer, new ByteArrayDeserializer)
         .withBootstrapServers(bootstrapServers)

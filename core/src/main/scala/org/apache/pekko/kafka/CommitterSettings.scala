@@ -98,27 +98,27 @@ object CommitWhen {
 
 object CommitterSettings {
 
-  val configPath = "akka.kafka.committer"
+  val configPath = "pekko.kafka.committer"
 
   /**
    * Create settings from the default configuration
-   * `akka.kafka.committer`.
+   * `pekko.kafka.committer`.
    */
   def apply(actorSystem: org.apache.pekko.actor.ActorSystem): CommitterSettings =
     apply(actorSystem.settings.config.getConfig(configPath))
 
   /**
    * Create settings from the default configuration
-   * `akka.kafka.committer`.
+   * `pekko.kafka.committer`.
    *
-   * For use with the `akka.actor.typed` API.
+   * For use with the `pekko.actor.typed` API.
    */
   def apply(actorSystem: org.apache.pekko.actor.ClassicActorSystemProvider): CommitterSettings =
     apply(actorSystem.classicSystem.settings.config.getConfig(configPath))
 
   /**
    * Create settings from a configuration with the same layout as
-   * the default configuration `akka.kafka.committer`.
+   * the default configuration `pekko.kafka.committer`.
    */
   def apply(config: Config): CommitterSettings = {
     val maxBatch = config.getLong("max-batch")
@@ -131,23 +131,23 @@ object CommitterSettings {
 
   /**
    * Java API: Create settings from the default configuration
-   * `akka.kafka.committer`.
+   * `pekko.kafka.committer`.
    */
   def create(actorSystem: org.apache.pekko.actor.ActorSystem): CommitterSettings =
     apply(actorSystem)
 
   /**
    * Java API: Create settings from the default configuration
-   * `akka.kafka.committer`.
+   * `pekko.kafka.committer`.
    *
-   * For use with the `akka.actor.typed` API.
+   * For use with the `pekko.actor.typed` API.
    */
   def create(actorSystem: org.apache.pekko.actor.ClassicActorSystemProvider): CommitterSettings =
     apply(actorSystem)
 
   /**
    * Java API: Create settings from a configuration with the same layout as
-   * the default configuration `akka.kafka.committer`.
+   * the default configuration `pekko.kafka.committer`.
    */
   def create(config: Config): CommitterSettings =
     apply(config)
@@ -155,7 +155,7 @@ object CommitterSettings {
 }
 
 /**
- * Settings for committer. See `akka.kafka.committer` section in
+ * Settings for committer. See `pekko.kafka.committer` section in
  * reference.conf. Note that the [[org.apache.pekko.kafka.CommitterSettings$ companion]] object provides
  * `apply` and `create` functions for convenient construction of the settings, together with
  * the `with` methods.
@@ -195,7 +195,7 @@ class CommitterSettings private (
     new CommitterSettings(maxBatch, maxInterval, parallelism, delivery, when)
 
   override def toString: String =
-    "akka.kafka.CommitterSettings(" +
+    "org.apache.pekko.kafka.CommitterSettings(" +
     s"maxBatch=$maxBatch," +
     s"maxInterval=${maxInterval.toCoarsest}," +
     s"parallelism=$parallelism," +

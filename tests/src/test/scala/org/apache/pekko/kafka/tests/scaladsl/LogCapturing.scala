@@ -15,16 +15,16 @@ import org.scalatest.TestSuite
 import org.slf4j.LoggerFactory
 
 /**
- * See https://doc.akka.io/docs/akka/current/typed/testing-async.html#silence-logging-output-from-tests
+ * See https://pekko.apache.org/docs/pekko/current/typed/testing-async.html#silence-logging-output-from-tests
  *
  * Mixin this trait to a ScalaTest test to make log lines appear only when the test failed.
  *
  * Requires Logback and configuration like the following the logback-test.xml:
  *
  * {{{
- *     <appender name="CapturingAppender" class="akka.actor.testkit.typed.internal.CapturingAppender" />
+ *     <appender name="CapturingAppender" class="org.apache.pekko.actor.testkit.typed.internal.CapturingAppender" />
  *
- *     <logger name="akka.actor.testkit.typed.internal.CapturingAppenderDelegate" >
+ *     <logger name="org.apache.pekko.actor.testkit.typed.internal.CapturingAppenderDelegate" >
  *       <appender-ref ref="STDOUT"/>
  *     </logger>
  *
