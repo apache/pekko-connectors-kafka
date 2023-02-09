@@ -47,7 +47,7 @@ public abstract class BaseKafkaTest extends KafkaTestKitClass {
   protected final Materializer materializer;
 
   /**
-   * @deprecated Materializer no longer necessary in Apache Pekko 2.6, use
+   * @deprecated Materializer no longer necessary in Akka 2.6, use
    *     `BaseKafkaTest(ClassicActorSystemProvider, String)` instead, since 2.1.0
    */
   @Deprecated
