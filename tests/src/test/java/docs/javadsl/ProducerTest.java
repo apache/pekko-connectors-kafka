@@ -68,7 +68,7 @@ class ProducerTest extends TestcontainersKafkaTest {
   void createProducer() {
     // #producer
     // #settings
-    final Config config = system.settings().config().getConfig("akka.kafka.producer");
+    final Config config = system.settings().config().getConfig("pekko.kafka.producer");
     final ProducerSettings<String, String> producerSettings =
         ProducerSettings.create(config, new StringSerializer(), new StringSerializer())
             .withBootstrapServers("localhost:9092");

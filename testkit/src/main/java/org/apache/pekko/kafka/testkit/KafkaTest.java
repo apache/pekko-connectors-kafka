@@ -23,7 +23,7 @@ import org.junit.jupiter.api.BeforeAll;
 public abstract class KafkaTest extends BaseKafkaTest {
 
   /**
-   * @deprecated Materializer no longer necessary in Akka 2.6, use
+   * @deprecated Materializer no longer necessary in Pekko 2.6, use
    *     `KafkaTest(ClassicActorSystemProvider, String)` instead, since 2.1.0
    */
   @Deprecated

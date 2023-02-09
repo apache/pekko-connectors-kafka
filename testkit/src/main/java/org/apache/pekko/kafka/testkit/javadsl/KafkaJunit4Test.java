@@ -16,7 +16,7 @@ import org.junit.Before;
 public abstract class KafkaJunit4Test extends BaseKafkaTest {
 
   /**
-   * @deprecated Materializer no longer necessary in Akka 2.6, use
+   * @deprecated Materializer no longer necessary in Pekko 2.6, use
    *     `KafkaJunit4Test(ClassicActorSystemProvider, String)` instead, since 2.1.0
    */
   @Deprecated

@@ -28,7 +28,7 @@ public abstract class TestcontainersKafkaTest extends KafkaTest {
       TestcontainersKafka.Singleton().testcontainersSettings();
 
   /**
-   * @deprecated Materializer no longer necessary in Akka 2.6, use
+   * @deprecated Materializer no longer necessary in Pekko 2.6, use
    *     `TestcontainersKafkaTest(ClassicActorSystemProvider)` instead, since 2.1.0
    */
   @Deprecated
