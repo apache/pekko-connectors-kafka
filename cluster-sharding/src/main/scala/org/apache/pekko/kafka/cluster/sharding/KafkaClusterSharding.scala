@@ -33,7 +33,7 @@ import scala.compat.java8.FutureConverters._
 /**
  * API MAY CHANGE
  *
- * Pekko Extension to enable Pekko Cluster External Sharding with Pekko Connector Kafka.
+ * Apache Pekko Extension to enable Apache Pekko Cluster External Sharding with Apache Pekko Connector Kafka.
  */
 @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/1074")
 final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension {
@@ -304,7 +304,7 @@ object KafkaClusterSharding extends ExtensionId[KafkaClusterSharding] {
 
             val updates = shardAllocationClient.updateShardLocations(partitions.map { tp =>
               val shardId = tp.partition().toString
-              // the Kafka partition number becomes the pekko shard id
+              // the Kafka partition number becomes the Pekko shard id
               (shardId, address)
             }.toMap)
 

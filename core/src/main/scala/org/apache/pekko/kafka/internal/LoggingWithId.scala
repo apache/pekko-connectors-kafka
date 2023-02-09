@@ -18,7 +18,7 @@ private[internal] trait InstanceId {
 }
 
 /**
- * Override pekko streams [[StageLogging]] to include an ID from [[InstanceId]] as a prefix to each logging statement.
+ * Override Pekko streams [[StageLogging]] to include an ID from [[InstanceId]] as a prefix to each logging statement.
  */
 private[internal] trait StageIdLogging extends StageLogging with InstanceId { self: GraphStageLogic =>
   private[this] var _log: LoggingAdapter = _
@@ -32,7 +32,7 @@ private[internal] trait StageIdLogging extends StageLogging with InstanceId { se
 }
 
 /**
- * Override pekko classic [[ActorLogging]] to include an ID from [[InstanceId]] as a prefix to each logging statement.
+ * Override Pekko classic [[ActorLogging]] to include an ID from [[InstanceId]] as a prefix to each logging statement.
  */
 private[internal] trait ActorIdLogging extends ActorLogging with InstanceId { this: Actor =>
   private[this] var _log: LoggingAdapter = _
