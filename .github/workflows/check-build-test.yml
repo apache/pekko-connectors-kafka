@@ -10,7 +10,7 @@ on:
     tags-ignore: [ v.* ]
 
 env:
-  AKKA_TEST_TIMEFACTOR: 10.0
+  PEKKO_TEST_TIMEFACTOR: 10.0
   EVENT_NAME: ${{ github.event_name }}
 
 jobs:

@@ -20,14 +20,14 @@ import scala.concurrent.duration.FiniteDuration
 import scala.concurrent.{ ExecutionContext, Future }
 
 /**
- * Akka Stream connector for subscribing to Kafka topics.
+ * Pekko Stream connector for subscribing to Kafka topics.
  */
 object Consumer {
 
   /**
    * Materialized value of the consumer `Source`.
    *
-   * See [[https://doc.akka.io/docs/alpakka-kafka/current/consumer.html#controlled-shutdown Controlled shutdown]]
+   * See [[https://pekko.apache.org/docs/pekko-connectors-kafka/current/consumer.html#controlled-shutdown Controlled shutdown]]
    */
   trait Control {
 
@@ -37,7 +37,7 @@ object Consumer {
      * already enqueued messages. It does not unsubscribe from any topics/partitions
      * as that could trigger a consumer group rebalance.
      *
-     * See [[https://doc.akka.io/docs/alpakka-kafka/current/consumer.html#controlled-shutdown Controlled shutdown]]
+     * See [[https://pekko.apache.org/docs/pekko-connectors-kafka/current/consumer.html#controlled-shutdown Controlled shutdown]]
      *
      * Call [[#shutdown]] to close consumer.
      */
@@ -46,11 +46,11 @@ object Consumer {
     /**
      * Shut down the consumer `Source`.
      *
-     * The actor backing the source will stay alive for `akka.kafka.consumer.stop-timeout` so that more commits
+     * The actor backing the source will stay alive for `pekko.kafka.consumer.stop-timeout` so that more commits
      * from enqueued messages can be handled.
      * The actor will wait for acknowledgements of the already sent offset commits from the Kafka broker before shutting down.
      *
-     * See [[https://doc.akka.io/docs/alpakka-kafka/current/consumer.html#controlled-shutdown Controlled shutdown]]
+     * See [[https://pekko.apache.org/docs/pekko-connectors-kafka/current/consumer.html#controlled-shutdown Controlled shutdown]]
      */
     def shutdown(): Future[Done]
 
@@ -94,7 +94,7 @@ object Consumer {
    * one, so that the stream can be stopped in a controlled way without losing
    * commits.
    *
-   * See [[https://doc.akka.io/docs/alpakka-kafka/current/consumer.html#controlled-shutdown Controlled shutdown]]
+   * See [[https://pekko.apache.org/docs/pekko-connectors-kafka/current/consumer.html#controlled-shutdown Controlled shutdown]]
    */
   final class DrainingControl[T] private (control: Control, val streamCompletion: Future[T]) extends Control {
 

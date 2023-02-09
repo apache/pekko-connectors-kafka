@@ -42,7 +42,7 @@ class ConnectionCheckerSettings private[kafka] (val enable: Boolean,
     copy(checkInterval = checkInterval.asScala)
 
   override def toString: String =
-    s"akka.kafka.ConnectionCheckerSettings(" +
+    s"pekko.kafka.ConnectionCheckerSettings(" +
     s"enable=$enable," +
     s"maxRetries=$maxRetries," +
     s"checkInterval=${checkInterval.toCoarsest}," +

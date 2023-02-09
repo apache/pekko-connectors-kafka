@@ -40,7 +40,7 @@ class ApacheKafkaPlainProducer extends BenchmarksBase() {
 }
 
 class PekkoConnectorsKafkaPlainProducer extends BenchmarksBase() {
-  private val prefix = "alpakka-kafka-plain-producer"
+  private val prefix = "pekko-connector-kafka-plain-producer"
 
   it should "bench with small messages" in {
     val cmd = RunTestCommand(prefix, bootstrapServers, topic_2000_100.freshTopic)

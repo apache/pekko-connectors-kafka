@@ -26,7 +26,7 @@ object DiscoverySupport {
   // used for initial discovery of contact points
   private def discovery(config: Config, system: ActorSystem): ServiceDiscovery =
     config.getString("discovery-method") match {
-      case "akka.discovery" =>
+      case "pekko.discovery" =>
         Discovery(system).discovery
 
       case otherDiscoveryMechanism =>

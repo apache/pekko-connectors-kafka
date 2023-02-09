@@ -27,7 +27,7 @@ class ProducerExample extends DocsSpecBase with TestcontainersKafkaLike {
   "Creating a producer" should "work" in {
     // #producer
     // #settings
-    val config = system.settings.config.getConfig("akka.kafka.producer")
+    val config = system.settings.config.getConfig("pekko.kafka.producer")
     val producerSettings =
       ProducerSettings(config, new StringSerializer, new StringSerializer)
         .withBootstrapServers(bootstrapServers)
@@ -42,7 +42,7 @@ class ProducerExample extends DocsSpecBase with TestcontainersKafkaLike {
   }
 
   "PlainSink" should "work" in assertAllStagesStopped {
-    val config = system.settings.config.getConfig("akka.kafka.producer")
+    val config = system.settings.config.getConfig("pekko.kafka.producer")
     val producerSettings =
       ProducerSettings(config, new StringSerializer, new StringSerializer)
         .withBootstrapServers(bootstrapServers)
@@ -95,7 +95,7 @@ class ProducerExample extends DocsSpecBase with TestcontainersKafkaLike {
   }
 
   "Metrics" should "be observed" in assertAllStagesStopped {
-    val config = system.settings.config.getConfig("akka.kafka.producer")
+    val config = system.settings.config.getConfig("pekko.kafka.producer")
     val producerSettings =
       ProducerSettings(config, new StringSerializer, new StringSerializer)
         .withBootstrapServers(bootstrapServers)

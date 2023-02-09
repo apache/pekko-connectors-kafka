@@ -31,7 +31,7 @@ class KafkaTestkitSettings private (val clusterTimeout: FiniteDuration,
 }
 
 object KafkaTestkitSettings {
-  final val ConfigPath = "akka.kafka.testkit"
+  final val ConfigPath = "pekko.kafka.testkit"
 
   /**
    * Create testkit settings from ActorSystem settings.

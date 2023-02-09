@@ -23,11 +23,11 @@ import scala.concurrent.duration._
 
 object ConsumerSettings {
 
-  val configPath = "akka.kafka.consumer"
+  val configPath = "pekko.kafka.consumer"
 
   /**
    * Create settings from the default configuration
-   * `akka.kafka.consumer`.
+   * `pekko.kafka.consumer`.
    * Key or value deserializer can be passed explicitly or retrieved from configuration.
    */
   def apply[K, V](
@@ -40,10 +40,10 @@ object ConsumerSettings {
 
   /**
    * Create settings from the default configuration
-   * `akka.kafka.consumer`.
+   * `pekko.kafka.consumer`.
    * Key or value deserializer can be passed explicitly or retrieved from configuration.
    *
-   * For use with the `akka.actor.typed` API.
+   * For use with the `pekko.actor.typed` API.
    */
   def apply[K, V](
       system: org.apache.pekko.actor.ClassicActorSystemProvider,
@@ -53,7 +53,7 @@ object ConsumerSettings {
 
   /**
    * Create settings from a configuration with the same layout as
-   * the default configuration `akka.kafka.consumer`.
+   * the default configuration `pekko.kafka.consumer`.
    * Key or value deserializer can be passed explicitly or retrieved from configuration.
    */
   def apply[K, V](
@@ -113,7 +113,7 @@ object ConsumerSettings {
 
   /**
    * Create settings from the default configuration
-   * `akka.kafka.consumer`.
+   * `pekko.kafka.consumer`.
    * Key and value serializer must be passed explicitly.
    */
   def apply[K, V](
@@ -124,10 +124,10 @@ object ConsumerSettings {
 
   /**
    * Create settings from the default configuration
-   * `akka.kafka.consumer`.
+   * `pekko.kafka.consumer`.
    * Key and value serializer must be passed explicitly.
    *
-   * For use with the `akka.actor.typed` API.
+   * For use with the `pekko.actor.typed` API.
    */
   def apply[K, V](
       system: org.apache.pekko.actor.ClassicActorSystemProvider,
@@ -137,7 +137,7 @@ object ConsumerSettings {
 
   /**
    * Create settings from a configuration with the same layout as
-   * the default configuration `akka.kafka.consumer`.
+   * the default configuration `pekko.kafka.consumer`.
    * Key and value serializer must be passed explicitly.
    */
   def apply[K, V](
@@ -148,7 +148,7 @@ object ConsumerSettings {
 
   /**
    * Java API: Create settings from the default configuration
-   * `akka.kafka.consumer`.
+   * `pekko.kafka.consumer`.
    * Key or value deserializer can be passed explicitly or retrieved from configuration.
    */
   def create[K, V](
@@ -159,10 +159,10 @@ object ConsumerSettings {
 
   /**
    * Java API: Create settings from the default configuration
-   * `akka.kafka.consumer`.
+   * `pekko.kafka.consumer`.
    * Key or value deserializer can be passed explicitly or retrieved from configuration.
    *
-   * For use with the `akka.actor.typed` API.
+   * For use with the `pekko.actor.typed` API.
    */
   def create[K, V](
       system: org.apache.pekko.actor.ClassicActorSystemProvider,
@@ -172,7 +172,7 @@ object ConsumerSettings {
 
   /**
    * Java API: Create settings from a configuration with the same layout as
-   * the default configuration `akka.kafka.consumer`.
+   * the default configuration `pekko.kafka.consumer`.
    * Key or value deserializer can be passed explicitly or retrieved from configuration.
    */
   def create[K, V](
@@ -183,7 +183,7 @@ object ConsumerSettings {
 
   /**
    * Java API: Create settings from the default configuration
-   * `akka.kafka.consumer`.
+   * `pekko.kafka.consumer`.
    * Key and value serializer must be passed explicitly.
    */
   def create[K, V](
@@ -194,10 +194,10 @@ object ConsumerSettings {
 
   /**
    * Java API: Create settings from the default configuration
-   * `akka.kafka.consumer`.
+   * `pekko.kafka.consumer`.
    * Key and value serializer must be passed explicitly.
    *
-   * For use with the `akka.actor.typed` API.
+   * For use with the `pekko.actor.typed` API.
    */
   def create[K, V](
       system: org.apache.pekko.actor.ClassicActorSystemProvider,
@@ -207,7 +207,7 @@ object ConsumerSettings {
 
   /**
    * Java API: Create settings from a configuration with the same layout as
-   * the default configuration `akka.kafka.consumer`.
+   * the default configuration `pekko.kafka.consumer`.
    * Key and value serializer must be passed explicitly.
    */
   def create[K, V](
@@ -227,7 +227,7 @@ object ConsumerSettings {
 }
 
 /**
- * Settings for consumers. See `akka.kafka.consumer` section in
+ * Settings for consumers. See `pekko.kafka.consumer` section in
  * `reference.conf`. Note that the [[org.apache.pekko.kafka.ConsumerSettings$ companion]] object provides
  * `apply` and `create` functions for convenient construction of the settings, together with
  * the `with` methods.
@@ -623,7 +623,7 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
       }
       .sortBy(_._1)
       .mkString(",")
-    "akka.kafka.ConsumerSettings(" +
+    "pekko.kafka.ConsumerSettings(" +
     s"properties=$kafkaClients," +
     s"keyDeserializer=$keyDeserializerOpt," +
     s"valueDeserializer=$valueDeserializerOpt," +

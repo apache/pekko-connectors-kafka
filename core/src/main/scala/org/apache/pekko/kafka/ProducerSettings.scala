@@ -24,11 +24,11 @@ import scala.compat.java8.FutureConverters._
 
 object ProducerSettings {
 
-  val configPath = "akka.kafka.producer"
+  val configPath = "pekko.kafka.producer"
 
   /**
    * Create settings from the default configuration
-   * `akka.kafka.producer`.
+   * `pekko.kafka.producer`.
    * Key or value serializer can be passed explicitly or retrieved from configuration.
    */
   def apply[K, V](
@@ -39,10 +39,10 @@ object ProducerSettings {
 
   /**
    * Create settings from the default configuration
-   * `akka.kafka.producer`.
+   * `pekko.kafka.producer`.
    * Key or value serializer can be passed explicitly or retrieved from configuration.
    *
-   * For use with the `akka.actor.typed` API.
+   * For use with the `pekko.actor.typed` API.
    */
   def apply[K, V](
       system: org.apache.pekko.actor.ClassicActorSystemProvider,
@@ -52,7 +52,7 @@ object ProducerSettings {
 
   /**
    * Create settings from a configuration with the same layout as
-   * the default configuration `akka.kafka.producer`.
+   * the default configuration `pekko.kafka.producer`.
    * Key or value serializer can be passed explicitly or retrieved from configuration.
    */
   def apply[K, V](
@@ -88,7 +88,7 @@ object ProducerSettings {
 
   /**
    * Create settings from the default configuration
-   * `akka.kafka.producer`.
+   * `pekko.kafka.producer`.
    * Key and value serializer must be passed explicitly.
    */
   def apply[K, V](
@@ -99,10 +99,10 @@ object ProducerSettings {
 
   /**
    * Create settings from the default configuration
-   * `akka.kafka.producer`.
+   * `pekko.kafka.producer`.
    * Key and value serializer must be passed explicitly.
    *
-   * For use with the `akka.actor.typed` API.
+   * For use with the `pekko.actor.typed` API.
    */
   def apply[K, V](
       system: org.apache.pekko.actor.ClassicActorSystemProvider,
@@ -112,7 +112,7 @@ object ProducerSettings {
 
   /**
    * Create settings from a configuration with the same layout as
-   * the default configuration `akka.kafka.producer`.
+   * the default configuration `pekko.kafka.producer`.
    * Key and value serializer must be passed explicitly.
    */
   def apply[K, V](
@@ -123,7 +123,7 @@ object ProducerSettings {
 
   /**
    * Java API: Create settings from the default configuration
-   * `akka.kafka.producer`.
+   * `pekko.kafka.producer`.
    * Key or value serializer can be passed explicitly or retrieved from configuration.
    */
   def create[K, V](
@@ -134,10 +134,10 @@ object ProducerSettings {
 
   /**
    * Java API: Create settings from the default configuration
-   * `akka.kafka.producer`.
+   * `pekko.kafka.producer`.
    * Key or value serializer can be passed explicitly or retrieved from configuration.
    *
-   * For use with the `akka.actor.typed` API.
+   * For use with the `pekko.actor.typed` API.
    */
   def create[K, V](
       system: org.apache.pekko.actor.ClassicActorSystemProvider,
@@ -147,7 +147,7 @@ object ProducerSettings {
 
   /**
    * Java API: Create settings from a configuration with the same layout as
-   * the default configuration `akka.kafka.producer`.
+   * the default configuration `pekko.kafka.producer`.
    * Key or value serializer can be passed explicitly or retrieved from configuration.
    */
   def create[K, V](
@@ -158,7 +158,7 @@ object ProducerSettings {
 
   /**
    * Java API: Create settings from the default configuration
-   * `akka.kafka.producer`.
+   * `pekko.kafka.producer`.
    * Key and value serializer must be passed explicitly.
    */
   def create[K, V](
@@ -169,10 +169,10 @@ object ProducerSettings {
 
   /**
    * Java API: Create settings from the default configuration
-   * `akka.kafka.producer`.
+   * `pekko.kafka.producer`.
    * Key and value serializer must be passed explicitly.
    *
-   * For use with the `akka.actor.typed` API.
+   * For use with the `pekko.actor.typed` API.
    */
   def create[K, V](
       system: org.apache.pekko.actor.ClassicActorSystemProvider,
@@ -182,7 +182,7 @@ object ProducerSettings {
 
   /**
    * Java API: Create settings from a configuration with the same layout as
-   * the default configuration `akka.kafka.producer`.
+   * the default configuration `pekko.kafka.producer`.
    * Key and value serializer must be passed explicitly.
    */
   def create[K, V](
@@ -201,7 +201,7 @@ object ProducerSettings {
 }
 
 /**
- * Settings for producers. See `akka.kafka.producer` section in
+ * Settings for producers. See `pekko.kafka.producer` section in
  * reference.conf. Note that the [[org.apache.pekko.kafka.ProducerSettings$ companion]] object provides
  * `apply` and `create` functions for convenient construction of the settings, together with
  * the `with` methods.
@@ -392,7 +392,7 @@ class ProducerSettings[K, V] @InternalApi private[kafka] (
       }
       .sortBy(_._1)
       .mkString(",")
-    "akka.kafka.ProducerSettings(" +
+    "pekko.kafka.ProducerSettings(" +
     s"properties=$kafkaClients," +
     s"keySerializer=$keySerializerOpt," +
     s"valueSerializer=$valueSerializerOpt," +
