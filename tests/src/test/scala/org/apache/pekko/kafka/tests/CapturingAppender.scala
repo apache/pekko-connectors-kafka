@@ -48,9 +48,9 @@ import ch.qos.logback.core.AppenderBase
  * Use configuration like the following the logback-test.xml:
  *
  * {{{
- *     <appender name="CapturingAppender" class="akka.actor.testkit.typed.internal.CapturingAppender" />
+ *     <appender name="CapturingAppender" class="pekko.actor.testkit.typed.internal.CapturingAppender" />
  *
- *     <logger name="akka.actor.testkit.typed.internal.CapturingAppenderDelegate" >
+ *     <logger name="pekko.actor.testkit.typed.internal.CapturingAppenderDelegate" >
  *       <appender-ref ref="STDOUT"/>
  *     </logger>
  *
