@@ -15,7 +15,7 @@ When partitions and shards are co-located together then there is less chance tha
 
 @@dependency [Maven,sbt,Gradle] {
   group=org.apache.pekko
-  artifact=pekko-stream-kafka-cluster-sharding_$scala.binary.version$
+  artifact=pekko-connectors-kafka-cluster-sharding_$scala.binary.version$
   version=$project.version$
   symbol2=PekkoVersion
   value2="$pekko.version$"
