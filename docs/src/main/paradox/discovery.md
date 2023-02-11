@@ -15,7 +15,7 @@ The Apache Pekko Discovery version must match the Apache Pekko version used in y
   symbol=PekkoVersion
   value=$pekko.version$
   group=org.apache.pekko
-  artifact=akka-discovery_$scala.binary.version$
+  artifact=pekko-discovery_$scala.binary.version$
   version=PekkoVersion
 }
 
