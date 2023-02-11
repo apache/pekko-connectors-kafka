@@ -33,7 +33,7 @@ Check even Confluent's [Versions and Interoperability](https://docs.confluent.io
   artifact=pekko-stream-kafka_$scala.binary.version$
   version=$project.version$
   symbol2=PekkoVersion
-  value2="$akka.version$"
+  value2="$pekko.version$"
   group2=org.apache.pekko
   artifact2=pekko-stream_$scala.binary.version$
   version2=PekkoVersion
@@ -49,7 +49,7 @@ The table below shows Apache Pekko Connectors Kafka's direct dependencies and th
 
 @@dependencies { projectId="core" }
 
-* Apache Pekko Streams $akka.version$ @extref[documentation](pekko:stream/index.html) and [sources](https://github.com/akka/akka)
+* Apache Pekko Streams $pekko.version$ @extref[documentation](pekko:stream/index.html) and [sources](https://github.com/akka/akka)
 * Apache Kafka client $kafka.version$ @extref[documentation](kafka:/documentation#index) and [sources](https://github.com/apache/kafka)
 
 
@@ -65,7 +65,7 @@ that are producing or consuming messages to/from Kafka.
 
 A few self-contained examples using Apache Pekko Connectors are available as [Apache Pekko Connectors Samples](https://akka.io/alpakka-samples/).
 
-To read and see how others use Apache Pekko Connectors, see the [Apache Pekko Connectors documentation's Webinars, Presentations and Articles](https://doc.akka.io/docs/alpakka/current/other-docs/webinars-presentations-articles.html) listing.
+To read and see how others use Apache Pekko Connectors, see the [Apache Pekko Connectors documentation's Webinars, Presentations and Articles](https://pekko.apache.org/docs/pekko-connectors-kafka/current/other-docs/webinars-presentations-articles.html) listing.
 
 
 ## Contributing

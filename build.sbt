@@ -92,7 +92,7 @@ lazy val tests = project
     IntegrationTest / parallelExecution := false)
 
 lazy val docs = project
-  .enablePlugins(ParadoxPlugin, ParadoxSitePlugin, PreprocessPlugin, PublishRsyncPlugin)
+  .enablePlugins(ParadoxPlugin, PekkoParadoxPlugin, ParadoxSitePlugin, PreprocessPlugin, PublishRsyncPlugin)
   .disablePlugins(MimaPlugin)
   .settings(commonSettings)
   .settings(

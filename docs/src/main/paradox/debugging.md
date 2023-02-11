@@ -10,7 +10,7 @@ The Kafka client library used by the Apache Pekko Connectors Kafka connector use
 
 @@dependency [Maven,sbt,Gradle] {
   symbol=PekkoVersion
-  value="$akka.version$"
+  value="$pekko.version$"
   group=org.apache.pekko
   artifact=akka-slf4j_$scala.binary.version$
   version=PekkoVersion
@@ -23,9 +23,9 @@ To enable Apache Pekko SLF4J logging, configure Apache Pekko in `application.con
 
 ```hocon
 akka {
-  loggers = ["akka.event.slf4j.Slf4jLogger"]
+  loggers = ["org.apache.pekko.event.slf4j.Slf4jLogger"]
   loglevel = "DEBUG"
-  logging-filter = "akka.event.slf4j.Slf4jLoggingFilter"
+  logging-filter = "org.apache.pekko.event.slf4j.Slf4jLoggingFilter"
 }
 ```
 

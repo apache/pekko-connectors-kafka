@@ -16,7 +16,7 @@ To simplify testing of streaming integrations with Apache Pekko Connectors Kafka
   version=$project.version$
   scope=test
   symbol2=PekkoVersion
-  value2="$akka.version$"
+  value2="$pekko.version$"
   group2=org.apache.pekko
   artifact2=pekko-stream-testkit_$scala.binary.version$
   version2=PekkoVersion

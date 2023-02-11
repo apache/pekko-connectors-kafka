@@ -42,7 +42,7 @@ Key links:
 
 ### Check availability
 - [ ] Check [API](https://doc.akka.io/api/alpakka-kafka/$VERSION$/) documentation
-- [ ] Check [reference](https://doc.akka.io/docs/alpakka-kafka/$VERSION$/) documentation
+- [ ] Check [reference](https://pekko.apache.org/docs/pekko-connectors-kafka-kafka/$VERSION$/) documentation
 - [ ] Check the release on [Maven central](https://repo1.maven.org/maven2/com/typesafe/akka/akka-stream-kafka_2.13/$VERSION$/)
 
 ### When everything is on maven central
