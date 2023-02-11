@@ -55,7 +55,7 @@ The table below shows Apache Pekko Connectors Kafka's direct dependencies and th
 
 ## Scala and Java APIs
 
-Following Apache Pekko's conventions, there are two separate packages named `pekko.kafka.scaladsl` and `pekko.kafka.javadsl`
+Following Apache Pekko's conventions, there are two separate packages named `org.apache.pekko.kafka.scaladsl` and `org.apache.pekko.kafka.javadsl`
 with the API for Scala and Java. These packages contain `Producer` and `Consumer`
 classes with factory methods for the various Apache Pekko Streams `Flow`, `Sink` and `Source`
 that are producing or consuming messages to/from Kafka.
