@@ -1,2 +1,0 @@
-# The trait had been marked "do not inherit" for a while
-ProblemFilters.exclude[ReversedMissingMethodProblem]("akka.kafka.ConsumerMessage#Committable.commitInternal")
