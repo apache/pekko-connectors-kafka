@@ -22,7 +22,7 @@ The Kafka client library used by the Apache Pekko Connectors Kafka connector use
 To enable Apache Pekko SLF4J logging, configure Apache Pekko in `application.conf` as below. Refer to the @extref[Pekko documentation](pekko:logging.html#slf4j) for details.
 
 ```hocon
-akka {
+pekko {
   loggers = ["org.apache.pekko.event.slf4j.Slf4jLogger"]
   loglevel = "DEBUG"
   logging-filter = "org.apache.pekko.event.slf4j.Slf4jLoggingFilter"
@@ -34,7 +34,7 @@ akka {
 In case you're debugging the internals in the Kafka Consumer actor, you might want to enable receive logging to see all messages it receives. To lower the log message volume, change the Kafka poll interval to something larger, eg. 300 ms.
 
 ```hocon
-akka {
+pekko {
   actor {
     debug.receive = true
   }
