@@ -7,7 +7,11 @@ project.description: Snapshot builds of Apache Pekko Connectors Kafka are provid
 
 Snapshots are published to the Apache's Snapshot repository every night.
 
-**Please do not use snapshots for anything other than testing.**
+@@@ warning
+
+The use of Pekko SNAPSHOTs, nightlies and milestone releases is discouraged unless you know what you are doing.
+
+@@@
 
 Add the following to your project build definition to resolve Apache Pekko Connectors Kafka connector snapshots:
 
