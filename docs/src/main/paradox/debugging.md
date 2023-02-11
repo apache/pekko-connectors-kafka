@@ -12,7 +12,7 @@ The Kafka client library used by the Apache Pekko Connectors Kafka connector use
   symbol=PekkoVersion
   value="$pekko.version$"
   group=org.apache.pekko
-  artifact=akka-slf4j_$scala.binary.version$
+  artifact=pekko-slf4j_$scala.binary.version$
   version=PekkoVersion
   group2=ch.qos.logback
   artifact2=logback-classic
