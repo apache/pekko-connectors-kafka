@@ -1,9 +1,17 @@
 import Versions._
 import com.lightbend.paradox.apidoc.ApidocPlugin.autoImport.apidocRootPackage
 import com.lightbend.paradox.sbt.ParadoxPlugin.autoImport.{ paradoxGroups, paradoxProperties, paradoxRoots }
+import org.apache.pekko.PekkoParadoxPlugin.autoImport._
 import sbt._
+import sbt.Keys._
 
 object ParadoxSettings {
+
+  val themeSettings = Seq(
+    // allow access to snapshots for pekko-sbt-paradox
+    resolvers += "Apache Nexus Snapshots".at("https://repository.apache.org/content/repositories/snapshots/"),
+    pekkoParadoxGithub := "https://github.com/apache/incubator-pekko-connectors-kafka")
+
   val propertiesSettings = Seq(
     apidocRootPackage := "org.apache.pekko",
     paradoxGroups := Map("Language" -> Seq("Java", "Scala")),
@@ -34,4 +42,6 @@ object ParadoxSettings {
       "testcontainers.version" -> testcontainersVersion,
       "javadoc.org.testcontainers.containers.base_url" -> s"https://www.javadoc.io/doc/org.testcontainers/testcontainers/$testcontainersVersion/",
       "javadoc.org.testcontainers.containers.link_style" -> "direct"))
+
+  val settings = propertiesSettings ++ themeSettings
 }
