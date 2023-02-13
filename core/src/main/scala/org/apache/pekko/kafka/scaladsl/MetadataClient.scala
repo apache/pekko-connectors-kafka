@@ -103,7 +103,7 @@ object MetadataClient {
     val consumerActor = system
       .asInstanceOf[ExtendedActorSystem]
       .systemActorOf(KafkaConsumerActor.props(consumerSettings),
-        s"alpakka-kafka-metadata-client-${actorCount.getAndIncrement()}")
+        s"pekko-connectors-kafka-metadata-client-${actorCount.getAndIncrement()}")
     new MetadataClient(consumerActor, timeout, true)
   }
 }

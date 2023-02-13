@@ -1,13 +1,19 @@
 ---
-project.description: Snapshot builds of Alpakka Kafka are provided via the Sonatype snapshot repository.
+project.description: Snapshot builds of Apache Pekko Connectors Kafka are provided via the Apache snapshot repository.
 ---
 # Snapshots
 
-[snapshots-badge]:  https://img.shields.io/nexus/s/com.typesafe.akka/akka-stream-kafka_2.13?server=https%3A%2F%2Foss.sonatype.org
-[snapshots]:        https://oss.sonatype.org/content/repositories/snapshots/com/typesafe/akka/akka-stream-kafka_2.13/
+[snapshots]:        https://repository.apache.org/content/groups/snapshots/org/apache/pekko/pekko-connectors-kafka_2.13/
 
-Snapshots are published to the Sonatype Snapshot repository after every successful build on master.
-Add the following to your project build definition to resolve Alpakka Kafka connector snapshots:
+Snapshots are published to the Apache's Snapshot repository every night.
+
+@@@ warning
+
+The use of Pekko SNAPSHOTs, nightlies and milestone releases is discouraged unless you know what you are doing.
+
+@@@
+
+Add the following to your project build definition to resolve Apache Pekko Connectors Kafka connector snapshots:
 
 ## Configure repository
 
@@ -18,8 +24,8 @@ Maven
       <repositories>
         <repository>
             <id>snapshots-repo</id>
-            <name>Sonatype snapshots</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <name>Apache snapshots</name>
+            <url>https://repository.apache.org/content/groups/snapshots</url>
         </repository>
       </repositories>
     ...
@@ -28,24 +34,22 @@ Maven
 
 sbt
 :   ```scala
-    resolvers += Resolver.sonatypeRepo("snapshots")
+    resolvers += "Apache Snapshots" at "https://repository.apache.org/content/groups/snapshots"
     ```
 
 Gradle
 :   ```gradle
     repositories {
       maven {
-        url  "https://oss.sonatype.org/content/repositories/snapshots"
+        url  "https://repository.apache.org/content/groups/snapshots"
       }
     }
     ```
 
 ## Documentation
 
-The [snapshot documentation](https://doc.akka.io/docs/alpakka-kafka/snapshot/) is updated with every snapshot build.
+The [snapshot documentation](https://pekko.apache.org/docs/pekko-connectors-kafka/snapshot/) is updated with every snapshot build.
 
 ## Versions
 
-Latest published snapshot version is [![snapshots-badge][]][snapshots]
-
-The snapshot repository is cleaned from time to time with no further notice. Check [Sonatype snapshots Alpakka Kafka files](https://oss.sonatype.org/content/repositories/snapshots/com/typesafe/akka/akka-stream-kafka_2.13/) to see what versions are currently available.
+The snapshot repository is cleaned from time to time with no further notice. Check [Apache Snapshots files](https://repository.apache.org/content/groups/snapshots/org/apache/pekko/pekko-connectors-kafka_2.13/) to see what versions are currently available.

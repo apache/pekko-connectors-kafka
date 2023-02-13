@@ -92,7 +92,7 @@ lazy val tests = project
     IntegrationTest / parallelExecution := false)
 
 lazy val docs = project
-  .enablePlugins(ParadoxPlugin, ParadoxSitePlugin, PreprocessPlugin, PublishRsyncPlugin)
+  .enablePlugins(ParadoxPlugin, PekkoParadoxPlugin, ParadoxSitePlugin, PreprocessPlugin, PublishRsyncPlugin)
   .disablePlugins(MimaPlugin)
   .settings(commonSettings)
   .settings(
@@ -113,7 +113,7 @@ lazy val docs = project
       ("https://docs\\.oracle\\.com/en/java/javase/11/docs/api/".r,
         _ => "https://docs\\.oracle\\.com/en/java/javase/11/docs/api/")),
     Paradox / siteSubdirName := s"docs/pekko-connectors-kafka/${projectInfoVersion.value}",
-    ParadoxSettings.propertiesSettings,
+    ParadoxSettings.settings,
     resolvers += Resolver.jcenterRepo,
     publishRsyncArtifacts += makeSite.value -> "www/",
     publishRsyncHost := "akkarepo@gustav.akka.io")

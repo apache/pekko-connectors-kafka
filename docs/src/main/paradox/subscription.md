@@ -1,5 +1,5 @@
 ---
-project.description: An Alpakka Kafka consumer source can subscribe to Kafka topics within a consumer group, or to specific partitions.
+project.description: An Apache Pekko Connectors Kafka consumer source can subscribe to Kafka topics within a consumer group, or to specific partitions.
 ---
 # Subscription
 

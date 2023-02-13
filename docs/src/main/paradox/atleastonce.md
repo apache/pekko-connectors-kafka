@@ -1,5 +1,5 @@
 ---
-project.description: Achieve at-least-once semantics with offset committing in Alpakka Kafka.
+project.description: Achieve at-least-once semantics with offset committing in Apache Pekko Connectors Kafka.
 ---
 # At-Least-Once Delivery
 

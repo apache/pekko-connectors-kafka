@@ -1,15 +1,15 @@
 ---
-project.description: Handle errors from the Kafka API in Alpakka Kafka.
+project.description: Handle errors from the Kafka API in Apache Pekko Connectors Kafka.
 ---
 # Error handling
 
 ## Failing consumer
 
-Errors from the Kafka consumer will be forwarded to the Alpakka sources that use it, the sources will fail their streams.
+Errors from the Kafka consumer will be forwarded to the Apache Pekko Connectors sources that use it, the sources will fail their streams.
 
 ### Lost connection to the Kafka broker
 
-To fail a Alpakka Kafka consumer in case the Kafka broker is not available, configure a **Connection Checker** via @apidoc[ConsumerSettings]. If not **Connection Checker** is configured, Alpakka will continue to poll the broker indefinitely.
+To fail a Apache Pekko Connectors Kafka consumer in case the Kafka broker is not available, configure a **Connection Checker** via @apidoc[ConsumerSettings]. If not **Connection Checker** is configured, Apache Pekko Connectors will continue to poll the broker indefinitely.
 
 
 ## Failing producer
@@ -18,7 +18,7 @@ Retry handling for producers is built-in into Kafka. In case of failure when sen
 
 ## Restarting the stream with a backoff stage
 
-Akka streams @extref[provides graph stages](pekko:stream/stream-error.html#delayed-restarts-with-a-backoff-stage)
+Apache Pekko streams @extref[provides graph stages](pekko:stream/stream-error.html#delayed-restarts-with-a-backoff-stage)
 to gracefully restart a stream on failure, with a configurable backoff. This can be taken advantage of to restart a failing stream and its consumer with an exponential backoff, by wrapping it in a `RestartSource`.
 
 Scala
@@ -48,11 +48,11 @@ Sometimes, due to various Kafka server bugs (see below) the consumer will fail t
     - **NOTE**: consumer will never skip data, but may reprocess many days of data, up to the topic's configured
    retention
 
-Alpakka Kafka cannot do anything for the first two approaches. However, the `offset-reset-protection` configuration in
+Apache Pekko Connectors Kafka cannot do anything for the first two approaches. However, the `offset-reset-protection` configuration in
  the `ConsumerSettings` can help detect the inadvertent loss of offsets and subsequent reset. You can configure 
-`akka.kafka.consumer.offset-reset-protection.offset-threshold` to a number of offsets back from the _latest requested
+`pekko.kafka.consumer.offset-reset-protection.offset-threshold` to a number of offsets back from the _latest requested
  offset_ that would indicate one of these reset bugs has occurred. Similarly, setting 
-`akka.kafka.consumer.offset-reset-protection.time-threshold` will reset the consumer back to the latest committed offset
+`pekko.kafka.consumer.offset-reset-protection.time-threshold` will reset the consumer back to the latest committed offset
  when a record is older than `now - time-threshold`; that is, `time-threshold` older than the last received offset.
 
 When the client notices that the offset from the next fetched batch is outside the threshold for a given partition, the
@@ -69,7 +69,7 @@ fetch again from the latest offset. That means, the consumer would only need to 
 10x improvement from the 1000 messages it would have had to process with offset-reset-protection enabled.
 
 By default, consumer reset protection is **off**. You must set 
-`akka.kafka.consumer.offset-reset-protection.enable = true`, and set one of the thresholds, to enable it.
+`pekko.kafka.consumer.offset-reset-protection.enable = true`, and set one of the thresholds, to enable it.
 
 Internally, the consumer attempts to avoid too much overhead in checking each batch, so it verifies only that the first
 and the last offset in each received batch for each partition are within the threshold. This should have a minimal

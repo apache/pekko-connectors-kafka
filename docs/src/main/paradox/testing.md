@@ -1,31 +1,31 @@
 ---
-project.description: Alpakka Kafka provides a Testkit with support for running local Kafka brokers for integration tests.
+project.description: Apache Pekko Connectors Kafka provides a Testkit with support for running local Kafka brokers for integration tests.
 ---
 # Testing
 
-To simplify testing of streaming integrations with Alpakka Kafka, it provides the **Alpakka Kafka testkit**. It provides help for
+To simplify testing of streaming integrations with Apache Pekko Connectors Kafka, it provides the **Apache Pekko Connectors Kafka testkit**. It provides help for
 
 * @ref:[Using Docker to launch a local Kafka cluster with testcontainers](testing-testcontainers.md)
-* @ref:[Mocking the Alpakka Kafka Consumers and Producers](#mocking-the-consumer-or-producer)
+* @ref:[Mocking the Apache Pekko Connectors Kafka Consumers and Producers](#mocking-the-consumer-or-producer)
 
 @@project-info{ projectId="testkit" }
 
 @@dependency [Maven,sbt,Gradle] {
-  group=com.typesafe.akka
-  artifact=akka-stream-kafka-testkit_$scala.binary.version$
+  group=org.apache.pekko
+  artifact=pekko-connectors-kafka-testkit_$scala.binary.version$
   version=$project.version$
   scope=test
-  symbol2=AkkaVersion
-  value2="$akka.version$"
-  group2=com.typesafe.akka
-  artifact2=akka-stream-testkit_$scala.binary.version$
-  version2=AkkaVersion
+  symbol2=PekkoVersion
+  value2="$pekko.version$"
+  group2=org.apache.pekko
+  artifact2=pekko-stream-testkit_$scala.binary.version$
+  version2=PekkoVersion
   scope2=test
 }
 
-Note that Akka testkits do not promise binary compatibility. The API might be changed even between patch releases.
+Note that Apache Pekko testkits do not promise binary compatibility. The API might be changed even between patch releases.
 
-The table below shows Alpakka Kafka testkit's direct dependencies and the second tab shows all libraries it depends on transitively. 
+The table below shows Apache Pekko Connectors Kafka testkit's direct dependencies and the second tab shows all libraries it depends on transitively. 
 
 @@dependencies { projectId="testkit" }
 
@@ -39,10 +39,10 @@ See the documentation for each for more details.
 
 | Type                                                                                                                                                    | Test Framework     | Cluster     | Lang         | Lifetime                 |
 |---------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|-------------|--------------|--------------------------|
-| @ref:[`akka.kafka.testkit.javadsl.TestcontainersKafkaJunit4Test`](testing-testcontainers.md#testing-with-a-docker-kafka-cluster-from-java-code)         | JUnit 4            | Yes         | Java         | All tests, Per class     |
-| @ref:[`akka.kafka.testkit.javadsl.TestcontainersKafkaTest`](testing-testcontainers.md#testing-with-a-docker-kafka-cluster-from-java-code)               | JUnit 5            | Yes         | Java         | All tests, Per class     |
-| @ref:[`akka.kafka.testkit.scaladsl.TestcontainersKafkaLike`](testing-testcontainers.md#testing-with-a-docker-kafka-cluster-from-scala-code)             | ScalaTest          | Yes         | Scala        | All tests                |
-| @ref:[`akka.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike`](testing-testcontainers.md#testing-with-a-docker-kafka-cluster-from-scala-code)     | ScalaTest          | Yes         | Scala        | Per class                |
+| @ref:[`org.apache.pekko.kafka.testkit.javadsl.TestcontainersKafkaJunit4Test`](testing-testcontainers.md#testing-with-a-docker-kafka-cluster-from-java-code)         | JUnit 4            | Yes         | Java         | All tests, Per class     |
+| @ref:[`org.apache.pekko.kafka.testkit.javadsl.TestcontainersKafkaTest`](testing-testcontainers.md#testing-with-a-docker-kafka-cluster-from-java-code)               | JUnit 5            | Yes         | Java         | All tests, Per class     |
+| @ref:[`org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike`](testing-testcontainers.md#testing-with-a-docker-kafka-cluster-from-scala-code)             | ScalaTest          | Yes         | Scala        | All tests                |
+| @ref:[`org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike`](testing-testcontainers.md#testing-with-a-docker-kafka-cluster-from-scala-code)     | ScalaTest          | Yes         | Scala        | Per class                |
 
 ## Alternative testing libraries
 
@@ -50,7 +50,7 @@ If using Maven and Java, an alternative library that provides running Kafka brok
 
 ## Mocking the Consumer or Producer
 
-The testkit contains factories to create the messages emitted by Consumer sources in `akka.kafka.testkit.ConsumerResultFactory` and Producer flows in `akka.kafka.testkit.ProducerResultFactory`.
+The testkit contains factories to create the messages emitted by Consumer sources in `org.apache.pekko.kafka.testkit.ConsumerResultFactory` and Producer flows in `org.apache.pekko.kafka.testkit.ProducerResultFactory`.
 
 To create the materialized value of Consumer sources, @apidoc[ConsumerControlFactory$] offers a wrapped @apidoc[KillSwitch].
 
