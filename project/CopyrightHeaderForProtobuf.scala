@@ -11,9 +11,9 @@
  * Copyright (C) 2019-2022 Lightbend Inc. <https://www.lightbend.com>
  */
 
-import de.heikoseeberger.sbtheader.HeaderPlugin.autoImport.{HeaderFileType, headerMappings, headerSources}
+import de.heikoseeberger.sbtheader.HeaderPlugin.autoImport.{ headerMappings, headerSources, HeaderFileType }
 import sbt.Keys.sourceDirectory
-import sbt.{Compile, Def, Test, inConfig, _}
+import sbt.{ inConfig, Compile, Def, Test, _ }
 
 object CopyrightHeaderForProtobuf extends CopyrightHeader {
   override protected def headerMappingSettings: Seq[Def.Setting[_]] = {
