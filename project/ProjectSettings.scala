@@ -106,11 +106,6 @@ object ProjectSettings {
     scalafmtOnCompile := false,
     javafmtOnCompile := false,
     ThisBuild / mimaReportSignatureProblems := true,
-    headerLicense := Some(
-      HeaderLicense.Custom(
-        """|Copyright (C) 2014 - 2016 Softwaremill <https://softwaremill.com>
-           |Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
-           |""".stripMargin)),
     projectInfoVersion := (if (isSnapshot.value) "snapshot" else version.value),
     publishMavenStyle := true,
     pomIncludeRepository := (_ => false),

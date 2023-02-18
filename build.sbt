@@ -12,7 +12,7 @@ TaskKey[Unit]("verifyCodeFmt") := {
   }
 }
 
-addCommandAlias("verifyCodeStyle", "verifyCodeFmt")
+addCommandAlias("verifyCodeStyle", "headerCheck; verifyCodeFmt")
 addCommandAlias("verifyDocs", ";+doc ;unidoc ;docs/paradoxBrowse")
 
 lazy val `pekko-connectors-kafka` =
