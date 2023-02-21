@@ -2,7 +2,6 @@ import Versions._
 import com.lightbend.paradox.projectinfo.ParadoxProjectInfoPlugin.autoImport.projectInfoVersion
 import com.lightbend.sbt.JavaFormatterPlugin.autoImport.javafmtOnCompile
 import com.typesafe.tools.mima.plugin.MimaKeys.mimaReportSignatureProblems
-import de.heikoseeberger.sbtheader.HeaderPlugin.autoImport.{ headerLicense, HeaderLicense }
 import net.aichler.jupiter.sbt.Import.jupiterTestFramework
 import org.scalafmt.sbt.ScalafmtPlugin.autoImport.scalafmtOnCompile
 import sbt.{ Def, _ }
@@ -106,11 +105,6 @@ object ProjectSettings {
     scalafmtOnCompile := false,
     javafmtOnCompile := false,
     ThisBuild / mimaReportSignatureProblems := true,
-    headerLicense := Some(
-      HeaderLicense.Custom(
-        """|Copyright (C) 2014 - 2016 Softwaremill <https://softwaremill.com>
-           |Copyright (C) 2016 - 2020 Lightbend Inc. <https://www.lightbend.com>
-           |""".stripMargin)),
     projectInfoVersion := (if (isSnapshot.value) "snapshot" else version.value),
     publishMavenStyle := true,
     pomIncludeRepository := (_ => false),
