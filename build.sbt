@@ -3,7 +3,7 @@ import ProjectSettings.commonSettings
 
 ThisBuild / resolvers ++= ResolverSettings.projectResolvers
 
-ThisBuild / apacheSonatypeProjectProfile := "pekko-connectors-kafka"
+ThisBuild / apacheSonatypeProjectProfile := "pekko"
 
 TaskKey[Unit]("verifyCodeFmt") := {
   javafmtCheckAll.all(ScopeFilter(inAnyProject)).result.value.toEither.left.foreach { _ =>
