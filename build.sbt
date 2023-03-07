@@ -22,8 +22,7 @@ lazy val `pekko-connectors-kafka` =
     .settings(commonSettings)
     .settings(
       publish / skip := true,
-      // TODO: add clusterSharding to unidocProjectFilter when we drop support for Akka 2.5
-      ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(core, testkit),
+      ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(core, testkit, `cluster-sharding`),
       onLoadMessage := ProjectSettings.onLoadMessage)
     .aggregate(core, testkit, `cluster-sharding`, tests, benchmarks, docs)
 
