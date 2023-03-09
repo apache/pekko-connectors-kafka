@@ -15,9 +15,14 @@ import net.aichler.jupiter.sbt.Import.jupiterTestFramework
 import org.scalafmt.sbt.ScalafmtPlugin.autoImport.scalafmtOnCompile
 import sbt.{ Def, _ }
 import sbt.Keys._
-import xerial.sbt.Sonatype.autoImport.{ sonatypeCredentialHost, sonatypeProfileName }
+import xerial.sbt.Sonatype.autoImport.sonatypeCredentialHost
+import org.mdedetrich.apache.sonatype.SonatypeApachePlugin
+import SonatypeApachePlugin.autoImport.apacheSonatypeDisclaimerFile
 
-object ProjectSettings {
+object ProjectSettings extends AutoPlugin {
+
+  override val requires = SonatypeApachePlugin
+
   val onLoadMessage: String = """
     |** Welcome to the Apache Pekko Kafka Connector! **
     |
@@ -59,9 +64,6 @@ object ProjectSettings {
   private val apacheBaseRepo = "repository.apache.org"
 
   lazy val commonSettings: Seq[Def.Setting[_]] = Def.settings(
-    organization := "org.apache.pekko",
-    organizationName := "Apache Software Foundation",
-    organizationHomepage := Some(url("https://www.apache.org")),
     homepage := Some(url("https://pekko.apache.org/docs/pekko-connectors-kafka/current/")),
     scmInfo := Some(ScmInfo(url("https://github.com/apache/incubator-pekko-connectors-kafka"),
       "git@github.com:apache/incubator-pekko-connectors-kafka.git")),
@@ -71,7 +73,6 @@ object ProjectSettings {
       "dev@pekko.apache.org",
       url("https://github.com/apache/incubator-pekko-connectors-kafka/graphs/contributors")),
     startYear := Some(2022),
-    licenses := Seq("Apache-2.0" -> url("https://opensource.org/licenses/Apache-2.0")),
     description := "Apache Pekko Kafka Connector is a Reactive Enterprise Integration library for Java and Scala, based on Reactive Streams and Apache Pekko.",
     crossScalaVersions := Seq(Scala213),
     scalaVersion := Scala213,
@@ -119,7 +120,7 @@ object ProjectSettings {
     pomIncludeRepository := (_ => false),
     credentials ++= apacheNexusCredentials,
     sonatypeCredentialHost := apacheBaseRepo,
-    sonatypeProfileName := "org.apache.pekko")
+    apacheSonatypeDisclaimerFile := Some((LocalRootProject / baseDirectory).value / "DISCLAIMER"))
 
   private def apacheNexusCredentials: Seq[Credentials] =
     (sys.env.get("NEXUS_USER"), sys.env.get("NEXUS_PW")) match {

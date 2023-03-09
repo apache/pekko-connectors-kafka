@@ -1,9 +1,9 @@
 import com.typesafe.tools.mima.core.{ Problem, ProblemFilters }
 import ProjectSettings.commonSettings
 
-enablePlugins(AutomateHeaderPlugin)
-
 ThisBuild / resolvers ++= ResolverSettings.projectResolvers
+
+ThisBuild / apacheSonatypeProjectProfile := "pekko"
 
 TaskKey[Unit]("verifyCodeFmt") := {
   javafmtCheckAll.all(ScopeFilter(inAnyProject)).result.value.toEither.left.foreach { _ =>
@@ -27,11 +27,9 @@ lazy val `pekko-connectors-kafka` =
     .aggregate(core, testkit, `cluster-sharding`, tests, benchmarks, docs)
 
 lazy val core = project
-  .enablePlugins(AutomateHeaderPlugin)
   .disablePlugins(SitePlugin)
   .settings(commonSettings)
   .settings(VersionGenerator.settings)
-  .settings(MetaInfLicenseNoticeCopy.settings)
   .settings(
     name := "pekko-connectors-kafka",
     AutomaticModuleName.settings("org.apache.pekko.kafka"),
@@ -41,10 +39,8 @@ lazy val core = project
 
 lazy val testkit = project
   .dependsOn(core)
-  .enablePlugins(AutomateHeaderPlugin)
   .disablePlugins(SitePlugin)
   .settings(commonSettings)
-  .settings(MetaInfLicenseNoticeCopy.settings)
   .settings(
     name := "pekko-connectors-kafka-testkit",
     AutomaticModuleName.settings("org.apache.pekko.kafka.testkit"),
@@ -58,10 +54,8 @@ lazy val testkit = project
 lazy val `cluster-sharding` = project
   .in(file("./cluster-sharding"))
   .dependsOn(core)
-  .enablePlugins(AutomateHeaderPlugin)
   .disablePlugins(SitePlugin)
   .settings(commonSettings)
-  .settings(MetaInfLicenseNoticeCopy.settings)
   .settings(
     name := "pekko-connectors-kafka-cluster-sharding",
     AutomaticModuleName.settings("org.apache.pekko.kafka.cluster.sharding"),
@@ -71,7 +65,6 @@ lazy val `cluster-sharding` = project
 
 lazy val tests = project
   .dependsOn(core, testkit, `cluster-sharding`)
-  .enablePlugins(AutomateHeaderPlugin)
   .disablePlugins(MimaPlugin, SitePlugin)
   .configs(IntegrationTest.extend(Test))
   .settings(commonSettings)
@@ -90,7 +83,7 @@ lazy val tests = project
     IntegrationTest / parallelExecution := false)
 
 lazy val docs = project
-  .enablePlugins(ParadoxPlugin, PekkoParadoxPlugin, ParadoxSitePlugin, PreprocessPlugin, PublishRsyncPlugin)
+  .enablePlugins(ParadoxPlugin, PekkoParadoxPlugin, ParadoxSitePlugin, PreprocessPlugin)
   .disablePlugins(MimaPlugin)
   .settings(commonSettings)
   .settings(
@@ -112,17 +105,13 @@ lazy val docs = project
         _ => "https://docs\\.oracle\\.com/en/java/javase/11/docs/api/")),
     Paradox / siteSubdirName := s"docs/pekko-connectors-kafka/${projectInfoVersion.value}",
     ParadoxSettings.settings,
-    resolvers += Resolver.jcenterRepo,
-    publishRsyncArtifacts += makeSite.value -> "www/",
-    publishRsyncHost := "akkarepo@gustav.akka.io")
+    resolvers += Resolver.jcenterRepo)
 
 lazy val benchmarks = project
   .dependsOn(core, testkit)
-  .enablePlugins(AutomateHeaderPlugin)
   .disablePlugins(MimaPlugin, SitePlugin)
   .configs(IntegrationTest)
   .settings(commonSettings)
-  .settings(MetaInfLicenseNoticeCopy.settings)
   .settings(Defaults.itSettings)
   .settings(headerSettings(IntegrationTest))
   .settings(
