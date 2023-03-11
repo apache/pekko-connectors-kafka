@@ -19,9 +19,10 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.Arrays
 
-import org.apache.pekko.actor.ActorSystem
-import org.apache.pekko.kafka.testkit.KafkaTestkitSettings
-import org.apache.pekko.kafka.{ CommitterSettings, ConsumerSettings, ProducerSettings }
+import org.apache.pekko
+import pekko.actor.ActorSystem
+import pekko.kafka.testkit.KafkaTestkitSettings
+import pekko.kafka.{ CommitterSettings, ConsumerSettings, ProducerSettings }
 import org.apache.kafka.clients.admin.{ Admin, AdminClientConfig, NewTopic }
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.common.serialization.{ Deserializer, Serializer, StringDeserializer, StringSerializer }

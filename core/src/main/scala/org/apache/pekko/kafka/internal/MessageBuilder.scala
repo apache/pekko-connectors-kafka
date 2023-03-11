@@ -15,10 +15,11 @@
 package org.apache.pekko.kafka.internal
 import java.util.concurrent.CompletionStage
 
-import org.apache.pekko.Done
-import org.apache.pekko.annotation.InternalApi
-import org.apache.pekko.kafka.ConsumerMessage
-import org.apache.pekko.kafka.ConsumerMessage.{
+import org.apache.pekko
+import pekko.Done
+import pekko.annotation.InternalApi
+import pekko.kafka.ConsumerMessage
+import pekko.kafka.ConsumerMessage.{
   CommittableMessage,
   CommittableOffsetMetadata,
   GroupTopicPartition,

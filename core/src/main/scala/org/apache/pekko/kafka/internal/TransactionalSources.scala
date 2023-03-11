@@ -16,21 +16,22 @@ package org.apache.pekko.kafka.internal
 
 import java.util.Locale
 
-import org.apache.pekko.{ Done, NotUsed }
-import org.apache.pekko.actor.{ ActorRef, Status, Terminated }
-import org.apache.pekko.actor.Status.Failure
-import org.apache.pekko.annotation.InternalApi
-import org.apache.pekko.kafka.ConsumerMessage.{ PartitionOffset, TransactionalMessage }
-import org.apache.pekko.kafka.internal.KafkaConsumerActor.Internal.Revoked
-import org.apache.pekko.kafka.internal.SubSourceLogic._
-import org.apache.pekko.kafka.internal.TransactionalSubSourceStageLogic.DrainingComplete
-import org.apache.pekko.kafka.scaladsl.Consumer.Control
-import org.apache.pekko.kafka.scaladsl.PartitionAssignmentHandler
-import org.apache.pekko.kafka.{ AutoSubscription, ConsumerFailed, ConsumerSettings, RestrictedConsumer, Subscription }
-import org.apache.pekko.stream.SourceShape
-import org.apache.pekko.stream.scaladsl.Source
-import org.apache.pekko.stream.stage.{ AsyncCallback, GraphStageLogic }
-import org.apache.pekko.util.Timeout
+import org.apache.pekko
+import pekko.{ Done, NotUsed }
+import pekko.actor.{ ActorRef, Status, Terminated }
+import pekko.actor.Status.Failure
+import pekko.annotation.InternalApi
+import pekko.kafka.ConsumerMessage.{ PartitionOffset, TransactionalMessage }
+import pekko.kafka.internal.KafkaConsumerActor.Internal.Revoked
+import pekko.kafka.internal.SubSourceLogic._
+import pekko.kafka.internal.TransactionalSubSourceStageLogic.DrainingComplete
+import pekko.kafka.scaladsl.Consumer.Control
+import pekko.kafka.scaladsl.PartitionAssignmentHandler
+import pekko.kafka.{ AutoSubscription, ConsumerFailed, ConsumerSettings, RestrictedConsumer, Subscription }
+import pekko.stream.SourceShape
+import pekko.stream.scaladsl.Source
+import pekko.stream.stage.{ AsyncCallback, GraphStageLogic }
+import pekko.util.Timeout
 import org.apache.kafka.clients.consumer.{ ConsumerConfig, ConsumerRecord, OffsetAndMetadata }
 import org.apache.kafka.common.{ IsolationLevel, TopicPartition }
 
@@ -180,7 +181,7 @@ private[internal] abstract class TransactionalSourceLogic[K, V, Msg](shape: Sour
   }
 
   private def waitForDraining(partitions: Set[TopicPartition]): Boolean = {
-    import org.apache.pekko.pattern.ask
+    import pekko.pattern.ask
     implicit val timeout = Timeout(consumerSettings.commitTimeout)
     try {
       Await.result(ask(stageActor.ref, Drain(partitions, None, Drained)), timeout.duration)
@@ -262,7 +263,7 @@ private[kafka] final class TransactionalSubSource[K, V](
       }
 
       private def waitForDraining(partitions: Set[TopicPartition]): Boolean = {
-        import org.apache.pekko.pattern.ask
+        import pekko.pattern.ask
         implicit val timeout = Timeout(txConsumerSettings.commitTimeout)
         try {
           val drainCommandFutures =
@@ -294,7 +295,7 @@ private object TransactionalSourceLogic {
   private[internal] final case class CommittedMarkerRef(sourceActor: ActorRef, commitTimeout: FiniteDuration)(
       implicit ec: ExecutionContext) extends CommittedMarker {
     override def committed(offsets: Map[TopicPartition, OffsetAndMetadata]): Future[Done] = {
-      import org.apache.pekko.pattern.ask
+      import pekko.pattern.ask
       sourceActor
         .ask(Committed(offsets))(Timeout(commitTimeout))
         .map(_ => Done)

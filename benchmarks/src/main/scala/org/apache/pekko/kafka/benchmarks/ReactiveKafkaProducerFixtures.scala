@@ -14,13 +14,14 @@
 
 package org.apache.pekko.kafka.benchmarks
 
-import org.apache.pekko.NotUsed
-import org.apache.pekko.actor.ActorSystem
-import org.apache.pekko.kafka.ProducerMessage.{ Envelope, Results }
-import org.apache.pekko.kafka.ProducerSettings
-import org.apache.pekko.kafka.benchmarks.app.RunTestCommand
-import org.apache.pekko.kafka.scaladsl.Producer
-import org.apache.pekko.stream.scaladsl.Flow
+import org.apache.pekko
+import pekko.NotUsed
+import pekko.actor.ActorSystem
+import pekko.kafka.ProducerMessage.{ Envelope, Results }
+import pekko.kafka.ProducerSettings
+import pekko.kafka.benchmarks.app.RunTestCommand
+import pekko.kafka.scaladsl.Producer
+import pekko.stream.scaladsl.Flow
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.common.serialization.{ ByteArraySerializer, StringSerializer }
 

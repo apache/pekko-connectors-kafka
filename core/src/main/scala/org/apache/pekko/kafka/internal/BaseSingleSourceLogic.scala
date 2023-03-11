@@ -14,13 +14,14 @@
 
 package org.apache.pekko.kafka.internal
 
-import org.apache.pekko.actor.{ ActorRef, Status, Terminated }
-import org.apache.pekko.annotation.InternalApi
-import org.apache.pekko.kafka.Subscriptions.{ Assignment, AssignmentOffsetsForTimes, AssignmentWithOffset }
-import org.apache.pekko.kafka.{ ConsumerFailed, ManualSubscription }
-import org.apache.pekko.stream.SourceShape
-import org.apache.pekko.stream.stage.GraphStageLogic.StageActor
-import org.apache.pekko.stream.stage.{ AsyncCallback, GraphStageLogic, OutHandler }
+import org.apache.pekko
+import pekko.actor.{ ActorRef, Status, Terminated }
+import pekko.annotation.InternalApi
+import pekko.kafka.Subscriptions.{ Assignment, AssignmentOffsetsForTimes, AssignmentWithOffset }
+import pekko.kafka.{ ConsumerFailed, ManualSubscription }
+import pekko.stream.SourceShape
+import pekko.stream.stage.GraphStageLogic.StageActor
+import pekko.stream.stage.{ AsyncCallback, GraphStageLogic, OutHandler }
 import org.apache.kafka.common.TopicPartition
 
 import scala.annotation.tailrec

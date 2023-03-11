@@ -14,21 +14,22 @@
 
 package org.apache.pekko.kafka.internal
 
-import org.apache.pekko.NotUsed
-import org.apache.pekko.actor.Status
-import org.apache.pekko.actor.{ ActorRef, ExtendedActorSystem, Terminated }
-import org.apache.pekko.annotation.InternalApi
-import org.apache.pekko.kafka.internal.KafkaConsumerActor.Internal.RegisterSubStage
-import org.apache.pekko.kafka.internal.SubSourceLogic._
-import org.apache.pekko.kafka.{ AutoSubscription, ConsumerFailed, ConsumerSettings, RestrictedConsumer }
-import org.apache.pekko.kafka.scaladsl.Consumer.Control
-import org.apache.pekko.kafka.scaladsl.PartitionAssignmentHandler
-import org.apache.pekko.pattern.{ ask, AskTimeoutException }
-import org.apache.pekko.stream.scaladsl.Source
-import org.apache.pekko.stream.stage.GraphStageLogic.StageActor
-import org.apache.pekko.stream.stage._
-import org.apache.pekko.stream.{ Attributes, Outlet, SourceShape }
-import org.apache.pekko.util.Timeout
+import org.apache.pekko
+import pekko.NotUsed
+import pekko.actor.Status
+import pekko.actor.{ ActorRef, ExtendedActorSystem, Terminated }
+import pekko.annotation.InternalApi
+import pekko.kafka.internal.KafkaConsumerActor.Internal.RegisterSubStage
+import pekko.kafka.internal.SubSourceLogic._
+import pekko.kafka.{ AutoSubscription, ConsumerFailed, ConsumerSettings, RestrictedConsumer }
+import pekko.kafka.scaladsl.Consumer.Control
+import pekko.kafka.scaladsl.PartitionAssignmentHandler
+import pekko.pattern.{ ask, AskTimeoutException }
+import pekko.stream.scaladsl.Source
+import pekko.stream.stage.GraphStageLogic.StageActor
+import pekko.stream.stage._
+import pekko.stream.{ Attributes, Outlet, SourceShape }
+import pekko.util.Timeout
 import org.apache.kafka.common.TopicPartition
 
 import scala.annotation.tailrec
@@ -95,7 +96,7 @@ private class SubSourceLogic[K, V, Msg](
     }
     consumerActor = {
       val extendedActorSystem = materializer.system.asInstanceOf[ExtendedActorSystem]
-      extendedActorSystem.systemActorOf(org.apache.pekko.kafka.KafkaConsumerActor.props(sourceActor.ref, settings),
+      extendedActorSystem.systemActorOf(pekko.kafka.KafkaConsumerActor.props(sourceActor.ref, settings),
         s"kafka-consumer-$actorNumber")
     }
     consumerPromise.success(consumerActor)

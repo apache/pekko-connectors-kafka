@@ -14,12 +14,13 @@
 
 package org.apache.pekko.kafka.scaladsl
 
-import org.apache.pekko.Done
-import org.apache.pekko.kafka._
-import org.apache.pekko.kafka.scaladsl.Consumer.DrainingControl
-import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import org.apache.pekko.stream.scaladsl.{ Keep, Sink, Source }
-import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import org.apache.pekko
+import pekko.Done
+import pekko.kafka._
+import pekko.kafka.scaladsl.Consumer.DrainingControl
+import pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
+import pekko.stream.scaladsl.{ Keep, Sink, Source }
+import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.apache.kafka.clients.producer.ProducerRecord
 
 import scala.collection.immutable

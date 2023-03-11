@@ -14,13 +14,14 @@
 
 package org.apache.pekko.kafka.benchmarks
 
-import org.apache.pekko.actor.ActorSystem
-import org.apache.pekko.kafka.ConsumerMessage.CommittableMessage
-import org.apache.pekko.kafka.benchmarks.app.RunTestCommand
-import org.apache.pekko.kafka.scaladsl.Consumer
-import org.apache.pekko.kafka.scaladsl.Consumer.Control
-import org.apache.pekko.kafka.{ ConsumerSettings, Subscriptions }
-import org.apache.pekko.stream.scaladsl.Source
+import org.apache.pekko
+import pekko.actor.ActorSystem
+import pekko.kafka.ConsumerMessage.CommittableMessage
+import pekko.kafka.benchmarks.app.RunTestCommand
+import pekko.kafka.scaladsl.Consumer
+import pekko.kafka.scaladsl.Consumer.Control
+import pekko.kafka.{ ConsumerSettings, Subscriptions }
+import pekko.stream.scaladsl.Source
 import org.apache.kafka.clients.consumer.{ ConsumerConfig, ConsumerRecord }
 import org.apache.kafka.common.serialization.{ ByteArrayDeserializer, StringDeserializer }
 

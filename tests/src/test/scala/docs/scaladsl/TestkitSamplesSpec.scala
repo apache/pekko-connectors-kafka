@@ -14,14 +14,15 @@
 
 package docs.scaladsl
 
-import org.apache.pekko.actor.ActorSystem
-import org.apache.pekko.kafka.ConsumerMessage.CommittableOffset
-import org.apache.pekko.kafka.scaladsl.{ Committer, Consumer }
-import org.apache.pekko.kafka.{ CommitterSettings, ConsumerMessage, ProducerMessage }
-import org.apache.pekko.stream.scaladsl.{ Flow, Keep, Source }
-import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
-import org.apache.pekko.testkit.TestKit
-import org.apache.pekko.{ Done, NotUsed }
+import org.apache.pekko
+import pekko.actor.ActorSystem
+import pekko.kafka.ConsumerMessage.CommittableOffset
+import pekko.kafka.scaladsl.{ Committer, Consumer }
+import pekko.kafka.{ CommitterSettings, ConsumerMessage, ProducerMessage }
+import pekko.stream.scaladsl.{ Flow, Keep, Source }
+import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import pekko.testkit.TestKit
+import pekko.{ Done, NotUsed }
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.scalatest.BeforeAndAfterAll
@@ -48,8 +49,9 @@ class TestkitSamplesSpec
     val committerSettings = CommitterSettings(system)
 
     // #factories
-    import org.apache.pekko.kafka.testkit.scaladsl.ConsumerControlFactory
-    import org.apache.pekko.kafka.testkit.{ ConsumerResultFactory, ProducerResultFactory }
+    import org.apache.pekko
+    import pekko.kafka.testkit.scaladsl.ConsumerControlFactory
+    import pekko.kafka.testkit.{ ConsumerResultFactory, ProducerResultFactory }
 
     // create elements emitted by the mocked Consumer
     val elements = (0 to 10).map { i =>

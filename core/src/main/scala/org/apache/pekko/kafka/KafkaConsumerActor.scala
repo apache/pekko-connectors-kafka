@@ -14,9 +14,10 @@
 
 package org.apache.pekko.kafka
 
-import org.apache.pekko.actor.{ ActorRef, NoSerializationVerificationNeeded, Props }
-import org.apache.pekko.annotation.InternalApi
-import org.apache.pekko.kafka.internal.{ KafkaConsumerActor => InternalKafkaConsumerActor }
+import org.apache.pekko
+import pekko.actor.{ ActorRef, NoSerializationVerificationNeeded, Props }
+import pekko.annotation.InternalApi
+import pekko.kafka.internal.{ KafkaConsumerActor => InternalKafkaConsumerActor }
 
 object KafkaConsumerActor {
 
@@ -44,7 +45,7 @@ object KafkaConsumerActor {
 
   /**
    * Creates Props for the Kafka Consumer Actor with a reference back to the owner of it
-   * which will be signalled with [[org.apache.pekko.actor.Status.Failure Failure(exception)]], in case the
+   * which will be signalled with [[pekko.actor.Status.Failure Failure(exception)]], in case the
    * Kafka client instance can't be created.
    */
   def props[K, V](owner: ActorRef, settings: ConsumerSettings[K, V]): Props =

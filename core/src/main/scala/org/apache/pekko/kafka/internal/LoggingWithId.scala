@@ -14,9 +14,10 @@
 
 package org.apache.pekko.kafka.internal
 
-import org.apache.pekko.actor.{ Actor, ActorLogging }
-import org.apache.pekko.event.LoggingAdapter
-import org.apache.pekko.stream.stage.{ GraphStageLogic, StageLogging }
+import org.apache.pekko
+import pekko.actor.{ Actor, ActorLogging }
+import pekko.event.LoggingAdapter
+import pekko.stream.stage.{ GraphStageLogic, StageLogging }
 
 /**
  * Generate a short random UID for something.

@@ -16,9 +16,10 @@ package org.apache.pekko.kafka.scaladsl
 
 import java.util.concurrent.atomic.AtomicBoolean
 
-import org.apache.pekko.Done
-import org.apache.pekko.kafka.scaladsl.Consumer.DrainingControl
-import org.apache.pekko.kafka.tests.scaladsl.LogCapturing
+import org.apache.pekko
+import pekko.Done
+import pekko.kafka.scaladsl.Consumer.DrainingControl
+import pekko.kafka.tests.scaladsl.LogCapturing
 import org.apache.kafka.common.{ Metric, MetricName }
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.wordspec.AnyWordSpec

@@ -17,9 +17,10 @@ package org.apache.pekko.kafka.internal
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.locks.LockSupport
 import java.util.regex.Pattern
-import org.apache.pekko.Done
-import org.apache.pekko.actor.Status.Failure
-import org.apache.pekko.actor.{
+import org.apache.pekko
+import pekko.Done
+import pekko.actor.Status.Failure
+import pekko.actor.{
   Actor,
   ActorRef,
   DeadLetterSuppression,
@@ -29,12 +30,12 @@ import org.apache.pekko.actor.{
   Terminated,
   Timers
 }
-import org.apache.pekko.annotation.InternalApi
-import org.apache.pekko.util.JavaDurationConverters._
-import org.apache.pekko.event.LoggingReceive
-import org.apache.pekko.kafka.KafkaConsumerActor.{ StopLike, StoppingException }
-import org.apache.pekko.kafka._
-import org.apache.pekko.kafka.scaladsl.PartitionAssignmentHandler
+import pekko.annotation.InternalApi
+import pekko.util.JavaDurationConverters._
+import pekko.event.LoggingReceive
+import pekko.kafka.KafkaConsumerActor.{ StopLike, StoppingException }
+import pekko.kafka._
+import pekko.kafka.scaladsl.PartitionAssignmentHandler
 import org.apache.kafka.clients.consumer._
 import org.apache.kafka.common.errors.RebalanceInProgressException
 import org.apache.kafka.common.{ Metric, MetricName, TopicPartition }
@@ -69,7 +70,7 @@ import scala.util.control.NonFatal
     final case class RegisterSubStage(tps: Set[TopicPartition]) extends NoSerializationVerificationNeeded
     final case class Seek(tps: Map[TopicPartition, Long]) extends NoSerializationVerificationNeeded
     final case class RequestMessages(requestId: Int, tps: Set[TopicPartition]) extends NoSerializationVerificationNeeded
-    val Stop = org.apache.pekko.kafka.KafkaConsumerActor.Stop
+    val Stop = pekko.kafka.KafkaConsumerActor.Stop
     final case class StopFromStage(stageId: String) extends StopLike
     final case class Commit(tp: TopicPartition, offsetAndMetadata: OffsetAndMetadata)
         extends NoSerializationVerificationNeeded
@@ -407,7 +408,7 @@ import scala.util.control.NonFatal
         owner.foreach(_ ! Failure(e))
         throw e
       case None =>
-        import org.apache.pekko.pattern.pipe
+        import pekko.pattern.pipe
         implicit val ec: ExecutionContext = context.dispatcher
         context.become(expectSettings)
         updateSettings.pipeTo(self)

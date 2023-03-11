@@ -16,15 +16,16 @@ package org.apache.pekko.kafka.testkit.javadsl
 
 import java.util.concurrent.{ CompletableFuture, CompletionStage, Executor }
 
-import org.apache.pekko.Done
-import org.apache.pekko.annotation.ApiMayChange
-import org.apache.pekko.kafka.javadsl.Consumer
-import org.apache.pekko.stream.javadsl.{ Flow, Keep, Source }
-import org.apache.pekko.stream.{ scaladsl, KillSwitch, KillSwitches }
+import org.apache.pekko
+import pekko.Done
+import pekko.annotation.ApiMayChange
+import pekko.kafka.javadsl.Consumer
+import pekko.stream.javadsl.{ Flow, Keep, Source }
+import pekko.stream.{ scaladsl, KillSwitch, KillSwitches }
 import org.apache.kafka.common.{ Metric, MetricName }
 
 /**
- * Helper factory to create [[org.apache.pekko.kafka.javadsl.Consumer.Control]] instances when
+ * Helper factory to create [[pekko.kafka.javadsl.Consumer.Control]] instances when
  * testing without a Kafka broker.
  */
 @ApiMayChange

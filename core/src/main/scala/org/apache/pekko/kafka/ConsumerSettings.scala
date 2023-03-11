@@ -17,9 +17,10 @@ package org.apache.pekko.kafka
 import java.util.Optional
 import java.util.concurrent.{ CompletionStage, Executor }
 
-import org.apache.pekko.annotation.InternalApi
-import org.apache.pekko.kafka.internal._
-import org.apache.pekko.util.JavaDurationConverters._
+import org.apache.pekko
+import pekko.annotation.InternalApi
+import pekko.kafka.internal._
+import pekko.util.JavaDurationConverters._
 import com.typesafe.config.Config
 import org.apache.kafka.clients.consumer.{ Consumer, ConsumerConfig, KafkaConsumer }
 import org.apache.kafka.common.serialization.Deserializer
@@ -40,7 +41,7 @@ object ConsumerSettings {
    * Key or value deserializer can be passed explicitly or retrieved from configuration.
    */
   def apply[K, V](
-      system: org.apache.pekko.actor.ActorSystem,
+      system: pekko.actor.ActorSystem,
       keyDeserializer: Option[Deserializer[K]],
       valueDeserializer: Option[Deserializer[V]]): ConsumerSettings[K, V] = {
     val config = system.settings.config.getConfig(configPath)
@@ -55,7 +56,7 @@ object ConsumerSettings {
    * For use with the `pekko.actor.typed` API.
    */
   def apply[K, V](
-      system: org.apache.pekko.actor.ClassicActorSystemProvider,
+      system: pekko.actor.ClassicActorSystemProvider,
       keyDeserializer: Option[Deserializer[K]],
       valueDeserializer: Option[Deserializer[V]]): ConsumerSettings[K, V] =
     apply(system.classicSystem, keyDeserializer, valueDeserializer)
@@ -126,7 +127,7 @@ object ConsumerSettings {
    * Key and value serializer must be passed explicitly.
    */
   def apply[K, V](
-      system: org.apache.pekko.actor.ActorSystem,
+      system: pekko.actor.ActorSystem,
       keyDeserializer: Deserializer[K],
       valueDeserializer: Deserializer[V]): ConsumerSettings[K, V] =
     apply(system, Option(keyDeserializer), Option(valueDeserializer))
@@ -139,7 +140,7 @@ object ConsumerSettings {
    * For use with the `pekko.actor.typed` API.
    */
   def apply[K, V](
-      system: org.apache.pekko.actor.ClassicActorSystemProvider,
+      system: pekko.actor.ClassicActorSystemProvider,
       keyDeserializer: Deserializer[K],
       valueDeserializer: Deserializer[V]): ConsumerSettings[K, V] =
     apply(system, Option(keyDeserializer), Option(valueDeserializer))
@@ -161,7 +162,7 @@ object ConsumerSettings {
    * Key or value deserializer can be passed explicitly or retrieved from configuration.
    */
   def create[K, V](
-      system: org.apache.pekko.actor.ActorSystem,
+      system: pekko.actor.ActorSystem,
       keyDeserializer: Optional[Deserializer[K]],
       valueDeserializer: Optional[Deserializer[V]]): ConsumerSettings[K, V] =
     apply(system, keyDeserializer.asScala, valueDeserializer.asScala)
@@ -174,7 +175,7 @@ object ConsumerSettings {
    * For use with the `pekko.actor.typed` API.
    */
   def create[K, V](
-      system: org.apache.pekko.actor.ClassicActorSystemProvider,
+      system: pekko.actor.ClassicActorSystemProvider,
       keyDeserializer: Optional[Deserializer[K]],
       valueDeserializer: Optional[Deserializer[V]]): ConsumerSettings[K, V] =
     apply(system, keyDeserializer.asScala, valueDeserializer.asScala)
@@ -196,7 +197,7 @@ object ConsumerSettings {
    * Key and value serializer must be passed explicitly.
    */
   def create[K, V](
-      system: org.apache.pekko.actor.ActorSystem,
+      system: pekko.actor.ActorSystem,
       keyDeserializer: Deserializer[K],
       valueDeserializer: Deserializer[V]): ConsumerSettings[K, V] =
     apply(system, keyDeserializer, valueDeserializer)
@@ -209,7 +210,7 @@ object ConsumerSettings {
    * For use with the `pekko.actor.typed` API.
    */
   def create[K, V](
-      system: org.apache.pekko.actor.ClassicActorSystemProvider,
+      system: pekko.actor.ClassicActorSystemProvider,
       keyDeserializer: Deserializer[K],
       valueDeserializer: Deserializer[V]): ConsumerSettings[K, V] =
     apply(system, keyDeserializer, valueDeserializer)
@@ -237,7 +238,7 @@ object ConsumerSettings {
 
 /**
  * Settings for consumers. See `pekko.kafka.consumer` section in
- * `reference.conf`. Note that the [[org.apache.pekko.kafka.ConsumerSettings$ companion]] object provides
+ * `reference.conf`. Note that the [[pekko.kafka.ConsumerSettings companion]] object provides
  * `apply` and `create` functions for convenient construction of the settings, together with
  * the `with` methods.
  *
@@ -385,7 +386,7 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
 
   /**
    * If offset commit requests are not completed within this timeout
-   * the returned Future is completed with [[org.apache.pekko.kafka.CommitTimeoutException]].
+   * the returned Future is completed with [[pekko.kafka.CommitTimeoutException]].
    */
   def withCommitTimeout(commitTimeout: FiniteDuration): ConsumerSettings[K, V] =
     copy(commitTimeout = commitTimeout)
@@ -393,7 +394,7 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
   /**
    * Java API:
    * If offset commit requests are not completed within this timeout
-   * the returned Future is completed with [[org.apache.pekko.kafka.CommitTimeoutException]].
+   * the returned Future is completed with [[pekko.kafka.CommitTimeoutException]].
    */
   def withCommitTimeout(commitTimeout: java.time.Duration): ConsumerSettings[K, V] =
     copy(commitTimeout = commitTimeout.asScala)
@@ -413,7 +414,7 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
 
   /**
    * Fully qualified config path which holds the dispatcher configuration
-   * to be used by the [[org.apache.pekko.kafka.KafkaConsumerActor]]. Some blocking may occur.
+   * to be used by the [[pekko.kafka.KafkaConsumerActor]]. Some blocking may occur.
    */
   def withDispatcher(dispatcher: String): ConsumerSettings[K, V] =
     copy(dispatcher = dispatcher)

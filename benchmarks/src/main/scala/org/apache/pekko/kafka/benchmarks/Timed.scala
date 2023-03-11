@@ -16,12 +16,13 @@ package org.apache.pekko.kafka.benchmarks
 
 import com.codahale.metrics._
 import com.typesafe.scalalogging.LazyLogging
-import org.apache.pekko.NotUsed
-import org.apache.pekko.kafka.benchmarks.InflightMetrics.{ BrokerMetricRequest, ConsumerMetricRequest }
-import org.apache.pekko.kafka.benchmarks.app.RunTestCommand
-import org.apache.pekko.stream.Materializer
-import org.apache.pekko.stream.scaladsl.{ FileIO, Flow, Sink, Source }
-import org.apache.pekko.util.ByteString
+import org.apache.pekko
+import pekko.NotUsed
+import pekko.kafka.benchmarks.InflightMetrics.{ BrokerMetricRequest, ConsumerMetricRequest }
+import pekko.kafka.benchmarks.app.RunTestCommand
+import pekko.stream.Materializer
+import pekko.stream.scaladsl.{ FileIO, Flow, Sink, Source }
+import pekko.util.ByteString
 
 import java.nio.charset.{ Charset, StandardCharsets }
 import java.nio.file.Paths

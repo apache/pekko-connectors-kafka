@@ -14,14 +14,15 @@
 
 package docs.scaladsl
 
-import org.apache.pekko.actor.ActorRef
-import org.apache.pekko.actor.typed.scaladsl.Behaviors
-import org.apache.pekko.kafka.scaladsl.Consumer
-import org.apache.pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
-import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
-import org.apache.pekko.kafka.{ KafkaConsumerActor, Subscriptions }
-import org.apache.pekko.stream.scaladsl.{ Keep, Sink }
-import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import org.apache.pekko
+import pekko.actor.ActorRef
+import pekko.actor.typed.scaladsl.Behaviors
+import pekko.kafka.scaladsl.Consumer
+import pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
+import pekko.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
+import pekko.kafka.{ KafkaConsumerActor, Subscriptions }
+import pekko.stream.scaladsl.{ Keep, Sink }
+import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.apache.kafka.common.{ Metric, MetricName, TopicPartition }
 
 import scala.annotation.nowarn
@@ -95,7 +96,7 @@ class PartitionExamples extends DocsSpecBase with TestcontainersKafkaPerClassLik
     val _ = Behaviors.setup[Nothing] { context =>
       // #consumerActorTyped
       // adds support for actors to a classic actor system and context
-      import org.apache.pekko.actor.typed.scaladsl.adapter._
+      import pekko.actor.typed.scaladsl.adapter._
 
       // Consumer is represented by actor
       // #consumerActorTyped

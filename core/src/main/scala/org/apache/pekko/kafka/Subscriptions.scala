@@ -14,10 +14,11 @@
 
 package org.apache.pekko.kafka
 
-import org.apache.pekko.actor.ActorRef
-import org.apache.pekko.annotation.{ ApiMayChange, InternalApi }
-import org.apache.pekko.kafka.internal.PartitionAssignmentHelpers
-import org.apache.pekko.kafka.internal.PartitionAssignmentHelpers.EmptyPartitionAssignmentHandler
+import org.apache.pekko
+import pekko.actor.ActorRef
+import pekko.annotation.{ ApiMayChange, InternalApi }
+import pekko.kafka.internal.PartitionAssignmentHelpers
+import pekko.kafka.internal.PartitionAssignmentHelpers.EmptyPartitionAssignmentHandler
 import org.apache.kafka.common.TopicPartition
 
 import scala.annotation.varargs
@@ -25,10 +26,10 @@ import scala.jdk.CollectionConverters._
 
 sealed trait Subscription {
 
-  /** ActorRef which is to receive [[org.apache.pekko.kafka.ConsumerRebalanceEvent]] signals when rebalancing happens */
+  /** ActorRef which is to receive [[pekko.kafka.ConsumerRebalanceEvent]] signals when rebalancing happens */
   def rebalanceListener: Option[ActorRef]
 
-  /** Configure this actor ref to receive [[org.apache.pekko.kafka.ConsumerRebalanceEvent]] signals */
+  /** Configure this actor ref to receive [[pekko.kafka.ConsumerRebalanceEvent]] signals */
   def withRebalanceListener(ref: ActorRef): Subscription
 
   def renderStageAttribute: String
@@ -55,13 +56,13 @@ sealed trait ManualSubscription extends Subscription {
  */
 sealed trait AutoSubscription extends Subscription {
 
-  /** ActorRef which is to receive [[org.apache.pekko.kafka.ConsumerRebalanceEvent]] signals when rebalancing happens */
+  /** ActorRef which is to receive [[pekko.kafka.ConsumerRebalanceEvent]] signals when rebalancing happens */
   def rebalanceListener: Option[ActorRef]
 
   @InternalApi
   def partitionAssignmentHandler: scaladsl.PartitionAssignmentHandler
 
-  /** Configure this actor ref to receive [[org.apache.pekko.kafka.ConsumerRebalanceEvent]] signals */
+  /** Configure this actor ref to receive [[pekko.kafka.ConsumerRebalanceEvent]] signals */
   def withRebalanceListener(ref: ActorRef): AutoSubscription
 
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/985")
@@ -89,7 +90,7 @@ final case class TopicPartitionsRevoked(sub: Subscription, topicPartitions: Set[
 object Subscriptions {
 
   /** INTERNAL API */
-  @org.apache.pekko.annotation.InternalApi
+  @pekko.annotation.InternalApi
   private[kafka] final case class TopicSubscription(
       tps: Set[String],
       rebalanceListener: Option[ActorRef],
@@ -110,7 +111,7 @@ object Subscriptions {
   }
 
   /** INTERNAL API */
-  @org.apache.pekko.annotation.InternalApi
+  @pekko.annotation.InternalApi
   private[kafka] final case class TopicSubscriptionPattern(
       pattern: String,
       rebalanceListener: Option[ActorRef],
@@ -130,14 +131,14 @@ object Subscriptions {
   }
 
   /** INTERNAL API */
-  @org.apache.pekko.annotation.InternalApi
+  @pekko.annotation.InternalApi
   private[kafka] final case class Assignment(tps: Set[TopicPartition]) extends ManualSubscription {
     def withRebalanceListener(ref: ActorRef): Assignment = this
     def renderStageAttribute: String = s"${tps.mkString(" ")}"
   }
 
   /** INTERNAL API */
-  @org.apache.pekko.annotation.InternalApi
+  @pekko.annotation.InternalApi
   private[kafka] final case class AssignmentWithOffset(tps: Map[TopicPartition, Long]) extends ManualSubscription {
     def withRebalanceListener(ref: ActorRef): AssignmentWithOffset = this
     def renderStageAttribute: String =
@@ -145,7 +146,7 @@ object Subscriptions {
   }
 
   /** INTERNAL API */
-  @org.apache.pekko.annotation.InternalApi
+  @pekko.annotation.InternalApi
   private[kafka] final case class AssignmentOffsetsForTimes(timestampsToSearch: Map[TopicPartition, Long])
       extends ManualSubscription {
     def withRebalanceListener(ref: ActorRef): AssignmentOffsetsForTimes = this

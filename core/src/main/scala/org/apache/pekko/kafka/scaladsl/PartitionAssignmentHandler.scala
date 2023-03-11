@@ -14,7 +14,8 @@
 
 package org.apache.pekko.kafka.scaladsl
 
-import org.apache.pekko.kafka.RestrictedConsumer
+import org.apache.pekko
+import pekko.kafka.RestrictedConsumer
 import org.apache.kafka.common.TopicPartition
 
 /**
@@ -25,7 +26,7 @@ import org.apache.kafka.common.TopicPartition
  * A warning will be logged if a callback takes longer than the configured `partition-handler-warning`.
  *
  * There is no point in calling `Committable`'s commit methods as their committing won't be executed as long as any of
- * the callbacks in this class are called. Calling `commitSync` on the passed [[org.apache.pekko.kafka.RestrictedConsumer]] is available.
+ * the callbacks in this class are called. Calling `commitSync` on the passed [[pekko.kafka.RestrictedConsumer]] is available.
  *
  * This complements the methods of Kafka's [[org.apache.kafka.clients.consumer.ConsumerRebalanceListener ConsumerRebalanceListener]] with
  * an `onStop` callback which is called before `Consumer.close`.
@@ -36,7 +37,7 @@ trait PartitionAssignmentHandler {
    * See [[org.apache.kafka.clients.consumer.ConsumerRebalanceListener#onPartitionsRevoked]]
    *
    * @param revokedTps The list of partitions that were revoked from the consumer
-   * @param consumer The [[org.apache.pekko.kafka.RestrictedConsumer]] gives some access to the internally used [[org.apache.kafka.clients.consumer.Consumer Consumer]]
+   * @param consumer The [[pekko.kafka.RestrictedConsumer]] gives some access to the internally used [[org.apache.kafka.clients.consumer.Consumer Consumer]]
    */
   def onRevoke(revokedTps: Set[TopicPartition], consumer: RestrictedConsumer): Unit
 
@@ -44,7 +45,7 @@ trait PartitionAssignmentHandler {
    * See [[org.apache.kafka.clients.consumer.ConsumerRebalanceListener#onPartitionsAssigned]]
    *
    * @param assignedTps The list of partitions that are now assigned to the consumer (may include partitions previously assigned to the consumer)
-   * @param consumer The [[org.apache.pekko.kafka.RestrictedConsumer]] gives some access to the internally used [[org.apache.kafka.clients.consumer.Consumer Consumer]]
+   * @param consumer The [[pekko.kafka.RestrictedConsumer]] gives some access to the internally used [[org.apache.kafka.clients.consumer.Consumer Consumer]]
    */
   def onAssign(assignedTps: Set[TopicPartition], consumer: RestrictedConsumer): Unit
 
@@ -53,7 +54,7 @@ trait PartitionAssignmentHandler {
    * See [[org.apache.kafka.clients.consumer.ConsumerRebalanceListener#onPartitionsLost]]
    *
    * @param lostTps The list of partitions that are no longer valid
-   * @param consumer The [[org.apache.pekko.kafka.RestrictedConsumer]] gives some access to the internally used [[org.apache.kafka.clients.consumer.Consumer Consumer]]
+   * @param consumer The [[pekko.kafka.RestrictedConsumer]] gives some access to the internally used [[org.apache.kafka.clients.consumer.Consumer Consumer]]
    */
   def onLost(lostTps: Set[TopicPartition], consumer: RestrictedConsumer): Unit
 
@@ -62,7 +63,7 @@ trait PartitionAssignmentHandler {
    * See [[org.apache.kafka.clients.consumer.ConsumerRebalanceListener#onPartitionsRevoked]]
    *
    * @param currentTps The list of partitions that are currently assigned to the consumer
-   * @param consumer The [[org.apache.pekko.kafka.RestrictedConsumer]] gives some access to the internally used [[org.apache.kafka.clients.consumer.Consumer Consumer]]
+   * @param consumer The [[pekko.kafka.RestrictedConsumer]] gives some access to the internally used [[org.apache.kafka.clients.consumer.Consumer Consumer]]
    */
   def onStop(currentTps: Set[TopicPartition], consumer: RestrictedConsumer): Unit
 }

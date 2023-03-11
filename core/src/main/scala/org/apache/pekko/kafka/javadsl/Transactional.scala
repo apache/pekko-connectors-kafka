@@ -16,15 +16,16 @@ package org.apache.pekko.kafka.javadsl
 
 import java.util.concurrent.CompletionStage
 
-import org.apache.pekko.annotation.ApiMayChange
-import org.apache.pekko.japi.Pair
-import org.apache.pekko.kafka.ConsumerMessage.{ PartitionOffset, TransactionalMessage }
-import org.apache.pekko.kafka.ProducerMessage._
-import org.apache.pekko.kafka._
-import org.apache.pekko.kafka.internal.{ ConsumerControlAsJava, TransactionalSourceWithOffsetContext }
-import org.apache.pekko.kafka.javadsl.Consumer.Control
-import org.apache.pekko.stream.javadsl._
-import org.apache.pekko.{ Done, NotUsed }
+import org.apache.pekko
+import pekko.annotation.ApiMayChange
+import pekko.japi.Pair
+import pekko.kafka.ConsumerMessage.{ PartitionOffset, TransactionalMessage }
+import pekko.kafka.ProducerMessage._
+import pekko.kafka._
+import pekko.kafka.internal.{ ConsumerControlAsJava, TransactionalSourceWithOffsetContext }
+import pekko.kafka.javadsl.Consumer.Control
+import pekko.stream.javadsl._
+import pekko.{ Done, NotUsed }
 import org.apache.kafka.clients.consumer.ConsumerRecord
 
 import scala.compat.java8.FutureConverters.FutureOps
@@ -55,7 +56,7 @@ object Transactional {
   def sourceWithOffsetContext[K, V](
       consumerSettings: ConsumerSettings[K, V],
       subscription: Subscription): SourceWithContext[ConsumerRecord[K, V], PartitionOffset, Control] =
-    org.apache.pekko.stream.scaladsl.Source
+    pekko.stream.scaladsl.Source
       .fromGraph(new TransactionalSourceWithOffsetContext[K, V](consumerSettings, subscription))
       .mapMaterializedValue(ConsumerControlAsJava.apply)
       .asSourceWithContext(_._2)
@@ -109,11 +110,11 @@ object Transactional {
   def sinkWithOffsetContext[K, V](
       settings: ProducerSettings[K, V],
       transactionalId: String): Sink[Pair[Envelope[K, V, NotUsed], PartitionOffset], CompletionStage[Done]] =
-    org.apache.pekko.stream.scaladsl
+    pekko.stream.scaladsl
       .Flow[Pair[Envelope[K, V, NotUsed], PartitionOffset]]
       .map(_.toScala)
       .toMat(scaladsl.Transactional.sinkWithOffsetContext(settings, transactionalId))(
-        org.apache.pekko.stream.scaladsl.Keep.right)
+        pekko.stream.scaladsl.Keep.right)
       .mapMaterializedValue(_.toJava)
       .asJava
 

@@ -14,17 +14,18 @@
 
 package org.apache.pekko.kafka.testkit.scaladsl
 
-import org.apache.pekko.Done
-import org.apache.pekko.annotation.ApiMayChange
-import org.apache.pekko.kafka.scaladsl.Consumer
-import org.apache.pekko.stream.scaladsl.{ Flow, Keep, Source }
-import org.apache.pekko.stream.{ KillSwitch, KillSwitches }
+import org.apache.pekko
+import pekko.Done
+import pekko.annotation.ApiMayChange
+import pekko.kafka.scaladsl.Consumer
+import pekko.stream.scaladsl.{ Flow, Keep, Source }
+import pekko.stream.{ KillSwitch, KillSwitches }
 import org.apache.kafka.common.{ Metric, MetricName }
 
 import scala.concurrent.{ Future, Promise }
 
 /**
- * Helper factory to create [[org.apache.pekko.kafka.scaladsl.Consumer.Control]] instances when
+ * Helper factory to create [[pekko.kafka.scaladsl.Consumer.Control]] instances when
  * testing without a Kafka broker.
  */
 @ApiMayChange

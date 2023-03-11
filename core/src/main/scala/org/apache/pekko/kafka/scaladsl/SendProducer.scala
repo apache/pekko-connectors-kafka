@@ -14,11 +14,12 @@
 
 package org.apache.pekko.kafka.scaladsl
 
-import org.apache.pekko.Done
-import org.apache.pekko.actor.{ ActorSystem, ClassicActorSystemProvider }
-import org.apache.pekko.kafka.ProducerMessage._
-import org.apache.pekko.kafka.ProducerSettings
-import org.apache.pekko.util.JavaDurationConverters._
+import org.apache.pekko
+import pekko.Done
+import pekko.actor.{ ActorSystem, ClassicActorSystemProvider }
+import pekko.kafka.ProducerMessage._
+import pekko.kafka.ProducerSettings
+import pekko.util.JavaDurationConverters._
 import org.apache.kafka.clients.producer.{ Callback, ProducerRecord, RecordMetadata }
 
 import scala.concurrent.{ ExecutionContext, Future, Promise }
@@ -37,11 +38,11 @@ final class SendProducer[K, V] private (val settings: ProducerSettings[K, V], sy
    *
    * It publishes records to Kafka topics conditionally:
    *
-   * - [[org.apache.pekko.kafka.ProducerMessage.Message Message]] publishes a single message to its topic, and completes the future with [[org.apache.pekko.kafka.ProducerMessage.Result Result]]
+   * - [[pekko.kafka.ProducerMessage.Message Message]] publishes a single message to its topic, and completes the future with [[pekko.kafka.ProducerMessage.Result Result]]
    *
-   * - [[org.apache.pekko.kafka.ProducerMessage.MultiMessage MultiMessage]] publishes all messages in its `records` field, and completes the future with [[org.apache.pekko.kafka.ProducerMessage.MultiResult MultiResult]]
+   * - [[pekko.kafka.ProducerMessage.MultiMessage MultiMessage]] publishes all messages in its `records` field, and completes the future with [[pekko.kafka.ProducerMessage.MultiResult MultiResult]]
    *
-   * - [[org.apache.pekko.kafka.ProducerMessage.PassThroughMessage PassThroughMessage]] does not publish anything, and completes the future with [[org.apache.pekko.kafka.ProducerMessage.PassThroughResult PassThroughResult]]
+   * - [[pekko.kafka.ProducerMessage.PassThroughMessage PassThroughMessage]] does not publish anything, and completes the future with [[pekko.kafka.ProducerMessage.PassThroughResult PassThroughResult]]
    *
    * The messages support passing through arbitrary data.
    */

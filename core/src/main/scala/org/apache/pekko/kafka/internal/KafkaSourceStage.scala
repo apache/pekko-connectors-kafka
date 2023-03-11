@@ -14,10 +14,11 @@
 
 package org.apache.pekko.kafka.internal
 
-import org.apache.pekko.annotation.InternalApi
-import org.apache.pekko.kafka.scaladsl.Consumer._
-import org.apache.pekko.stream._
-import org.apache.pekko.stream.stage.{ GraphStageLogic, GraphStageWithMaterializedValue }
+import org.apache.pekko
+import pekko.annotation.InternalApi
+import pekko.kafka.scaladsl.Consumer._
+import pekko.stream._
+import pekko.stream.stage.{ GraphStageLogic, GraphStageWithMaterializedValue }
 
 /**
  * INTERNAL API

@@ -14,15 +14,16 @@
 
 package org.apache.pekko.kafka.internal
 
-import org.apache.pekko.Done
-import org.apache.pekko.annotation.InternalApi
-import org.apache.pekko.kafka.ProducerMessage._
-import org.apache.pekko.kafka.ProducerSettings
-import org.apache.pekko.kafka.internal.ProducerStage.ProducerCompletionState
-import org.apache.pekko.stream.ActorAttributes.SupervisionStrategy
-import org.apache.pekko.stream.Supervision.Decider
-import org.apache.pekko.stream.stage._
-import org.apache.pekko.stream.{ Attributes, FlowShape, Supervision }
+import org.apache.pekko
+import pekko.Done
+import pekko.annotation.InternalApi
+import pekko.kafka.ProducerMessage._
+import pekko.kafka.ProducerSettings
+import pekko.kafka.internal.ProducerStage.ProducerCompletionState
+import pekko.stream.ActorAttributes.SupervisionStrategy
+import pekko.stream.Supervision.Decider
+import pekko.stream.stage._
+import pekko.stream.{ Attributes, FlowShape, Supervision }
 import org.apache.kafka.clients.producer.{ Callback, ProducerRecord, RecordMetadata }
 
 import scala.concurrent.{ ExecutionContext, Future, Promise }

@@ -14,10 +14,11 @@
 
 package docs.scaladsl
 
-import org.apache.pekko.NotUsed
-import org.apache.pekko.kafka.testkit.scaladsl.KafkaSpec
-import org.apache.pekko.kafka.testkit.internal.TestFrameworkInterface
-import org.apache.pekko.stream.scaladsl.Flow
+import org.apache.pekko
+import pekko.NotUsed
+import pekko.kafka.testkit.scaladsl.KafkaSpec
+import pekko.kafka.testkit.internal.TestFrameworkInterface
+import pekko.stream.scaladsl.Flow
 import org.scalatest.Suite
 import org.scalatest.concurrent.{ Eventually, IntegrationPatience, ScalaFutures }
 import org.scalatest.flatspec.AnyFlatSpecLike

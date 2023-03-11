@@ -15,12 +15,13 @@
 package org.apache.pekko.kafka.javadsl
 import java.util.concurrent.CompletionStage
 
-import org.apache.pekko.annotation.ApiMayChange
-import org.apache.pekko.japi.Pair
-import org.apache.pekko.{ Done, NotUsed }
-import org.apache.pekko.kafka.ConsumerMessage.{ Committable, CommittableOffsetBatch }
-import org.apache.pekko.kafka.{ scaladsl, CommitterSettings }
-import org.apache.pekko.stream.javadsl.{ Flow, FlowWithContext, Sink }
+import org.apache.pekko
+import pekko.annotation.ApiMayChange
+import pekko.japi.Pair
+import pekko.{ Done, NotUsed }
+import pekko.kafka.ConsumerMessage.{ Committable, CommittableOffsetBatch }
+import pekko.kafka.{ scaladsl, CommitterSettings }
+import pekko.stream.javadsl.{ Flow, FlowWithContext, Sink }
 
 import scala.compat.java8.FutureConverters.FutureOps
 
@@ -63,10 +64,10 @@ object Committer {
   @ApiMayChange
   def sinkWithOffsetContext[E, C <: Committable](
       settings: CommitterSettings): Sink[Pair[E, C], CompletionStage[Done]] =
-    org.apache.pekko.stream.scaladsl
+    pekko.stream.scaladsl
       .Flow[Pair[E, C]]
       .map(_.toScala)
-      .toMat(scaladsl.Committer.sinkWithOffsetContext(settings))(org.apache.pekko.stream.scaladsl.Keep.right)
+      .toMat(scaladsl.Committer.sinkWithOffsetContext(settings))(pekko.stream.scaladsl.Keep.right)
       .mapMaterializedValue[CompletionStage[Done]](_.toJava)
       .asJava[Pair[E, C]]
 }

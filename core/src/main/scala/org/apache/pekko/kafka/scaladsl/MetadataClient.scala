@@ -16,12 +16,13 @@ package org.apache.pekko.kafka.scaladsl
 
 import java.util.concurrent.atomic.AtomicLong
 
-import org.apache.pekko.actor.{ ActorRef, ActorSystem, ExtendedActorSystem }
-import org.apache.pekko.dispatch.ExecutionContexts
-import org.apache.pekko.kafka.Metadata._
-import org.apache.pekko.kafka.{ ConsumerSettings, KafkaConsumerActor }
-import org.apache.pekko.pattern.ask
-import org.apache.pekko.util.Timeout
+import org.apache.pekko
+import pekko.actor.{ ActorRef, ActorSystem, ExtendedActorSystem }
+import pekko.dispatch.ExecutionContexts
+import pekko.kafka.Metadata._
+import pekko.kafka.{ ConsumerSettings, KafkaConsumerActor }
+import pekko.pattern.ask
+import pekko.util.Timeout
 import org.apache.kafka.clients.consumer.OffsetAndMetadata
 import org.apache.kafka.common.{ PartitionInfo, TopicPartition }
 

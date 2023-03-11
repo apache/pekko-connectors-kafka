@@ -14,18 +14,19 @@
 
 package org.apache.pekko.kafka.testkit
 
-import org.apache.pekko.Done
-import org.apache.pekko.annotation.ApiMayChange
-import org.apache.pekko.kafka.ConsumerMessage
-import org.apache.pekko.kafka.ConsumerMessage.{ CommittableOffset, GroupTopicPartition, PartitionOffsetCommittedMarker }
-import org.apache.pekko.kafka.internal.{ CommittableOffsetImpl, KafkaAsyncConsumerCommitterRef }
+import org.apache.pekko
+import pekko.Done
+import pekko.annotation.ApiMayChange
+import pekko.kafka.ConsumerMessage
+import pekko.kafka.ConsumerMessage.{ CommittableOffset, GroupTopicPartition, PartitionOffsetCommittedMarker }
+import pekko.kafka.internal.{ CommittableOffsetImpl, KafkaAsyncConsumerCommitterRef }
 import org.apache.kafka.clients.consumer.{ ConsumerRecord, OffsetAndMetadata }
 import org.apache.kafka.common.TopicPartition
 
 import scala.concurrent.Future
 
 /**
- * Factory methods to create instances that normally are emitted by [[org.apache.pekko.kafka.scaladsl.Consumer]] and [[org.apache.pekko.kafka.javadsl.Consumer]] flows.
+ * Factory methods to create instances that normally are emitted by [[pekko.kafka.scaladsl.Consumer]] and [[pekko.kafka.javadsl.Consumer]] flows.
  */
 @ApiMayChange
 object ConsumerResultFactory {

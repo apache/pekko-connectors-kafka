@@ -14,8 +14,9 @@
 
 package org.apache.pekko.kafka
 
-import org.apache.pekko.kafka.internal.ConfigSettings
-import org.apache.pekko.kafka.tests.scaladsl.LogCapturing
+import org.apache.pekko
+import pekko.kafka.internal.ConfigSettings
+import pekko.kafka.tests.scaladsl.LogCapturing
 import com.typesafe.config.ConfigFactory
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec

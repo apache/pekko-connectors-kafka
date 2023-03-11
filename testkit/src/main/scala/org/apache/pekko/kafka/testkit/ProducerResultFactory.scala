@@ -14,8 +14,9 @@
 
 package org.apache.pekko.kafka.testkit
 
-import org.apache.pekko.annotation.ApiMayChange
-import org.apache.pekko.kafka.ProducerMessage
+import org.apache.pekko
+import pekko.annotation.ApiMayChange
+import pekko.kafka.ProducerMessage
 import org.apache.kafka.clients.producer.{ ProducerRecord, RecordMetadata }
 import org.apache.kafka.common.TopicPartition
 
@@ -23,7 +24,7 @@ import scala.jdk.CollectionConverters._
 import scala.collection.immutable
 
 /**
- * Factory methods to create instances that normally are emitted by [[org.apache.pekko.kafka.scaladsl.Producer]] and [[org.apache.pekko.kafka.javadsl.Producer]] flows.
+ * Factory methods to create instances that normally are emitted by [[pekko.kafka.scaladsl.Producer]] and [[pekko.kafka.javadsl.Producer]] flows.
  */
 @ApiMayChange
 object ProducerResultFactory {

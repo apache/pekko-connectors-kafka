@@ -14,13 +14,14 @@
 
 package org.apache.pekko.kafka.benchmarks
 
-import org.apache.pekko.kafka.benchmarks.BenchmarksBase._
-import org.apache.pekko.kafka.benchmarks.InflightMetrics._
-import org.apache.pekko.kafka.benchmarks.PerfFixtureHelpers.FilledTopic
-import org.apache.pekko.kafka.benchmarks.Timed.{ runPerfTest, runPerfTestInflightMetrics }
-import org.apache.pekko.kafka.benchmarks.app.RunTestCommand
-import org.apache.pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
-import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
+import org.apache.pekko
+import pekko.kafka.benchmarks.BenchmarksBase._
+import pekko.kafka.benchmarks.InflightMetrics._
+import pekko.kafka.benchmarks.PerfFixtureHelpers.FilledTopic
+import pekko.kafka.benchmarks.Timed.{ runPerfTest, runPerfTestInflightMetrics }
+import pekko.kafka.benchmarks.app.RunTestCommand
+import pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
+import pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
 import com.typesafe.config.Config
 
 object BenchmarksBase {

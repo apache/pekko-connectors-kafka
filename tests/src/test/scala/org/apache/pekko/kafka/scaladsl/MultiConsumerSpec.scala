@@ -14,10 +14,11 @@
 
 package org.apache.pekko.kafka.scaladsl
 
-import org.apache.pekko.Done
-import org.apache.pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
-import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
-import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import org.apache.pekko
+import pekko.Done
+import pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
+import pekko.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
+import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 
 import scala.collection.immutable
 import scala.concurrent.duration._

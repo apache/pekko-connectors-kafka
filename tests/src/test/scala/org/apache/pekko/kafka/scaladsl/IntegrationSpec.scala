@@ -16,17 +16,18 @@ package org.apache.pekko.kafka.scaladsl
 
 import java.util.concurrent.atomic.AtomicLong
 
-import org.apache.pekko.Done
-import org.apache.pekko.kafka.ConsumerMessage.CommittableOffsetBatch
-import org.apache.pekko.kafka._
-import org.apache.pekko.kafka.scaladsl.Consumer.DrainingControl
-import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import org.apache.pekko.pattern.ask
-import org.apache.pekko.stream.scaladsl.{ Keep, Sink, Source }
-import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
-import org.apache.pekko.stream.testkit.scaladsl.TestSink
-import org.apache.pekko.testkit.TestProbe
-import org.apache.pekko.util.Timeout
+import org.apache.pekko
+import pekko.Done
+import pekko.kafka.ConsumerMessage.CommittableOffsetBatch
+import pekko.kafka._
+import pekko.kafka.scaladsl.Consumer.DrainingControl
+import pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
+import pekko.pattern.ask
+import pekko.stream.scaladsl.{ Keep, Sink, Source }
+import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import pekko.stream.testkit.scaladsl.TestSink
+import pekko.testkit.TestProbe
+import pekko.util.Timeout
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.{ Metric, MetricName, TopicPartition }

@@ -14,12 +14,9 @@
 
 package org.apache.pekko.kafka.testkit.scaladsl
 
-import org.apache.pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
-import org.apache.pekko.kafka.testkit.internal.{
-  PekkoConnectorsKafkaContainer,
-  SchemaRegistryContainer,
-  TestcontainersKafka
-}
+import org.apache.pekko
+import pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
+import pekko.kafka.testkit.internal.{ PekkoConnectorsKafkaContainer, SchemaRegistryContainer, TestcontainersKafka }
 import org.testcontainers.containers.GenericContainer
 
 /**

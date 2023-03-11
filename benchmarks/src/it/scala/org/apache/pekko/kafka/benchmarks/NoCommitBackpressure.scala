@@ -14,8 +14,9 @@
 
 package org.apache.pekko.kafka.benchmarks
 
-import org.apache.pekko.kafka.benchmarks.Timed.runPerfTest
-import org.apache.pekko.kafka.benchmarks.app.RunTestCommand
+import org.apache.pekko
+import pekko.kafka.benchmarks.Timed.runPerfTest
+import pekko.kafka.benchmarks.app.RunTestCommand
 
 import BenchmarksBase._
 

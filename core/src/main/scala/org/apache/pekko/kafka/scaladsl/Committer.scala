@@ -14,13 +14,14 @@
 
 package org.apache.pekko.kafka.scaladsl
 
-import org.apache.pekko.annotation.ApiMayChange
-import org.apache.pekko.dispatch.ExecutionContexts
-import org.apache.pekko.kafka.CommitterSettings
-import org.apache.pekko.kafka.ConsumerMessage.{ Committable, CommittableOffsetBatch }
-import org.apache.pekko.kafka.internal.CommitCollectorStage
-import org.apache.pekko.stream.scaladsl.{ Flow, FlowWithContext, Keep, Sink }
-import org.apache.pekko.{ Done, NotUsed }
+import org.apache.pekko
+import pekko.annotation.ApiMayChange
+import pekko.dispatch.ExecutionContexts
+import pekko.kafka.CommitterSettings
+import pekko.kafka.ConsumerMessage.{ Committable, CommittableOffsetBatch }
+import pekko.kafka.internal.CommitCollectorStage
+import pekko.stream.scaladsl.{ Flow, FlowWithContext, Keep, Sink }
+import pekko.{ Done, NotUsed }
 
 import scala.concurrent.Future
 
@@ -41,7 +42,7 @@ object Committer {
         .fromGraph(new CommitCollectorStage(settings))
 
     // See https://github.com/akka/alpakka-kafka/issues/882
-    import org.apache.pekko.kafka.CommitDelivery._
+    import pekko.kafka.CommitDelivery._
     settings.delivery match {
       case WaitForAck =>
         offsetBatches

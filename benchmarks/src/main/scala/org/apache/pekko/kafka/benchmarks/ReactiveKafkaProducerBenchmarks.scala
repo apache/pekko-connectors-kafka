@@ -14,12 +14,13 @@
 
 package org.apache.pekko.kafka.benchmarks
 
-import org.apache.pekko.kafka.ConsumerMessage.CommittableMessage
-import org.apache.pekko.kafka.ProducerMessage
-import org.apache.pekko.kafka.ProducerMessage.{ Result, Results }
-import org.apache.pekko.kafka.benchmarks.ReactiveKafkaProducerFixtures.ReactiveKafkaProducerTestFixture
-import org.apache.pekko.stream.Materializer
-import org.apache.pekko.stream.scaladsl.{ Sink, Source }
+import org.apache.pekko
+import pekko.kafka.ConsumerMessage.CommittableMessage
+import pekko.kafka.ProducerMessage
+import pekko.kafka.ProducerMessage.{ Result, Results }
+import pekko.kafka.benchmarks.ReactiveKafkaProducerFixtures.ReactiveKafkaProducerTestFixture
+import pekko.stream.Materializer
+import pekko.stream.scaladsl.{ Sink, Source }
 import com.codahale.metrics.Meter
 import com.typesafe.scalalogging.LazyLogging
 import org.apache.kafka.clients.producer.ProducerRecord

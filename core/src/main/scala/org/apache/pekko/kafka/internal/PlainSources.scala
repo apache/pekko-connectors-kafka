@@ -14,15 +14,16 @@
 
 package org.apache.pekko.kafka.internal
 
-import org.apache.pekko.NotUsed
-import org.apache.pekko.actor.ActorRef
-import org.apache.pekko.annotation.InternalApi
-import org.apache.pekko.kafka.scaladsl.Consumer.Control
-import org.apache.pekko.kafka.{ AutoSubscription, ConsumerSettings, ManualSubscription, Subscription }
-import org.apache.pekko.kafka.internal.SubSourceLogic._
-import org.apache.pekko.stream.SourceShape
-import org.apache.pekko.stream.scaladsl.Source
-import org.apache.pekko.stream.stage.{ AsyncCallback, GraphStageLogic }
+import org.apache.pekko
+import pekko.NotUsed
+import pekko.actor.ActorRef
+import pekko.annotation.InternalApi
+import pekko.kafka.scaladsl.Consumer.Control
+import pekko.kafka.{ AutoSubscription, ConsumerSettings, ManualSubscription, Subscription }
+import pekko.kafka.internal.SubSourceLogic._
+import pekko.stream.SourceShape
+import pekko.stream.scaladsl.Source
+import pekko.stream.stage.{ AsyncCallback, GraphStageLogic }
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.common.TopicPartition
 

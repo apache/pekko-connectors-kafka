@@ -14,10 +14,11 @@
 
 package org.apache.pekko.kafka.internal
 
-import org.apache.pekko.actor.{ Actor, ActorLogging, Props, Timers }
-import org.apache.pekko.annotation.InternalApi
-import org.apache.pekko.event.LoggingReceive
-import org.apache.pekko.kafka.{ ConnectionCheckerSettings, KafkaConnectionFailed, Metadata }
+import org.apache.pekko
+import pekko.actor.{ Actor, ActorLogging, Props, Timers }
+import pekko.annotation.InternalApi
+import pekko.event.LoggingReceive
+import pekko.kafka.{ ConnectionCheckerSettings, KafkaConnectionFailed, Metadata }
 import org.apache.kafka.common.errors.TimeoutException
 
 import scala.concurrent.duration.FiniteDuration

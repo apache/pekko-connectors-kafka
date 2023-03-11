@@ -14,11 +14,12 @@
 
 package org.apache.pekko.kafka.scaladsl
 
-import org.apache.pekko.actor.{ ActorSystem, ActorSystemImpl, ClassicActorSystemProvider }
-import org.apache.pekko.annotation.InternalApi
-import org.apache.pekko.discovery.{ Discovery, ServiceDiscovery }
-import org.apache.pekko.kafka.{ ConsumerSettings, ProducerSettings }
-import org.apache.pekko.util.JavaDurationConverters._
+import org.apache.pekko
+import pekko.actor.{ ActorSystem, ActorSystemImpl, ClassicActorSystemProvider }
+import pekko.annotation.InternalApi
+import pekko.discovery.{ Discovery, ServiceDiscovery }
+import pekko.kafka.{ ConsumerSettings, ProducerSettings }
+import pekko.util.JavaDurationConverters._
 import com.typesafe.config.Config
 
 import scala.concurrent.Future
@@ -28,7 +29,7 @@ import scala.util.Failure
 /**
  * Scala API.
  *
- * Reads Kafka bootstrap servers from configured sources via [[org.apache.pekko.discovery.Discovery]] configuration.
+ * Reads Kafka bootstrap servers from configured sources via [[pekko.discovery.Discovery]] configuration.
  */
 object DiscoverySupport {
 

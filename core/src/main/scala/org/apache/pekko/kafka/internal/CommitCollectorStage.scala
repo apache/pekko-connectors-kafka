@@ -14,11 +14,12 @@
 
 package org.apache.pekko.kafka.internal
 
-import org.apache.pekko.annotation.InternalApi
-import org.apache.pekko.kafka.CommitterSettings
-import org.apache.pekko.kafka.ConsumerMessage.{ Committable, CommittableOffsetBatch }
-import org.apache.pekko.stream._
-import org.apache.pekko.stream.stage._
+import org.apache.pekko
+import pekko.annotation.InternalApi
+import pekko.kafka.CommitterSettings
+import pekko.kafka.ConsumerMessage.{ Committable, CommittableOffsetBatch }
+import pekko.stream._
+import pekko.stream.stage._
 
 /**
  * INTERNAL API.
@@ -53,7 +54,7 @@ private final class CommitCollectorStageLogic(
 
   // Context propagation is needed to notify Lightbend Telemetry to keep the context in case of a deferred downstream
   // push call that might not happen during onPush but later onTimer, onPull, or only during the next onPush call.
-  private val contextPropagation = org.apache.pekko.stream.impl.ContextPropagation()
+  private val contextPropagation = pekko.stream.impl.ContextPropagation()
   private var contextSuspended = false
 
   override protected def logSource: Class[_] = classOf[CommitCollectorStageLogic]

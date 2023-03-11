@@ -14,12 +14,13 @@
 
 package docs.scaladsl
 
-import org.apache.pekko.Done
-import org.apache.pekko.kafka.Subscriptions
-import org.apache.pekko.kafka.scaladsl.{ Consumer, Producer, SpecBase }
-import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import org.apache.pekko.stream.scaladsl.{ Sink, Source }
-import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import org.apache.pekko
+import pekko.Done
+import pekko.kafka.Subscriptions
+import pekko.kafka.scaladsl.{ Consumer, Producer, SpecBase }
+import pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
+import pekko.stream.scaladsl.{ Sink, Source }
+import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.TopicPartition
 
