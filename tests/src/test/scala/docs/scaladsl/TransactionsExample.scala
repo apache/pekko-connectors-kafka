@@ -16,21 +16,15 @@ package docs.scaladsl
 
 import java.util.concurrent.atomic.AtomicReference
 
-import org.apache.pekko.Done
-import org.apache.pekko.kafka.scaladsl.Consumer.{ Control, DrainingControl }
-import org.apache.pekko.kafka.scaladsl.{ Consumer, Transactional }
-import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import org.apache.pekko.kafka.{
-  ConsumerSettings,
-  ProducerMessage,
-  ProducerSettings,
-  Repeated,
-  Subscriptions,
-  TransactionsOps
-}
-import org.apache.pekko.stream.RestartSettings
-import org.apache.pekko.stream.scaladsl.{ Keep, RestartSource, Sink }
-import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import org.apache.pekko
+import pekko.Done
+import pekko.kafka.scaladsl.Consumer.{ Control, DrainingControl }
+import pekko.kafka.scaladsl.{ Consumer, Transactional }
+import pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
+import pekko.kafka.{ ConsumerSettings, ProducerMessage, ProducerSettings, Repeated, Subscriptions, TransactionsOps }
+import pekko.stream.RestartSettings
+import pekko.stream.scaladsl.{ Keep, RestartSource, Sink }
+import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.apache.kafka.clients.producer.ProducerRecord
 
 import scala.concurrent.Await

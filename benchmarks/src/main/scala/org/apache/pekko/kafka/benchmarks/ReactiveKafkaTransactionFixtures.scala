@@ -14,15 +14,16 @@
 
 package org.apache.pekko.kafka.benchmarks
 
-import org.apache.pekko.NotUsed
-import org.apache.pekko.actor.ActorSystem
-import org.apache.pekko.kafka.ConsumerMessage.TransactionalMessage
-import org.apache.pekko.kafka.ProducerMessage.{ Envelope, Results }
-import org.apache.pekko.kafka.benchmarks.app.RunTestCommand
-import org.apache.pekko.kafka.scaladsl.Consumer.Control
-import org.apache.pekko.kafka.scaladsl.Transactional
-import org.apache.pekko.kafka.{ ConsumerMessage, ConsumerSettings, ProducerSettings, Subscriptions }
-import org.apache.pekko.stream.scaladsl.{ Flow, Source }
+import org.apache.pekko
+import pekko.NotUsed
+import pekko.actor.ActorSystem
+import pekko.kafka.ConsumerMessage.TransactionalMessage
+import pekko.kafka.ProducerMessage.{ Envelope, Results }
+import pekko.kafka.benchmarks.app.RunTestCommand
+import pekko.kafka.scaladsl.Consumer.Control
+import pekko.kafka.scaladsl.Transactional
+import pekko.kafka.{ ConsumerMessage, ConsumerSettings, ProducerSettings, Subscriptions }
+import pekko.stream.scaladsl.{ Flow, Source }
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.common.serialization.{
   ByteArrayDeserializer,

@@ -16,10 +16,11 @@ package org.apache.pekko.kafka.javadsl
 
 import java.util.concurrent.{ CompletionStage, Executor }
 
-import org.apache.pekko.actor.{ ActorRef, ActorSystem }
-import org.apache.pekko.dispatch.ExecutionContexts
-import org.apache.pekko.kafka.ConsumerSettings
-import org.apache.pekko.util.Timeout
+import org.apache.pekko
+import pekko.actor.{ ActorRef, ActorSystem }
+import pekko.dispatch.ExecutionContexts
+import pekko.kafka.ConsumerSettings
+import pekko.util.Timeout
 import org.apache.kafka.clients.consumer.OffsetAndMetadata
 import org.apache.kafka.common.{ PartitionInfo, TopicPartition }
 
@@ -27,7 +28,7 @@ import scala.compat.java8.FutureConverters._
 import scala.concurrent.ExecutionContextExecutor
 import scala.jdk.CollectionConverters._
 
-class MetadataClient private (metadataClient: org.apache.pekko.kafka.scaladsl.MetadataClient) {
+class MetadataClient private (metadataClient: pekko.kafka.scaladsl.MetadataClient) {
 
   def getBeginningOffsets[K, V](
       partitions: java.util.Set[TopicPartition]): CompletionStage[java.util.Map[TopicPartition, java.lang.Long]] =
@@ -98,7 +99,7 @@ object MetadataClient {
 
   def create(consumerActor: ActorRef, timeout: Timeout, executor: Executor): MetadataClient = {
     implicit val ec: ExecutionContextExecutor = ExecutionContexts.fromExecutor(executor)
-    val metadataClient = org.apache.pekko.kafka.scaladsl.MetadataClient.create(consumerActor, timeout)
+    val metadataClient = pekko.kafka.scaladsl.MetadataClient.create(consumerActor, timeout)
     new MetadataClient(metadataClient)
   }
 
@@ -106,7 +107,7 @@ object MetadataClient {
       timeout: Timeout,
       system: ActorSystem,
       executor: Executor): MetadataClient = {
-    val metadataClient = org.apache.pekko.kafka.scaladsl.MetadataClient
+    val metadataClient = pekko.kafka.scaladsl.MetadataClient
       .create(consumerSettings, timeout)(system, ExecutionContexts.fromExecutor(executor))
     new MetadataClient(metadataClient)
   }

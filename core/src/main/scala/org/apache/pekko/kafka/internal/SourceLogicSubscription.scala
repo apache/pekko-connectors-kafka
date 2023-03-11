@@ -13,13 +13,14 @@
  */
 
 package org.apache.pekko.kafka.internal
-import org.apache.pekko.actor.ActorRef
-import org.apache.pekko.annotation.InternalApi
-import org.apache.pekko.kafka.{ AutoSubscription, ManualSubscription, Subscription }
-import org.apache.pekko.kafka.Subscriptions._
-import org.apache.pekko.kafka.scaladsl.PartitionAssignmentHandler
-import org.apache.pekko.stream.stage.GraphStageLogic.StageActor
-import org.apache.pekko.stream.stage.{ AsyncCallback, GraphStageLogic }
+import org.apache.pekko
+import pekko.actor.ActorRef
+import pekko.annotation.InternalApi
+import pekko.kafka.{ AutoSubscription, ManualSubscription, Subscription }
+import pekko.kafka.Subscriptions._
+import pekko.kafka.scaladsl.PartitionAssignmentHandler
+import pekko.stream.stage.GraphStageLogic.StageActor
+import pekko.stream.stage.{ AsyncCallback, GraphStageLogic }
 import org.apache.kafka.common.TopicPartition
 
 /**

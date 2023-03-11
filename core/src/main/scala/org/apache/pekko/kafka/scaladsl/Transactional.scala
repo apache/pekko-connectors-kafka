@@ -14,20 +14,21 @@
 
 package org.apache.pekko.kafka.scaladsl
 
-import org.apache.pekko.annotation.{ ApiMayChange, InternalApi }
-import org.apache.pekko.kafka.ConsumerMessage.{ PartitionOffset, TransactionalMessage }
-import org.apache.pekko.kafka.ProducerMessage._
-import org.apache.pekko.kafka.internal.{
+import org.apache.pekko
+import pekko.annotation.{ ApiMayChange, InternalApi }
+import pekko.kafka.ConsumerMessage.{ PartitionOffset, TransactionalMessage }
+import pekko.kafka.ProducerMessage._
+import pekko.kafka.internal.{
   TransactionalProducerStage,
   TransactionalSource,
   TransactionalSourceWithOffsetContext,
   TransactionalSubSource
 }
-import org.apache.pekko.kafka.scaladsl.Consumer.Control
-import org.apache.pekko.kafka.{ AutoSubscription, ConsumerMessage, ConsumerSettings, ProducerSettings, Subscription }
-import org.apache.pekko.stream.ActorAttributes
-import org.apache.pekko.stream.scaladsl.{ Flow, FlowWithContext, Keep, Sink, Source, SourceWithContext }
-import org.apache.pekko.{ Done, NotUsed }
+import pekko.kafka.scaladsl.Consumer.Control
+import pekko.kafka.{ AutoSubscription, ConsumerMessage, ConsumerSettings, ProducerSettings, Subscription }
+import pekko.stream.ActorAttributes
+import pekko.stream.scaladsl.{ Flow, FlowWithContext, Keep, Sink, Source, SourceWithContext }
+import pekko.{ Done, NotUsed }
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.common.TopicPartition
 

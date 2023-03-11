@@ -17,9 +17,10 @@ package org.apache.pekko.kafka
 import java.util.Objects
 import java.util.concurrent.CompletionStage
 
-import org.apache.pekko.Done
-import org.apache.pekko.annotation.{ DoNotInherit, InternalApi }
-import org.apache.pekko.kafka.internal.{ CommittableOffsetBatchImpl, CommittedMarker }
+import org.apache.pekko
+import pekko.Done
+import pekko.annotation.{ DoNotInherit, InternalApi }
+import pekko.kafka.internal.{ CommittableOffsetBatchImpl, CommittedMarker }
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.common.TopicPartition
 

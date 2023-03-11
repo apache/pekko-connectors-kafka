@@ -18,9 +18,10 @@ import java.util
 import java.util.concurrent.{ CompletionStage, Executor, Executors }
 import java.util.concurrent.atomic.AtomicBoolean
 
-import org.apache.pekko.Done
-import org.apache.pekko.kafka.internal.ConsumerControlAsJava
-import org.apache.pekko.kafka.tests.scaladsl.LogCapturing
+import org.apache.pekko
+import pekko.Done
+import pekko.kafka.internal.ConsumerControlAsJava
+import pekko.kafka.tests.scaladsl.LogCapturing
 import org.apache.kafka.common.{ Metric, MetricName }
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.matchers.should.Matchers
@@ -33,7 +34,7 @@ import scala.language.reflectiveCalls
 object ControlSpec {
   def createControl(stopFuture: Future[Done] = Future.successful(Done),
       shutdownFuture: Future[Done] = Future.successful(Done)) = {
-    val control = new org.apache.pekko.kafka.scaladsl.ControlSpec.ControlImpl(stopFuture, shutdownFuture)
+    val control = new pekko.kafka.scaladsl.ControlSpec.ControlImpl(stopFuture, shutdownFuture)
     val wrapped = new ConsumerControlAsJava(control)
     new Consumer.Control {
       def shutdownCalled: AtomicBoolean = control.shutdownCalled

@@ -14,12 +14,13 @@
 
 package org.apache.pekko.kafka.internal
 
-import org.apache.pekko.actor.{ ActorRef, ExtendedActorSystem, Terminated }
-import org.apache.pekko.annotation.InternalApi
-import org.apache.pekko.kafka.internal.KafkaConsumerActor.Internal.Messages
-import org.apache.pekko.kafka.scaladsl.PartitionAssignmentHandler
-import org.apache.pekko.kafka.{ ConsumerSettings, RestrictedConsumer, Subscription }
-import org.apache.pekko.stream.SourceShape
+import org.apache.pekko
+import pekko.actor.{ ActorRef, ExtendedActorSystem, Terminated }
+import pekko.annotation.InternalApi
+import pekko.kafka.internal.KafkaConsumerActor.Internal.Messages
+import pekko.kafka.scaladsl.PartitionAssignmentHandler
+import pekko.kafka.{ ConsumerSettings, RestrictedConsumer, Subscription }
+import pekko.stream.SourceShape
 import org.apache.kafka.common.TopicPartition
 
 import scala.concurrent.{ Future, Promise }
@@ -43,7 +44,7 @@ import scala.concurrent.{ Future, Promise }
   final def createConsumerActor(): ActorRef = {
     val extendedActorSystem = materializer.system.asInstanceOf[ExtendedActorSystem]
     val actor =
-      extendedActorSystem.systemActorOf(org.apache.pekko.kafka.KafkaConsumerActor.props(sourceActor.ref, settings),
+      extendedActorSystem.systemActorOf(pekko.kafka.KafkaConsumerActor.props(sourceActor.ref, settings),
         s"kafka-consumer-$actorNumber")
     consumerPromise.success(actor)
     actor

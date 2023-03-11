@@ -17,14 +17,15 @@ package org.apache.pekko.kafka.scaladsl
 import java.util
 import java.util.concurrent.atomic.AtomicReference
 
-import org.apache.pekko.kafka._
-import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import org.apache.pekko.stream.scaladsl.{ Keep, Source }
-import org.apache.pekko.stream.testkit.TestSubscriber
-import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
-import org.apache.pekko.stream.testkit.scaladsl.TestSink
-import org.apache.pekko.testkit.TestProbe
-import org.apache.pekko.{ Done, NotUsed }
+import org.apache.pekko
+import pekko.kafka._
+import pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
+import pekko.stream.scaladsl.{ Keep, Source }
+import pekko.stream.testkit.TestSubscriber
+import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import pekko.stream.testkit.scaladsl.TestSink
+import pekko.testkit.TestProbe
+import pekko.{ Done, NotUsed }
 import org.apache.kafka.clients.consumer.{ ConsumerConfig, ConsumerPartitionAssignor, ConsumerRecord }
 import org.apache.kafka.clients.consumer.internals.AbstractPartitionAssignor
 import org.apache.kafka.common.TopicPartition

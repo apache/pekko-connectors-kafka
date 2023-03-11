@@ -18,15 +18,16 @@ import java.util.concurrent.{ CountDownLatch, TimeUnit }
 import java.util.concurrent.atomic.{ AtomicBoolean, AtomicLong }
 import java.util.function.LongBinaryOperator
 
-import org.apache.pekko.Done
-import org.apache.pekko.kafka._
-import org.apache.pekko.kafka.scaladsl.Consumer.DrainingControl
-import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import org.apache.pekko.stream.{ KillSwitches, OverflowStrategy }
-import org.apache.pekko.stream.scaladsl.{ Keep, Sink, Source }
-import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
-import org.apache.pekko.stream.testkit.scaladsl.TestSink
-import org.apache.pekko.testkit.TestProbe
+import org.apache.pekko
+import pekko.Done
+import pekko.kafka._
+import pekko.kafka.scaladsl.Consumer.DrainingControl
+import pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
+import pekko.stream.{ KillSwitches, OverflowStrategy }
+import pekko.stream.scaladsl.{ Keep, Sink, Source }
+import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import pekko.stream.testkit.scaladsl.TestSink
+import pekko.testkit.TestProbe
 import org.apache.kafka.clients.consumer.{ ConsumerConfig, ConsumerRecord }
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.TopicPartition
@@ -562,7 +563,7 @@ class PartitionedSourcesSpec extends SpecBase with TestcontainersKafkaLike with 
                   exceptionTriggered.set(true)
                   Future.failed(new RuntimeException("FAIL"))
                 } else {
-                  org.apache.pekko.pattern.after(50.millis, system.scheduler)(Future.successful(m))
+                  pekko.pattern.after(50.millis, system.scheduler)(Future.successful(m))
                 }
               }
               .log(s"subsource $tp pre commit")

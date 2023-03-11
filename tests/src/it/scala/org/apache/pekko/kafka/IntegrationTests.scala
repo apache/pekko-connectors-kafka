@@ -14,8 +14,9 @@
 
 package org.apache.pekko.kafka
 
-import org.apache.pekko.NotUsed
-import org.apache.pekko.stream.scaladsl.Flow
+import org.apache.pekko
+import pekko.NotUsed
+import pekko.stream.scaladsl.Flow
 import org.apache.kafka.common.TopicPartition
 import org.slf4j.Logger
 import org.testcontainers.containers.GenericContainer

@@ -14,20 +14,21 @@
 
 package org.apache.pekko.kafka.internal
 
-import org.apache.pekko.actor.ActorRef
-import org.apache.pekko.annotation.InternalApi
-import org.apache.pekko.dispatch.ExecutionContexts
-import org.apache.pekko.kafka.ConsumerMessage.{ CommittableMessage, CommittableOffset }
-import org.apache.pekko.kafka._
-import org.apache.pekko.kafka.internal.KafkaConsumerActor.Internal.{ Commit, CommitSingle, CommitWithoutReply }
-import org.apache.pekko.kafka.internal.SubSourceLogic._
-import org.apache.pekko.kafka.scaladsl.Consumer.Control
-import org.apache.pekko.pattern.AskTimeoutException
-import org.apache.pekko.stream.SourceShape
-import org.apache.pekko.stream.scaladsl.Source
-import org.apache.pekko.stream.stage.{ AsyncCallback, GraphStageLogic }
-import org.apache.pekko.util.Timeout
-import org.apache.pekko.{ Done, NotUsed }
+import org.apache.pekko
+import pekko.actor.ActorRef
+import pekko.annotation.InternalApi
+import pekko.dispatch.ExecutionContexts
+import pekko.kafka.ConsumerMessage.{ CommittableMessage, CommittableOffset }
+import pekko.kafka._
+import pekko.kafka.internal.KafkaConsumerActor.Internal.{ Commit, CommitSingle, CommitWithoutReply }
+import pekko.kafka.internal.SubSourceLogic._
+import pekko.kafka.scaladsl.Consumer.Control
+import pekko.pattern.AskTimeoutException
+import pekko.stream.SourceShape
+import pekko.stream.scaladsl.Source
+import pekko.stream.stage.{ AsyncCallback, GraphStageLogic }
+import pekko.util.Timeout
+import pekko.{ Done, NotUsed }
 import org.apache.kafka.clients.consumer.{ ConsumerConfig, ConsumerRecord, OffsetAndMetadata }
 import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.requests.OffsetFetchResponse
@@ -186,9 +187,9 @@ private[kafka] object KafkaAsyncConsumerCommitterRef {
 /**
  * Internal API.
  *
- * Sends [[org.apache.pekko.kafka.internal.KafkaConsumerActor.Internal.Commit]],
- * [[org.apache.pekko.kafka.internal.KafkaConsumerActor.Internal.CommitSingle]] and
- * [[org.apache.pekko.kafka.internal.KafkaConsumerActor.Internal.CommitWithoutReply]] messages to the consumer actor.
+ * Sends [[pekko.kafka.internal.KafkaConsumerActor.Internal.Commit]],
+ * [[pekko.kafka.internal.KafkaConsumerActor.Internal.CommitSingle]] and
+ * [[pekko.kafka.internal.KafkaConsumerActor.Internal.CommitWithoutReply]] messages to the consumer actor.
  */
 @InternalApi
 private[kafka] class KafkaAsyncConsumerCommitterRef(private val consumerActor: ActorRef,
@@ -207,7 +208,7 @@ private[kafka] class KafkaAsyncConsumerCommitterRef(private val consumerActor: A
   }
 
   private def sendWithReply(msg: AnyRef): Future[Done] = {
-    import org.apache.pekko.pattern.ask
+    import pekko.pattern.ask
     consumerActor
       .ask(msg)(Timeout(commitTimeout))
       .map(_ => Done)(ExecutionContexts.parasitic)

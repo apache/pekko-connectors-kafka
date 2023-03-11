@@ -15,8 +15,9 @@
 package org.apache.pekko.kafka
 import java.time.{ Duration => JDuration }
 
-import org.apache.pekko.annotation.InternalApi
-import org.apache.pekko.util.JavaDurationConverters._
+import org.apache.pekko
+import pekko.annotation.InternalApi
+import pekko.util.JavaDurationConverters._
 import com.typesafe.config.Config
 
 import scala.concurrent.duration._

@@ -14,14 +14,15 @@
 
 package org.apache.pekko.kafka.scaladsl
 
-import org.apache.pekko.actor.ActorRef
-import org.apache.pekko.annotation.ApiMayChange
-import org.apache.pekko.dispatch.ExecutionContexts
-import org.apache.pekko.kafka.ConsumerMessage.{ CommittableMessage, CommittableOffset }
-import org.apache.pekko.kafka._
-import org.apache.pekko.kafka.internal._
-import org.apache.pekko.stream.scaladsl.{ Source, SourceWithContext }
-import org.apache.pekko.{ Done, NotUsed }
+import org.apache.pekko
+import pekko.actor.ActorRef
+import pekko.annotation.ApiMayChange
+import pekko.dispatch.ExecutionContexts
+import pekko.kafka.ConsumerMessage.{ CommittableMessage, CommittableOffset }
+import pekko.kafka._
+import pekko.kafka.internal._
+import pekko.stream.scaladsl.{ Source, SourceWithContext }
+import pekko.{ Done, NotUsed }
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.common.{ Metric, MetricName, TopicPartition }
 

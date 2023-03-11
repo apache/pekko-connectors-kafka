@@ -14,12 +14,13 @@
 
 package org.apache.pekko.kafka.scaladsl
 
-import org.apache.pekko.kafka._
-import org.apache.pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
-import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
-import org.apache.pekko.stream.scaladsl.{ Keep, Sink }
-import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
-import org.apache.pekko.stream.testkit.scaladsl.TestSink
+import org.apache.pekko
+import pekko.kafka._
+import pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
+import pekko.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
+import pekko.stream.scaladsl.{ Keep, Sink }
+import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import pekko.stream.testkit.scaladsl.TestSink
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.common.serialization.StringDeserializer
 

@@ -16,11 +16,12 @@ package org.apache.pekko.kafka.internal
 
 import java.util
 
-import org.apache.pekko.actor.ActorRef
-import org.apache.pekko.annotation.InternalApi
-import org.apache.pekko.event.LoggingAdapter
-import org.apache.pekko.kafka.OffsetResetProtectionSettings
-import org.apache.pekko.kafka.internal.KafkaConsumerActor.Internal.Seek
+import org.apache.pekko
+import pekko.actor.ActorRef
+import pekko.annotation.InternalApi
+import pekko.event.LoggingAdapter
+import pekko.kafka.OffsetResetProtectionSettings
+import pekko.kafka.internal.KafkaConsumerActor.Internal.Seek
 import org.apache.kafka.clients.consumer.{ ConsumerRecord, ConsumerRecords, OffsetAndMetadata }
 import org.apache.kafka.common.TopicPartition
 

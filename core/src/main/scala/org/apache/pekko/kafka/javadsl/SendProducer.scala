@@ -16,10 +16,11 @@ package org.apache.pekko.kafka.javadsl
 
 import java.util.concurrent.CompletionStage
 
-import org.apache.pekko.Done
-import org.apache.pekko.actor.{ ActorSystem, ClassicActorSystemProvider }
-import org.apache.pekko.kafka.ProducerMessage._
-import org.apache.pekko.kafka.{ scaladsl, ProducerSettings }
+import org.apache.pekko
+import pekko.Done
+import pekko.actor.{ ActorSystem, ClassicActorSystemProvider }
+import pekko.kafka.ProducerMessage._
+import pekko.kafka.{ scaladsl, ProducerSettings }
 import org.apache.kafka.clients.producer.{ ProducerRecord, RecordMetadata }
 
 import scala.compat.java8.FutureConverters._
@@ -48,11 +49,11 @@ final class SendProducer[K, V] private (underlying: scaladsl.SendProducer[K, V])
    *
    * It publishes records to Kafka topics conditionally:
    *
-   * - [[org.apache.pekko.kafka.ProducerMessage.Message Message]] publishes a single message to its topic, and completes the future with [[org.apache.pekko.kafka.ProducerMessage.Result Result]]
+   * - [[pekko.kafka.ProducerMessage.Message Message]] publishes a single message to its topic, and completes the future with [[pekko.kafka.ProducerMessage.Result Result]]
    *
-   * - [[org.apache.pekko.kafka.ProducerMessage.MultiMessage MultiMessage]] publishes all messages in its `records` field, and completes the future with [[org.apache.pekko.kafka.ProducerMessage.MultiResult MultiResult]]
+   * - [[pekko.kafka.ProducerMessage.MultiMessage MultiMessage]] publishes all messages in its `records` field, and completes the future with [[pekko.kafka.ProducerMessage.MultiResult MultiResult]]
    *
-   * - [[org.apache.pekko.kafka.ProducerMessage.PassThroughMessage PassThroughMessage]] does not publish anything, and completes the future with [[org.apache.pekko.kafka.ProducerMessage.PassThroughResult PassThroughResult]]
+   * - [[pekko.kafka.ProducerMessage.PassThroughMessage PassThroughMessage]] does not publish anything, and completes the future with [[pekko.kafka.ProducerMessage.PassThroughResult PassThroughResult]]
    *
    * The messages support passing through arbitrary data.
    */

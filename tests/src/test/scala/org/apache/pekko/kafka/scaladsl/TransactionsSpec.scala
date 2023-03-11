@@ -16,14 +16,15 @@ package org.apache.pekko.kafka.scaladsl
 
 import java.util.concurrent.atomic.AtomicBoolean
 
-import org.apache.pekko.Done
-import org.apache.pekko.kafka.ConsumerMessage.PartitionOffset
-import org.apache.pekko.kafka.scaladsl.Consumer.{ Control, DrainingControl }
-import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import org.apache.pekko.kafka.{ ProducerMessage, _ }
-import org.apache.pekko.stream.{ OverflowStrategy, RestartSettings }
-import org.apache.pekko.stream.scaladsl.{ Keep, RestartSource, Sink, Source }
-import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import org.apache.pekko
+import pekko.Done
+import pekko.kafka.ConsumerMessage.PartitionOffset
+import pekko.kafka.scaladsl.Consumer.{ Control, DrainingControl }
+import pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
+import pekko.kafka.{ ProducerMessage, _ }
+import pekko.stream.{ OverflowStrategy, RestartSettings }
+import pekko.stream.scaladsl.{ Keep, RestartSource, Sink, Source }
+import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.scalatest.RecoverMethods._

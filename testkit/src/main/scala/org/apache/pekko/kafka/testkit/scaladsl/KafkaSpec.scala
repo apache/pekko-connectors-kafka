@@ -18,18 +18,19 @@ import java.time.Duration
 import java.util
 import java.util.concurrent.TimeUnit
 
-import org.apache.pekko.Done
-import org.apache.pekko.actor.ActorSystem
-import org.apache.pekko.event.LoggingAdapter
-import org.apache.pekko.kafka._
-import org.apache.pekko.kafka.scaladsl.Consumer.Control
-import org.apache.pekko.kafka.scaladsl.{ Consumer, Producer }
-import org.apache.pekko.kafka.testkit.internal.{ KafkaTestKit, KafkaTestKitChecks }
-import org.apache.pekko.stream.{ Materializer, SystemMaterializer }
-import org.apache.pekko.stream.scaladsl.{ Keep, Source }
-import org.apache.pekko.stream.testkit.TestSubscriber
-import org.apache.pekko.stream.testkit.scaladsl.TestSink
-import org.apache.pekko.testkit.TestKit
+import org.apache.pekko
+import pekko.Done
+import pekko.actor.ActorSystem
+import pekko.event.LoggingAdapter
+import pekko.kafka._
+import pekko.kafka.scaladsl.Consumer.Control
+import pekko.kafka.scaladsl.{ Consumer, Producer }
+import pekko.kafka.testkit.internal.{ KafkaTestKit, KafkaTestKitChecks }
+import pekko.stream.{ Materializer, SystemMaterializer }
+import pekko.stream.scaladsl.{ Keep, Source }
+import pekko.stream.testkit.TestSubscriber
+import pekko.stream.testkit.scaladsl.TestSink
+import pekko.testkit.TestKit
 import org.apache.kafka.clients.admin._
 import org.apache.kafka.clients.producer.{ Producer => KProducer, ProducerRecord }
 import org.apache.kafka.common.ConsumerGroupState
@@ -56,7 +57,7 @@ abstract class KafkaSpec(_kafkaPort: Int, val zooKeeperPort: Int, actorSystem: A
 
   implicit val ec: ExecutionContext = system.dispatcher
   implicit val mat: Materializer = SystemMaterializer(system).materializer
-  implicit val scheduler: org.apache.pekko.actor.Scheduler = system.scheduler
+  implicit val scheduler: pekko.actor.Scheduler = system.scheduler
 
   var testProducer: KProducer[String, String] = _
 

@@ -17,18 +17,19 @@ package org.apache.pekko.kafka.scaladsl
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.function.IntUnaryOperator
 
-import org.apache.pekko.actor.ActorRef
-import org.apache.pekko.kafka.ConsumerMessage.{ CommittableOffsetBatch, GroupTopicPartition }
-import org.apache.pekko.kafka.ProducerMessage.MultiMessage
-import org.apache.pekko.kafka._
-import org.apache.pekko.kafka.internal.CommittableOffsetBatchImpl
-import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import org.apache.pekko.stream.RestartSettings
-import org.apache.pekko.stream.scaladsl.{ Keep, RestartSource, Sink, Source }
-import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
-import org.apache.pekko.stream.testkit.scaladsl.TestSink
-import org.apache.pekko.testkit.TestProbe
-import org.apache.pekko.{ Done, NotUsed }
+import org.apache.pekko
+import pekko.actor.ActorRef
+import pekko.kafka.ConsumerMessage.{ CommittableOffsetBatch, GroupTopicPartition }
+import pekko.kafka.ProducerMessage.MultiMessage
+import pekko.kafka._
+import pekko.kafka.internal.CommittableOffsetBatchImpl
+import pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
+import pekko.stream.RestartSettings
+import pekko.stream.scaladsl.{ Keep, RestartSource, Sink, Source }
+import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import pekko.stream.testkit.scaladsl.TestSink
+import pekko.testkit.TestProbe
+import pekko.{ Done, NotUsed }
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.TopicPartition
 import org.scalatest.Inside

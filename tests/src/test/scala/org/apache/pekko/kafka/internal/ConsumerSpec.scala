@@ -14,17 +14,18 @@
 
 package org.apache.pekko.kafka.internal
 
-import org.apache.pekko.Done
-import org.apache.pekko.actor.ActorSystem
-import org.apache.pekko.kafka.ConsumerMessage._
-import org.apache.pekko.kafka.scaladsl.Consumer
-import org.apache.pekko.kafka.scaladsl.Consumer.Control
-import org.apache.pekko.kafka.tests.scaladsl.LogCapturing
-import org.apache.pekko.kafka.{ CommitTimeoutException, ConsumerSettings, Repeated, Subscriptions }
-import org.apache.pekko.stream.scaladsl._
-import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
-import org.apache.pekko.stream.testkit.scaladsl.TestSink
-import org.apache.pekko.testkit.TestKit
+import org.apache.pekko
+import pekko.Done
+import pekko.actor.ActorSystem
+import pekko.kafka.ConsumerMessage._
+import pekko.kafka.scaladsl.Consumer
+import pekko.kafka.scaladsl.Consumer.Control
+import pekko.kafka.tests.scaladsl.LogCapturing
+import pekko.kafka.{ CommitTimeoutException, ConsumerSettings, Repeated, Subscriptions }
+import pekko.stream.scaladsl._
+import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import pekko.stream.testkit.scaladsl.TestSink
+import pekko.testkit.TestKit
 import com.typesafe.config.ConfigFactory
 import org.apache.kafka.clients.consumer._
 import org.apache.kafka.common.serialization.StringDeserializer

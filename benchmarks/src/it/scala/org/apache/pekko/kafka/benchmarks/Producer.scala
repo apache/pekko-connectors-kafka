@@ -14,14 +14,10 @@
 
 package org.apache.pekko.kafka.benchmarks
 
-import org.apache.pekko.kafka.benchmarks.BenchmarksBase.{
-  topic_2000_100,
-  topic_2000_500,
-  topic_2000_5000,
-  topic_2000_5000_8
-}
-import org.apache.pekko.kafka.benchmarks.Timed.runPerfTest
-import org.apache.pekko.kafka.benchmarks.app.RunTestCommand
+import org.apache.pekko
+import pekko.kafka.benchmarks.BenchmarksBase.{ topic_2000_100, topic_2000_500, topic_2000_5000, topic_2000_5000_8 }
+import pekko.kafka.benchmarks.Timed.runPerfTest
+import pekko.kafka.benchmarks.app.RunTestCommand
 
 class ApacheKafkaPlainProducer extends BenchmarksBase() {
   private val prefix = "apache-kafka-plain-producer"

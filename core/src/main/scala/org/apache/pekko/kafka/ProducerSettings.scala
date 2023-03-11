@@ -17,8 +17,9 @@ package org.apache.pekko.kafka
 import java.util.Optional
 import java.util.concurrent.{ CompletionStage, Executor }
 
-import org.apache.pekko.annotation.InternalApi
-import org.apache.pekko.kafka.internal.ConfigSettings
+import org.apache.pekko
+import pekko.annotation.InternalApi
+import pekko.kafka.internal.ConfigSettings
 import com.typesafe.config.Config
 import org.apache.kafka.clients.producer.{ KafkaProducer, Producer, ProducerConfig }
 import org.apache.kafka.common.serialization.Serializer
@@ -26,7 +27,7 @@ import org.apache.kafka.common.serialization.Serializer
 import scala.jdk.CollectionConverters._
 import scala.compat.java8.OptionConverters._
 import scala.concurrent.duration._
-import org.apache.pekko.util.JavaDurationConverters._
+import pekko.util.JavaDurationConverters._
 
 import scala.concurrent.{ ExecutionContext, Future }
 import scala.compat.java8.FutureConverters._
@@ -211,7 +212,7 @@ object ProducerSettings {
 
 /**
  * Settings for producers. See `pekko.kafka.producer` section in
- * reference.conf. Note that the [[org.apache.pekko.kafka.ProducerSettings$ companion]] object provides
+ * reference.conf. Note that the [[pekko.kafka.ProducerSettings companion]] object provides
  * `apply` and `create` functions for convenient construction of the settings, together with
  * the `with` methods.
  *

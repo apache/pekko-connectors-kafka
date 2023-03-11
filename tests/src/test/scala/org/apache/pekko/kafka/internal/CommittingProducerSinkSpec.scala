@@ -16,20 +16,21 @@ package org.apache.pekko.kafka.internal
 
 import java.util.concurrent.atomic.AtomicLong
 
-import org.apache.pekko.Done
-import org.apache.pekko.actor.ActorSystem
-import org.apache.pekko.event.LoggingAdapter
-import org.apache.pekko.kafka.internal.KafkaConsumerActor.Internal
-import org.apache.pekko.kafka.scaladsl.Consumer.DrainingControl
-import org.apache.pekko.kafka.scaladsl.Producer
-import org.apache.pekko.kafka.testkit.ConsumerResultFactory
-import org.apache.pekko.kafka.testkit.scaladsl.{ ConsumerControlFactory, Slf4jToAkkaLoggingAdapter }
-import org.apache.pekko.kafka.tests.scaladsl.LogCapturing
-import org.apache.pekko.kafka._
-import org.apache.pekko.stream.scaladsl.{ Keep, Source }
-import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
-import org.apache.pekko.stream.{ ActorAttributes, Supervision }
-import org.apache.pekko.testkit.{ TestKit, TestProbe }
+import org.apache.pekko
+import pekko.Done
+import pekko.actor.ActorSystem
+import pekko.event.LoggingAdapter
+import pekko.kafka.internal.KafkaConsumerActor.Internal
+import pekko.kafka.scaladsl.Consumer.DrainingControl
+import pekko.kafka.scaladsl.Producer
+import pekko.kafka.testkit.ConsumerResultFactory
+import pekko.kafka.testkit.scaladsl.{ ConsumerControlFactory, Slf4jToAkkaLoggingAdapter }
+import pekko.kafka.tests.scaladsl.LogCapturing
+import pekko.kafka._
+import pekko.stream.scaladsl.{ Keep, Source }
+import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import pekko.stream.{ ActorAttributes, Supervision }
+import pekko.testkit.{ TestKit, TestProbe }
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.clients.producer._
 import org.apache.kafka.common.TopicPartition
@@ -469,7 +470,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
     eventually {
       producer.history.asScala should have size 2
     }
-    control.drainAndShutdown().failed.futureValue shouldBe an[org.apache.pekko.kafka.CommitTimeoutException]
+    control.drainAndShutdown().failed.futureValue shouldBe an[pekko.kafka.CommitTimeoutException]
   }
 
   it should "choose to ignore producer errors" in assertAllStagesStopped {
@@ -591,7 +592,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
     eventually {
       producer.history.asScala should have size 2
     }
-    control.drainAndShutdown().failed.futureValue shouldBe an[org.apache.pekko.kafka.CommitTimeoutException]
+    control.drainAndShutdown().failed.futureValue shouldBe an[pekko.kafka.CommitTimeoutException]
   }
 
   it should "ignore commit timeout" in assertAllStagesStopped {

@@ -14,17 +14,19 @@
 
 package docs.scaladsl
 
-import org.apache.pekko.kafka.scaladsl.MetadataClient
-import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
+import org.apache.pekko
+import pekko.kafka.scaladsl.MetadataClient
+import pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
 import org.scalatest.TryValues
 import org.scalatest.time.{ Seconds, Span }
 
 // #metadata
 // #metadataClient
-import org.apache.pekko.actor.ActorRef
-import org.apache.pekko.kafka.{ KafkaConsumerActor, Metadata }
-import org.apache.pekko.pattern.ask
-import org.apache.pekko.util.Timeout
+import org.apache.pekko
+import pekko.actor.ActorRef
+import pekko.kafka.{ KafkaConsumerActor, Metadata }
+import pekko.pattern.ask
+import pekko.util.Timeout
 import org.apache.kafka.common.TopicPartition
 
 import scala.concurrent.Future

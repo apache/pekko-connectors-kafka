@@ -14,12 +14,13 @@
 
 package org.apache.pekko.kafka.internal
 
-import org.apache.pekko.actor.ActorRef
-import org.apache.pekko.annotation.InternalApi
-import org.apache.pekko.kafka.scaladsl.PartitionAssignmentHandler
-import org.apache.pekko.kafka.javadsl
-import org.apache.pekko.kafka.{ AutoSubscription, RestrictedConsumer, TopicPartitionsAssigned, TopicPartitionsRevoked }
-import org.apache.pekko.stream.stage.AsyncCallback
+import org.apache.pekko
+import pekko.actor.ActorRef
+import pekko.annotation.InternalApi
+import pekko.kafka.scaladsl.PartitionAssignmentHandler
+import pekko.kafka.javadsl
+import pekko.kafka.{ AutoSubscription, RestrictedConsumer, TopicPartitionsAssigned, TopicPartitionsRevoked }
+import pekko.stream.stage.AsyncCallback
 import org.apache.kafka.common.TopicPartition
 
 import scala.jdk.CollectionConverters._

@@ -16,14 +16,15 @@ package docs.scaladsl
 
 import java.nio.charset.StandardCharsets
 
-import org.apache.pekko.Done
-import org.apache.pekko.kafka._
-import org.apache.pekko.kafka.scaladsl._
-import org.apache.pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
-import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
-import org.apache.pekko.stream.scaladsl.{ Keep, Sink, Source }
-import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
-import org.apache.pekko.stream.testkit.scaladsl.TestSink
+import org.apache.pekko
+import pekko.Done
+import pekko.kafka._
+import pekko.kafka.scaladsl._
+import pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
+import pekko.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
+import pekko.stream.scaladsl.{ Keep, Sink, Source }
+import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import pekko.stream.testkit.scaladsl.TestSink
 import io.confluent.kafka.serializers.KafkaAvroDeserializerConfig
 import org.apache.avro.specific.SpecificRecordBase
 import org.apache.avro.util.Utf8

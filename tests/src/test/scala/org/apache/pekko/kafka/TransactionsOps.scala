@@ -15,16 +15,17 @@
 package org.apache.pekko.kafka
 import java.util.concurrent.atomic.AtomicInteger
 
-import org.apache.pekko.{ Done, NotUsed }
-import org.apache.pekko.actor.ActorSystem
-import org.apache.pekko.kafka.ConsumerMessage.PartitionOffset
-import org.apache.pekko.kafka.ProducerMessage.MultiMessage
-import org.apache.pekko.kafka.scaladsl.Consumer.Control
-import org.apache.pekko.kafka.scaladsl.{ Consumer, Producer, Transactional }
-import org.apache.pekko.stream.Materializer
-import org.apache.pekko.stream.scaladsl.{ Flow, Sink, Source }
-import org.apache.pekko.stream.testkit.TestSubscriber
-import org.apache.pekko.stream.testkit.scaladsl.TestSink
+import org.apache.pekko
+import pekko.{ Done, NotUsed }
+import pekko.actor.ActorSystem
+import pekko.kafka.ConsumerMessage.PartitionOffset
+import pekko.kafka.ProducerMessage.MultiMessage
+import pekko.kafka.scaladsl.Consumer.Control
+import pekko.kafka.scaladsl.{ Consumer, Producer, Transactional }
+import pekko.stream.Materializer
+import pekko.stream.scaladsl.{ Flow, Sink, Source }
+import pekko.stream.testkit.TestSubscriber
+import pekko.stream.testkit.scaladsl.TestSink
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.{ ProducerConfig, ProducerRecord }
 import org.scalatest.TestSuite

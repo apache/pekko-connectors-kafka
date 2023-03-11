@@ -16,15 +16,16 @@ package org.apache.pekko.kafka.javadsl
 
 import java.util.concurrent.{ CompletionStage, Executor }
 
-import org.apache.pekko.actor.ActorRef
-import org.apache.pekko.annotation.ApiMayChange
-import org.apache.pekko.dispatch.ExecutionContexts
-import org.apache.pekko.japi.Pair
-import org.apache.pekko.kafka.ConsumerMessage.{ CommittableMessage, CommittableOffset }
-import org.apache.pekko.kafka._
-import org.apache.pekko.kafka.internal.{ ConsumerControlAsJava, SourceWithOffsetContext }
-import org.apache.pekko.stream.javadsl.{ Source, SourceWithContext }
-import org.apache.pekko.{ Done, NotUsed }
+import org.apache.pekko
+import pekko.actor.ActorRef
+import pekko.annotation.ApiMayChange
+import pekko.dispatch.ExecutionContexts
+import pekko.japi.Pair
+import pekko.kafka.ConsumerMessage.{ CommittableMessage, CommittableOffset }
+import pekko.kafka._
+import pekko.kafka.internal.{ ConsumerControlAsJava, SourceWithOffsetContext }
+import pekko.stream.javadsl.{ Source, SourceWithContext }
+import pekko.{ Done, NotUsed }
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.common.{ Metric, MetricName, TopicPartition }
 
@@ -186,7 +187,7 @@ object Consumer {
       subscription: Subscription): SourceWithContext[ConsumerRecord[K, V], CommittableOffset, Control] =
     // TODO this could use `scaladsl committableSourceWithContext` but `mapMaterializedValue` is not available, yet
     // See https://github.com/akka/akka/issues/26836
-    org.apache.pekko.stream.scaladsl.Source
+    pekko.stream.scaladsl.Source
       .fromGraph(new SourceWithOffsetContext[K, V](settings, subscription))
       .mapMaterializedValue(ConsumerControlAsJava.apply)
       .asSourceWithContext(_._2)
@@ -216,7 +217,7 @@ object Consumer {
       : SourceWithContext[ConsumerRecord[K, V], CommittableOffset, Control] =
     // TODO this could use `scaladsl committableSourceWithContext` but `mapMaterializedValue` is not available, yet
     // See https://github.com/akka/akka/issues/26836
-    org.apache.pekko.stream.scaladsl.Source
+    pekko.stream.scaladsl.Source
       .fromGraph(
         new SourceWithOffsetContext[K, V](settings,
           subscription,

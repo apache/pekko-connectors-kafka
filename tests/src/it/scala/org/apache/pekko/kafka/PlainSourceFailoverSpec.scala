@@ -14,11 +14,12 @@
 
 package org.apache.pekko.kafka
 
-import org.apache.pekko.kafka.scaladsl.{ Consumer, Producer, SpecBase }
-import org.apache.pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
-import org.apache.pekko.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
-import org.apache.pekko.stream.scaladsl.{ Sink, Source }
-import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import org.apache.pekko
+import pekko.kafka.scaladsl.{ Consumer, Producer, SpecBase }
+import pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
+import pekko.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
+import pekko.stream.scaladsl.{ Sink, Source }
+import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.{ ProducerConfig, ProducerRecord }
 import org.apache.kafka.common.config.TopicConfig

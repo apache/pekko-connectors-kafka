@@ -14,16 +14,17 @@
 
 package org.apache.pekko.kafka.benchmarks
 
-import org.apache.pekko.Done
-import org.apache.pekko.actor.ActorSystem
-import org.apache.pekko.kafka.ConsumerMessage.{ Committable, CommittableMessage }
-import org.apache.pekko.kafka.ProducerMessage.Envelope
-import org.apache.pekko.kafka.benchmarks.app.RunTestCommand
-import org.apache.pekko.kafka.scaladsl.Consumer.{ Control, DrainingControl }
-import org.apache.pekko.kafka.scaladsl.{ Committer, Consumer, Producer }
-import org.apache.pekko.kafka._
-import org.apache.pekko.stream.Materializer
-import org.apache.pekko.stream.scaladsl.{ Keep, Sink, Source }
+import org.apache.pekko
+import pekko.Done
+import pekko.actor.ActorSystem
+import pekko.kafka.ConsumerMessage.{ Committable, CommittableMessage }
+import pekko.kafka.ProducerMessage.Envelope
+import pekko.kafka.benchmarks.app.RunTestCommand
+import pekko.kafka.scaladsl.Consumer.{ Control, DrainingControl }
+import pekko.kafka.scaladsl.{ Committer, Consumer, Producer }
+import pekko.kafka._
+import pekko.stream.Materializer
+import pekko.stream.scaladsl.{ Keep, Sink, Source }
 import com.codahale.metrics.Meter
 import com.typesafe.scalalogging.LazyLogging
 import org.apache.kafka.clients.consumer.ConsumerConfig

@@ -14,11 +14,12 @@
 
 package org.apache.pekko.kafka.internal
 
-import org.apache.pekko.annotation.InternalApi
-import org.apache.pekko.dispatch.ExecutionContexts
-import org.apache.pekko.kafka.ProducerSettings
-import org.apache.pekko.stream.stage._
-import org.apache.pekko.util.JavaDurationConverters._
+import org.apache.pekko
+import pekko.annotation.InternalApi
+import pekko.dispatch.ExecutionContexts
+import pekko.kafka.ProducerSettings
+import pekko.stream.stage._
+import pekko.util.JavaDurationConverters._
 import org.apache.kafka.clients.producer.Producer
 
 import scala.util.control.NonFatal

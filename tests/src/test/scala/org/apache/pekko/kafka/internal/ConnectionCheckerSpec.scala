@@ -14,12 +14,13 @@
 
 package org.apache.pekko.kafka.internal
 
-import org.apache.pekko.actor.{ ActorRef, ActorSystem }
-import org.apache.pekko.kafka.Metadata
-import org.apache.pekko.kafka.ConnectionCheckerSettings
-import org.apache.pekko.kafka.KafkaConnectionFailed
-import org.apache.pekko.kafka.tests.scaladsl.LogCapturing
-import org.apache.pekko.testkit.TestKit
+import org.apache.pekko
+import pekko.actor.{ ActorRef, ActorSystem }
+import pekko.kafka.Metadata
+import pekko.kafka.ConnectionCheckerSettings
+import pekko.kafka.KafkaConnectionFailed
+import pekko.kafka.tests.scaladsl.LogCapturing
+import pekko.testkit.TestKit
 import com.typesafe.config.ConfigFactory
 import org.apache.kafka.common.errors.TimeoutException
 import org.scalatest.wordspec.AnyWordSpecLike

@@ -16,9 +16,10 @@ package org.apache.pekko.kafka.internal
 
 import java.net.URLEncoder
 
-import org.apache.pekko.kafka.tests.scaladsl.LogCapturing
-import org.apache.pekko.kafka.{ Subscription, Subscriptions }
-import org.apache.pekko.util.ByteString
+import org.apache.pekko
+import pekko.kafka.tests.scaladsl.LogCapturing
+import pekko.kafka.{ Subscription, Subscriptions }
+import pekko.util.ByteString
 import org.apache.kafka.common.TopicPartition
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec

@@ -14,12 +14,13 @@
 
 package org.apache.pekko.kafka.scaladsl
 
-import org.apache.pekko.actor.ActorSystem
-import org.apache.pekko.kafka.ProducerSettings
-import org.apache.pekko.kafka.tests.scaladsl.LogCapturing
-import org.apache.pekko.stream.scaladsl.Source
-import org.apache.pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
-import org.apache.pekko.testkit.TestKit
+import org.apache.pekko
+import pekko.actor.ActorSystem
+import pekko.kafka.ProducerSettings
+import pekko.kafka.tests.scaladsl.LogCapturing
+import pekko.stream.scaladsl.Source
+import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
+import pekko.testkit.TestKit
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.serialization.StringSerializer
 import org.scalatest.concurrent.{ Eventually, IntegrationPatience, ScalaFutures }

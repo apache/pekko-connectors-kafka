@@ -14,9 +14,10 @@
 
 package org.apache.pekko.kafka
 
-import org.apache.pekko.actor.ActorSystem
-import org.apache.pekko.kafka.tests.scaladsl.LogCapturing
-import org.apache.pekko.testkit.TestKit
+import org.apache.pekko
+import pekko.actor.ActorSystem
+import pekko.kafka.tests.scaladsl.LogCapturing
+import pekko.testkit.TestKit
 import com.typesafe.config.ConfigFactory
 import org.apache.kafka.common.config.SslConfigs
 import org.apache.kafka.common.serialization.{ ByteArrayDeserializer, StringDeserializer }
@@ -216,7 +217,7 @@ class ConsumerSettingsSpec
       .resolve()
 
     "read bootstrap servers from config" in {
-      import org.apache.pekko.kafka.scaladsl.DiscoverySupport
+      import pekko.kafka.scaladsl.DiscoverySupport
       implicit val actorSystem = ActorSystem("test", config)
 
       DiscoverySupport.bootstrapServers(config.getConfig("discovery-consumer")).futureValue shouldBe "cat:1233,dog:1234"

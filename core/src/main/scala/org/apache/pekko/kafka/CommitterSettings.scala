@@ -15,8 +15,9 @@
 package org.apache.pekko.kafka
 import java.util.concurrent.TimeUnit
 
-import org.apache.pekko.annotation.ApiMayChange
-import org.apache.pekko.util.JavaDurationConverters._
+import org.apache.pekko
+import pekko.annotation.ApiMayChange
+import pekko.util.JavaDurationConverters._
 import com.typesafe.config.Config
 
 import scala.concurrent.duration._
@@ -113,7 +114,7 @@ object CommitterSettings {
    * Create settings from the default configuration
    * `pekko.kafka.committer`.
    */
-  def apply(actorSystem: org.apache.pekko.actor.ActorSystem): CommitterSettings =
+  def apply(actorSystem: pekko.actor.ActorSystem): CommitterSettings =
     apply(actorSystem.settings.config.getConfig(configPath))
 
   /**
@@ -122,7 +123,7 @@ object CommitterSettings {
    *
    * For use with the `pekko.actor.typed` API.
    */
-  def apply(actorSystem: org.apache.pekko.actor.ClassicActorSystemProvider): CommitterSettings =
+  def apply(actorSystem: pekko.actor.ClassicActorSystemProvider): CommitterSettings =
     apply(actorSystem.classicSystem.settings.config.getConfig(configPath))
 
   /**
@@ -142,7 +143,7 @@ object CommitterSettings {
    * Java API: Create settings from the default configuration
    * `pekko.kafka.committer`.
    */
-  def create(actorSystem: org.apache.pekko.actor.ActorSystem): CommitterSettings =
+  def create(actorSystem: pekko.actor.ActorSystem): CommitterSettings =
     apply(actorSystem)
 
   /**
@@ -151,7 +152,7 @@ object CommitterSettings {
    *
    * For use with the `pekko.actor.typed` API.
    */
-  def create(actorSystem: org.apache.pekko.actor.ClassicActorSystemProvider): CommitterSettings =
+  def create(actorSystem: pekko.actor.ClassicActorSystemProvider): CommitterSettings =
     apply(actorSystem)
 
   /**
@@ -165,7 +166,7 @@ object CommitterSettings {
 
 /**
  * Settings for committer. See `pekko.kafka.committer` section in
- * reference.conf. Note that the [[org.apache.pekko.kafka.CommitterSettings$ companion]] object provides
+ * reference.conf. Note that the [[pekko.kafka.CommitterSettings companion]] object provides
  * `apply` and `create` functions for convenient construction of the settings, together with
  * the `with` methods.
  */

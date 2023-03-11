@@ -15,15 +15,16 @@
 package org.apache.pekko.kafka.internal
 import java.util.concurrent.{ CompletionStage, Executor }
 
-import org.apache.pekko.Done
-import org.apache.pekko.actor.ActorRef
-import org.apache.pekko.annotation.InternalApi
-import org.apache.pekko.dispatch.ExecutionContexts
-import org.apache.pekko.kafka.internal.KafkaConsumerActor.Internal.{ ConsumerMetrics, RequestMetrics }
-import org.apache.pekko.kafka.{ javadsl, scaladsl }
-import org.apache.pekko.stream.SourceShape
-import org.apache.pekko.stream.stage.GraphStageLogic
-import org.apache.pekko.util.Timeout
+import org.apache.pekko
+import pekko.Done
+import pekko.actor.ActorRef
+import pekko.annotation.InternalApi
+import pekko.dispatch.ExecutionContexts
+import pekko.kafka.internal.KafkaConsumerActor.Internal.{ ConsumerMetrics, RequestMetrics }
+import pekko.kafka.{ javadsl, scaladsl }
+import pekko.stream.SourceShape
+import pekko.stream.stage.GraphStageLogic
+import pekko.util.Timeout
 import org.apache.kafka.common.{ Metric, MetricName }
 
 import scala.jdk.CollectionConverters._
@@ -87,7 +88,7 @@ private trait MetricsControl extends scaladsl.Consumer.Control {
   // FIXME: this can't be accessed until the stream has materialized because the `def executionContext` implementation
   // takes the executioncontext from the materializer. should it throw an exception, or block, until materialization?
   def metrics: Future[Map[MetricName, Metric]] = {
-    import org.apache.pekko.pattern.ask
+    import pekko.pattern.ask
 
     import scala.concurrent.duration._
     consumerFuture
