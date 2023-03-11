@@ -15,13 +15,16 @@ import net.aichler.jupiter.sbt.Import.jupiterTestFramework
 import org.scalafmt.sbt.ScalafmtPlugin.autoImport.scalafmtOnCompile
 import sbt.{ Def, _ }
 import sbt.Keys._
-import xerial.sbt.Sonatype.autoImport.sonatypeCredentialHost
 import org.mdedetrich.apache.sonatype.SonatypeApachePlugin
 import SonatypeApachePlugin.autoImport.apacheSonatypeDisclaimerFile
+import sbtdynver.DynVerPlugin
+import sbtdynver.DynVerPlugin.autoImport.dynverSonatypeSnapshots
 
 object ProjectSettings extends AutoPlugin {
 
-  override val requires = SonatypeApachePlugin
+  override val requires = SonatypeApachePlugin && DynVerPlugin
+
+  override def trigger = allRequirements
 
   val onLoadMessage: String = """
     |** Welcome to the Apache Pekko Kafka Connector! **
@@ -116,17 +119,8 @@ object ProjectSettings extends AutoPlugin {
     javafmtOnCompile := false,
     ThisBuild / mimaReportSignatureProblems := true,
     projectInfoVersion := (if (isSnapshot.value) "snapshot" else version.value),
-    publishMavenStyle := true,
-    pomIncludeRepository := (_ => false),
-    credentials ++= apacheNexusCredentials,
-    sonatypeCredentialHost := apacheBaseRepo,
     apacheSonatypeDisclaimerFile := Some((LocalRootProject / baseDirectory).value / "DISCLAIMER"))
 
-  private def apacheNexusCredentials: Seq[Credentials] =
-    (sys.env.get("NEXUS_USER"), sys.env.get("NEXUS_PW")) match {
-      case (Some(user), Some(password)) =>
-        Seq(Credentials("Sonatype Nexus Repository Manager", apacheBaseRepo, user, password))
-      case _ =>
-        Seq.empty
-    }
+  override lazy val buildSettings = Seq(
+    dynverSonatypeSnapshots := true)
 }
