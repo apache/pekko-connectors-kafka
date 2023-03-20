@@ -28,6 +28,7 @@ import pekko.stream.testkit.scaladsl.{ TestSink, TestSource }
 import pekko.stream.{ ActorAttributes, Supervision }
 import pekko.testkit.TestKit
 import pekko.{ Done, NotUsed }
+import pekko.util.ccompat.JavaConverters._
 import com.typesafe.config.ConfigFactory
 import org.apache.kafka.clients.consumer.{ ConsumerGroupMetadata, OffsetAndMetadata }
 import org.apache.kafka.clients.producer._
@@ -45,7 +46,6 @@ import org.scalatest.matchers.should.Matchers
 
 import scala.concurrent.duration._
 import scala.concurrent.{ Await, ExecutionContext, Future, Promise }
-import scala.jdk.CollectionConverters._
 import scala.util.{ Failure, Success, Try }
 
 class ProducerSpec(_system: ActorSystem)

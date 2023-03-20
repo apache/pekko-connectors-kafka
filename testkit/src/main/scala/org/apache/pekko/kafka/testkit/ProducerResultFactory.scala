@@ -17,10 +17,10 @@ package org.apache.pekko.kafka.testkit
 import org.apache.pekko
 import pekko.annotation.ApiMayChange
 import pekko.kafka.ProducerMessage
+import pekko.util.ccompat.JavaConverters._
 import org.apache.kafka.clients.producer.{ ProducerRecord, RecordMetadata }
 import org.apache.kafka.common.TopicPartition
 
-import scala.jdk.CollectionConverters._
 import scala.collection.immutable
 
 /**

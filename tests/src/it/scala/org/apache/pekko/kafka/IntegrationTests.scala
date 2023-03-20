@@ -17,11 +17,10 @@ package org.apache.pekko.kafka
 import org.apache.pekko
 import pekko.NotUsed
 import pekko.stream.scaladsl.Flow
+import pekko.util.ccompat.JavaConverters._
 import org.apache.kafka.common.TopicPartition
 import org.slf4j.Logger
 import org.testcontainers.containers.GenericContainer
-
-import scala.jdk.CollectionConverters._
 
 object IntegrationTests {
   val MessageLogInterval = 500L

@@ -14,7 +14,9 @@
 
 package org.apache.pekko.kafka.benchmarks
 
-import org.apache.pekko.kafka.benchmarks.KafkaConsumerBenchmarks.pollTimeoutMs
+import org.apache.pekko
+import pekko.kafka.benchmarks.KafkaConsumerBenchmarks.pollTimeoutMs
+import pekko.util.ccompat.JavaConverters._
 import com.codahale.metrics.Meter
 import com.typesafe.scalalogging.LazyLogging
 import org.apache.kafka.clients.consumer._
@@ -22,7 +24,6 @@ import org.apache.kafka.clients.producer.{ Callback, ProducerRecord, RecordMetad
 import org.apache.kafka.common.TopicPartition
 
 import scala.annotation.tailrec
-import scala.jdk.CollectionConverters._
 import scala.concurrent.duration.FiniteDuration
 
 object KafkaTransactionBenchmarks extends LazyLogging {

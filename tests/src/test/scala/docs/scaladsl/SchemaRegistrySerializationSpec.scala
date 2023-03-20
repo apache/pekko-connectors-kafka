@@ -25,6 +25,7 @@ import pekko.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
 import pekko.stream.scaladsl.{ Keep, Sink, Source }
 import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import pekko.stream.testkit.scaladsl.TestSink
+import pekko.util.ccompat.JavaConverters._
 import io.confluent.kafka.serializers.KafkaAvroDeserializerConfig
 import org.apache.avro.specific.SpecificRecordBase
 import org.apache.avro.util.Utf8
@@ -42,7 +43,6 @@ import org.apache.kafka.clients.producer.ProducerRecord
 // #imports
 import org.apache.kafka.common.serialization._
 // #imports
-import scala.jdk.CollectionConverters._
 
 // #schema-registry-settings
 class SchemaRegistrySerializationSpec extends DocsSpecBase with TestcontainersKafkaPerClassLike {

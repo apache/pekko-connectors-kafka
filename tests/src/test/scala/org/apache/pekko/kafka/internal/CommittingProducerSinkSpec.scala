@@ -31,6 +31,7 @@ import pekko.stream.scaladsl.{ Keep, Source }
 import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import pekko.stream.{ ActorAttributes, Supervision }
 import pekko.testkit.{ TestKit, TestProbe }
+import pekko.util.ccompat.JavaConverters._
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.clients.producer._
 import org.apache.kafka.common.TopicPartition
@@ -43,7 +44,6 @@ import org.slf4j.{ Logger, LoggerFactory }
 
 import scala.collection.immutable
 import scala.concurrent.duration._
-import scala.jdk.CollectionConverters._
 
 class CommittingProducerSinkSpec(_system: ActorSystem)
     extends TestKit(_system)

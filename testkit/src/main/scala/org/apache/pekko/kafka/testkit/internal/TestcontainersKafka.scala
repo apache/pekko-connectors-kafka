@@ -18,11 +18,11 @@ import org.apache.pekko
 import pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
 import pekko.kafka.testkit.scaladsl.KafkaSpec
 import pekko.util.JavaDurationConverters._
+import pekko.util.ccompat.JavaConverters._
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.utility.DockerImageName
 
 import scala.compat.java8.OptionConverters._
-import scala.jdk.CollectionConverters._
 
 object TestcontainersKafka {
   trait Spec extends KafkaSpec {

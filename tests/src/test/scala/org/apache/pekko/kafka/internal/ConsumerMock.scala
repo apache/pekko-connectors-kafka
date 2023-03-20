@@ -18,6 +18,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 import org.apache.pekko
 import pekko.testkit.TestKit
+import pekko.util.ccompat.JavaConverters._
 import pekko.util.JavaDurationConverters._
 import org.apache.kafka.clients.consumer._
 import org.apache.kafka.common.TopicPartition
@@ -27,7 +28,6 @@ import org.mockito.stubbing.Answer
 import org.mockito.verification.VerificationMode
 import org.mockito.{ ArgumentMatchers, Mockito }
 
-import scala.jdk.CollectionConverters._
 import scala.collection.immutable.Seq
 import scala.concurrent.duration._
 
