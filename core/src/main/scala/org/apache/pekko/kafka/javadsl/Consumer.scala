@@ -26,10 +26,10 @@ import pekko.kafka._
 import pekko.kafka.internal.{ ConsumerControlAsJava, SourceWithOffsetContext }
 import pekko.stream.javadsl.{ Source, SourceWithContext }
 import pekko.{ Done, NotUsed }
+import pekko.util.ccompat.JavaConverters._
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.common.{ Metric, MetricName, TopicPartition }
 
-import scala.jdk.CollectionConverters._
 import scala.compat.java8.FutureConverters._
 import scala.concurrent.duration.FiniteDuration
 

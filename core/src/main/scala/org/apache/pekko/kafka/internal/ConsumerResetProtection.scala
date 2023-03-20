@@ -22,10 +22,9 @@ import pekko.annotation.InternalApi
 import pekko.event.LoggingAdapter
 import pekko.kafka.OffsetResetProtectionSettings
 import pekko.kafka.internal.KafkaConsumerActor.Internal.Seek
+import pekko.util.ccompat.JavaConverters._
 import org.apache.kafka.clients.consumer.{ ConsumerRecord, ConsumerRecords, OffsetAndMetadata }
 import org.apache.kafka.common.TopicPartition
-
-import scala.jdk.CollectionConverters._
 
 /**
  * Added as part of https://github.com/akka/alpakka-kafka/issues/1286 to avoid reprocessing data in case of Kafka

@@ -21,8 +21,8 @@ import pekko.annotation.InternalApi
 import com.typesafe.config.{ Config, ConfigObject }
 
 import scala.annotation.tailrec
-import scala.jdk.CollectionConverters._
 import scala.concurrent.duration.Duration
+import pekko.util.ccompat.JavaConverters._
 import pekko.util.JavaDurationConverters._
 
 /**

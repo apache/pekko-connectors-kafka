@@ -19,11 +19,11 @@ import pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
 import pekko.kafka.Subscriptions
 import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import pekko.stream.testkit.scaladsl.TestSink
+import pekko.util.ccompat.JavaConverters._
 import org.apache.kafka.common.TopicPartition
 import org.scalatest.Inside
 import org.scalatest.concurrent.IntegrationPatience
 
-import scala.jdk.CollectionConverters._
 import scala.concurrent.Await
 import scala.concurrent.duration._
 

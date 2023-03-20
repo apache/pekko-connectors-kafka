@@ -13,11 +13,12 @@
  */
 
 package org.apache.pekko.kafka.internal
-import org.apache.pekko.annotation.InternalApi
+
+import org.apache.pekko
+import pekko.annotation.InternalApi
+import pekko.util.ccompat.JavaConverters._
 import org.apache.kafka.clients.consumer.{ Consumer, ConsumerRecords, OffsetAndMetadata }
 import org.apache.kafka.common.TopicPartition
-
-import scala.jdk.CollectionConverters._
 
 /**
  * Maintain our own OffsetAndTimestamp which can tolerate negative timestamps, which happen for old clients that

@@ -36,12 +36,13 @@ import pekko.event.LoggingReceive
 import pekko.kafka.KafkaConsumerActor.{ StopLike, StoppingException }
 import pekko.kafka._
 import pekko.kafka.scaladsl.PartitionAssignmentHandler
+import pekko.util.ccompat._
+import pekko.util.ccompat.JavaConverters._
 import org.apache.kafka.clients.consumer._
 import org.apache.kafka.common.errors.RebalanceInProgressException
 import org.apache.kafka.common.{ Metric, MetricName, TopicPartition }
 
 import scala.annotation.nowarn
-import scala.jdk.CollectionConverters._
 import scala.concurrent.{ ExecutionContext, Future }
 import scala.concurrent.duration._
 import scala.util.{ Success, Try }

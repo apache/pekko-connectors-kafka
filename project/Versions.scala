@@ -16,11 +16,11 @@ object Versions {
   val Nightly: Boolean = sys.env.get("EVENT_NAME").contains("schedule")
 
   // align ignore-prefixes in scripts/link-validator.conf
-  // align in release.yml
-  val Scala213 = "2.13.8"
+  val Scala213 = "2.13.10" // update even in link-validator.conf
+  val Scala212 = "2.12.17"
 
   val pekkoVersionForDocs = "current"
-  val pekkoVersion = "0.0.0+26546-767209a8-SNAPSHOT"
+  val pekkoVersion = "0.0.0+26621-44d03df6-SNAPSHOT"
 
   // Keep .scala-steward.conf pin in sync
   val kafkaVersion = "3.0.1"

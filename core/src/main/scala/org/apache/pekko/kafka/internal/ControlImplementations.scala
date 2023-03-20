@@ -24,10 +24,10 @@ import pekko.kafka.internal.KafkaConsumerActor.Internal.{ ConsumerMetrics, Reque
 import pekko.kafka.{ javadsl, scaladsl }
 import pekko.stream.SourceShape
 import pekko.stream.stage.GraphStageLogic
+import pekko.util.ccompat.JavaConverters._
 import pekko.util.Timeout
 import org.apache.kafka.common.{ Metric, MetricName }
 
-import scala.jdk.CollectionConverters._
 import scala.compat.java8.FutureConverters.{ CompletionStageOps, FutureOps }
 import scala.concurrent.{ ExecutionContext, Future, Promise }
 

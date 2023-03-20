@@ -16,11 +16,13 @@ package org.apache.pekko.kafka
 
 import java.util.Optional
 
-import org.apache.pekko.actor.NoSerializationVerificationNeeded
+import org.apache.pekko
+import pekko.actor.NoSerializationVerificationNeeded
+import pekko.util.ccompat._
+import pekko.util.ccompat.JavaConverters._
 import org.apache.kafka.clients.consumer.{ OffsetAndMetadata, OffsetAndTimestamp }
 import org.apache.kafka.common.{ PartitionInfo, TopicPartition }
 
-import scala.jdk.CollectionConverters._
 import scala.util.Try
 
 /**

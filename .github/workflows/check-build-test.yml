@@ -112,8 +112,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { java-version: 8,  scala-version: 2.13.8, sbt-opts: '' }
-          - { java-version: 11, scala-version: 2.13.8, sbt-opts: '-J-XX:+UnlockExperimentalVMOptions -J-XX:+UseJVMCICompiler' }
+          - { java-version: 8,  scala-version: 2.13.10, sbt-opts: '' }
+          - { java-version: 11, scala-version: 2.13.10, sbt-opts: '-J-XX:+UnlockExperimentalVMOptions -J-XX:+UseJVMCICompiler' }
     steps:
       - name: Checkout
         uses: actions/checkout@v3

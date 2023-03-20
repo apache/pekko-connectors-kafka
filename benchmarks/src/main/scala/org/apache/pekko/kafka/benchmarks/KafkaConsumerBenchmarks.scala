@@ -21,9 +21,9 @@ import com.codahale.metrics.Meter
 import com.typesafe.scalalogging.LazyLogging
 import org.apache.kafka.clients.consumer.{ OffsetAndMetadata, OffsetCommitCallback }
 import org.apache.kafka.common.TopicPartition
+import org.apache.pekko.util.ccompat.JavaConverters._
 
 import scala.annotation.tailrec
-import scala.jdk.CollectionConverters._
 
 object KafkaConsumerBenchmarks extends LazyLogging {
   val pollTimeoutMs: Duration = Duration.ofMillis(50L)

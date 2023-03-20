@@ -24,10 +24,10 @@ import pekko.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
 import pekko.stream.scaladsl.Keep
 import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import pekko.stream.testkit.scaladsl.TestSink
+import pekko.util.ccompat.JavaConverters._
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
-import scala.jdk.CollectionConverters._
 
 class RetentionPeriodSpec extends SpecBase with TestcontainersKafkaPerClassLike {
   private final val confluentPlatformVersion = "5.0.0"
