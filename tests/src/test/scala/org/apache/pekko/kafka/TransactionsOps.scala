@@ -13,6 +13,7 @@
  */
 
 package org.apache.pekko.kafka
+
 import java.util.concurrent.atomic.AtomicInteger
 
 import org.apache.pekko
@@ -26,6 +27,7 @@ import pekko.stream.Materializer
 import pekko.stream.scaladsl.{ Flow, Sink, Source }
 import pekko.stream.testkit.TestSubscriber
 import pekko.stream.testkit.scaladsl.TestSink
+import pekko.util.ccompat._
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.{ ProducerConfig, ProducerRecord }
 import org.scalatest.TestSuite

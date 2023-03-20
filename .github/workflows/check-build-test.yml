@@ -72,9 +72,9 @@ jobs:
       - name: Cache Coursier cache
         uses: coursier/cache-action@v6
 
-      - name: Compile all code with fatal warnings for Java 11 and Scala 2.13
+      - name: Compile all code with fatal warnings for Java 11 and Scala 2.12/2.13
         # Run locally with: env CI=true sbt 'clean ; Test/compile ; It/compile'
-        run: sbt "; Test/compile; It/compile"
+        run: sbt "; +Test/compile; +It/compile"
 
   check-docs:
     name: Check Docs
@@ -112,6 +112,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - { java-version: 8,  scala-version: 2.12.17, sbt-opts: '' }
+          - { java-version: 11, scala-version: 2.12.17, sbt-opts: '-J-XX:+UnlockExperimentalVMOptions -J-XX:+UseJVMCICompiler' }
           - { java-version: 8,  scala-version: 2.13.10, sbt-opts: '' }
           - { java-version: 11, scala-version: 2.13.10, sbt-opts: '-J-XX:+UnlockExperimentalVMOptions -J-XX:+UseJVMCICompiler' }
     steps:
