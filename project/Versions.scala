@@ -20,7 +20,7 @@ object Versions {
   val Scala212 = "2.12.17"
 
   val pekkoVersionForDocs = "current"
-  val pekkoVersion = "0.0.0+26621-44d03df6-SNAPSHOT"
+  val pekkoVersion = "0.0.0+26623-85c2a469-SNAPSHOT"
 
   // Keep .scala-steward.conf pin in sync
   val kafkaVersion = "3.0.1"
