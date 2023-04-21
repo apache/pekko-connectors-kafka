@@ -35,7 +35,7 @@ There are two steps required to setup the cluster sharding module.
 
 @@@ note
 
-A complete example of using this module exists in an [`akka/akka-sample`](https://github.com/akka/akka-samples) project called [`akka-sample-kafka-sharding`](https://github.com/akka/akka-samples/tree/2.6/akka-sample-kafka-to-sharding-scala).  
+A complete example of using this module exists in an [`apache/incubator-pekko-samples`](https://github.com/apache/incubator-pekko-samples) project called [`pekko-sample-kafka-sharding`](https://github.com/apache/incubator-pekko-samples/tree/main/pekko-sample-kafka-to-sharding-scala).  
 It's a self-contained example that can run on a developer's laptop.
 
 @@@
