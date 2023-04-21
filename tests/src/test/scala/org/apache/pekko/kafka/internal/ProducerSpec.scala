@@ -64,7 +64,7 @@ class ProducerSpec(_system: ActorSystem)
 
   override def afterAll(): Unit = shutdown(system)
 
-  implicit val ec = _system.dispatcher
+  implicit val ec: ExecutionContext = _system.dispatcher
 
   private val group = "group"
 

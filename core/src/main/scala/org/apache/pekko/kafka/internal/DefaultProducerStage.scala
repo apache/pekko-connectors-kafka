@@ -51,12 +51,15 @@ private class DefaultProducerStageLogic[K, V, P, IN <: Envelope[K, V, P], OUT <:
     inheritedAttributes: Attributes) extends TimerGraphStageLogic(stage.shape)
     with StageIdLogging
     with DeferredProducer[K, V]
-    with ProducerCompletionState {
+    with ProducerCompletionState
+    with ExecutionContextProvider {
 
   private lazy val decider: Decider =
     inheritedAttributes.get[SupervisionStrategy].map(_.decider).getOrElse(Supervision.stoppingDecider)
   private var awaitingConfirmation = 0
   private var completionState: Option[Try[Done]] = None
+
+  override protected def getExecutionContext(): ExecutionContext = materializer.executionContext
 
   override protected def logSource: Class[_] = classOf[DefaultProducerStage[_, _, _, _, _]]
 

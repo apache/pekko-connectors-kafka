@@ -138,7 +138,7 @@ class RebalanceExtSpec extends SpecBase with TestcontainersKafkaLike with Inside
     val producerTpsAck: Seq[Future[Done]] = topics.flatMap { topic1 =>
       val topicIdx = topics.indexOf(topic1)
       val topicOffset = topicIdx * partitionCount * perPartitionMessageCount
-      (0 until partitionCount).map { partitionIdx: Int =>
+      (0 until partitionCount).map { (partitionIdx: Int) =>
         val startMessageIdx = partitionIdx * perPartitionMessageCount + 1 + topicOffset
         val endMessageIdx = startMessageIdx + perPartitionMessageCount - 1
         val messageRange = startMessageIdx to endMessageIdx

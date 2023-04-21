@@ -72,9 +72,13 @@ jobs:
       - name: Cache Coursier cache
         uses: coursier/cache-action@v6
 
-      - name: Compile all code with fatal warnings for Java 11 and Scala 2.12/2.13
+      - name: Compile all code with fatal warnings for Java 11 and Scala 2.12
         # Run locally with: env CI=true sbt 'clean ; Test/compile ; It/compile'
-        run: sbt "; +Test/compile; +It/compile"
+        run: sbt ++2.12 " ; Test/compile; It/compile"
+
+      - name: Compile all code with fatal warnings for Java 11 and Scala 2.13
+        # Run locally with: env CI=true sbt 'clean ; Test/compile ; It/compile'
+        run: sbt ++2.13 " ; Test/compile; It/compile"
 
   check-docs:
     name: Check Docs
@@ -101,8 +105,7 @@ jobs:
         uses: coursier/cache-action@v6
 
       - name: Create all API docs for artifacts/website and all reference docs
-        # Run locally with: sbt verifyDocs
-        run: sbt verifyDocs
+        run: sbt "doc ; unidoc ; docs/paradoxBrowse"
 
   test:
     name: Build and Test

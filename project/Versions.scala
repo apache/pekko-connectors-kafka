@@ -18,6 +18,7 @@ object Versions {
   // align ignore-prefixes in scripts/link-validator.conf
   val Scala213 = "2.13.10" // update even in link-validator.conf
   val Scala212 = "2.12.17"
+  val Scala3 = "3.2.2"
 
   val pekkoVersionForDocs = "current"
   val pekkoVersion = "0.0.0+26630-2c4d0ee0-SNAPSHOT"
@@ -27,7 +28,14 @@ object Versions {
   val KafkaVersionForDocs = "30"
   // This should align with the ScalaTest version used in the Apache Pekko 1.0.x testkit
   // https://github.com/apache/incubator-pekko/blob/main/project/Dependencies.scala#L70
-  val scalaTestVersion = "3.1.4"
+  val scalaTestVersion = Def.setting {
+    if (scalaVersion.value.startsWith("3.")) {
+      "3.2.9"
+    } else {
+      "3.1.4"
+    }
+  }
+  val scalaPBVersion = "0.11.13"
   val testcontainersVersion = "1.16.3"
   val slf4jVersion = "1.7.36"
   // this depends on Kafka, and should be upgraded to such latest version

@@ -747,10 +747,6 @@ import scala.util.control.NonFatal
   private[KafkaConsumerActor] sealed trait RebalanceListener
       extends ConsumerRebalanceListener
       with NoSerializationVerificationNeeded {
-    override def onPartitionsAssigned(partitions: java.util.Collection[TopicPartition]): Unit
-    override def onPartitionsRevoked(partitions: java.util.Collection[TopicPartition]): Unit
-    override def onPartitionsLost(partitions: java.util.Collection[TopicPartition]): Unit
-
     def postStop(): Unit = ()
   }
 

@@ -15,6 +15,7 @@
 package docs.scaladsl
 
 import org.apache.pekko
+import org.apache.pekko.kafka.ConsumerSettings
 import pekko.kafka.scaladsl.MetadataClient
 import pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
 import org.scalatest.TryValues
@@ -44,7 +45,7 @@ class FetchMetadata extends DocsSpecBase with TestcontainersKafkaLike with TryVa
     val consumerSettings = consumerDefaults.withGroupId(createGroupId())
     val topic = createTopic()
     // #metadata
-    val timeout = 5.seconds
+    val timeout: FiniteDuration = 5.seconds
     val settings = consumerSettings.withMetadataRequestTimeout(timeout)
     implicit val askTimeout = Timeout(timeout)
 
@@ -90,7 +91,7 @@ class FetchMetadata extends DocsSpecBase with TestcontainersKafkaLike with TryVa
   }
 
   "Get offsets" should "timeout fast" in {
-    val consumerSettings = consumerDefaults
+    val consumerSettings: ConsumerSettings[String, String] = consumerDefaults
       .withGroupId(createGroupId())
       .withMetadataRequestTimeout(100.millis)
     val topic = createTopic()
@@ -109,7 +110,7 @@ class FetchMetadata extends DocsSpecBase with TestcontainersKafkaLike with TryVa
   }
 
   it should "return" in {
-    val consumerSettings = consumerDefaults
+    val consumerSettings: ConsumerSettings[String, String] = consumerDefaults
       .withGroupId(createGroupId())
       .withMetadataRequestTimeout(5.seconds)
     val topic = createTopic()

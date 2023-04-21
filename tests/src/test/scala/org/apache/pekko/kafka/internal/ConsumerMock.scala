@@ -177,13 +177,13 @@ class ConsumerMock[K, V](handler: ConsumerMock.CommitHandler = new ConsumerMock.
   def assignPartitions(tps: Set[TopicPartition]) =
     tps.groupBy(_.topic()).foreach {
       case (topic, localTps) =>
-        pendingSubscriptions.find(_._1 == topic).get._2.onPartitionsAssigned(localTps.asJavaCollection)
+        pendingSubscriptions.find(_._1 == List(topic)).get._2.onPartitionsAssigned(localTps.asJavaCollection)
     }
 
   def revokePartitions(tps: Set[TopicPartition]) =
     tps.groupBy(_.topic()).foreach {
       case (topic, localTps) =>
-        pendingSubscriptions.find(_._1 == topic).get._2.onPartitionsRevoked(localTps.asJavaCollection)
+        pendingSubscriptions.find(_._1 == List(topic)).get._2.onPartitionsRevoked(localTps.asJavaCollection)
     }
 
   def releaseAndAwaitCommitCallbacks(testkit: TestKit, minOffset: Long): Unit = {

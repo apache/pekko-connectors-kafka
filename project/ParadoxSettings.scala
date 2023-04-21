@@ -28,7 +28,7 @@ object ParadoxSettings {
     Compile / paradoxProperties ++= Map(
       "image.base_url" -> "images/",
       "confluent.version" -> confluentAvroSerializerVersion,
-      "scalatest.version" -> scalaTestVersion,
+      "scalatest.version" -> scalaTestVersion.value,
       "pekko.version" -> pekkoVersion,
       "extref.pekko.base_url" -> s"$pekkoDocs/pekko/$pekkoVersionForDocs/%s",
       "scaladoc.org.apache.pekko.base_url" -> s"$pekkoAPI/pekko/$pekkoVersionForDocs/",

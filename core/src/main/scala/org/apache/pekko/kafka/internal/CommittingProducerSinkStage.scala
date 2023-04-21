@@ -15,7 +15,6 @@
 package org.apache.pekko.kafka.internal
 
 import java.util.concurrent.atomic.AtomicInteger
-
 import org.apache.pekko
 import pekko.Done
 import pekko.annotation.InternalApi
@@ -28,7 +27,7 @@ import pekko.stream.stage._
 import pekko.stream.{ Attributes, Inlet, SinkShape, Supervision }
 import org.apache.kafka.clients.producer.{ Callback, RecordMetadata }
 
-import scala.concurrent.{ Future, Promise }
+import scala.concurrent.{ ExecutionContext, Future, Promise }
 import scala.util.{ Failure, Success, Try }
 
 /**
@@ -57,7 +56,8 @@ private final class CommittingProducerSinkStageLogic[K, V, IN <: Envelope[K, V, 
     inheritedAttributes: Attributes) extends TimerGraphStageLogic(stage.shape)
     with CommitObservationLogic
     with StageIdLogging
-    with DeferredProducer[K, V] {
+    with DeferredProducer[K, V]
+    with ExecutionContextProvider {
 
   import CommitTrigger._
 
@@ -68,6 +68,8 @@ private final class CommittingProducerSinkStageLogic[K, V, IN <: Envelope[K, V, 
 
   private lazy val decider: Decider =
     inheritedAttributes.get[SupervisionStrategy].map(_.decider).getOrElse(Supervision.stoppingDecider)
+
+  override protected def getExecutionContext(): ExecutionContext = materializer.executionContext
 
   override protected def logSource: Class[_] = classOf[CommittingProducerSinkStage[_, _, _]]
 
