@@ -87,7 +87,7 @@ object ProjectSettings extends AutoPlugin {
       "-encoding",
       "UTF-8", // yes, this is 2 args
       "-Wconf:cat=feature:w",
-      "-Wconf:cat=deprecation:w",
+      //"-Wconf:cat=deprecation:w",
       "-Wconf:cat=unchecked:w") ++ {
       if (insideCI.value && !Nightly) Seq("-Werror")
       else Seq.empty
