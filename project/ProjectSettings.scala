@@ -86,7 +86,9 @@ object ProjectSettings extends AutoPlugin {
     scalacOptions ++= Seq(
       "-encoding",
       "UTF-8", // yes, this is 2 args
-      "-Wconf:cat=feature:w,cat=deprecation:w,cat=unchecked:w,cat=lint:w,cat=unused:w,cat=w-flag:w") ++ {
+      "-Wconf:cat=feature:w",
+      "-Wconf:cat=deprecation:w",
+      "-Wconf:cat=unchecked:w") ++ {
       if (insideCI.value && !Nightly) Seq("-Werror")
       else Seq.empty
     },
