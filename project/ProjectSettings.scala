@@ -77,7 +77,7 @@ object ProjectSettings extends AutoPlugin {
       url("https://github.com/apache/incubator-pekko-connectors-kafka/graphs/contributors")),
     startYear := Some(2022),
     description := "Apache Pekko Kafka Connector is a Reactive Enterprise Integration library for Java and Scala, based on Reactive Streams and Apache Pekko.",
-    crossScalaVersions := Seq(Scala212, Scala213),
+    crossScalaVersions := Seq(Scala212, Scala213, Scala3),
     scalaVersion := Scala213,
     crossVersion := CrossVersion.binary,
     javacOptions ++= Seq(
@@ -86,8 +86,10 @@ object ProjectSettings extends AutoPlugin {
     scalacOptions ++= Seq(
       "-encoding",
       "UTF-8", // yes, this is 2 args
-      "-Wconf:cat=feature:w,cat=deprecation:w,cat=unchecked:w,cat=lint:w,cat=unused:w,cat=w-flag:w") ++ {
-      if (insideCI.value && !Nightly) Seq("-Werror")
+      "-Wconf:cat=feature:w",
+      "-Wconf:cat=deprecation:w",
+      "-Wconf:cat=unchecked:w") ++ {
+      if (insideCI.value && !Nightly && scalaVersion.value.startsWith("2.")) Seq("-Werror")
       else Seq.empty
     },
     Compile / doc / scalacOptions := scalacOptions.value ++ Seq(

@@ -17,7 +17,6 @@ package org.apache.pekko.kafka.internal
 import java.util.concurrent.atomic.AtomicReference
 import java.util.concurrent.{ CountDownLatch, TimeUnit }
 import java.util.function.UnaryOperator
-
 import org.apache.pekko
 import pekko.Done
 import pekko.actor.ActorSystem
@@ -40,7 +39,7 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.{ BeforeAndAfterAll, OptionValues }
 import org.slf4j.{ Logger, LoggerFactory }
 
-import scala.concurrent.Future
+import scala.concurrent.{ ExecutionContext, Future }
 import scala.concurrent.duration._
 
 class PartitionedSourceSpec(_system: ActorSystem)
@@ -66,7 +65,7 @@ class PartitionedSourceSpec(_system: ActorSystem)
   override def afterAll(): Unit =
     shutdown(system)
 
-  implicit val ec = _system.dispatcher
+  implicit val ec: ExecutionContext = _system.dispatcher
 
   def consumerSettings(dummy: Consumer[K, V]): ConsumerSettings[K, V] =
     ConsumerSettings
@@ -264,7 +263,7 @@ class PartitionedSourceSpec(_system: ActorSystem)
     }
 
     def getOffsetsOnAssign: Set[TopicPartition] => Future[Map[TopicPartition, Long]] = { tps =>
-      log.debug(s"getOffsetsOnAssign (${tps.mkString(",")})")
+      logger.debug(s"getOffsetsOnAssign (${tps.mkString(",")})")
       assertGetOffsetsOnAssign(tps)
       Future.successful(tps.map(tp => (tp, 300L)).toMap)
     }
@@ -296,7 +295,7 @@ class PartitionedSourceSpec(_system: ActorSystem)
     }
 
     def getOffsetsOnAssign: Set[TopicPartition] => Future[Map[TopicPartition, Long]] = { tps =>
-      log.debug(s"getOffsetsOnAssign (${tps.mkString(",")})")
+      logger.debug(s"getOffsetsOnAssign (${tps.mkString(",")})")
       assertGetOffsetsOnAssign(tps)
       Future.successful(tps.map(tp => (tp, 300L)).toMap)
     }
@@ -335,7 +334,7 @@ class PartitionedSourceSpec(_system: ActorSystem)
     }
 
     def getOffsetsOnAssign: Set[TopicPartition] => Future[Map[TopicPartition, Long]] = { tps =>
-      log.debug(s"getOffsetsOnAssign (${tps.mkString(",")})")
+      logger.debug(s"getOffsetsOnAssign (${tps.mkString(",")})")
       assertGetOffsetsOnAssign(tps)
       Future.successful(tps.map(tp => (tp, 300L)).toMap)
     }
@@ -367,7 +366,7 @@ class PartitionedSourceSpec(_system: ActorSystem)
     val dummy = new Dummy()
 
     def getOffsetsOnAssign: Set[TopicPartition] => Future[Map[TopicPartition, Long]] = { tps =>
-      log.debug(s"getOffsetsOnAssign (${tps.mkString(",")})")
+      logger.debug(s"getOffsetsOnAssign (${tps.mkString(",")})")
       Future.successful(tps.map(tp => (tp, 300L)).toMap)
     }
 
@@ -407,7 +406,7 @@ class PartitionedSourceSpec(_system: ActorSystem)
     def getOffsetsOnAssign: Set[TopicPartition] => Future[Map[TopicPartition, Long]] = { tps =>
       Future {
         latch.await(10, TimeUnit.SECONDS)
-        log.debug(s"getOffsetsOnAssign (${tps.mkString(",")})")
+        logger.debug(s"getOffsetsOnAssign (${tps.mkString(",")})")
         tps.map(tp => (tp, 300L)).toMap
       }
     }
@@ -436,7 +435,7 @@ class PartitionedSourceSpec(_system: ActorSystem)
     def getOffsetsOnAssign: Set[TopicPartition] => Future[Map[TopicPartition, Long]] = { tps =>
       // This will be called twice, but we ensure that the second returned Future completes
       // before the first returned Future
-      log.debug(s"getOffsetsOnAssign (${tps.mkString(",")})")
+      logger.debug(s"getOffsetsOnAssign (${tps.mkString(",")})")
       val offsets = tps.map(tp => (tp, 300L)).toMap
       if (tps.size == 2) {
         Future {
@@ -475,7 +474,7 @@ class PartitionedSourceSpec(_system: ActorSystem)
     }
 
     def getOffsetsOnAssign: Set[TopicPartition] => Future[Map[TopicPartition, Long]] = { tps =>
-      log.debug(s"getOffsetsOnAssign (${tps.mkString(",")})")
+      logger.debug(s"getOffsetsOnAssign (${tps.mkString(",")})")
       assertGetOffsetsOnAssign(tps)
       Future.successful(tps.map(tp => (tp, 300L)).toMap)
     }
@@ -509,7 +508,7 @@ class PartitionedSourceSpec(_system: ActorSystem)
     }
 
     def getOffsetsOnAssign: Set[TopicPartition] => Future[Map[TopicPartition, Long]] = { tps =>
-      log.debug(s"getOffsetsOnAssign (${tps.mkString(",")})")
+      logger.debug(s"getOffsetsOnAssign (${tps.mkString(",")})")
       assertGetOffsetsOnAssign(tps)
       Future.successful(tps.map(tp => (tp, 300L)).toMap)
     }
@@ -550,7 +549,7 @@ class PartitionedSourceSpec(_system: ActorSystem)
     }
 
     def getOffsetsOnAssign: Set[TopicPartition] => Future[Map[TopicPartition, Long]] = { tps =>
-      log.debug(s"getOffsetsOnAssign (${tps.mkString(",")})")
+      logger.debug(s"getOffsetsOnAssign (${tps.mkString(",")})")
       assertGetOffsetsOnAssign(tps)
       Future.successful(tps.map(tp => (tp, 300L)).toMap)
     }
@@ -584,7 +583,7 @@ class PartitionedSourceSpec(_system: ActorSystem)
     val dummy = new Dummy()
 
     def getOffsetsOnAssign: Set[TopicPartition] => Future[Map[TopicPartition, Long]] = { tps =>
-      log.debug(s"getOffsetsOnAssign (${tps.mkString(",")})")
+      logger.debug(s"getOffsetsOnAssign (${tps.mkString(",")})")
       Future.successful(tps.map(tp => (tp, 300L)).toMap)
     }
 
@@ -747,7 +746,7 @@ class PartitionedSourceSpec(_system: ActorSystem)
 }
 
 object PartitionedSourceSpec {
-  def log: Logger = LoggerFactory.getLogger(getClass)
+  def logger: Logger = LoggerFactory.getLogger(getClass)
 
   type K = String
   type V = String
@@ -759,7 +758,7 @@ object PartitionedSourceSpec {
   val tp1 = new TopicPartition(topic, 1)
 
   def sleep(time: FiniteDuration): Unit = {
-    log.debug(s"sleeping $time")
+    logger.debug(s"sleeping $time")
     Thread.sleep(time.toMillis)
   }
 

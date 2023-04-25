@@ -45,7 +45,7 @@ lazy val testkit = project
     name := "pekko-connectors-kafka-testkit",
     AutomaticModuleName.settings("org.apache.pekko.kafka.testkit"),
     JupiterKeys.junitJupiterVersion := "5.8.2",
-    libraryDependencies ++= Dependencies.testKitDependencies,
+    libraryDependencies ++= Dependencies.testKitDependencies.value,
     libraryDependencies ++= Seq(
       "org.junit.jupiter" % "junit-jupiter-api" % JupiterKeys.junitJupiterVersion.value % Provided),
     mimaPreviousArtifacts := Set.empty, // temporarily disable mima checks
@@ -73,13 +73,14 @@ lazy val tests = project
   .settings(
     name := "pekko-connectors-kafka-tests",
     resolvers ++= ResolverSettings.testSpecificResolvers,
-    libraryDependencies ++= Dependencies.testDependencies,
+    libraryDependencies ++= Dependencies.testDependencies.value,
     libraryDependencies ++= Seq(
       "org.junit.vintage" % "junit-vintage-engine" % JupiterKeys.junitVintageVersion.value % Test,
       "net.aichler" % "jupiter-interface" % JupiterKeys.jupiterVersion.value % Test),
     publish / skip := true,
     Test / fork := true,
     Test / parallelExecution := false,
+    Test / compileOrder := CompileOrder.ScalaThenJava,
     IntegrationTest / parallelExecution := false)
 
 lazy val docs = project
@@ -118,4 +119,4 @@ lazy val benchmarks = project
     name := "pekko-connectors-kafka-benchmarks",
     publish / skip := true,
     IntegrationTest / parallelExecution := false,
-    libraryDependencies ++= Dependencies.benchmarkDependencies)
+    libraryDependencies ++= Dependencies.benchmarkDependencies.value)

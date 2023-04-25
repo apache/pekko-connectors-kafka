@@ -22,6 +22,7 @@ import pekko.stream.stage._
 import pekko.util.JavaDurationConverters._
 import org.apache.kafka.clients.producer.Producer
 
+import scala.concurrent.ExecutionContext
 import scala.util.control.NonFatal
 import scala.util.{ Failure, Success }
 
@@ -47,8 +48,16 @@ private[kafka] object DeferredProducer {
  * INTERNAL API
  */
 @InternalApi
+private[kafka] trait ExecutionContextProvider {
+  protected def getExecutionContext(): ExecutionContext
+}
+
+/**
+ * INTERNAL API
+ */
+@InternalApi
 private[kafka] trait DeferredProducer[K, V] {
-  self: GraphStageLogic with StageIdLogging =>
+  self: GraphStageLogic with StageIdLogging with ExecutionContextProvider =>
 
   import DeferredProducer._
 
@@ -67,7 +76,7 @@ private[kafka] trait DeferredProducer[K, V] {
   }
 
   final protected def resolveProducer(settings: ProducerSettings[K, V]): Unit = {
-    val producerFuture = settings.createKafkaProducerAsync()(materializer.executionContext)
+    val producerFuture = settings.createKafkaProducerAsync()(getExecutionContext())
     producerFuture.value match {
       case Some(Success(p)) => assignProducer(p)
       case Some(Failure(e)) => failStage(e)

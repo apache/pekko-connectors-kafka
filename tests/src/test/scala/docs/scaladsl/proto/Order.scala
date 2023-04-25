@@ -19,6 +19,8 @@
 
 package docs.scaladsl.proto
 
+import com.google.protobuf.CodedInputStream
+
 @SerialVersionUID(0L)
 final case class Order(
     id: _root_.scala.Predef.String = "",
@@ -79,7 +81,7 @@ final case class Order(
 
 object Order extends scalapb.GeneratedMessageCompanion[docs.scaladsl.proto.Order] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[docs.scaladsl.proto.Order] = this
-  def merge(`_message__`: docs.scaladsl.proto.Order,
+  override def merge(`_message__`: docs.scaladsl.proto.Order,
       `_input__`: _root_.com.google.protobuf.CodedInputStream): docs.scaladsl.proto.Order = {
     var __id = `_message__`.id
     var `_unknownFields__` : _root_.scalapb.UnknownFieldSet.Builder = null
@@ -101,6 +103,8 @@ object Order extends scalapb.GeneratedMessageCompanion[docs.scaladsl.proto.Order
       id = __id,
       unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result())
   }
+  override def parseFrom(input: CodedInputStream): docs.scaladsl.proto.Order = merge(defaultInstance, input)
+
   implicit def messageReads: _root_.scalapb.descriptors.Reads[docs.scaladsl.proto.Order] =
     _root_.scalapb.descriptors.Reads {
       case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

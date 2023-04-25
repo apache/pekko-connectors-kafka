@@ -32,17 +32,27 @@ import scala.concurrent.Future
 import scala.language.reflectiveCalls
 
 object ControlSpec {
+
+  trait WithShutdownCalled {
+    def shutdownCalled: AtomicBoolean
+  }
+
   def createControl(stopFuture: Future[Done] = Future.successful(Done),
-      shutdownFuture: Future[Done] = Future.successful(Done)) = {
+      shutdownFuture: Future[Done] = Future.successful(Done)): Consumer.Control with WithShutdownCalled = {
     val control = new pekko.kafka.scaladsl.ControlSpec.ControlImpl(stopFuture, shutdownFuture)
     val wrapped = new ConsumerControlAsJava(control)
-    new Consumer.Control {
-      def shutdownCalled: AtomicBoolean = control.shutdownCalled
+    new Consumer.Control with WithShutdownCalled {
+      override def shutdownCalled: AtomicBoolean = control.shutdownCalled
+
       override def stop(): CompletionStage[Done] = wrapped.stop()
+
       override def shutdown(): CompletionStage[Done] = wrapped.shutdown()
+
       override def drainAndShutdown[T](streamCompletion: CompletionStage[T], ec: Executor): CompletionStage[T] =
         wrapped.drainAndShutdown(streamCompletion, ec)
+
       override def isShutdown: CompletionStage[Done] = wrapped.isShutdown
+
       override def getMetrics: CompletionStage[util.Map[MetricName, Metric]] = wrapped.getMetrics
     }
   }

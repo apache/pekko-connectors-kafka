@@ -186,7 +186,7 @@ private[kafka] final class CommittableOffsetBatchImpl(
     val metadata = newOffset match {
       case offset: CommittableOffsetMetadata =>
         offset.metadata
-      case _ =>
+      case null =>
         OffsetFetchResponse.NO_METADATA
     }
 

@@ -140,7 +140,14 @@ object ConsumerMessage {
   /**
    * Internal Api
    */
-  @InternalApi private[kafka] final case class PartitionOffsetCommittedMarker(
+
+  private[kafka] object PartitionOffsetCommittedMarker {
+    def apply(key: GroupTopicPartition, offset: Long,
+        committedMarker: CommittedMarker, fromPartitionedSource: Boolean): PartitionOffsetCommittedMarker =
+      new PartitionOffsetCommittedMarker(key, offset, committedMarker, fromPartitionedSource)
+  }
+
+  @InternalApi private[kafka] final class PartitionOffsetCommittedMarker(
       override val key: GroupTopicPartition,
       override val offset: Long,
       private[kafka] val committedMarker: CommittedMarker,
