@@ -14,6 +14,7 @@
 
 package docs.javadsl;
 
+import org.apache.kafka.common.serialization.StringSerializer;
 import org.apache.pekko.actor.ActorSystem;
 import org.apache.pekko.kafka.ProducerSettings;
 import org.apache.pekko.kafka.ProducerSettingsSpec$;
@@ -23,7 +24,6 @@ import org.apache.pekko.kafka.javadsl.DiscoverySupport;
 import org.apache.pekko.testkit.javadsl.TestKit;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import org.apache.kafka.common.serialization.StringSerializer;
 import org.junit.jupiter.api.Test;
 
 public class ProducerSettingsTest {

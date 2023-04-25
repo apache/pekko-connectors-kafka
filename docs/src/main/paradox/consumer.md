@@ -73,7 +73,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/ConsumerExample.scala) { #settings }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #settings }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #settings }
 
 
 ### Config inheritance
@@ -89,7 +89,7 @@ Scala
 : @@ snip [read](/tests/src/test/scala/docs/scaladsl/ConsumerExample.scala) { #config-inheritance } 
 
 Java
-: @@ snip [read](/tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #config-inheritance } 
+: @@ snip [read](/java-tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #config-inheritance } 
 
 
 ## Offset Storage external to Kafka
@@ -107,7 +107,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/ConsumerExample.scala) { #settings-autocommit }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #settings-autocommit }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #settings-autocommit }
 
 The consumer application doesn't need to use Kafka's built-in offset storage, it can store offsets in a store of its own
 choosing. The primary use case for this is allowing the application to store both the offset and the results of the
@@ -119,7 +119,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/ConsumerExample.scala) { #plainSource }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #plainSource }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #plainSource }
 
 For 
 @apidoc[Consumer.plainSource](Consumer$) { java="#plainSource[K,V](settings:org.apache.pekko.kafka.ConsumerSettings[K,V],subscription:org.apache.pekko.kafka.Subscription):org.apache.pekko.stream.javadsl.Source[org.apache.kafka.clients.consumer.ConsumerRecord[K,V],pekko.kafka.javadsl.Consumer.Control]" scala="#plainSource[K,V](settings:org.apache.pekko.kafka.ConsumerSettings[K,V],subscription:org.apache.pekko.kafka.Subscription):org.apache.pekko.stream.scaladsl.Source[org.apache.kafka.clients.consumer.ConsumerRecord[K,V],org.apache.pekko.kafka.scaladsl.Consumer.Control]" } 
@@ -145,7 +145,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/ConsumerExample.scala) { #atLeastOnce }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #atLeastOnce }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #atLeastOnce }
 
 Committing the offset for each message (`withMaxBatch(1)`) as illustrated above is rather slow. It is recommended to batch the commits for better throughput, in cases when upstream fails the `Committer` will try to commit the offsets collected before the error.
 
@@ -158,7 +158,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/ConsumerExample.scala) { #committerSink }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #committerSink }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #committerSink }
  
 When creating a @apidoc[Committer.sink](Committer$) you need to pass in @apidoc[CommitterSettings$]. These may be created by passing the actor system to read the defaults from the config section `pekko.kafka.committer`, or by passing a @scaladoc[Config](com.typesafe.config.Config) instance with the same structure.
 
@@ -199,7 +199,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/ConsumerExample.scala) { #commitWithMetadata }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #commitWithMetadata }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #commitWithMetadata }
 
 ## Offset Storage in Kafka & external
 
@@ -216,7 +216,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/ConsumerExample.scala) { #atMostOnce }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #atMostOnce }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #atMostOnce }
 
 
 ## Consume "at-least-once"
@@ -234,7 +234,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/ConsumerExample.scala) { #consumerToProducerSink }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #consumerToProducerSink }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #consumerToProducerSink }
 
 @@@note 
 
@@ -254,7 +254,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/ConsumerExample.scala) { #committablePartitionedSource }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #committablePartitionedSource }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #committablePartitionedSource }
 
 Separate streams per partition:
 
@@ -262,7 +262,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/ConsumerExample.scala) { #committablePartitionedSource-stream-per-partition }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #committablePartitionedSource-stream-per-partition }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #committablePartitionedSource-stream-per-partition }
 
 
 ## Sharing the KafkaConsumer instance
@@ -279,7 +279,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/PartitionExamples.scala) { #consumerActorTyped }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #consumerActorTyped }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #consumerActorTyped }
 
 Using the @apidoc[org.apache.pekko.kafka.KafkaConsumerActor$].
 
@@ -287,7 +287,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/PartitionExamples.scala) { #consumerActor }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #consumerActor }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #consumerActor }
 
 
 ## Accessing KafkaConsumer metrics
@@ -298,7 +298,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/PartitionExamples.scala) { #consumerMetrics }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #consumerMetrics }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #consumerMetrics }
 
 
 ## Accessing KafkaConsumer metadata
@@ -315,7 +315,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/ConsumerExample.scala) { #shutdownPlainSource }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #shutdownPlainSource }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #shutdownPlainSource }
 
 When you are using offset storage in Kafka, the shutdown process involves several steps:
 
@@ -334,7 +334,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/ConsumerExample.scala) { #shutdownCommittableSource }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #shutdownCommittableSource }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #shutdownCommittableSource }
 
 
 @@@ index

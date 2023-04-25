@@ -76,7 +76,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/TransactionsExample.scala) { #transactionalSink }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/TransactionsExampleTest.java) { #transactionalSink }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/TransactionsExampleTest.java) { #transactionalSink }
 
 
 <!-- TODO: uncomment when Transacitonal.partitionedSource is ready
@@ -86,7 +86,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/TransactionsExample.scala) { #partitionedTransactionalSink }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/TransactionsExampleTest.java) { #partitionedTransactionalSink }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/TransactionsExampleTest.java) { #partitionedTransactionalSink }
 -->
 
 ### Recovery From Failure
@@ -99,7 +99,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/TransactionsExample.scala) { #transactionalFailureRetry }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/TransactionsExampleTest.java) { #transactionalFailureRetry }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/TransactionsExampleTest.java) { #transactionalFailureRetry }
 
 ## Caveats
 

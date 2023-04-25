@@ -59,7 +59,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/ProducerExample.scala) { #settings }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/ProducerTest.java) { #settings }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/ProducerTest.java) { #settings }
 
 In addition to programmatic construction of the @apidoc[ProducerSettings$] it can also be created from configuration (`application.conf`). 
 
@@ -88,7 +88,7 @@ Scala
   The materialized value of the sink is a `Future[Done]` which is completed with `Done` when the stream completes, or with with an exception in case an error occurs.
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/ProducerTest.java) { #plainSink }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/ProducerTest.java) { #plainSink }
   The materialized value of the sink is a `CompletionStage<Done>` which is completed with `Done` when the stream completes, or with an exception in case an error occurs.
 
 
@@ -105,7 +105,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/ProducerExample.scala) { #singleMessage }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/ProducerTest.java) { #singleMessage }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/ProducerTest.java) { #singleMessage }
 
 
 For flows the @apidoc[ProducerMessage.Message]s continue as @apidoc[org.apache.pekko.kafka.ProducerMessage.Result] elements containing: 
@@ -123,7 +123,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/ProducerExample.scala) { #multiMessage }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/ProducerTest.java) { #multiMessage }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/ProducerTest.java) { #multiMessage }
 
 For flows the @apidoc[ProducerMessage.MultiMessage]s continue as @apidoc[org.apache.pekko.kafka.ProducerMessage.MultiResult] elements containing: 
  
@@ -142,7 +142,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/ProducerExample.scala) { #passThroughMessage }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/ProducerTest.java) { #passThroughMessage }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/ProducerTest.java) { #passThroughMessage }
 
 
 For flows the @apidoc[ProducerMessage.PassThroughMessage]s continue as @apidoc[ProducerMessage.PassThroughResult] elements containing the `passThrough` data.  
@@ -158,7 +158,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/ProducerExample.scala) { #flow }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/ProducerTest.java) { #flow }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/ProducerTest.java) { #flow }
 
 
 ## Connecting a Producer to a Consumer
@@ -169,7 +169,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/ConsumerExample.scala) { #consumerToProducerSink }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #consumerToProducerSink }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #consumerToProducerSink }
 
 
 ## Sharing the KafkaProducer instance
@@ -183,7 +183,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/ProducerExample.scala) { #producer }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/ProducerTest.java) { #producer }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/ProducerTest.java) { #producer }
 
 The @javadoc[KafkaProducer](org.apache.kafka.clients.producer.KafkaProducer) instance (or @scala[Future]@java[CompletionStage]) is passed as a parameter to @apidoc[ProducerSettings] using the methods `withProducer` and `withProducerFactory`.
 
@@ -191,7 +191,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/ProducerExample.scala) { #plainSinkWithProducer }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/ProducerTest.java) { #plainSinkWithProducer }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/ProducerTest.java) { #plainSinkWithProducer }
 
 
 ## Accessing KafkaProducer metrics
@@ -202,7 +202,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/ProducerExample.scala) { #producerMetrics }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/ProducerTest.java) { #producerMetrics }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/ProducerTest.java) { #producerMetrics }
 
 @@@ index
 

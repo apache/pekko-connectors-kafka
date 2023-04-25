@@ -25,7 +25,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/ConsumerExample.scala) { #restartSource }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #restartSource }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #restartSource }
 
 When a stream fails, library internals will handle all underlying resources.
 

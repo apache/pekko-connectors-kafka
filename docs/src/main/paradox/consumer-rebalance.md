@@ -43,7 +43,7 @@ Scala
 : @@snip [snip](/tests/src/test/scala/docs/scaladsl/ConsumerExample.scala) { #partitionAssignmentHandler }
 
 Java
-: @@snip [snip](/tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #partitionAssignmentHandler }
+: @@snip [snip](/java-tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #partitionAssignmentHandler }
 
 
 ## Listening for rebalance events
@@ -61,7 +61,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/ConsumerExample.scala) { #withTypedRebalanceListenerActor }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #withTypedRebalanceListenerActor }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #withTypedRebalanceListenerActor }
 
 Or with Classic Actors
 
@@ -69,4 +69,4 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/ConsumerExample.scala) { #withRebalanceListenerActor }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #withRebalanceListenerActor }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/ConsumerExampleTest.java) { #withRebalanceListenerActor }

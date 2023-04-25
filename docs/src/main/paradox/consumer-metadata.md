@@ -41,7 +41,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/FetchMetadata.scala) { #metadataClient }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/MetadataClientTest.java) { #metadataClient }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/MetadataClientTest.java) { #metadataClient }
 
 
 ## Accessing metadata using KafkaConsumerActor
@@ -75,4 +75,4 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/FetchMetadata.scala) { #metadata }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/FetchMetadataTest.java) { #metadata }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/FetchMetadataTest.java) { #metadata }

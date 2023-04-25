@@ -13,7 +13,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/SerializationSpec.scala) { #protobuf-imports #protobuf-serializer }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/SerializationTest.java) { #protobuf-imports #protobuf-serializer }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/SerializationTest.java) { #protobuf-imports #protobuf-serializer }
 
 
 To de-serialize a Protocol Buffers message in a `map` operator, convert the received byte array to the designated type with the generated `parseFrom()` method.
@@ -24,7 +24,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/SerializationSpec.scala) { #protobuf-imports #protobuf-deserializer }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/SerializationTest.java) { #protobuf-imports #protobuf-deserializer }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/SerializationTest.java) { #protobuf-imports #protobuf-deserializer }
 
 
 ## Jackson JSON
@@ -32,7 +32,7 @@ Java
 Serializing data to JSON text with [Jackson](https://github.com/FasterXML/jackson) in a `map` operator will turn the object instance into a String which is used as value in the @javadoc[ProducerRecord](org.apache.kafka.clients.producer.ProducerRecord).
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/SerializationTest.java) { #jackson-imports #jackson-serializer }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/SerializationTest.java) { #jackson-imports #jackson-serializer }
 
 
 To de-serialize a JSON String with Jackson in a `map` operator, extract the String and apply the Jackson object reader in a `map` operator. Amend the `map` operator with the extracted type as the object reader is not generic.
@@ -40,7 +40,7 @@ To de-serialize a JSON String with Jackson in a `map` operator, extract the Stri
 This example uses resuming to react on data which can't be parsed correctly and ignores faulty elements.
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/SerializationTest.java) { #jackson-imports #jackson-deserializer }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/SerializationTest.java) { #jackson-imports #jackson-deserializer }
 
 
 ## Spray JSON
@@ -109,7 +109,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/SchemaRegistrySerializationSpec.scala) { #imports #serializer }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/SchemaRegistrySerializationTest.java) { #imports #serializer }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/SchemaRegistrySerializationTest.java) { #imports #serializer }
 
 
 
@@ -121,4 +121,4 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/SchemaRegistrySerializationSpec.scala) { #imports #de-serializer }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/SchemaRegistrySerializationTest.java) { #imports #de-serializer }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/SchemaRegistrySerializationTest.java) { #imports #de-serializer }

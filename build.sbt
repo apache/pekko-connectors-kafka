@@ -24,7 +24,7 @@ lazy val `pekko-connectors-kafka` =
       publish / skip := true,
       ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(core, testkit, `cluster-sharding`),
       onLoadMessage := ProjectSettings.onLoadMessage)
-    .aggregate(core, testkit, `cluster-sharding`, tests, benchmarks, docs)
+    .aggregate(core, testkit, `cluster-sharding`, tests, `java-tests`, benchmarks, docs)
 
 lazy val core = project
   .disablePlugins(SitePlugin)
@@ -74,13 +74,26 @@ lazy val tests = project
     name := "pekko-connectors-kafka-tests",
     resolvers ++= ResolverSettings.testSpecificResolvers,
     libraryDependencies ++= Dependencies.testDependencies.value,
+    publish / skip := true,
+    Test / fork := true,
+    Test / parallelExecution := false,
+    IntegrationTest / parallelExecution := false)
+
+lazy val `java-tests` = project
+  .dependsOn(core, testkit, `cluster-sharding`, tests % "compile->compile;test->test")
+  .disablePlugins(MimaPlugin, SitePlugin)
+  .settings(commonSettings)
+  .settings(
+    name := "pekko-connectors-kafka-java-tests",
+    resolvers ++= ResolverSettings.testSpecificResolvers,
+    libraryDependencies ++= Dependencies.testDependencies.value,
     libraryDependencies ++= Seq(
       "org.junit.vintage" % "junit-vintage-engine" % JupiterKeys.junitVintageVersion.value % Test,
       "net.aichler" % "jupiter-interface" % JupiterKeys.jupiterVersion.value % Test),
     publish / skip := true,
+    Test / compileOrder := CompileOrder.ScalaThenJava,
     Test / fork := true,
     Test / parallelExecution := false,
-    Test / compileOrder := CompileOrder.ScalaThenJava,
     IntegrationTest / parallelExecution := false)
 
 lazy val docs = project
