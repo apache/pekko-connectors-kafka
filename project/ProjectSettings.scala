@@ -99,9 +99,10 @@ object ProjectSettings extends AutoPlugin {
       "-doc-version",
       version.value,
       "-sourcepath",
-      (ThisBuild / baseDirectory).value.toString,
-      "-skip-packages",
-      "pekko.pattern:scala", // for some reason Scaladoc creates this
+      (ThisBuild / baseDirectory).value.toString) ++
+    (if (scalaVersion.value.startsWith("2.")) // annoying bug in scala 2.x scaladoc
+       Seq("-skip-packages", "org.apache.pekko.pattern:scala")
+     else Seq.empty) ++ Seq(
       "-doc-source-url", {
         val branch = if (isSnapshot.value) "main" else s"v${version.value}"
         s"https://github.com/apache/incubator-pekko-connectors-kafka/tree/${branch}€{FILE_PATH_EXT}#L€{FILE_LINE}"

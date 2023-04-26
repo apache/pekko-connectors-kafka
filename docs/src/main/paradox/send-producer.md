@@ -28,7 +28,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/SendProducerSpec.scala) { #record }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/SendProducerTest.java) { #record }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/SendProducerTest.java) { #record }
 
 
 ### Envelope
@@ -39,7 +39,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/SendProducerSpec.scala) { #multiMessage }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/SendProducerTest.java) { #multiMessage }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/SendProducerTest.java) { #multiMessage }
 
 After successful sending, a @apidoc[ProducerMessage.Message] will return a @apidoc[org.apache.pekko.kafka.ProducerMessage.Result] element containing:
 

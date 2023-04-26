@@ -61,7 +61,7 @@ Scala
 : @@snip [snip](/tests/src/test/scala/docs/scaladsl/ClusterShardingExample.scala) { #user-entity }
 
 Java
-: @@snip [snip](/tests/src/test/java/docs/javadsl/ClusterShardingExample.java) { #user-entity }
+: @@snip [snip](/java-tests/src/test/java/docs/javadsl/ClusterShardingExample.java) { #user-entity }
 
 Create a `MessageExtractor`.
 
@@ -69,7 +69,7 @@ Scala
 : @@snip [snip](/tests/src/test/scala/docs/scaladsl/ClusterShardingExample.scala) { #message-extractor }
 
 Java
-: @@snip [snip](/tests/src/test/java/docs/javadsl/ClusterShardingExample.java) { #message-extractor }
+: @@snip [snip](/java-tests/src/test/java/docs/javadsl/ClusterShardingExample.java) { #message-extractor }
 
 Setup Apache Pekko Typed Cluster Sharding.
 
@@ -77,7 +77,7 @@ Scala
 : @@snip [snip](/tests/src/test/scala/docs/scaladsl/ClusterShardingExample.scala) { #setup-cluster-sharding }
 
 Java
-: @@snip [snip](/tests/src/test/java/docs/javadsl/ClusterShardingExample.java) { #setup-cluster-sharding }
+: @@snip [snip](/java-tests/src/test/java/docs/javadsl/ClusterShardingExample.java) { #setup-cluster-sharding }
 
 ## Rebalance Listener
 
@@ -102,4 +102,4 @@ Scala
 : @@snip [snip](/tests/src/test/scala/docs/scaladsl/ClusterShardingExample.scala) { #rebalance-listener }
 
 Java
-: @@snip [snip](/tests/src/test/java/docs/javadsl/ClusterShardingExample.java) { #rebalance-listener }
+: @@snip [snip](/java-tests/src/test/java/docs/javadsl/ClusterShardingExample.java) { #rebalance-listener }

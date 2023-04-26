@@ -19,7 +19,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/AssignmentSpec.scala) { #single-topic }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/AssignmentTest.java) { #single-topic }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/AssignmentTest.java) { #single-topic }
 
 
 ### Topic Pattern
@@ -31,7 +31,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/AssignmentSpec.scala) { #topic-pattern }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/AssignmentTest.java) { #topic-pattern }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/AssignmentTest.java) { #topic-pattern }
 
 
 ## Manual Partition Assignment
@@ -44,7 +44,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/AssignmentSpec.scala) { #assingment-single-partition }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/AssignmentTest.java) { #assingment-single-partition }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/AssignmentTest.java) { #assingment-single-partition }
 
 
 ### Partition Assignment with Offset
@@ -55,7 +55,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/AssignmentSpec.scala) { #assingment-single-partition-offset }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/AssignmentTest.java) { #assingment-single-partition-offset }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/AssignmentTest.java) { #assingment-single-partition-offset }
 
 
 This subscription can be used when offsets are stored in Kafka or on external storage. For more information, take a look at the @ref[Offset Storage external to Kafka](consumer.md#offset-storage-external-to-kafka) documentation page.
@@ -68,4 +68,4 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/AssignmentSpec.scala) { #assingment-single-partition-timestamp }
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/AssignmentTest.java) { #assingment-single-partition-timestamp }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/AssignmentTest.java) { #assingment-single-partition-timestamp }

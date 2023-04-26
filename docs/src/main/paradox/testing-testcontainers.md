@@ -30,7 +30,7 @@ Scala
 : @@snip [snip](/tests/src/test/scala/org/apache/pekko/kafka/scaladsl/SpecBase.scala) { #testkit #testcontainers-settings }
 
 Java
-: @@snip [snip](/tests/src/test/java/docs/javadsl/TestkitTestcontainersTest.java) { #testcontainers-settings }
+: @@snip [snip](/java-tests/src/test/java/docs/javadsl/TestkitTestcontainersTest.java) { #testcontainers-settings }
 
 <!-- NOTE: Can't get this working with paradox..
 To see what options are available for configuring testcontainers using `configureKafka` and `configureZooKeeper` in @apidoc[KafkaTestkitTestcontainersSettings] see the API docs for @apidoc[PekkoConnectorsKafkaContainer] and @apidoc[org.testcontainers.containers.GenericContainer]. 
@@ -47,7 +47,7 @@ Scala
 : @@snip [snip](/tests/src/test/scala/docs/scaladsl/SchemaRegistrySerializationSpec.scala) { #schema-registry-settings }
 
 Java
-: @@snip [snip](/tests/src/test/java/docs/javadsl/SchemaRegistrySerializationTest.java) { #schema-registry-settings }
+: @@snip [snip](/java-tests/src/test/java/docs/javadsl/SchemaRegistrySerializationTest.java) { #schema-registry-settings }
 
 You can retrieve the Schema Registry URL in your test configuration by calling `getSchemaRegistryUrl()` or `schemaRegistryUrl`.
 
@@ -67,10 +67,10 @@ The Testcontainers dependency must be added to your project explicitly.
 The example below shows skeleton test classes for JUnit 4 and JUnit 5. The Kafka broker will start before the first test and be stopped after all test classes are finished.
 
 Java JUnit 4
-: @@snip [snip](/tests/src/test/java/docs/javadsl/AssignmentTest.java) { #testkit }
+: @@snip [snip](/java-tests/src/test/java/docs/javadsl/AssignmentTest.java) { #testkit }
 
 Java JUnit 5
-: @@snip [snip](/tests/src/test/java/docs/javadsl/ProducerTest.java) { #testkit }
+: @@snip [snip](/java-tests/src/test/java/docs/javadsl/ProducerTest.java) { #testkit }
 
 
 ## Testing with a Docker Kafka cluster from Scala code

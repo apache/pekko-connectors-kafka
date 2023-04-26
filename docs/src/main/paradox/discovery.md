@@ -40,7 +40,7 @@ Scala
 : @@snip [snip](/tests/src/test/scala/org/apache/pekko/kafka/ConsumerSettingsSpec.scala) { #discovery-settings }
 
 Java
-: @@snip [conf](/tests/src/test/java/docs/javadsl/ConsumerSettingsTest.java) { #discovery-settings }
+: @@snip [conf](/java-tests/src/test/java/docs/javadsl/ConsumerSettingsTest.java) { #discovery-settings }
 
 
 ## Configure producer settings
@@ -64,7 +64,7 @@ Scala
 : @@snip [conf](/tests/src/test/scala/org/apache/pekko/kafka/ProducerSettingsSpec.scala) { #discovery-settings }
 
 Java
-: @@snip [conf](/tests/src/test/java/docs/javadsl/ProducerSettingsTest.java) { #discovery-settings }
+: @@snip [conf](/java-tests/src/test/java/docs/javadsl/ProducerSettingsTest.java) { #discovery-settings }
 
 
 ## Provide a service name via environment variables

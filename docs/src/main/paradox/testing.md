@@ -58,7 +58,7 @@ Scala
 : @@snip [snip](/tests/src/test/scala/docs/scaladsl/TestkitSamplesSpec.scala) { #factories }
 
 Java
-: @@snip [snip](/tests/src/test/java/docs/javadsl/TestkitSamplesTest.java) { #factories }
+: @@snip [snip](/java-tests/src/test/java/docs/javadsl/TestkitSamplesTest.java) { #factories }
 
 @@@ index
 

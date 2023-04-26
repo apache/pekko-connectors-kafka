@@ -22,7 +22,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/AtLeastOnce.scala) { #oneToMany }  
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/AtLeastOnceTest.java) { #oneToMany }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/AtLeastOnceTest.java) { #oneToMany }
 
 
 ### Batches
@@ -73,7 +73,7 @@ Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/AtLeastOnce.scala) { #oneToConditional }  
 
 Java
-: @@ snip [snip](/tests/src/test/java/docs/javadsl/AtLeastOnceTest.java) { #oneToConditional }
+: @@ snip [snip](/java-tests/src/test/java/docs/javadsl/AtLeastOnceTest.java) { #oneToConditional }
 
 
 ### Excluding Messages
