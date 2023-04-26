@@ -6,6 +6,8 @@ on:
 ##  schedule:
 ##    - cron:  '0 6 * * 1'
 
+permissions: {}
+
 jobs:
   validate-links:
     runs-on: ubuntu-latest
