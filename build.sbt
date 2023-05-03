@@ -22,6 +22,7 @@ lazy val `pekko-connectors-kafka` =
     .disablePlugins(SitePlugin, MimaPlugin)
     .settings(commonSettings)
     .settings(
+      name := "pekko-connectors-kafka-root",
       publish / skip := true,
       ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(core, testkit, `cluster-sharding`),
       onLoadMessage := ProjectSettings.onLoadMessage)
