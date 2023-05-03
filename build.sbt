@@ -4,6 +4,7 @@ import ProjectSettings.commonSettings
 ThisBuild / resolvers ++= ResolverSettings.projectResolvers
 
 ThisBuild / apacheSonatypeProjectProfile := "pekko"
+sourceDistName := "incubating-pekko-connectors-kafka"
 
 TaskKey[Unit]("verifyCodeFmt") := {
   javafmtCheckAll.all(ScopeFilter(inAnyProject)).result.value.toEither.left.foreach { _ =>
