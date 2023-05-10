@@ -24,13 +24,13 @@ import com.typesafe.config.Config
 import org.apache.kafka.clients.producer.{ KafkaProducer, Producer, ProducerConfig }
 import org.apache.kafka.common.serialization.Serializer
 
-import scala.compat.java8.OptionConverters._
 import scala.concurrent.duration._
 import pekko.util.ccompat.JavaConverters._
+import pekko.util.FutureConverters._
 import pekko.util.JavaDurationConverters._
+import pekko.util.OptionConverters._
 
 import scala.concurrent.{ ExecutionContext, Future }
-import scala.compat.java8.FutureConverters._
 
 object ProducerSettings {
 
@@ -140,7 +140,7 @@ object ProducerSettings {
       system: org.apache.pekko.actor.ActorSystem,
       keySerializer: Optional[Serializer[K]],
       valueSerializer: Optional[Serializer[V]]): ProducerSettings[K, V] =
-    apply(system, keySerializer.asScala, valueSerializer.asScala)
+    apply(system, keySerializer.toScala, valueSerializer.toScala)
 
   /**
    * Java API: Create settings from the default configuration
@@ -153,7 +153,7 @@ object ProducerSettings {
       system: org.apache.pekko.actor.ClassicActorSystemProvider,
       keySerializer: Optional[Serializer[K]],
       valueSerializer: Optional[Serializer[V]]): ProducerSettings[K, V] =
-    apply(system, keySerializer.asScala, valueSerializer.asScala)
+    apply(system, keySerializer.toScala, valueSerializer.toScala)
 
   /**
    * Java API: Create settings from a configuration with the same layout as
@@ -164,7 +164,7 @@ object ProducerSettings {
       config: Config,
       keySerializer: Optional[Serializer[K]],
       valueSerializer: Optional[Serializer[V]]): ProducerSettings[K, V] =
-    apply(config, keySerializer.asScala, valueSerializer.asScala)
+    apply(config, keySerializer.toScala, valueSerializer.toScala)
 
   /**
    * Java API: Create settings from the default configuration
@@ -348,7 +348,7 @@ class ProducerSettings[K, V] @InternalApi private[kafka] (
   def withEnrichCompletionStage(
       value: java.util.function.Function[ProducerSettings[K, V], CompletionStage[ProducerSettings[K, V]]])
       : ProducerSettings[K, V] =
-    copy(enrichAsync = Some((s: ProducerSettings[K, V]) => value.apply(s).toScala))
+    copy(enrichAsync = Some((s: ProducerSettings[K, V]) => value.apply(s).asScala))
 
   /**
    * Replaces the default Kafka producer creation logic with an external producer. This will also set
@@ -460,5 +460,5 @@ class ProducerSettings[K, V] @InternalApi private[kafka] (
    * @param executor Executor for asynchronous producer creation
    */
   def createKafkaProducerCompletionStage(executor: Executor): CompletionStage[Producer[K, V]] =
-    createKafkaProducerAsync()(ExecutionContext.fromExecutor(executor)).toJava
+    createKafkaProducerAsync()(ExecutionContext.fromExecutor(executor)).asJava
 }

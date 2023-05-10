@@ -19,10 +19,10 @@ import java.util.concurrent.CompletionStage
 import org.apache.pekko
 import pekko.actor.{ ActorSystem, ClassicActorSystemProvider }
 import pekko.kafka.{ scaladsl, ConsumerSettings, ProducerSettings }
+import pekko.util.FunctionConverters._
+import pekko.util.FutureConverters._
 import com.typesafe.config.Config
 
-import scala.compat.java8.FunctionConverters._
-import scala.compat.java8.FutureConverters
 import scala.concurrent.Future
 
 /**
@@ -43,7 +43,7 @@ object DiscoverySupport {
     implicit val sys: ClassicActorSystemProvider = system
     val function: ConsumerSettings[K, V] => Future[ConsumerSettings[K, V]] =
       scaladsl.DiscoverySupport.consumerBootstrapServers(config)
-    function.andThen(FutureConverters.toJava).asJava
+    function.andThen(_.asJava).asJava
   }
 
   // kept for bin-compatibility
@@ -66,7 +66,7 @@ object DiscoverySupport {
     implicit val sys: ClassicActorSystemProvider = system
     val function: ProducerSettings[K, V] => Future[ProducerSettings[K, V]] =
       scaladsl.DiscoverySupport.producerBootstrapServers(config)
-    function.andThen(FutureConverters.toJava).asJava
+    function.andThen(_.asJava).asJava
   }
 
   // kept for bin-compatibility

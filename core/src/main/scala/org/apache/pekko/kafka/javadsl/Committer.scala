@@ -13,6 +13,7 @@
  */
 
 package org.apache.pekko.kafka.javadsl
+
 import java.util.concurrent.CompletionStage
 
 import org.apache.pekko
@@ -22,8 +23,7 @@ import pekko.{ Done, NotUsed }
 import pekko.kafka.ConsumerMessage.{ Committable, CommittableOffsetBatch }
 import pekko.kafka.{ scaladsl, CommitterSettings }
 import pekko.stream.javadsl.{ Flow, FlowWithContext, Sink }
-
-import scala.compat.java8.FutureConverters.FutureOps
+import pekko.util.FutureConverters._
 
 object Committer {
 
@@ -54,7 +54,7 @@ object Committer {
    * Batches offsets and commits them to Kafka.
    */
   def sink[C <: Committable](settings: CommitterSettings): Sink[C, CompletionStage[Done]] =
-    scaladsl.Committer.sink(settings).mapMaterializedValue(_.toJava).asJava
+    scaladsl.Committer.sink(settings).mapMaterializedValue(_.asJava).asJava
 
   /**
    * API MAY CHANGE
@@ -68,6 +68,6 @@ object Committer {
       .Flow[Pair[E, C]]
       .map(_.toScala)
       .toMat(scaladsl.Committer.sinkWithOffsetContext(settings))(pekko.stream.scaladsl.Keep.right)
-      .mapMaterializedValue[CompletionStage[Done]](_.toJava)
+      .mapMaterializedValue[CompletionStage[Done]](_.asJava)
       .asJava[Pair[E, C]]
 }
