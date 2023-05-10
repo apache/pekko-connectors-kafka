@@ -29,11 +29,11 @@ import pekko.kafka.ConsumerMessage.{
 }
 import pekko.util.ccompat._
 import pekko.util.ccompat.JavaConverters._
+import pekko.util.FutureConverters._
 import org.apache.kafka.clients.consumer.{ ConsumerRecord, OffsetAndMetadata }
 import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.requests.OffsetFetchResponse
 
-import scala.compat.java8.FutureConverters.FutureOps
 import scala.concurrent.Future
 
 /** Internal API */
@@ -144,7 +144,7 @@ private[kafka] trait OffsetContextBuilder[K, V]
     override val metadata: String)(
     val committer: KafkaAsyncConsumerCommitterRef) extends CommittableOffsetMetadata {
   override def commitScaladsl(): Future[Done] = commitInternal()
-  override def commitJavadsl(): CompletionStage[Done] = commitInternal().toJava
+  override def commitJavadsl(): CompletionStage[Done] = commitInternal().asJava
   override def commitInternal(): Future[Done] = KafkaAsyncConsumerCommitterRef.commit(this)
   override val batchSize: Long = 1
 }
@@ -243,7 +243,7 @@ private[kafka] final class CommittableOffsetBatchImpl(
     new CommittableOffsetBatchImpl(newOffsets, newCommitters, newOffsets.size.toLong)
   }
 
-  override def commitJavadsl(): CompletionStage[Done] = commitInternal().toJava
+  override def commitJavadsl(): CompletionStage[Done] = commitInternal().asJava
 
   /**
    * @return true if the batch contains no commits.

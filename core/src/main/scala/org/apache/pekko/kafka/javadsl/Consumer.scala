@@ -26,11 +26,11 @@ import pekko.kafka._
 import pekko.kafka.internal.{ ConsumerControlAsJava, SourceWithOffsetContext }
 import pekko.stream.javadsl.{ Source, SourceWithContext }
 import pekko.{ Done, NotUsed }
+import pekko.util.FutureConverters._
 import pekko.util.ccompat.JavaConverters._
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.common.{ Metric, MetricName, TopicPartition }
 
-import scala.compat.java8.FutureConverters._
 import scala.concurrent.duration.FiniteDuration
 
 /**
@@ -286,7 +286,7 @@ object Consumer {
         settings,
         subscription,
         (tps: Set[TopicPartition]) =>
-          getOffsetsOnAssign(tps.asJava).toScala.map(_.asScala.toMap)(ExecutionContexts.parasitic),
+          getOffsetsOnAssign(tps.asJava).asScala.map(_.asScala.toMap)(ExecutionContexts.parasitic),
         _ => ())
       .map {
         case (tp, source) => Pair(tp, source.asJava)
@@ -315,7 +315,7 @@ object Consumer {
         settings,
         subscription,
         (tps: Set[TopicPartition]) =>
-          getOffsetsOnAssign(tps.asJava).toScala.map(_.asScala.toMap)(ExecutionContexts.parasitic),
+          getOffsetsOnAssign(tps.asJava).asScala.map(_.asScala.toMap)(ExecutionContexts.parasitic),
         (tps: Set[TopicPartition]) => onRevoke.accept(tps.asJava))
       .map {
         case (tp, source) => Pair(tp, source.asJava)
@@ -352,7 +352,7 @@ object Consumer {
         settings,
         subscription,
         (tps: Set[TopicPartition]) =>
-          getOffsetsOnAssign(tps.asJava).toScala.map(_.asScala.toMap)(ExecutionContexts.parasitic),
+          getOffsetsOnAssign(tps.asJava).asScala.map(_.asScala.toMap)(ExecutionContexts.parasitic),
         _ => ())
       .map {
         case (tp, source) => Pair(tp, source.asJava)
@@ -375,7 +375,7 @@ object Consumer {
         settings,
         subscription,
         (tps: Set[TopicPartition]) =>
-          getOffsetsOnAssign(tps.asJava).toScala.map(_.asScala.toMap)(ExecutionContexts.parasitic),
+          getOffsetsOnAssign(tps.asJava).asScala.map(_.asScala.toMap)(ExecutionContexts.parasitic),
         (tps: Set[TopicPartition]) => onRevoke.accept(tps.asJava))
       .map {
         case (tp, source) => Pair(tp, source.asJava)

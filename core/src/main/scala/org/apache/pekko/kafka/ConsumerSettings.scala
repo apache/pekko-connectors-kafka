@@ -22,12 +22,12 @@ import pekko.annotation.InternalApi
 import pekko.kafka.internal._
 import pekko.util.JavaDurationConverters._
 import pekko.util.ccompat.JavaConverters._
+import pekko.util.OptionConverters._
+import pekko.util.FutureConverters._
 import com.typesafe.config.Config
 import org.apache.kafka.clients.consumer.{ Consumer, ConsumerConfig, KafkaConsumer }
 import org.apache.kafka.common.serialization.Deserializer
 
-import scala.compat.java8.OptionConverters._
-import scala.compat.java8.FutureConverters._
 import scala.concurrent.{ ExecutionContext, Future }
 import scala.concurrent.duration._
 
@@ -165,7 +165,7 @@ object ConsumerSettings {
       system: pekko.actor.ActorSystem,
       keyDeserializer: Optional[Deserializer[K]],
       valueDeserializer: Optional[Deserializer[V]]): ConsumerSettings[K, V] =
-    apply(system, keyDeserializer.asScala, valueDeserializer.asScala)
+    apply(system, keyDeserializer.toScala, valueDeserializer.toScala)
 
   /**
    * Java API: Create settings from the default configuration
@@ -178,7 +178,7 @@ object ConsumerSettings {
       system: pekko.actor.ClassicActorSystemProvider,
       keyDeserializer: Optional[Deserializer[K]],
       valueDeserializer: Optional[Deserializer[V]]): ConsumerSettings[K, V] =
-    apply(system, keyDeserializer.asScala, valueDeserializer.asScala)
+    apply(system, keyDeserializer.toScala, valueDeserializer.toScala)
 
   /**
    * Java API: Create settings from a configuration with the same layout as
@@ -189,7 +189,7 @@ object ConsumerSettings {
       config: Config,
       keyDeserializer: Optional[Deserializer[K]],
       valueDeserializer: Optional[Deserializer[V]]): ConsumerSettings[K, V] =
-    apply(config, keyDeserializer.asScala, valueDeserializer.asScala)
+    apply(config, keyDeserializer.toScala, valueDeserializer.toScala)
 
   /**
    * Java API: Create settings from the default configuration
@@ -516,7 +516,7 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
   def withEnrichCompletionStage(
       value: java.util.function.Function[ConsumerSettings[K, V], CompletionStage[ConsumerSettings[K, V]]])
       : ConsumerSettings[K, V] =
-    copy(enrichAsync = Some((s: ConsumerSettings[K, V]) => value.apply(s).toScala))
+    copy(enrichAsync = Some((s: ConsumerSettings[K, V]) => value.apply(s).asScala))
 
   /**
    * Replaces the default Kafka consumer creation logic.
@@ -622,7 +622,7 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
    * (without blocking for `enriched`).
    */
   def createKafkaConsumerCompletionStage(executor: Executor): CompletionStage[Consumer[K, V]] =
-    enriched.map(consumerFactory)(ExecutionContext.fromExecutor(executor)).toJava
+    enriched.map(consumerFactory)(ExecutionContext.fromExecutor(executor)).asJava
 
   override def toString: String = {
     val kafkaClients = properties.toSeq

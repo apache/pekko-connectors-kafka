@@ -26,9 +26,8 @@ import pekko.kafka.internal.{ ConsumerControlAsJava, TransactionalSourceWithOffs
 import pekko.kafka.javadsl.Consumer.Control
 import pekko.stream.javadsl._
 import pekko.{ Done, NotUsed }
+import pekko.util.FutureConverters._
 import org.apache.kafka.clients.consumer.ConsumerRecord
-
-import scala.compat.java8.FutureConverters.FutureOps
 
 /**
  *  Apache Pekko Stream connector to support transactions between Kafka topics.
@@ -97,7 +96,7 @@ object Transactional {
       transactionalId: String): Sink[IN, CompletionStage[Done]] =
     scaladsl.Transactional
       .sink(settings, transactionalId)
-      .mapMaterializedValue(_.toJava)
+      .mapMaterializedValue(_.asJava)
       .asJava
 
   /**
@@ -115,7 +114,7 @@ object Transactional {
       .map(_.toScala)
       .toMat(scaladsl.Transactional.sinkWithOffsetContext(settings, transactionalId))(
         pekko.stream.scaladsl.Keep.right)
-      .mapMaterializedValue(_.toJava)
+      .mapMaterializedValue(_.asJava)
       .asJava
 
   /**

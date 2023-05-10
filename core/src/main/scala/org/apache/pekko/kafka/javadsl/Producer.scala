@@ -22,10 +22,10 @@ import pekko.kafka.ProducerMessage._
 import pekko.kafka.{ scaladsl, CommitterSettings, ConsumerMessage, ProducerSettings }
 import pekko.stream.javadsl.{ Flow, FlowWithContext, Sink }
 import pekko.{ japi, Done, NotUsed }
+import pekko.util.FutureConverters._
 import org.apache.kafka.clients.producer.ProducerRecord
 
 import scala.annotation.nowarn
-import scala.compat.java8.FutureConverters._
 
 /**
  * Apache Pekko Stream connector for publishing messages to Kafka topics.
@@ -41,7 +41,7 @@ object Producer {
   def plainSink[K, V](settings: ProducerSettings[K, V]): Sink[ProducerRecord[K, V], CompletionStage[Done]] =
     scaladsl.Producer
       .plainSink(settings)
-      .mapMaterializedValue(_.toJava)
+      .mapMaterializedValue(_.asJava)
       .asJava
 
   /**
@@ -84,7 +84,7 @@ object Producer {
     @nowarn("cat=deprecation")
     val sink: Sink[IN, CompletionStage[Done]] = scaladsl.Producer
       .committableSink(settings)
-      .mapMaterializedValue(_.toJava)
+      .mapMaterializedValue(_.asJava)
       .asJava
     sink
   }
@@ -136,7 +136,7 @@ object Producer {
       committerSettings: CommitterSettings): Sink[IN, CompletionStage[Done]] =
     scaladsl.Producer
       .committableSink(producerSettings, committerSettings)
-      .mapMaterializedValue(_.toJava)
+      .mapMaterializedValue(_.asJava)
       .asJava
 
   /**

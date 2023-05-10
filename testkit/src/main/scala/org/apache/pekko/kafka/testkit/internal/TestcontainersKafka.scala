@@ -18,11 +18,10 @@ import org.apache.pekko
 import pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
 import pekko.kafka.testkit.scaladsl.KafkaSpec
 import pekko.util.JavaDurationConverters._
+import pekko.util.OptionConverters._
 import pekko.util.ccompat.JavaConverters._
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.utility.DockerImageName
-
-import scala.compat.java8.OptionConverters._
 
 object TestcontainersKafka {
   trait Spec extends KafkaSpec {
@@ -61,12 +60,12 @@ object TestcontainersKafka {
 
     def schemaRegistryContainer: Option[SchemaRegistryContainer] = {
       requireStarted()
-      cluster.getSchemaRegistry.asScala
+      cluster.getSchemaRegistry.toScala
     }
 
     def getSchemaRegistryUrl: String = {
       requireStarted()
-      cluster.getSchemaRegistry.asScala
+      cluster.getSchemaRegistry.toScala
         .map(_.getSchemaRegistryUrl)
         .getOrElse(
           throw new RuntimeException("Did you enable schema registry in your KafkaTestkitTestcontainersSettings?"))
