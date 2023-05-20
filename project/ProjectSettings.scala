@@ -15,14 +15,14 @@ import net.aichler.jupiter.sbt.Import.jupiterTestFramework
 import org.scalafmt.sbt.ScalafmtPlugin.autoImport.scalafmtOnCompile
 import sbt.{ Def, _ }
 import sbt.Keys._
-import org.mdedetrich.apache.sonatype.SonatypeApachePlugin
-import SonatypeApachePlugin.autoImport.apacheSonatypeDisclaimerFile
+import org.mdedetrich.apache.sonatype.ApacheSonatypePlugin
+import ApacheSonatypePlugin.autoImport.apacheSonatypeDisclaimerFile
 import sbtdynver.DynVerPlugin
 import sbtdynver.DynVerPlugin.autoImport.dynverSonatypeSnapshots
 
 object ProjectSettings extends AutoPlugin {
 
-  override val requires = SonatypeApachePlugin && DynVerPlugin
+  override val requires = ApacheSonatypePlugin && DynVerPlugin
 
   override def trigger = allRequirements
 
