@@ -22,6 +22,7 @@ import org.junit.After;
 import org.junit.Before;
 
 /** JUnit 4 base-class with some convenience for accessing a Kafka broker. */
+@SuppressWarnings("unchecked")
 public abstract class KafkaJunit4Test extends BaseKafkaTest {
 
   /**

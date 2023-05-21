@@ -31,6 +31,7 @@ import org.apache.pekko.stream.Materializer;
  *
  * <p>The Testcontainers dependency has to be added explicitly.
  */
+@SuppressWarnings("unchecked")
 public abstract class TestcontainersKafkaTest extends KafkaTest {
 
   public static final KafkaTestkitTestcontainersSettings settings =

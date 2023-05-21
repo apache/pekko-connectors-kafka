@@ -30,6 +30,7 @@ import org.junit.Before;
  *
  * <p>The Testcontainers dependency has to be added explicitly.
  */
+@SuppressWarnings("unchecked")
 public abstract class TestcontainersKafkaJunit4Test extends KafkaJunit4Test {
 
   private static final KafkaTestkitTestcontainersSettings settings =
