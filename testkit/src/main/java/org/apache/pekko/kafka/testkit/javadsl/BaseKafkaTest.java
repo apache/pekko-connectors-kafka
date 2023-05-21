@@ -46,6 +46,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
+@SuppressWarnings("unchecked")
 public abstract class BaseKafkaTest extends KafkaTestKitClass {
 
   public static final int partition0 = 0;

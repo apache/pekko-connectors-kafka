@@ -29,6 +29,7 @@ import org.junit.jupiter.api.BeforeAll;
  * of the test class with `@BeforeAll` and `@AfterAll` annotated methods called by the test
  * framework.
  */
+@SuppressWarnings("unchecked")
 public abstract class KafkaTest extends BaseKafkaTest {
 
   /**
