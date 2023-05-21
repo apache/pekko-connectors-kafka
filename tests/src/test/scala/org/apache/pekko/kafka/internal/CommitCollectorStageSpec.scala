@@ -22,7 +22,7 @@ import pekko.event.LoggingAdapter
 import pekko.kafka.ConsumerMessage.{ Committable, CommittableOffset, CommittableOffsetBatch }
 import pekko.kafka.scaladsl.{ Committer, Consumer }
 import pekko.kafka.testkit.ConsumerResultFactory
-import pekko.kafka.testkit.scaladsl.{ ConsumerControlFactory, Slf4jToAkkaLoggingAdapter }
+import pekko.kafka.testkit.scaladsl.{ ConsumerControlFactory, Slf4jToPekkoLoggingAdapter }
 import pekko.kafka.tests.scaladsl.LogCapturing
 import pekko.kafka.{ CommitWhen, CommitterSettings, Repeated }
 import pekko.stream.scaladsl.Keep
@@ -38,7 +38,7 @@ import org.scalatest.wordspec.AnyWordSpecLike
 import org.scalatest.{ AppendedClues, BeforeAndAfterAll }
 import org.slf4j.{ Logger, LoggerFactory }
 
-import scala.concurrent.duration.{ FiniteDuration, _ }
+import scala.concurrent.duration._
 import scala.concurrent.{ ExecutionContext, Future, Promise }
 
 class CommitCollectorStageSpec(_system: ActorSystem)
@@ -60,7 +60,7 @@ class CommitCollectorStageSpec(_system: ActorSystem)
 
   val log: Logger = LoggerFactory.getLogger(getClass)
   // used by the .log(...) stream operator
-  implicit val adapter: LoggingAdapter = new Slf4jToAkkaLoggingAdapter(log)
+  implicit val adapter: LoggingAdapter = new Slf4jToPekkoLoggingAdapter(log)
 
   def this() = this(ActorSystem())
 

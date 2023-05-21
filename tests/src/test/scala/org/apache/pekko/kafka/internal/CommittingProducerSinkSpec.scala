@@ -23,7 +23,7 @@ import pekko.kafka.internal.KafkaConsumerActor.Internal
 import pekko.kafka.scaladsl.Consumer.DrainingControl
 import pekko.kafka.scaladsl.Producer
 import pekko.kafka.testkit.ConsumerResultFactory
-import pekko.kafka.testkit.scaladsl.{ ConsumerControlFactory, Slf4jToAkkaLoggingAdapter }
+import pekko.kafka.testkit.scaladsl.{ ConsumerControlFactory, Slf4jToPekkoLoggingAdapter }
 import pekko.kafka.tests.scaladsl.LogCapturing
 import pekko.kafka._
 import pekko.stream.scaladsl.{ Keep, Source }
@@ -65,7 +65,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
   val log: Logger = LoggerFactory.getLogger(getClass)
 
   // used by the .log(...) stream operator
-  implicit val adapter: LoggingAdapter = new Slf4jToAkkaLoggingAdapter(log)
+  implicit val adapter: LoggingAdapter = new Slf4jToPekkoLoggingAdapter(log)
 
   implicit val ec: ExecutionContext = _system.dispatcher
 

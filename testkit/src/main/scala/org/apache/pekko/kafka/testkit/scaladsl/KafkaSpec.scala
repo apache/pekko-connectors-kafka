@@ -53,7 +53,7 @@ abstract class KafkaSpec(_kafkaPort: Int, val zooKeeperPort: Int, actorSystem: A
   val log: Logger = LoggerFactory.getLogger(getClass)
 
   // used by the .log(...) stream operator
-  implicit val adapter: LoggingAdapter = new Slf4jToAkkaLoggingAdapter(log)
+  implicit val adapter: LoggingAdapter = new Slf4jToPekkoLoggingAdapter(log)
 
   implicit val ec: ExecutionContext = system.dispatcher
   implicit val mat: Materializer = SystemMaterializer(system).materializer
@@ -209,7 +209,7 @@ abstract class KafkaSpec(_kafkaPort: Int, val zooKeeperPort: Int, actorSystem: A
 
 }
 
-private[kafka] class Slf4jToAkkaLoggingAdapter(logger: Logger) extends LoggingAdapter {
+private[kafka] class Slf4jToPekkoLoggingAdapter(logger: Logger) extends LoggingAdapter {
   override def isErrorEnabled: Boolean = logger.isErrorEnabled
   override def isWarningEnabled: Boolean = logger.isWarnEnabled
   override def isInfoEnabled: Boolean = logger.isInfoEnabled

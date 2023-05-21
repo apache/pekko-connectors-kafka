@@ -111,5 +111,3 @@ git config blame.ignoreRevsFile .git-blame-ignore-revs
 1. [GitHub Actions](https://github.com/apache/incubator-pekko-connectors-kafka/actions) automatically merges the code, builds it, runs the tests and sets Pull Request status accordingly of results in GitHub.
 1. [Scalafmt](http://scalameta.org/scalafmt/) enforces some of the code style rules.
 1. [sbt-header plugin](https://github.com/sbt/sbt-header) manages consistent copyright headers in every source file.
-1. A GitHub bot checks whether you've signed the Lightbend CLA. 
-
