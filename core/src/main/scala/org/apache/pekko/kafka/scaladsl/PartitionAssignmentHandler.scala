@@ -21,7 +21,7 @@ import org.apache.kafka.common.TopicPartition
 /**
  * The API is new and may change in further releases.
  *
- * Allows the user to execute user code when Kafka rebalances partitions between consumers, or an Alpakka Kafka consumer is stopped.
+ * Allows the user to execute user code when Kafka rebalances partitions between consumers, or a Pekko Connectors Kafka consumer is stopped.
  * Use with care: These callbacks are called synchronously on the same thread Kafka's `poll()` is called.
  * A warning will be logged if a callback takes longer than the configured `partition-handler-warning`.
  *

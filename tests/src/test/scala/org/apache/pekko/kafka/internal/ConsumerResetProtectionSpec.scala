@@ -19,7 +19,7 @@ import pekko.actor.ActorSystem
 import pekko.event.LoggingAdapter
 import pekko.kafka.OffsetResetProtectionSettings
 import pekko.kafka.internal.KafkaConsumerActor.Internal.Seek
-import pekko.kafka.testkit.scaladsl.Slf4jToAkkaLoggingAdapter
+import pekko.kafka.testkit.scaladsl.Slf4jToPekkoLoggingAdapter
 import pekko.kafka.tests.scaladsl.LogCapturing
 import pekko.testkit.{ ImplicitSender, TestKit }
 import pekko.util.ccompat.JavaConverters._
@@ -42,7 +42,7 @@ class ConsumerResetProtectionSpec
     with LogCapturing {
 
   val log: Logger = LoggerFactory.getLogger(getClass)
-  val adapter: LoggingAdapter = new Slf4jToAkkaLoggingAdapter(log)
+  val adapter: LoggingAdapter = new Slf4jToPekkoLoggingAdapter(log)
 
   override def afterAll(): Unit = shutdown(system)
 
