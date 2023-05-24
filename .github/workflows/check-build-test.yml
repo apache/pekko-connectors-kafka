@@ -117,8 +117,8 @@ jobs:
           - { java-version: 11, scala-version: 2.12, sbt-opts: '-J-XX:+UnlockExperimentalVMOptions -J-XX:+UseJVMCICompiler' }
           - { java-version: 8,  scala-version: 2.13, sbt-opts: '' }
           - { java-version: 11, scala-version: 2.13, sbt-opts: '-J-XX:+UnlockExperimentalVMOptions -J-XX:+UseJVMCICompiler' }
-          - { java-version: 8,  scala-version: 3.2, sbt-opts: '' }
-          - { java-version: 11, scala-version: 3.2, sbt-opts: '-J-XX:+UnlockExperimentalVMOptions -J-XX:+UseJVMCICompiler' }
+          - { java-version: 8,  scala-version: 3.3, sbt-opts: '' }
+          - { java-version: 11, scala-version: 3.3, sbt-opts: '-J-XX:+UnlockExperimentalVMOptions -J-XX:+UseJVMCICompiler' }
     steps:
       - name: Checkout
         uses: actions/checkout@v3
