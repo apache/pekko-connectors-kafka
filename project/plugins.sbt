@@ -1,6 +1,6 @@
 addSbtPlugin("com.dwijnand" % "sbt-dynver" % "4.1.1")
 addSbtPlugin("net.aichler" % "sbt-jupiter-interface" % "0.9.1")
-addSbtPlugin("org.mdedetrich" % "sbt-apache-sonatype" % "0.1.7")
+addSbtPlugin("org.mdedetrich" % "sbt-apache-sonatype" % "0.1.9")
 addSbtPlugin("com.github.pjfanning" % "sbt-source-dist" % "0.1.5")
 // discipline
 addSbtPlugin("de.heikoseeberger" % "sbt-header" % "5.7.0")
