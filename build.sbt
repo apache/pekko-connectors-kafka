@@ -5,6 +5,7 @@ ThisBuild / resolvers ++= ResolverSettings.projectResolvers
 
 ThisBuild / apacheSonatypeProjectProfile := "pekko"
 sourceDistName := "incubating-pekko-connectors-kafka"
+ThisBuild / versionScheme := Some("semver-spec")
 
 TaskKey[Unit]("verifyCodeFmt") := {
   javafmtCheckAll.all(ScopeFilter(inAnyProject)).result.value.toEither.left.foreach { _ =>
