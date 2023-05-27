@@ -72,7 +72,7 @@ class PartitionedSourceFailoverSpec
         .groupBy(partitions, _._1)
         .mapAsync(8) {
           case (tp, source) =>
-            log.info(s"Sub-source for ${tp}")
+            log.info(s"Sub-source for $tp")
             source
               .scan(0L)((c, _) => c + 1)
               .via(IntegrationTests.logReceivedMessages(tp)(log))
