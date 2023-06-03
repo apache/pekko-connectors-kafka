@@ -15,7 +15,10 @@ github:
     - kafka-connector
     - java
     - scala
-  
+
+  protected_tags:
+    - "v*.*.*"
+
   features:
     # Enable wiki for documentation
     wiki: false
