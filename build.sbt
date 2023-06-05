@@ -2,6 +2,8 @@ import com.typesafe.tools.mima.core.{ Problem, ProblemFilters }
 import ProjectSettings.commonSettings
 
 ThisBuild / resolvers ++= ResolverSettings.projectResolvers
+// TODO: Remove when Pekko has a proper release
+ThisBuild / updateOptions := updateOptions.value.withLatestSnapshots(false)
 
 ThisBuild / apacheSonatypeProjectProfile := "pekko"
 sourceDistName := "incubating-pekko-connectors-kafka"
