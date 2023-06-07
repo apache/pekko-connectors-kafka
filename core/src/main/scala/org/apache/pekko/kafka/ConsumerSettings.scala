@@ -53,7 +53,7 @@ object ConsumerSettings {
    * `pekko.kafka.consumer`.
    * Key or value deserializer can be passed explicitly or retrieved from configuration.
    *
-   * For use with the `pekko.actor.typed` API.
+   * For use with the `org.apache.pekko.actor.typed` API.
    */
   def apply[K, V](
       system: pekko.actor.ClassicActorSystemProvider,
@@ -137,7 +137,7 @@ object ConsumerSettings {
    * `pekko.kafka.consumer`.
    * Key and value serializer must be passed explicitly.
    *
-   * For use with the `pekko.actor.typed` API.
+   * For use with the `org.apache.pekko.actor.typed` API.
    */
   def apply[K, V](
       system: pekko.actor.ClassicActorSystemProvider,
@@ -172,7 +172,7 @@ object ConsumerSettings {
    * `pekko.kafka.consumer`.
    * Key or value deserializer can be passed explicitly or retrieved from configuration.
    *
-   * For use with the `pekko.actor.typed` API.
+   * For use with the `org.apache.pekko.actor.typed` API.
    */
   def create[K, V](
       system: pekko.actor.ClassicActorSystemProvider,
@@ -207,7 +207,7 @@ object ConsumerSettings {
    * `pekko.kafka.consumer`.
    * Key and value serializer must be passed explicitly.
    *
-   * For use with the `pekko.actor.typed` API.
+   * For use with the `org.apache.pekko.actor.typed` API.
    */
   def create[K, V](
       system: pekko.actor.ClassicActorSystemProvider,

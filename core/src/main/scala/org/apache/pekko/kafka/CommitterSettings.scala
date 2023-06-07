@@ -121,7 +121,7 @@ object CommitterSettings {
    * Create settings from the default configuration
    * `pekko.kafka.committer`.
    *
-   * For use with the `pekko.actor.typed` API.
+   * For use with the `org.apache.pekko.actor.typed` API.
    */
   def apply(actorSystem: pekko.actor.ClassicActorSystemProvider): CommitterSettings =
     apply(actorSystem.classicSystem.settings.config.getConfig(configPath))
@@ -150,7 +150,7 @@ object CommitterSettings {
    * Java API: Create settings from the default configuration
    * `pekko.kafka.committer`.
    *
-   * For use with the `pekko.actor.typed` API.
+   * For use with the `org.apache.pekko.actor.typed` API.
    */
   def create(actorSystem: pekko.actor.ClassicActorSystemProvider): CommitterSettings =
     apply(actorSystem)
