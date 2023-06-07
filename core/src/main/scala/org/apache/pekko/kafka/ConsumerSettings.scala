@@ -625,16 +625,16 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
     enriched.map(consumerFactory)(ExecutionContext.fromExecutor(executor)).asJava
 
   override def toString: String = {
-    val kafkaClients = properties.toSeq
+    val propertiesAsText = properties.toSeq
       .map {
-        case (key, _) if key.endsWith(".password") =>
-          key -> "[is set]"
+        case (key, _) =>
+          key -> "*****"
         case t => t
       }
       .sortBy(_._1)
       .mkString(",")
     "org.apache.pekko.kafka.ConsumerSettings(" +
-    s"properties=$kafkaClients," +
+    s"properties=[$propertiesAsText]," +
     s"keyDeserializer=$keyDeserializerOpt," +
     s"valueDeserializer=$valueDeserializerOpt," +
     s"pollInterval=${pollInterval.toCoarsest}," +
@@ -649,8 +649,8 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
     s"metadataRequestTimeout=${metadataRequestTimeout.toCoarsest}," +
     s"drainingCheckInterval=${drainingCheckInterval.toCoarsest}," +
     s"connectionCheckerSettings=$connectionCheckerSettings," +
-    s"partitionHandlerWarning=${partitionHandlerWarning.toCoarsest}" +
-    s"resetProtectionSettings=$resetProtectionSettings" +
+    s"partitionHandlerWarning=${partitionHandlerWarning.toCoarsest}," +
+    s"resetProtectionSettings=$resetProtectionSettings," +
     s"enrichAsync=${enrichAsync.map(_ => "needs to be applied")}" +
     ")"
   }
