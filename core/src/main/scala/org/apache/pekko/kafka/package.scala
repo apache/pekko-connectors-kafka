@@ -10,6 +10,11 @@
 package org.apache.pekko
 
 package object kafka {
+
+  /**
+   * Only include the property names and indicate if the property value is empty or replace the value
+   * with `*****` if a non-empty value is set.
+   */
   private[kafka] def convertPropertiesToSafeText(properties: Map[String, String]): String = {
     properties.toSeq
       .map {
