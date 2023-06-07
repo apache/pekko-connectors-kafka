@@ -52,7 +52,7 @@ object ProducerSettings {
    * `pekko.kafka.producer`.
    * Key or value serializer can be passed explicitly or retrieved from configuration.
    *
-   * For use with the `pekko.actor.typed` API.
+   * For use with the `org.apache.pekko.actor.typed` API.
    */
   def apply[K, V](
       system: org.apache.pekko.actor.ClassicActorSystemProvider,
@@ -112,7 +112,7 @@ object ProducerSettings {
    * `pekko.kafka.producer`.
    * Key and value serializer must be passed explicitly.
    *
-   * For use with the `pekko.actor.typed` API.
+   * For use with the `org.apache.pekko.actor.typed` API.
    */
   def apply[K, V](
       system: org.apache.pekko.actor.ClassicActorSystemProvider,
@@ -147,7 +147,7 @@ object ProducerSettings {
    * `pekko.kafka.producer`.
    * Key or value serializer can be passed explicitly or retrieved from configuration.
    *
-   * For use with the `pekko.actor.typed` API.
+   * For use with the `org.apache.pekko.actor.typed` API.
    */
   def create[K, V](
       system: org.apache.pekko.actor.ClassicActorSystemProvider,
@@ -182,7 +182,7 @@ object ProducerSettings {
    * `pekko.kafka.producer`.
    * Key and value serializer must be passed explicitly.
    *
-   * For use with the `pekko.actor.typed` API.
+   * For use with the `org.apache.pekko.actor.typed` API.
    */
   def create[K, V](
       system: org.apache.pekko.actor.ClassicActorSystemProvider,
