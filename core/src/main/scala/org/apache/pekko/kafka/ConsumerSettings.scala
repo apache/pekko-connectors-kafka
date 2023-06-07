@@ -625,16 +625,8 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
     enriched.map(consumerFactory)(ExecutionContext.fromExecutor(executor)).asJava
 
   override def toString: String = {
-    val propertiesAsText = properties.toSeq
-      .map {
-        case (key, _) =>
-          key -> "*****"
-        case t => t
-      }
-      .sortBy(_._1)
-      .mkString(",")
     "org.apache.pekko.kafka.ConsumerSettings(" +
-    s"properties=[$propertiesAsText]," +
+    s"properties=[${convertPropertiesToSafeText(properties)}]," +
     s"keyDeserializer=$keyDeserializerOpt," +
     s"valueDeserializer=$valueDeserializerOpt," +
     s"pollInterval=${pollInterval.toCoarsest}," +

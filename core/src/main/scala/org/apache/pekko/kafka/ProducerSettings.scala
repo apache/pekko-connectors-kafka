@@ -394,16 +394,8 @@ class ProducerSettings[K, V] @InternalApi private[kafka] (
       producerFactorySync)
 
   override def toString: String = {
-    val propertiesAsText = properties.toSeq
-      .map {
-        case (key, _) =>
-          key -> "*****"
-        case t => t
-      }
-      .sortBy(_._1)
-      .mkString(",")
     "org.apache.pekko.kafka.ProducerSettings(" +
-    s"properties=[$propertiesAsText]," +
+    s"properties=[${convertPropertiesToSafeText(properties)}]," +
     s"keySerializer=$keySerializerOpt," +
     s"valueSerializer=$valueSerializerOpt," +
     s"closeTimeout=${closeTimeout.toCoarsest}," +
