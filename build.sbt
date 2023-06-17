@@ -64,6 +64,7 @@ lazy val `cluster-sharding` = project
   .settings(
     name := "pekko-connectors-kafka-cluster-sharding",
     AutomaticModuleName.settings("org.apache.pekko.kafka.cluster.sharding"),
+    AddMetaInfLicenseFiles.clusterShardingSettings,
     libraryDependencies ++= Dependencies.clusterShardingDependencies,
     mimaPreviousArtifacts := Set.empty // temporarily disable mima checks
   )

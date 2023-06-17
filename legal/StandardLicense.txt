@@ -199,10 +199,3 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-
----------------
-
-pekko-connectors-kafka-cluster-sharding contains KafkaClusterSharding.scala.
-This code is derived from a class in Apache Kafka <https://kafka.apache.org/>,
-licensed under the Apache 2.0 license.
-Copyright 2023 The Apache Software Foundation.
