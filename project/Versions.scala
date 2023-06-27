@@ -21,6 +21,8 @@ object Versions {
   val Scala3 = "3.3.0"
 
   val pekkoVersionForDocs = "current"
+  val pekkoConnectorsKafkaVersionForDocs = "current"
+  val pekkoManagementVersionForDocs = "current"
   val pekkoVersion = "1.0.0"
 
   // Keep .scala-steward.conf pin in sync
@@ -43,6 +45,7 @@ object Versions {
     ExclusionRule("org.apache.kafka"))
 
   val pekkoAPI = "https://pekko.apache.org/api"
+  val pekkoJavaAPI = "https://pekko.apache.org/japi"
   val pekkoDocs = "https://pekko.apache.org/docs"
 
 }
