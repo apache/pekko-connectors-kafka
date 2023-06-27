@@ -19,7 +19,7 @@ object Dependencies {
     "org.testcontainers" % "kafka" % testcontainersVersion % IntegrationTest,
     "org.apache.pekko" %% "pekko-slf4j" % pekkoVersion % IntegrationTest,
     "org.apache.pekko" %% "pekko-stream-testkit" % pekkoVersion % IntegrationTest,
-    "org.scalatest" %% "scalatest" % scalaTestVersion.value % IntegrationTest))
+    "org.scalatest" %% "scalatest" % scalaTestVersion % IntegrationTest))
 
   lazy val clusterShardingDependencies = Seq("org.apache.pekko" %% "pekko-cluster-sharding-typed" % pekkoVersion)
 
@@ -36,7 +36,7 @@ object Dependencies {
     // See https://github.com/sbt/sbt/issues/3618#issuecomment-448951808
     ("javax.ws.rs" % "javax.ws.rs-api" % "2.1.1").artifacts(Artifact("javax.ws.rs-api", "jar", "jar")),
     "org.testcontainers" % "kafka" % testcontainersVersion % Test,
-    "org.scalatest" %% "scalatest" % scalaTestVersion.value % Test,
+    "org.scalatest" %% "scalatest" % scalaTestVersion % Test,
     "io.spray" %% "spray-json" % "1.3.6" % Test,
     "com.fasterxml.jackson.core" % "jackson-databind" % "2.14.3" % Test, // ApacheV2
     // See http://hamcrest.org/JavaHamcrest/distributables#upgrading-from-hamcrest-1x
@@ -53,7 +53,7 @@ object Dependencies {
   lazy val testKitDependencies = Def.setting(Seq(
     "org.apache.pekko" %% "pekko-stream-testkit" % pekkoVersion,
     "org.testcontainers" % "kafka" % testcontainersVersion % Provided,
-    "org.scalatest" %% "scalatest" % scalaTestVersion.value % Provided,
+    "org.scalatest" %% "scalatest" % scalaTestVersion % Provided,
     "junit" % "junit" % "4.13.2" % Provided))
 
 }
