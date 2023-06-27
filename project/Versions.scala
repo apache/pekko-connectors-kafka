@@ -27,14 +27,8 @@ object Versions {
   val kafkaVersion = "3.0.1"
   val KafkaVersionForDocs = "30"
   // This should align with the ScalaTest version used in the Apache Pekko 1.0.x testkit
-  // https://github.com/apache/incubator-pekko/blob/main/project/Dependencies.scala#L70
-  val scalaTestVersion = Def.setting {
-    if (scalaVersion.value.startsWith("3.")) {
-      "3.2.9"
-    } else {
-      "3.1.4"
-    }
-  }
+  // https://github.com/apache/incubator-pekko/blob/main/project/Dependencies.scala
+  val scalaTestVersion = "3.2.14"}
   val scalaPBVersion = "0.11.13"
   val testcontainersVersion = "1.16.3"
   val slf4jVersion = "1.7.36"
