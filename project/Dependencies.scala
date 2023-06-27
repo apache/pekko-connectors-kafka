@@ -30,7 +30,7 @@ object Dependencies {
 
   lazy val testDependencies = Def.setting(Seq(
     "org.apache.pekko" %% "pekko-discovery" % pekkoVersion,
-    "com.google.protobuf" % "protobuf-java" % "3.19.1", // use the same version as in scalapb
+    "com.google.protobuf" % "protobuf-java" % "3.19.6", // use the same version as in scalapb
     ("io.confluent" % "kafka-avro-serializer" % confluentAvroSerializerVersion % Test).excludeAll(
       confluentLibsExclusionRules: _*),
     // See https://github.com/sbt/sbt/issues/3618#issuecomment-448951808
