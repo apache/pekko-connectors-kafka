@@ -17,5 +17,6 @@ object ResolverSettings {
     // for Jupiter interface (JUnit 5)
     Resolver.jcenterRepo,
     // TODO: Remove when Pekko has a proper release,
+    "Apache Pekko Staging".at("https://repository.apache.org/content/groups/staging"),
     Resolver.ApacheMavenSnapshotsRepo)
 }
