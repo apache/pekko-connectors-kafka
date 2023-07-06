@@ -1,5 +1,4 @@
-Apache Pekko Kafka Connector [![scaladex-badge][]][scaladex] [![maven-central-badge][]][maven-central] [![gh-actions-badge][]][gh-actions]
-=============
+# Apache Pekko Kafka Connector [![scaladex-badge][]][scaladex] [![maven-central-badge][]][maven-central] [![gh-actions-badge][]][gh-actions]
 
 [scaladex]:            https://index.scala-lang.org/apache/incubator-pekko-connectors-kafka/
 [scaladex-badge]:      https://index.scala-lang.org/apache/incubator-pekko-connectors-kafka/latest.svg?target=_2.13
@@ -19,30 +18,21 @@ Pekko connectors to other technologies are listed in the [Pekko connectors repos
 
 The Apache Pekko Kafka Connector is a fork of [Alpakka Kafka](https://github.com/akka/alpakka-kafka) 3.0.1, prior to the Akka project's adoption of the Business Source License.
 
-Documentation
--------------
+## Reference Documentation
 
-**TODO add documentation links**
+See https://pekko.apache.org for the documentation including the API docs. The docs for all the Apache Pekko modules can be found there.
 
-Community
----------
+## Community
 
 You can join these forums and chats to discuss and ask Pekko and Pekko connector related questions:
 
 - [GitHub discussions](https://github.com/apache/incubator-pekko-connectors-kafka/discussions): for questions and general discussion.
-- [Pekko dev mailing list](https://lists.apache.org/list.html?dev@pekko.apache.org): for Pekko connectors development discussions.
+- [Pekko dev mailing list](https://lists.apache.org/list.html?dev@pekko.apache.org): for Pekko development discussions.
+- [Pekko users mailing list](https://lists.apache.org/list.html?users@pekko.apache.org): for Pekko user discussions.
 - [GitHub issues](https://github.com/apache/incubator-pekko-connectors-kafka/issues): for bug reports and feature requests. Please search the existing issues before creating new ones. If you are unsure whether you have found a bug, consider asking in GitHub discussions or the mailing list first.
 
-The Apache Pekko Kafka Connector was originally created as **Reactive Kafka** by [<img src="https://files.softwaremill.com/logo/logo.svg" alt="SoftwareMill logo" height="25">](https://softwaremill.com).
-
-Contributing
-------------
+## Contributing
 
 Contributions are very welcome. If you have an idea on how to improve Pekko, don't hesitate to create an issue or submit a pull request.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for details on the development workflow and how to create your pull request.
-
-Caveat Emptor
--------------
-
-Pekko Connectors are not always binary compatible between releases. API changes that are not backward compatible might be introduced as we refine and simplify based on your feedback. A module may be dropped in any release without prior deprecation.
