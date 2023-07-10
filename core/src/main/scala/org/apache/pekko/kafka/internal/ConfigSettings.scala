@@ -51,6 +51,22 @@ import pekko.util.JavaDurationConverters._
     keys.map(key => key -> config.getString(key)).toMap
   }
 
+  import org.apache.kafka
+  import org.apache.pekko.util.ccompat.JavaConverters._
+
+  def serializeAndMaskKafkaProperties[A <: kafka.common.config.AbstractConfig](
+      properties: Map[String, AnyRef], constructor: java.util.Map[String, AnyRef] => A): String = {
+    val parsedAsKafkaConfig = constructor(properties.asJava)
+    properties.toSeq
+      .map {
+        case (key, _) if parsedAsKafkaConfig.typeOf(key) == kafka.common.config.ConfigDef.Type.PASSWORD =>
+          key -> kafka.common.config.types.Password.HIDDEN
+        case t => t
+      }
+      .sortBy(_._1)
+      .mkString(",")
+  }
+
   def getPotentiallyInfiniteDuration(underlying: Config, path: String): Duration = underlying.getString(path) match {
     case "infinite" => Duration.Inf
     case _          => underlying.getDuration(path).asScala

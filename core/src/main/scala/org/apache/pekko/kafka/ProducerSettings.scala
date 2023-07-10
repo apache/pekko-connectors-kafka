@@ -394,14 +394,13 @@ class ProducerSettings[K, V] @InternalApi private[kafka] (
       producerFactorySync)
 
   override def toString: String = {
-    val kafkaClients = properties.toSeq
-      .map {
-        case (key, _) if key.endsWith(".password") =>
-          key -> "[is set]"
-        case t => t
-      }
-      .sortBy(_._1)
-      .mkString(",")
+    val propertiesWithMandatoryKeys = properties ++ Map(
+      ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG -> keySerializerOpt.map(_.getClass).orNull,
+      ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG -> valueSerializerOpt.map(_.getClass).orNull)
+
+    val kafkaClients =
+      ConfigSettings.serializeAndMaskKafkaProperties(propertiesWithMandatoryKeys,
+        new org.apache.kafka.clients.producer.ProducerConfig(_))
     "org.apache.pekko.kafka.ProducerSettings(" +
     s"properties=$kafkaClients," +
     s"keySerializer=$keySerializerOpt," +
