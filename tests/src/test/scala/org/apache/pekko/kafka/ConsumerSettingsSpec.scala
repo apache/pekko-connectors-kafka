@@ -109,11 +109,14 @@ class ConsumerSettingsSpec
       val settings = ConsumerSettings(conf, new ByteArrayDeserializer, new StringDeserializer)
         .withProperty(SslConfigs.SSL_KEY_PASSWORD_CONFIG, "hemligt")
         .withProperty("ssl.truststore.password", "geheim")
+        .withProperty("ssl.keystore.key", "schlussel")
       val s = settings.toString
       s should include(SslConfigs.SSL_KEY_PASSWORD_CONFIG)
       (s should not).include("hemligt")
       s should include("ssl.truststore.password")
       (s should not).include("geheim")
+      s should include("ssl.keystore.key")
+      (s should not).include("schlussel")
     }
 
     "throw IllegalArgumentException if no value deserializer defined" in {
