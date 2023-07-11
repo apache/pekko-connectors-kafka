@@ -183,7 +183,7 @@ private[internal] abstract class TransactionalSourceLogic[K, V, Msg](shape: Sour
 
   private def waitForDraining(partitions: Set[TopicPartition]): Boolean = {
     import pekko.pattern.ask
-    implicit val timeout = Timeout(consumerSettings.commitTimeout)
+    implicit val timeout: Timeout = Timeout(consumerSettings.commitTimeout)
     try {
       Await.result(ask(stageActor.ref, Drain(partitions, None, Drained)), timeout.duration)
       true
@@ -265,11 +265,11 @@ private[kafka] final class TransactionalSubSource[K, V](
 
       private def waitForDraining(partitions: Set[TopicPartition]): Boolean = {
         import pekko.pattern.ask
-        implicit val timeout = Timeout(txConsumerSettings.commitTimeout)
+        implicit val timeout: Timeout = Timeout(txConsumerSettings.commitTimeout)
         try {
           val drainCommandFutures =
             subSources.values.map(_.stageActor).map(ask(_, Drain(partitions, None, Drained)))
-          implicit val ec = executionContext
+          implicit val ec: ExecutionContext = executionContext
           Await.result(Future.sequence(drainCommandFutures), timeout.duration)
           true
         } catch {

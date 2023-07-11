@@ -576,7 +576,7 @@ object ProducerMock {
     def delayedMap[K, V](
         delay: FiniteDuration)(f: ProducerRecord[K, V] => Try[RecordMetadata])(
         implicit as: ActorSystem): Handler[K, V] = { (record, _) =>
-      implicit val ec = as.dispatcher
+      implicit val ec: ExecutionContext = as.dispatcher
       val promise = Promise[RecordMetadata]()
       as.scheduler.scheduleOnce(delay) {
         promise.complete(f(record))
