@@ -27,7 +27,7 @@ import pekko.util.Timeout
 import org.apache.kafka.clients.consumer.OffsetAndMetadata
 import org.apache.kafka.common.{ PartitionInfo, TopicPartition }
 
-import scala.concurrent.ExecutionContextExecutor
+import scala.concurrent.ExecutionContext
 
 class MetadataClient private (metadataClient: pekko.kafka.scaladsl.MetadataClient) {
 
@@ -99,7 +99,7 @@ class MetadataClient private (metadataClient: pekko.kafka.scaladsl.MetadataClien
 object MetadataClient {
 
   def create(consumerActor: ActorRef, timeout: Timeout, executor: Executor): MetadataClient = {
-    implicit val ec: ExecutionContextExecutor = ExecutionContexts.fromExecutor(executor)
+    implicit val ec: ExecutionContext = ExecutionContexts.fromExecutor(executor)
     val metadataClient = pekko.kafka.scaladsl.MetadataClient.create(consumerActor, timeout)
     new MetadataClient(metadataClient)
   }

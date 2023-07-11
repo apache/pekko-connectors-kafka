@@ -221,7 +221,7 @@ class ConsumerSettingsSpec
 
     "read bootstrap servers from config" in {
       import pekko.kafka.scaladsl.DiscoverySupport
-      implicit val actorSystem = ActorSystem("test", config)
+      implicit val actorSystem: ActorSystem = ActorSystem("test", config)
 
       DiscoverySupport.bootstrapServers(config.getConfig("discovery-consumer")).futureValue shouldBe "cat:1233,dog:1234"
 
@@ -229,7 +229,7 @@ class ConsumerSettingsSpec
     }
 
     "use enriched settings for consumer creation" in {
-      implicit val actorSystem = ActorSystem("test", config)
+      implicit val actorSystem: ActorSystem = ActorSystem("test", config)
       implicit val executionContext: ExecutionContext = actorSystem.dispatcher
 
       // #discovery-settings

@@ -204,7 +204,7 @@ class ProducerSettingsSpec
       .resolve()
 
     "use enriched settings for consumer creation" in {
-      implicit val actorSystem = ActorSystem("test", config)
+      implicit val actorSystem: ActorSystem = ActorSystem("test", config)
 
       // #discovery-settings
       import org.apache.pekko.kafka.scaladsl.DiscoverySupport
@@ -222,7 +222,7 @@ class ProducerSettingsSpec
     }
 
     "fail if using non-async creation with enrichAsync" in {
-      implicit val actorSystem = ActorSystem("test", config)
+      implicit val actorSystem: ActorSystem = ActorSystem("test", config)
 
       import pekko.kafka.scaladsl.DiscoverySupport
 

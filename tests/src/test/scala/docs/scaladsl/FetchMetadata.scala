@@ -47,7 +47,7 @@ class FetchMetadata extends DocsSpecBase with TestcontainersKafkaLike with TryVa
     // #metadata
     val timeout: FiniteDuration = 5.seconds
     val settings = consumerSettings.withMetadataRequestTimeout(timeout)
-    implicit val askTimeout = Timeout(timeout)
+    implicit val askTimeout: Timeout = Timeout(timeout)
 
     val consumer: ActorRef = system.actorOf(KafkaConsumerActor.props(settings))
 
@@ -95,7 +95,7 @@ class FetchMetadata extends DocsSpecBase with TestcontainersKafkaLike with TryVa
       .withGroupId(createGroupId())
       .withMetadataRequestTimeout(100.millis)
     val topic = createTopic()
-    implicit val timeout = Timeout(consumerSettings.metadataRequestTimeout * 2)
+    implicit val timeout: Timeout = Timeout(consumerSettings.metadataRequestTimeout * 2)
 
     val consumer: ActorRef = system.actorOf(KafkaConsumerActor.props(consumerSettings))
 
@@ -114,7 +114,7 @@ class FetchMetadata extends DocsSpecBase with TestcontainersKafkaLike with TryVa
       .withGroupId(createGroupId())
       .withMetadataRequestTimeout(5.seconds)
     val topic = createTopic()
-    implicit val timeout = Timeout(consumerSettings.metadataRequestTimeout * 2)
+    implicit val timeout: Timeout = Timeout(consumerSettings.metadataRequestTimeout * 2)
 
     val consumer: ActorRef = system.actorOf(KafkaConsumerActor.props(consumerSettings))
 
