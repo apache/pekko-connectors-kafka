@@ -76,7 +76,7 @@ class MetadataClient private (consumerActor: ActorRef, timeout: Timeout, managed
         case Failure(e)   => Future.failed(e)
       }(ExecutionContexts.parasitic)
 
-  @deprecated("use `getCommittedOffsets`", "2.0.3")
+  @deprecated("use `getCommittedOffsets`", "Alpakka Kafka 2.0.3")
   def getCommittedOffset(partition: TopicPartition): Future[OffsetAndMetadata] =
     (consumerActor ? GetCommittedOffset(partition))(timeout)
       .mapTo[CommittedOffset]

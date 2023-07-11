@@ -52,7 +52,7 @@ object Producer {
    *
    * Supports sharing a Kafka Producer instance.
    *
-   * @deprecated Pass in external or shared producer using `ProducerSettings.withProducerFactory` or `ProducerSettings.withProducer`, since 2.0.0
+   * @deprecated Pass in external or shared producer using `ProducerSettings.withProducerFactory` or `ProducerSettings.withProducer`, since Alpakka Kafka 2.0.0
    */
   @Deprecated
   def plainSink[K, V](
@@ -76,7 +76,7 @@ object Producer {
    * Note that there is a risk that something fails after publishing but before
    * committing, so it is "at-least once delivery" semantics.
    *
-   * @deprecated use `committableSink(ProducerSettings, CommitterSettings)` instead, since 2.0.0
+   * @deprecated use `committableSink(ProducerSettings, CommitterSettings)` instead, since Alpakka Kafka 2.0.0
    */
   @Deprecated
   def committableSink[K, V, IN <: Envelope[K, V, ConsumerMessage.Committable]](
@@ -107,7 +107,7 @@ object Producer {
    *
    * Supports sharing a Kafka Producer instance.
    *
-   * @deprecated use `committableSink(ProducerSettings, CommitterSettings)` instead, since 2.0.0
+   * @deprecated use `committableSink(ProducerSettings, CommitterSettings)` instead, since Alpakka Kafka 2.0.0
    */
   @Deprecated
   def committableSink[K, V](
@@ -266,7 +266,7 @@ object Producer {
    *
    * Supports sharing a Kafka Producer instance.
    *
-   * @deprecated Pass in external or shared producer using `ProducerSettings.withProducerFactory` or `ProducerSettings.withProducer`, since 2.0.0
+   * @deprecated Pass in external or shared producer using `ProducerSettings.withProducerFactory` or `ProducerSettings.withProducer`, since Alpakka Kafka 2.0.0
    */
   @Deprecated
   def flexiFlow[K, V, PassThrough](
@@ -294,7 +294,7 @@ object Producer {
    *
    * @tparam C the flow context type
    *
-   * @deprecated Pass in external or shared producer using `ProducerSettings.withProducerFactory` or `ProducerSettings.withProducer`, since 2.0.0
+   * @deprecated Pass in external or shared producer using `ProducerSettings.withProducerFactory` or `ProducerSettings.withProducer`, since Alpakka Kafka 2.0.0
    */
   @Deprecated
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/880")

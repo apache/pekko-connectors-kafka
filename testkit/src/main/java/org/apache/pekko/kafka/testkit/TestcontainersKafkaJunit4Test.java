@@ -38,7 +38,8 @@ public abstract class TestcontainersKafkaJunit4Test extends KafkaJunit4Test {
 
   /**
    * @deprecated Materializer no longer necessary in Akka 2.6, use
-   *     `TestcontainersKafkaJunit4Test(ClassicActorSystemProvider)` instead, since 2.1.0
+   *     `TestcontainersKafkaJunit4Test(ClassicActorSystemProvider)` instead, since Alpakka Kafka
+   *     2.1.0
    */
   @Deprecated
   protected TestcontainersKafkaJunit4Test(ActorSystem system, Materializer mat) {

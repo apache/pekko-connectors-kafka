@@ -54,7 +54,7 @@ object Producer {
    */
   @deprecated(
     "Pass in external or shared producer using ProducerSettings.withProducerFactory or ProducerSettings.withProducer",
-    "2.0.0")
+    "Alpakka Kafka 2.0.0")
   def plainSink[K, V](
       settings: ProducerSettings[K, V],
       producer: org.apache.kafka.clients.producer.Producer[K, V]): Sink[ProducerRecord[K, V], Future[Done]] =
@@ -76,7 +76,7 @@ object Producer {
    * Note that there is a risk that something fails after publishing but before
    * committing, so it is "at-least once delivery" semantics.
    */
-  @deprecated("use `committableSink(ProducerSettings, CommitterSettings)` instead", "2.0.0")
+  @deprecated("use `committableSink(ProducerSettings, CommitterSettings)` instead", "Alpakka Kafka 2.0.0")
   def committableSink[K, V](
       settings: ProducerSettings[K, V]): Sink[Envelope[K, V, ConsumerMessage.Committable], Future[Done]] =
     flexiFlow[K, V, ConsumerMessage.Committable](settings)
@@ -101,7 +101,7 @@ object Producer {
    *
    * Supports sharing a Kafka Producer instance.
    */
-  @deprecated("use `committableSink(ProducerSettings, CommitterSettings)` instead", "2.0.0")
+  @deprecated("use `committableSink(ProducerSettings, CommitterSettings)` instead", "Alpakka Kafka 2.0.0")
   def committableSink[K, V](
       settings: ProducerSettings[K, V],
       producer: org.apache.kafka.clients.producer.Producer[K, V])
@@ -262,7 +262,7 @@ object Producer {
    */
   @deprecated(
     "Pass in external or shared producer using ProducerSettings.withProducerFactory or ProducerSettings.withProducer",
-    "2.0.0")
+    "Alpakka Kafka 2.0.0")
   def flexiFlow[K, V, PassThrough](
       settings: ProducerSettings[K, V],
       producer: org.apache.kafka.clients.producer.Producer[K, V])
@@ -290,7 +290,7 @@ object Producer {
    */
   @deprecated(
     "Pass in external or shared producer using ProducerSettings.withProducerFactory or ProducerSettings.withProducer",
-    "2.0.0")
+    "Alpakka Kafka 2.0.0")
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/880")
   def flowWithContext[K, V, C](
       settings: ProducerSettings[K, V],
