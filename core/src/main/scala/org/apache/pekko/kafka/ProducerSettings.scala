@@ -232,7 +232,7 @@ class ProducerSettings[K, V] @InternalApi private[kafka] (
 
   @deprecated(
     "Use createKafkaProducer(), createKafkaProducerAsync(), or createKafkaProducerCompletionStage() to get a new KafkaProducer",
-    "2.0.0")
+    "alpakka-kafka 2.0.0")
   def producerFactory: ProducerSettings[K, V] => Producer[K, V] = _ => createKafkaProducer()
 
   /**
@@ -335,7 +335,7 @@ class ProducerSettings[K, V] @InternalApi private[kafka] (
   /**
    * Scala API.
    * A hook to allow for resolving some settings asynchronously.
-   * @since 2.0.0
+   * @since alpakka-kafka 2.0.0
    */
   def withEnrichAsync(value: ProducerSettings[K, V] => Future[ProducerSettings[K, V]]): ProducerSettings[K, V] =
     copy(enrichAsync = Some(value))
@@ -343,7 +343,7 @@ class ProducerSettings[K, V] @InternalApi private[kafka] (
   /**
    * Java API.
    * A hook to allow for resolving some settings asynchronously.
-   * @since 2.0.0
+   * @since alpakka-kafka 2.0.0
    */
   def withEnrichCompletionStage(
       value: java.util.function.Function[ProducerSettings[K, V], CompletionStage[ProducerSettings[K, V]]])

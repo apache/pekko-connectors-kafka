@@ -503,7 +503,7 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
   /**
    * Scala API.
    * A hook to allow for resolving some settings asynchronously.
-   * @since 2.0.0
+   * @since alpakka-kafka 2.0.0
    */
   def withEnrichAsync(value: ConsumerSettings[K, V] => Future[ConsumerSettings[K, V]]): ConsumerSettings[K, V] =
     copy(enrichAsync = Some(value))
@@ -511,7 +511,7 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
   /**
    * Java API.
    * A hook to allow for resolving some settings asynchronously.
-   * @since 2.0.0
+   * @since alpakka-kafka 2.0.0
    */
   def withEnrichCompletionStage(
       value: java.util.function.Function[ConsumerSettings[K, V], CompletionStage[ConsumerSettings[K, V]]])
