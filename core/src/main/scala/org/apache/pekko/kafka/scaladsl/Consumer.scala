@@ -110,7 +110,7 @@ object Consumer {
 
     override def stop(): Future[Done] = control.stop()
 
-    @deprecated("Use `drainAndShutdown` for proper shutdown of the stream.", "alpakka-kafka 2.0.0")
+    @deprecated("Use `drainAndShutdown` for proper shutdown of the stream.", "Alpakka Kafka 2.0.0")
     override def shutdown(): Future[Done] =
       control
         .shutdown()

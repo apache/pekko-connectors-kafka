@@ -30,7 +30,7 @@ import org.apache.kafka.clients.producer.{ ProducerRecord, RecordMetadata }
 final class SendProducer[K, V] private (underlying: scaladsl.SendProducer[K, V]) {
 
   // kept for bin-compatibility
-  @deprecated("use the variant with ClassicActorSystemProvider instead", "alpakka-kafka 2.0.5")
+  @deprecated("use the variant with ClassicActorSystemProvider instead", "Alpakka Kafka 2.0.5")
   private[kafka] def this(settings: ProducerSettings[K, V], system: ActorSystem) =
     this(scaladsl.SendProducer(settings)(system))
 

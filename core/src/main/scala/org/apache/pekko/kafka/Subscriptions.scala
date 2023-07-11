@@ -42,12 +42,12 @@ sealed trait Subscription {
  */
 sealed trait ManualSubscription extends Subscription {
 
-  /** @deprecated Manual subscriptions do never rebalance, since alpakka-kafka 1.0-RC1 */
-  @deprecated("Manual subscription does never rebalance", "alpakka-kafka 1.0-RC1")
+  /** @deprecated Manual subscriptions do never rebalance, since Alpakka Kafka 1.0-RC1 */
+  @deprecated("Manual subscription does never rebalance", "Alpakka Kafka 1.0-RC1")
   def rebalanceListener: Option[ActorRef] = None
 
-  /** @deprecated Manual subscriptions do never rebalance, since alpakka-kafka 1.0-RC1 */
-  @deprecated("Manual subscription does never rebalance", "alpakka-kafka 1.0-RC1")
+  /** @deprecated Manual subscriptions do never rebalance, since Alpakka Kafka 1.0-RC1 */
+  @deprecated("Manual subscription does never rebalance", "Alpakka Kafka 1.0-RC1")
   def withRebalanceListener(ref: ActorRef): ManualSubscription
 }
 

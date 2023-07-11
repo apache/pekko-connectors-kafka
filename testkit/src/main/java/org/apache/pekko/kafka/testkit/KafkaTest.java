@@ -34,7 +34,7 @@ public abstract class KafkaTest extends BaseKafkaTest {
 
   /**
    * @deprecated Materializer no longer necessary in Akka 2.6, use
-   *     `KafkaTest(ClassicActorSystemProvider, String)` instead, since alpakka-kafka 2.1.0
+   *     `KafkaTest(ClassicActorSystemProvider, String)` instead, since Alpakka Kafka 2.1.0
    */
   @Deprecated
   protected KafkaTest(ActorSystem system, Materializer mat, String bootstrapServers) {

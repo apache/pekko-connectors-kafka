@@ -57,14 +57,14 @@ object ConsumerMessage {
    * or a number of offsets aggregated as [[CommittableOffsetBatch]].
    */
   @DoNotInherit trait Committable {
-    @deprecated("use `Committer.flow` or `Committer.sink` instead of direct usage", "alpakka-kafka 2.0.0")
+    @deprecated("use `Committer.flow` or `Committer.sink` instead of direct usage", "Alpakka Kafka 2.0.0")
     def commitScaladsl(): Future[Done]
 
     /**
-     * @deprecated use `Committer.flow` or `Committer.sink` instead of direct usage, since alpakka-kafka 2.0.0
+     * @deprecated use `Committer.flow` or `Committer.sink` instead of direct usage, since Alpakka Kafka 2.0.0
      */
     @java.lang.Deprecated
-    @deprecated("use `Committer.flow` or `Committer.sink` instead of direct usage", "alpakka-kafka 2.0.0")
+    @deprecated("use `Committer.flow` or `Committer.sink` instead of direct usage", "Alpakka Kafka 2.0.0")
     def commitJavadsl(): CompletionStage[Done]
 
     @InternalApi
