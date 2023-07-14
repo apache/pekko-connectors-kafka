@@ -25,8 +25,6 @@ TaskKey[Unit]("verifyCodeFmt") := {
 
 addCommandAlias("verifyDocs", ";+doc ;unidoc ;docs/paradoxBrowse")
 
-enablePlugins(ReproducibleBuildsPlugin)
-
 lazy val `pekko-connectors-kafka` =
   project
     .in(file("."))
@@ -41,6 +39,7 @@ lazy val `pekko-connectors-kafka` =
     .aggregate(core, testkit, `cluster-sharding`, tests, `java-tests`, benchmarks, docs)
 
 lazy val core = project
+  .enablePlugins(ReproducibleBuildsPlugin)
   .disablePlugins(SitePlugin)
   .settings(commonSettings)
   .settings(VersionGenerator.settings)
@@ -53,6 +52,7 @@ lazy val core = project
 
 lazy val testkit = project
   .dependsOn(core)
+  .enablePlugins(ReproducibleBuildsPlugin)
   .disablePlugins(SitePlugin)
   .settings(commonSettings)
   .settings(
@@ -68,6 +68,7 @@ lazy val testkit = project
 lazy val `cluster-sharding` = project
   .in(file("./cluster-sharding"))
   .dependsOn(core)
+  .enablePlugins(ReproducibleBuildsPlugin)
   .disablePlugins(SitePlugin)
   .settings(commonSettings)
   .settings(
