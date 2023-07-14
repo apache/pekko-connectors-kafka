@@ -25,6 +25,8 @@ TaskKey[Unit]("verifyCodeFmt") := {
 
 addCommandAlias("verifyDocs", ";+doc ;unidoc ;docs/paradoxBrowse")
 
+enablePlugins(ReproducibleBuildsPlugin)
+
 lazy val `pekko-connectors-kafka` =
   project
     .in(file("."))
