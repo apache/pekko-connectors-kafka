@@ -11,11 +11,10 @@ import com.typesafe.tools.mima.core.{ Problem, ProblemFilters }
 import ProjectSettings.commonSettings
 
 ThisBuild / resolvers ++= ResolverSettings.projectResolvers
-// TODO: Remove when Pekko has a proper release
-ThisBuild / updateOptions := updateOptions.value.withLatestSnapshots(false)
 
 ThisBuild / apacheSonatypeProjectProfile := "pekko"
-sourceDistName := "incubating-pekko-connectors-kafka"
+sourceDistName := "apache-pekko-connectors-kafka"
+sourceDistIncubating := true
 
 TaskKey[Unit]("verifyCodeFmt") := {
   javafmtCheckAll.all(ScopeFilter(inAnyProject)).result.value.toEither.left.foreach { _ =>
