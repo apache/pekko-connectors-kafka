@@ -28,7 +28,7 @@ See https://pekko.apache.org for the documentation including the API docs. The d
 - Make sure you have installed a Java Development Kit (JDK) version 8 or later.
 - Make sure you have [sbt](https://www.scala-sbt.org/) installed and using this JDK.
 - [Graphviz](https://graphviz.gitlab.io/download/) is needed for the scaladoc generation build task, which is part of the release.
-- Having [Docker](https://www.docker.com/) running is required for many of the unit tests.
+- Running [Docker Engine](https://docs.docker.com/engine/) is required for many of the unit tests.
 
 ### Running the Build
 - Open a command window and change directory to your preferred base directory
