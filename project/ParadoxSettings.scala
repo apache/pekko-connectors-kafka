@@ -33,8 +33,10 @@ object ParadoxSettings {
       "extref.pekko.base_url" -> s"$pekkoDocs/pekko/$pekkoVersionForDocs/%s",
       "scaladoc.org.apache.pekko.base_url" -> s"$pekkoAPI/pekko/$pekkoVersionForDocs/",
       "javadoc.org.apache.pekko.base_url" -> s"$pekkoAPI/pekko/$pekkoVersionForDocs/",
-      "javadoc.pekko.link_style" -> "direct",
-      "extref.pekko-management.base_url" -> s"$pekkoDocs/pekko-management/$pekkoVersionForDocs/%s",
+      "scaladoc.org.apache.pekko.kafka.base_url" -> s"$pekkoAPI/pekko-connectors-kafka/$pekkoConnectorsKafkaVersionForDocs/",
+      "javadoc.org.apache.pekko.kafka.base_url" -> s"$pekkoAPI/pekko-connectors-kafka/$pekkoConnectorsKafkaVersionForDocs/",
+      "javadoc.org.apache.pekko.link_style" -> "direct",
+      "extref.pekko-management.base_url" -> s"$pekkoDocs/pekko-management/$pekkoManagementVersionForDocs/%s",
       // Kafka
       "kafka.version" -> kafkaVersion,
       "extref.kafka.base_url" -> s"https://kafka.apache.org/$KafkaVersionForDocs/%s",
