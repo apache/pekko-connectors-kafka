@@ -24,7 +24,8 @@ We haven't had to fix many significant bugs that were in Alpakka Kafka 3.0.1.
 
 ### Additions
 
-* Scala 3 support
+* Scala 3 support ([PR58](https://github.com/apache/incubator-pekko-connectors-kafka/pull/58))
+  * minimum version of Scala 3.3.0 required 
 
 ### Dependency Upgrades
 We have tried to limit the changes to third party dependencies that were used in Alpakka Kafka 3.0.1. These are some exceptions:
