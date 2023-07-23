@@ -1,12 +1,12 @@
-# TODO: Fix after documentation updates
 name: Link Validator
+
+permissions: {}
 
 on:
   pull_request:
-##  schedule:
-##    - cron:  '0 6 * * 1'
-
-permissions: {}
+  workflow_dispatch:
+  schedule:
+    - cron:  '0 6 * * 1'
 
 jobs:
   validate-links:
@@ -23,20 +23,23 @@ jobs:
       #- name: Fetch tags
       #  run: git fetch --depth=100 origin +refs/tags/*:refs/tags/*
 
-      - name: Setup Java 11
+      - name: Setup Java 8
         uses: actions/setup-java@v3
         with:
           distribution: temurin
-          java-version: 11
+          java-version: 8
 
       - name: Cache Coursier cache
         uses: coursier/cache-action@v6
 
-      - name: sbt site
-        run: sbt docs/makeSite
-#
-#      - name: Install Coursier command line tool
-#        run: curl -fLo cs https://git.io/coursier-cli-linux && chmod +x cs && ./cs
-#
-#      - name: Run Link Validator
-#        run: ./cs launch net.runne::site-link-validator:0.2.2 -- scripts/link-validator.conf
+      - name: Setup Coursier
+        uses: coursier/setup-action@v1.3.3
+
+      - name: Build Documentation
+        run: |-
+          sbt docs/paradox unidoc
+        env:
+          JAVA_OPTS: "-verbose:gc -Xmx4g"
+
+      - name: Run Link Validator
+        run: cs launch net.runne::site-link-validator:0.2.2 -- scripts/link-validator.conf
