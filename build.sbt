@@ -16,6 +16,12 @@ ThisBuild / apacheSonatypeProjectProfile := "pekko"
 sourceDistName := "apache-pekko-connectors-kafka"
 sourceDistIncubating := true
 
+commands := commands.value.filterNot { command =>
+  command.nameOption.exists { name =>
+    name.contains("sonatypeRelease") || name.contains("sonatypeBundleRelease")
+  }
+}
+
 TaskKey[Unit]("verifyCodeFmt") := {
   javafmtCheckAll.all(ScopeFilter(inAnyProject)).result.value.toEither.left.foreach { _ =>
     throw new MessageOnlyException(
