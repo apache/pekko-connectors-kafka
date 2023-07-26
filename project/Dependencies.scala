@@ -33,8 +33,7 @@ object Dependencies {
     "com.google.protobuf" % "protobuf-java" % "3.19.6", // use the same version as in scalapb
     ("io.confluent" % "kafka-avro-serializer" % confluentAvroSerializerVersion % Test).excludeAll(
       confluentLibsExclusionRules: _*),
-    // See https://github.com/sbt/sbt/issues/3618#issuecomment-448951808
-    ("javax.ws.rs" % "javax.ws.rs-api" % "2.1.1").artifacts(Artifact("javax.ws.rs-api", "jar", "jar")),
+    "jakarta.ws.rs" % "jakarta.ws.rs-api" % "2.1.6" % Test,
     "org.testcontainers" % "kafka" % testcontainersVersion % Test,
     "org.scalatest" %% "scalatest" % scalaTestVersion % Test,
     "io.spray" %% "spray-json" % "1.3.6" % Test,
