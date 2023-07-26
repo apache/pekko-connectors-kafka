@@ -78,5 +78,6 @@ We want Apache Pekko and Apache Pekko Connectors to strive in a welcoming and op
 @@@ index
 
 * [release notes](release-notes/index.md)
+* [License Report](license-report.md)
 
 @@@
