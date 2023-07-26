@@ -9,10 +9,17 @@
 
 import Versions._
 import com.lightbend.paradox.apidoc.ApidocPlugin.autoImport.apidocRootPackage
-import com.lightbend.paradox.sbt.ParadoxPlugin.autoImport.{ paradoxGroups, paradoxProperties, paradoxRoots }
+import com.lightbend.paradox.sbt.ParadoxPlugin.autoImport.{
+  paradox,
+  paradoxGroups,
+  paradoxMarkdownToHtml,
+  paradoxProperties,
+  paradoxRoots
+}
 import org.apache.pekko.PekkoParadoxPlugin.autoImport._
 import sbt._
 import sbt.Keys._
+import sbtlicensereport.SbtLicenseReport.autoImportImpl.dumpLicenseReportAggregate
 
 object ParadoxSettings {
 
@@ -54,5 +61,14 @@ object ParadoxSettings {
       "javadoc.org.testcontainers.containers.base_url" -> s"https://www.javadoc.io/doc/org.testcontainers/testcontainers/$testcontainersVersion/",
       "javadoc.org.testcontainers.containers.link_style" -> "direct"))
 
-  val settings = propertiesSettings ++ themeSettings
+  val sourceGeneratorSettings = Seq(
+    Compile / paradoxMarkdownToHtml / sourceGenerators += Def.taskDyn {
+      val targetFile = (Compile / paradox / sourceManaged).value / "license-report.md"
+
+      (LocalRootProject / dumpLicenseReportAggregate).map { dir =>
+        IO.copy(List(dir / "pekko-connectors-kafka-root-licenses.md" -> targetFile)).toList
+      }
+    }.taskValue)
+
+  val settings = propertiesSettings ++ themeSettings ++ sourceGeneratorSettings
 }
