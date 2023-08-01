@@ -47,8 +47,8 @@ jobs:
         uses: coursier/cache-action@v6
 
       - name: Code style check and binary-compatibility check
-        # Run locally with: sbt 'verifyCodeFmt; mimaReportBinaryIssues'
-        run: sbt "verifyCodeFmt; mimaReportBinaryIssues"
+        # Run locally with: sbt 'javafmtCheckAll; mimaReportBinaryIssues'
+        run: sbt "javafmtCheckAll; mimaReportBinaryIssues"
 
   check-code-compilation:
     name: Check Code Compilation
