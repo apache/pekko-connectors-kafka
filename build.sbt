@@ -26,12 +26,8 @@ commands := commands.value.filterNot { command =>
 ThisBuild / reproducibleBuildsCheckResolver :=
   "Apache Pekko Staging".at("https://repository.apache.org/content/groups/staging/")
 
-TaskKey[Unit]("verifyCodeFmt") := {
-  javafmtCheckAll.all(ScopeFilter(inAnyProject)).result.value.toEither.left.foreach { _ =>
-    throw new MessageOnlyException(
-      "Unformatted Java code found. Please run 'javafmtAll' and commit the reformatted code")
-  }
-}
+addCommandAlias("verifyCodeStyle", "scalafmtCheckAll; scalafmtSbtCheck; +headerCheckAll; javafmtCheckAll")
+addCommandAlias("applyCodeStyle", "+headerCreateAll; scalafmtAll; scalafmtSbt; javafmtAll")
 
 addCommandAlias("verifyDocs", ";+doc ;unidoc ;docs/paradoxBrowse")
 
@@ -93,6 +89,7 @@ lazy val tests = project
   .dependsOn(core, testkit, `cluster-sharding`)
   .disablePlugins(MimaPlugin, SitePlugin)
   .configs(IntegrationTest.extend(Test))
+  .settings(inConfig(IntegrationTest)(JavaFormatterPlugin.toBeScopedSettings))
   .settings(commonSettings)
   .settings(Defaults.itSettings)
   .settings(headerSettings(IntegrationTest))
@@ -151,6 +148,7 @@ lazy val benchmarks = project
   .dependsOn(core, testkit)
   .disablePlugins(MimaPlugin, SitePlugin)
   .configs(IntegrationTest)
+  .settings(inConfig(IntegrationTest)(JavaFormatterPlugin.toBeScopedSettings))
   .settings(commonSettings)
   .settings(Defaults.itSettings)
   .settings(headerSettings(IntegrationTest))
