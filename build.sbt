@@ -31,6 +31,8 @@ addCommandAlias("applyCodeStyle", "+headerCreateAll; scalafmtAll; scalafmtSbt; j
 
 addCommandAlias("verifyDocs", ";+doc ;unidoc ;docs/paradoxBrowse")
 
+val mimaCompareVersion = "1.0.0"
+
 lazy val `pekko-connectors-kafka` =
   project
     .in(file("."))
@@ -53,7 +55,8 @@ lazy val core = project
     name := "pekko-connectors-kafka",
     AutomaticModuleName.settings("org.apache.pekko.kafka"),
     libraryDependencies ++= Dependencies.coreDependencies,
-    mimaPreviousArtifacts := Set.empty, // temporarily disable mima checks
+    mimaPreviousArtifacts := Set(
+      organization.value %% name.value % mimaCompareVersion),
     mimaBinaryIssueFilters += ProblemFilters.exclude[Problem]("org.apache.pekko.kafka.internal.*"))
 
 lazy val testkit = project
@@ -68,7 +71,8 @@ lazy val testkit = project
     libraryDependencies ++= Dependencies.testKitDependencies.value,
     libraryDependencies ++= Seq(
       "org.junit.jupiter" % "junit-jupiter-api" % JupiterKeys.junitJupiterVersion.value % Provided),
-    mimaPreviousArtifacts := Set.empty, // temporarily disable mima checks
+    mimaPreviousArtifacts := Set(
+      organization.value %% name.value % mimaCompareVersion),
     mimaBinaryIssueFilters += ProblemFilters.exclude[Problem]("org.apache.pekko.kafka.testkit.internal.*"))
 
 lazy val `cluster-sharding` = project
@@ -82,8 +86,8 @@ lazy val `cluster-sharding` = project
     AutomaticModuleName.settings("org.apache.pekko.kafka.cluster.sharding"),
     AddMetaInfLicenseFiles.clusterShardingSettings,
     libraryDependencies ++= Dependencies.clusterShardingDependencies,
-    mimaPreviousArtifacts := Set.empty // temporarily disable mima checks
-  )
+    mimaPreviousArtifacts := Set(
+      organization.value %% name.value % mimaCompareVersion))
 
 lazy val tests = project
   .dependsOn(core, testkit, `cluster-sharding`)
