@@ -31,6 +31,8 @@ addCommandAlias("applyCodeStyle", "+headerCreateAll; scalafmtAll; scalafmtSbt; j
 
 addCommandAlias("verifyDocs", ";+doc ;unidoc ;docs/paradoxBrowse")
 
+val mimaCompareVersion = "1.0.0"
+
 lazy val `pekko-connectors-kafka` =
   project
     .in(file("."))
@@ -54,9 +56,7 @@ lazy val core = project
     AutomaticModuleName.settings("org.apache.pekko.kafka"),
     libraryDependencies ++= Dependencies.coreDependencies,
     mimaPreviousArtifacts := Set(
-      organization.value %% name.value % previousStableVersion.value
-        .getOrElse(throw new Error("Unable to determine previous version"))
-    ),
+      organization.value %% name.value % mimaCompareVersion),
     mimaBinaryIssueFilters += ProblemFilters.exclude[Problem]("org.apache.pekko.kafka.internal.*"))
 
 lazy val testkit = project
@@ -72,9 +72,7 @@ lazy val testkit = project
     libraryDependencies ++= Seq(
       "org.junit.jupiter" % "junit-jupiter-api" % JupiterKeys.junitJupiterVersion.value % Provided),
     mimaPreviousArtifacts := Set(
-      organization.value %% name.value % previousStableVersion.value
-        .getOrElse(throw new Error("Unable to determine previous version"))
-    ),
+      organization.value %% name.value % mimaCompareVersion),
     mimaBinaryIssueFilters += ProblemFilters.exclude[Problem]("org.apache.pekko.kafka.testkit.internal.*"))
 
 lazy val `cluster-sharding` = project
@@ -89,10 +87,7 @@ lazy val `cluster-sharding` = project
     AddMetaInfLicenseFiles.clusterShardingSettings,
     libraryDependencies ++= Dependencies.clusterShardingDependencies,
     mimaPreviousArtifacts := Set(
-      organization.value %% name.value % previousStableVersion.value
-        .getOrElse(throw new Error("Unable to determine previous version"))
-    )
-  )
+      organization.value %% name.value % mimaCompareVersion))
 
 lazy val tests = project
   .dependsOn(core, testkit, `cluster-sharding`)
