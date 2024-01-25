@@ -18,12 +18,12 @@ object Versions {
   // align ignore-prefixes in scripts/link-validator.conf
   val Scala213 = "2.13.11" // update even in link-validator.conf
   val Scala212 = "2.12.18"
-  val Scala3 = "3.3.0"
+  val Scala3 = "3.3.1"
 
-  val pekkoVersionForDocs = "current"
-  val pekkoConnectorsKafkaVersionForDocs = "current"
-  val pekkoManagementVersionForDocs = "current"
-  val pekkoVersion = "1.0.1"
+  val pekkoVersionForDocs = "1.0"
+  val pekkoConnectorsKafkaVersionForDocs = "1.0"
+  val pekkoManagementVersionForDocs = "1.0"
+  val pekkoVersion = PekkoCoreDependency.version
 
   // Keep .scala-steward.conf pin in sync
   val kafkaVersion = "3.0.1"
