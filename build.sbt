@@ -13,16 +13,10 @@ import ProjectSettings.commonSettings
 
 ThisBuild / resolvers ++= ResolverSettings.projectResolvers
 
-ThisBuild / apacheSonatypeProjectProfile := "pekko"
 sourceDistName := "apache-pekko-connectors-kafka"
 sourceDistIncubating := true
 
-commands := commands.value.filterNot { command =>
-  command.nameOption.exists { name =>
-    name.contains("sonatypeRelease") || name.contains("sonatypeBundleRelease")
-  }
-}
-
+ThisBuild / pekkoInlineEnabled := false
 ThisBuild / reproducibleBuildsCheckResolver := Resolver.ApacheMavenStagingRepo
 
 addCommandAlias("verifyCodeStyle", "scalafmtCheckAll; scalafmtSbtCheck; +headerCheckAll; javafmtCheckAll")
