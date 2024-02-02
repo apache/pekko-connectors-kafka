@@ -39,7 +39,7 @@ jobs:
 
 
       - name: Setup Java 11
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 11
@@ -68,7 +68,7 @@ jobs:
           git checkout scratch
 
       - name: Setup Java 11
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 11
@@ -97,7 +97,7 @@ jobs:
           git checkout scratch
 
       - name: Setup Java 11
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 11
@@ -136,7 +136,7 @@ jobs:
           git checkout scratch
 
       - name: Setup Java ${{ matrix.java-version }}
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: ${{ matrix.java-version }}
@@ -169,7 +169,7 @@ jobs:
           git checkout scratch
 
       - name: Setup Java 8
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 8
@@ -201,7 +201,7 @@ jobs:
           git checkout scratch
 
       - name: Setup Java 8
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 8
