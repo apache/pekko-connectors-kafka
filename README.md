@@ -42,7 +42,7 @@ See https://pekko.apache.org for the documentation including the API docs. The d
 - `sbt testQuick` similar to test but when repeated in shell mode will only run failing tests
 - `sbt package` will build the jars
     - the jars will built into target dirs of the various modules
-    - for the the 'core' module, the jar will be built to `core/target/scala-2.13/`
+    - for the 'core' module, the jar will be built to `core/target/scala-2.13/`
 - `sbt publishLocal` will push the jars to your local Apache Ivy repository
 - `sbt publishM2` will push the jars to your local Apache Maven repository
 - `sbt docs/paradox` will build the docs (the ones describing the module features)
