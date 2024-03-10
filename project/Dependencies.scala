@@ -14,7 +14,7 @@ object Dependencies {
   lazy val benchmarkDependencies = Def.setting(Seq(
     "com.typesafe.scala-logging" %% "scala-logging" % "3.9.5",
     "io.dropwizard.metrics" % "metrics-core" % "4.2.11",
-    "ch.qos.logback" % "logback-classic" % "1.2.13",
+    "ch.qos.logback" % "logback-classic" % logbackVersion,
     "org.slf4j" % "log4j-over-slf4j" % slf4jVersion,
     "org.testcontainers" % "kafka" % testcontainersVersion % IntegrationTest,
     "org.apache.pekko" %% "pekko-slf4j" % pekkoVersion % IntegrationTest,
@@ -42,7 +42,7 @@ object Dependencies {
     "org.hamcrest" % "hamcrest-library" % "2.2" % Test,
     "org.hamcrest" % "hamcrest" % "2.2" % Test,
     "org.apache.pekko" %% "pekko-slf4j" % pekkoVersion % Test,
-    "ch.qos.logback" % "logback-classic" % "1.2.11" % Test,
+    "ch.qos.logback" % "logback-classic" % logbackVersion % Test,
     "org.slf4j" % "log4j-over-slf4j" % slf4jVersion % Test,
     // Schema registry uses Glassfish which uses java.util.logging
     "org.slf4j" % "jul-to-slf4j" % slf4jVersion % Test,
