@@ -11,8 +11,6 @@ import net.bzzt.reproduciblebuilds.ReproducibleBuildsPlugin.reproducibleBuildsCh
 import com.typesafe.tools.mima.core.{ Problem, ProblemFilters }
 import ProjectSettings.commonSettings
 
-ThisBuild / resolvers ++= ResolverSettings.projectResolvers
-
 sourceDistName := "apache-pekko-connectors-kafka"
 sourceDistIncubating := true
 
@@ -138,8 +136,7 @@ lazy val docs = project
       ("https://docs\\.oracle\\.com/en/java/javase/11/docs/api/".r,
         _ => "https://docs\\.oracle\\.com/en/java/javase/11/docs/api/")),
     Paradox / siteSubdirName := s"docs/pekko-connectors-kafka/${projectInfoVersion.value}",
-    ParadoxSettings.settings,
-    resolvers += Resolver.jcenterRepo)
+    ParadoxSettings.settings)
 
 lazy val benchmarks = project
   .dependsOn(core, testkit)
