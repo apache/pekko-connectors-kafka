@@ -26,6 +26,8 @@ addCommandAlias("verifyDocs", ";+doc ;unidoc ;docs/paradoxBrowse")
 
 val mimaCompareVersion = "1.0.0"
 
+ThisBuild / resolvers += Resolver.ApacheMavenSnapshotsRepo
+
 lazy val `pekko-connectors-kafka` =
   project
     .in(file("."))
