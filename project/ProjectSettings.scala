@@ -121,8 +121,7 @@ object ProjectSettings extends AutoPlugin {
     scalafmtOnCompile := false,
     javafmtOnCompile := false,
     ThisBuild / mimaReportSignatureProblems := true,
-    projectInfoVersion := (if (isSnapshot.value) "snapshot" else version.value),
-    apacheSonatypeDisclaimerFile := Some((LocalRootProject / baseDirectory).value / "DISCLAIMER"))
+    projectInfoVersion := (if (isSnapshot.value) "snapshot" else version.value))
 
   override lazy val buildSettings = Seq(
     dynverSonatypeSnapshots := true)
