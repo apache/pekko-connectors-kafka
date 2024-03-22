@@ -20,11 +20,11 @@ properly acknowledged, please get in touch.
 ### Bug Fixes
 We haven't had to fix many significant bugs that were in Alpakka Kafka 3.0.1.
 
-* Properly mask all sensitive fields in Consumer and Producer settings [PR100](https://github.com/apache/incubator-pekko-connectors-kafka/pull/100) (Alpakka Kafka [CVE-2023-29471](https://akka.io/security/alpakka-kafka-cve-2023-29471.html))
+* Properly mask all sensitive fields in Consumer and Producer settings [PR100](https://github.com/apache/pekko-connectors-kafka/pull/100) (Alpakka Kafka [CVE-2023-29471](https://akka.io/security/alpakka-kafka-cve-2023-29471.html))
 
 ### Additions
 
-* Scala 3 support ([PR58](https://github.com/apache/incubator-pekko-connectors-kafka/pull/58))
+* Scala 3 support ([PR58](https://github.com/apache/pekko-connectors-kafka/pull/58))
     * minimum version of Scala 3.3.0 required 
 
 ### Dependency Upgrades

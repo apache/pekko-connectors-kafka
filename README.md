@@ -1,11 +1,11 @@
 # Apache Pekko Kafka Connector [![scaladex-badge][]][scaladex] [![maven-central-badge][]][maven-central] [![gh-actions-badge][]][gh-actions]
 
-[scaladex]:            https://index.scala-lang.org/apache/incubator-pekko-connectors-kafka/
-[scaladex-badge]:      https://index.scala-lang.org/apache/incubator-pekko-connectors-kafka/latest.svg?target=_2.13
+[scaladex]:            https://index.scala-lang.org/apache/pekko-connectors-kafka/
+[scaladex-badge]:      https://index.scala-lang.org/apache/pekko-connectors-kafka/latest.svg?target=_2.13
 [maven-central]:       https://maven-badges.herokuapp.com/maven-central/org.apache.pekko/pekko-connectors-kafka_2.13
 [maven-central-badge]: https://maven-badges.herokuapp.com/maven-central/org.apache.pekko/pekko-connectors-kafka_2.13/badge.svg
-[gh-actions]:          https://github.com/apache/incubator-pekko-connectors-kafka/actions
-[gh-actions-badge]:    https://github.com/apache/incubator-pekko-connectors-kafka/workflows/CI/badge.svg?branch=main
+[gh-actions]:          https://github.com/apache/pekko-connectors-kafka/actions
+[gh-actions-badge]:    https://github.com/apache/pekko-connectors-kafka/workflows/CI/badge.svg?branch=main
 
 
 Systems don't come alone. In the modern world of microservices and cloud deployment, new components must interact with legacy systems, making integration an important key to success. Reactive Streams give us a technology-independent tool to let these heterogeneous systems communicate without overwhelming each other.
@@ -14,7 +14,7 @@ The Apache Pekko Connectors project is an open source initiative to implement st
 
 This repository contains the sources for the **Apache Pekko Kafka Connector**. Which lets you connect [Apache Kafka](https://kafka.apache.org/) to Pekko Streams.
 
-Pekko connectors to other technologies are listed in the [Pekko connectors repository](https://github.com/apache/incubator-pekko-connectors).
+Pekko connectors to other technologies are listed in the [Pekko connectors repository](https://github.com/apache/pekko-connectors).
 
 The Apache Pekko Kafka Connector is a fork of [Alpakka Kafka](https://github.com/akka/alpakka-kafka) 3.0.1, prior to the Akka project's adoption of the Business Source License.
 
@@ -32,7 +32,7 @@ See https://pekko.apache.org for the documentation including the API docs. The d
 
 ### Running the Build
 - Open a command window and change directory to your preferred base directory
-- Use git to clone the [repo](https://github.com/apache/incubator-pekko-connectors-kafka) or download a source release from https://pekko.apache.org (and unzip or untar it, as appropriate)
+- Use git to clone the [repo](https://github.com/apache/pekko-connectors-kafka) or download a source release from https://pekko.apache.org (and unzip or untar it, as appropriate)
 - Change directory to the directory where you installed the source (you should have a file called `build.sbt` in this directory)
 - `sbt compile` compiles the main source for project default version of Scala (2.13)
     - `sbt +compile` will compile for all supported versions of Scala
@@ -61,10 +61,10 @@ See https://pekko.apache.org for the documentation including the API docs. The d
 
 You can join these forums and chats to discuss and ask Pekko and Pekko connector related questions:
 
-- [GitHub discussions](https://github.com/apache/incubator-pekko-connectors-kafka/discussions): for questions and general discussion.
+- [GitHub discussions](https://github.com/apache/pekko-connectors-kafka/discussions): for questions and general discussion.
 - [Pekko dev mailing list](https://lists.apache.org/list.html?dev@pekko.apache.org): for Pekko development discussions.
 - [Pekko users mailing list](https://lists.apache.org/list.html?users@pekko.apache.org): for Pekko user discussions.
-- [GitHub issues](https://github.com/apache/incubator-pekko-connectors-kafka/issues): for bug reports and feature requests. Please search the existing issues before creating new ones. If you are unsure whether you have found a bug, consider asking in GitHub discussions or the mailing list first.
+- [GitHub issues](https://github.com/apache/pekko-connectors-kafka/issues): for bug reports and feature requests. Please search the existing issues before creating new ones. If you are unsure whether you have found a bug, consider asking in GitHub discussions or the mailing list first.
 
 ## Contributing
 

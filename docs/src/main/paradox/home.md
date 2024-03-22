@@ -49,7 +49,7 @@ The table below shows Apache Pekko Connectors Kafka's direct dependencies and th
 
 @@dependencies { projectId="core" }
 
-* Apache Pekko Streams $pekko.version$ @extref[documentation](pekko:stream/index.html) and [sources](https://github.com/apache/incubator-pekko)
+* Apache Pekko Streams $pekko.version$ @extref[documentation](pekko:stream/index.html) and [sources](https://github.com/apache/pekko)
 * Apache Kafka client $kafka.version$ @extref[documentation](kafka:/documentation#index) and [sources](https://github.com/apache/kafka)
 
 
@@ -63,14 +63,14 @@ that are producing or consuming messages to/from Kafka.
 
 ## Examples
 
-A few self-contained examples using Apache Pekko Connectors are available as [Apache Pekko Connectors Samples](https://github.com/apache/incubator-pekko-connectors-samples/).
+A few self-contained examples using Apache Pekko Connectors are available as [Apache Pekko Connectors Samples](https://github.com/apache/pekko-connectors-samples/).
 
 To read and see how others use Apache Pekko Connectors, see the [Apache Pekko Connectors documentation's Webinars, Presentations and Articles](https://pekko.apache.org/docs/pekko-connectors-kafka/current/other-docs/webinars-presentations-articles.html) listing.
 
 
 ## Contributing
 
-Please feel free to contribute to Apache Pekko Connectors and the Apache Pekko Connectors Kafka connector by reporting issues you identify, or by suggesting changes to the code. Please refer to our [contributing instructions](https://github.com/apache/incubator-pekko-connectors-kafka/blob/main/CONTRIBUTING.md) to learn how it can be done.
+Please feel free to contribute to Apache Pekko Connectors and the Apache Pekko Connectors Kafka connector by reporting issues you identify, or by suggesting changes to the code. Please refer to our [contributing instructions](https://github.com/apache/pekko-connectors-kafka/blob/main/CONTRIBUTING.md) to learn how it can be done.
 
 We want Apache Pekko and Apache Pekko Connectors to strive in a welcoming and open atmosphere and expect all contributors to respect our [code of conduct](https://www.apache.org/foundation/policies/conduct.html).
 

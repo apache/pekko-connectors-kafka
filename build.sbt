@@ -12,7 +12,7 @@ import com.typesafe.tools.mima.core.{ Problem, ProblemFilters }
 import ProjectSettings.commonSettings
 
 sourceDistName := "apache-pekko-connectors-kafka"
-sourceDistIncubating := true
+sourceDistIncubating := false
 
 ThisBuild / pekkoInlineEnabled := false
 ThisBuild / reproducibleBuildsCheckResolver := Resolver.ApacheMavenStagingRepo

@@ -29,7 +29,7 @@ jobs:
   publish-nightly:
     name: Publish nightly
     runs-on: ubuntu-20.04
-    if: github.repository == 'apache/incubator-pekko-connectors-kafka'
+    if: github.repository == 'apache/pekko-connectors-kafka'
     steps:
       - name: Checkout
         uses: actions/checkout@v4

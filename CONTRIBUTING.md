@@ -10,12 +10,12 @@ You're always welcome to submit your PR straight away and start the discussion (
 
 This is the process for committing code into main.
 
-1. To avoid duplicated effort, it might be good to check the [issue tracker](https://github.com/apache/incubator-pekko-connectors-kafka/issues) and [existing pull requests](https://github.com/apache/incubator-pekko-connectors-kafka/pulls) for existing work.
-   - If there is no ticket yet, feel free to [create one](https://github.com/apache/incubator-pekko-connectors-kafka/issues/new) to discuss the problem and the approach you want to take to solve it.
+1. To avoid duplicated effort, it might be good to check the [issue tracker](https://github.com/apache/pekko-connectors-kafka/issues) and [existing pull requests](https://github.com/apache/pekko-connectors-kafka/pulls) for existing work.
+   - If there is no ticket yet, feel free to [create one](https://github.com/apache/pekko-connectors-kafka/issues/new) to discuss the problem and the approach you want to take to solve it.
 
 1. Perform your work according to the [pull request requirements](#pull-request-requirements).
 
-1. When the feature or fix is completed you should open a [Pull Request](https://help.github.com/articles/using-pull-requests) on [GitHub](https://github.com/apache/incubator-pekko-connectors-kafka/pulls).
+1. When the feature or fix is completed you should open a [Pull Request](https://help.github.com/articles/using-pull-requests) on [GitHub](https://github.com/apache/pekko-connectors-kafka/pulls).
 
 1. The Pull Request should be reviewed by other maintainers (as many as feasible/practical). Outside contributors are encouraged to participate in the review process, it is not a closed process.
 
@@ -114,6 +114,6 @@ git config blame.ignoreRevsFile .git-blame-ignore-revs
 
 ## How To Enforce These Guidelines?
 
-1. [GitHub Actions](https://github.com/apache/incubator-pekko-connectors-kafka/actions) automatically merges the code, builds it, runs the tests and sets Pull Request status accordingly of results in GitHub.
+1. [GitHub Actions](https://github.com/apache/pekko-connectors-kafka/actions) automatically merges the code, builds it, runs the tests and sets Pull Request status accordingly of results in GitHub.
 1. [Scalafmt](http://scalameta.org/scalafmt/) enforces some of the code style rules.
 1. [sbt-header plugin](https://github.com/sbt/sbt-header) manages consistent copyright headers in every source file.
