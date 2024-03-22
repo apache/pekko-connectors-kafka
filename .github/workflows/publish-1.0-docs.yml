@@ -7,7 +7,7 @@ jobs:
   publish-docs:
     name: Publish documentation to nightlies.apache.org
     runs-on: ubuntu-latest
-    if: github.repository == 'apache/incubator-pekko-connectors-kafka'
+    if: github.repository == 'apache/pekko-connectors-kafka'
     steps:
       - name: Checkout
         uses: actions/checkout@v4

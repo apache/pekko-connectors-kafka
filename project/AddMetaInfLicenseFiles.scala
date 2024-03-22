@@ -29,8 +29,7 @@ object AddMetaInfLicenseFiles extends AutoPlugin {
 
   override lazy val projectSettings = Seq(
     apacheSonatypeLicenseFile := baseDir.value / "legal" / "StandardLicense.txt",
-    apacheSonatypeNoticeFile := baseDir.value / "legal" / "PekkoKafkaNotice.txt",
-    apacheSonatypeDisclaimerFile := Some((LocalRootProject / baseDirectory).value / "DISCLAIMER"))
+    apacheSonatypeNoticeFile := baseDir.value / "legal" / "PekkoKafkaNotice.txt")
 
   /**
    * Settings specific for Pekko Kafka cluster-sharding subproject which require a different license file.

@@ -13,7 +13,7 @@ import sbt.Keys._
 /**
  * Generate version.conf and org/apache/pekko/kafka/Version.scala files based on the version setting.
  *
- * This was adapted from https://github.com/apache/incubator-pekko/blob/main/project/VersionGenerator.scala
+ * This was adapted from https://github.com/apache/pekko/blob/main/project/VersionGenerator.scala
  */
 object VersionGenerator {
 

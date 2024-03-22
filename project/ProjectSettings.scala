@@ -68,13 +68,13 @@ object ProjectSettings extends AutoPlugin {
 
   lazy val commonSettings: Seq[Def.Setting[_]] = Def.settings(
     homepage := Some(url("https://pekko.apache.org/docs/pekko-connectors-kafka/current/")),
-    scmInfo := Some(ScmInfo(url("https://github.com/apache/incubator-pekko-connectors-kafka"),
-      "git@github.com:apache/incubator-pekko-connectors-kafka.git")),
+    scmInfo := Some(ScmInfo(url("https://github.com/apache/pekko-connectors-kafka"),
+      "git@github.com:apache/pekko-connectors-kafka.git")),
     developers += Developer(
       "pekko-connectors-kafka",
       "Apache Pekko Connectors Kafka Contributors",
       "dev@pekko.apache.org",
-      url("https://github.com/apache/incubator-pekko-connectors-kafka/graphs/contributors")),
+      url("https://github.com/apache/pekko-connectors-kafka/graphs/contributors")),
     startYear := Some(2022),
     description := "Apache Pekko Kafka Connector is a Reactive Enterprise Integration library for Java and Scala, based on Reactive Streams and Apache Pekko.",
     crossScalaVersions := Seq(Scala212, Scala213, Scala3),
@@ -105,7 +105,7 @@ object ProjectSettings extends AutoPlugin {
      else Seq.empty) ++ Seq(
       "-doc-source-url", {
         val branch = if (isSnapshot.value) "main" else s"v${version.value}"
-        s"https://github.com/apache/incubator-pekko-connectors-kafka/tree/${branch}€{FILE_PATH_EXT}#L€{FILE_LINE}"
+        s"https://github.com/apache/pekko-connectors-kafka/tree/${branch}€{FILE_PATH_EXT}#L€{FILE_LINE}"
       },
       "-doc-canonical-base-url",
       "https://pekko.apache.org/api/pekko-connectors-kafka/current/"),
@@ -121,8 +121,7 @@ object ProjectSettings extends AutoPlugin {
     scalafmtOnCompile := false,
     javafmtOnCompile := false,
     ThisBuild / mimaReportSignatureProblems := true,
-    projectInfoVersion := (if (isSnapshot.value) "snapshot" else version.value),
-    apacheSonatypeDisclaimerFile := Some((LocalRootProject / baseDirectory).value / "DISCLAIMER"))
+    projectInfoVersion := (if (isSnapshot.value) "snapshot" else version.value))
 
   override lazy val buildSettings = Seq(
     dynverSonatypeSnapshots := true)
