@@ -32,7 +32,7 @@ object Versions {
   // https://github.com/apache/pekko/blob/main/project/Dependencies.scala
   val scalaTestVersion = "3.2.14"
   val scalaPBVersion = "0.11.13"
-  val testcontainersVersion = "1.16.3"
+  val testcontainersVersion = "1.19.7"
   val logbackVersion = "1.2.13"
   val slf4jVersion = "1.7.36"
   // this depends on Kafka, and should be upgraded to such latest version
