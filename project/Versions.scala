@@ -28,7 +28,7 @@ object Versions {
   // Keep .scala-steward.conf pin in sync
   val kafkaVersion = "3.0.2"
   val KafkaVersionForDocs = "30"
-  
+
   val scalaTestVersion = "3.2.18"
   val scalaPBVersion = "0.11.15"
   val testcontainersVersion = "1.16.3"
