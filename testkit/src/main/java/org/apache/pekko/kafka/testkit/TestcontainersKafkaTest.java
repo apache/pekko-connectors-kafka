@@ -16,7 +16,6 @@ package org.apache.pekko.kafka.testkit;
 
 import org.apache.pekko.actor.ActorSystem;
 import org.apache.pekko.actor.ClassicActorSystemProvider;
-import org.apache.pekko.kafka.testkit.KafkaTestkitTestcontainersSettings;
 import org.apache.pekko.kafka.testkit.internal.TestcontainersKafka;
 import org.apache.pekko.stream.Materializer;
 
