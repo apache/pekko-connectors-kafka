@@ -38,7 +38,7 @@ object Versions {
   // this depends on Kafka, and should be upgraded to such latest version
   // that depends on the same Kafka version, as is defined above
   // See https://mvnrepository.com/artifact/io.confluent/kafka-avro-serializer?repo=confluent-packages
-  val confluentAvroSerializerVersion = "7.0.5"
+  val confluentAvroSerializerVersion = "7.0.13"
   val confluentLibsExclusionRules = Seq(
     ExclusionRule("log4j", "log4j"),
     ExclusionRule("org.slf4j", "slf4j-log4j12"),
