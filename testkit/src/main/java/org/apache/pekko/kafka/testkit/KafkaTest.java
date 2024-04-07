@@ -16,9 +16,9 @@ package org.apache.pekko.kafka.testkit;
 
 import org.apache.pekko.actor.ActorSystem;
 import org.apache.pekko.actor.ClassicActorSystemProvider;
+import org.apache.pekko.kafka.testkit.javadsl.BaseKafkaTest;
 import org.apache.pekko.stream.Materializer;
 import org.apache.pekko.stream.testkit.javadsl.StreamTestKit;
-import org.apache.pekko.kafka.testkit.javadsl.BaseKafkaTest;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;

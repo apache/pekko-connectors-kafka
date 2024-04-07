@@ -14,6 +14,18 @@
 
 package docs.javadsl;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.isA;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.TimeUnit;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.pekko.actor.ActorSystem;
 import org.apache.pekko.kafka.ProducerMessage;
 import org.apache.pekko.kafka.ProducerSettings;
@@ -21,23 +33,10 @@ import org.apache.pekko.kafka.javadsl.SendProducer;
 import org.apache.pekko.kafka.testkit.TestcontainersKafkaTest;
 import org.apache.pekko.kafka.tests.javadsl.LogCapturingExtension;
 import org.apache.pekko.testkit.javadsl.TestKit;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.clients.producer.RecordMetadata;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.CompletionStage;
-import java.util.concurrent.TimeUnit;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.isA;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(LogCapturingExtension.class)

@@ -13,7 +13,7 @@ import sbt._
 object Dependencies {
   lazy val benchmarkDependencies = Def.setting(Seq(
     "com.typesafe.scala-logging" %% "scala-logging" % "3.9.5",
-    "io.dropwizard.metrics" % "metrics-core" % "4.2.11",
+    "io.dropwizard.metrics" % "metrics-core" % "4.2.25",
     "ch.qos.logback" % "logback-classic" % logbackVersion,
     "org.slf4j" % "log4j-over-slf4j" % slf4jVersion,
     "org.testcontainers" % "kafka" % testcontainersVersion % IntegrationTest,
@@ -30,10 +30,10 @@ object Dependencies {
 
   lazy val testDependencies = Def.setting(Seq(
     "org.apache.pekko" %% "pekko-discovery" % pekkoVersion,
-    "com.google.protobuf" % "protobuf-java" % "3.19.6", // use the same version as in scalapb
+    "com.google.protobuf" % "protobuf-java" % "3.25.3", // use the same version as in scalapb
     ("io.confluent" % "kafka-avro-serializer" % confluentAvroSerializerVersion % Test).excludeAll(
       confluentLibsExclusionRules: _*),
-    "jakarta.ws.rs" % "jakarta.ws.rs-api" % "2.1.6" % Test,
+    "jakarta.ws.rs" % "jakarta.ws.rs-api" % "3.1.0" % Test,
     "org.testcontainers" % "kafka" % testcontainersVersion % Test,
     "org.scalatest" %% "scalatest" % scalaTestVersion % Test,
     "io.spray" %% "spray-json" % "1.3.6" % Test,
@@ -46,7 +46,7 @@ object Dependencies {
     "org.slf4j" % "log4j-over-slf4j" % slf4jVersion % Test,
     // Schema registry uses Glassfish which uses java.util.logging
     "org.slf4j" % "jul-to-slf4j" % slf4jVersion % Test,
-    "org.mockito" % "mockito-core" % "4.6.1" % Test,
+    "org.mockito" % "mockito-core" % "4.11.0" % Test,
     "com.thesamet.scalapb" %% "scalapb-runtime" % scalaPBVersion % Test))
 
   lazy val testKitDependencies = Def.setting(Seq(
