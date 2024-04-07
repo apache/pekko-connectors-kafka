@@ -14,6 +14,10 @@
 
 package docs.javadsl;
 
+import java.time.Duration;
+import java.util.concurrent.CompletionStage;
+import org.apache.kafka.common.serialization.ByteArrayDeserializer;
+import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.pekko.NotUsed;
 import org.apache.pekko.actor.typed.ActorSystem;
 import org.apache.pekko.actor.typed.Behavior;
@@ -32,11 +36,6 @@ import org.apache.pekko.kafka.javadsl.Consumer;
 import org.apache.pekko.stream.javadsl.Flow;
 import org.apache.pekko.stream.javadsl.Sink;
 import org.apache.pekko.util.Timeout;
-import org.apache.kafka.common.serialization.ByteArrayDeserializer;
-import org.apache.kafka.common.serialization.StringDeserializer;
-
-import java.time.Duration;
-import java.util.concurrent.CompletionStage;
 
 public class ClusterShardingExample {
 
