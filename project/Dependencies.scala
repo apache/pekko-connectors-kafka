@@ -33,7 +33,7 @@ object Dependencies {
     "com.google.protobuf" % "protobuf-java" % "3.19.6", // use the same version as in scalapb
     ("io.confluent" % "kafka-avro-serializer" % confluentAvroSerializerVersion % Test).excludeAll(
       confluentLibsExclusionRules: _*),
-    "jakarta.ws.rs" % "jakarta.ws.rs-api" % "2.1.6" % Test,
+    "jakarta.ws.rs" % "jakarta.ws.rs-api" % "3.1.0" % Test,
     "org.testcontainers" % "kafka" % testcontainersVersion % Test,
     "org.scalatest" %% "scalatest" % scalaTestVersion % Test,
     "io.spray" %% "spray-json" % "1.3.6" % Test,
