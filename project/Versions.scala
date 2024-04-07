@@ -26,7 +26,7 @@ object Versions {
   val pekkoVersion = PekkoCoreDependency.version
 
   // Keep .scala-steward.conf pin in sync
-  val kafkaVersion = "3.0.2"
+  val kafkaVersion = "3.7.0"
   val KafkaVersionForDocs = "30"
   // This should align with the ScalaTest version used in the Apache Pekko 1.0.x testkit
   // https://github.com/apache/pekko/blob/main/project/Dependencies.scala
