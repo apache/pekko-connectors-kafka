@@ -840,6 +840,9 @@ object PartitionedSourceSpec {
       log.debug(s"resuming ${ps.mkString("(", ", ", ")")}")
       tps.updateAndGet(unary(t => t ++ ps.filter(tp => t.contains(tp)).map(_ -> Resumed)))
     }
+
+    override def clientInstanceId(d: java.time.Duration): org.apache.kafka.common.Uuid = ???
+    override def enforceRebalance(s: String): Unit = ???
   }
 
   private def unary[T](f: T => T) = new UnaryOperator[T] {
