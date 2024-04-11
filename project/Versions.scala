@@ -31,7 +31,7 @@ object Versions {
 
   val scalaTestVersion = "3.2.18"
   val scalaPBVersion = "0.11.15"
-  val testcontainersVersion = "1.16.3"
+  val testcontainersVersion = "1.19.7"
   val logbackVersion = "1.3.14"
   val slf4jVersion = "2.0.12"
   // this depends on Kafka, and should be upgraded to such latest version
