@@ -26,7 +26,7 @@ object Versions {
   val pekkoVersion = PekkoCoreDependency.version
 
   // Keep .scala-steward.conf pin in sync
-  val kafkaVersion = "3.0.2"
+  val kafkaVersion = "3.7.0"
   val KafkaVersionForDocs = "30"
 
   val scalaTestVersion = "3.2.18"
