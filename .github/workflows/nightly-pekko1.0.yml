@@ -1,0 +1,88 @@
+name: Nightly Test with Pekko 1.0 libs
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 2 * * *"
+    
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }} @ ${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PEKKO_TEST_TIMEFACTOR: 10.0
+  EVENT_NAME: ${{ github.event_name }}
+
+jobs:  
+  test:
+    name: Build and Test with Pekko 1.0
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { java-version: 8,  scala-version: 2.12, sbt-opts: '' }
+          - { java-version: 8,  scala-version: 2.13, sbt-opts: '' }
+          - { java-version: 8,  scala-version: 3.3, sbt-opts: '' }
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Checkout GitHub merge
+        if: github.event.pull_request
+        run: |-
+          git fetch origin pull/${{ github.event.pull_request.number }}/merge:scratch
+          git checkout scratch
+
+      - name: Setup Java ${{ matrix.java-version }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.java-version }}
+
+      - name: Cache Coursier cache
+        uses: coursier/cache-action@v6
+
+      - name: Run tests with Scala ${{ matrix.scala-version }} and Java ${{ matrix.java-version }}
+        run: sbt -Dpekko.build.pekko.version=1.0.x "++${{ matrix.scala-version }} test" ${{ matrix.sbt-opts }}
+
+      - name: Print logs on failure
+        if: ${{ failure() }}
+        run: find . -name "*.log" -exec ./scripts/cat-log.sh {} \;
+
+  integration-test:
+    name: Integration tests with Pekko 1.0
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Checkout GitHub merge
+        if: github.event.pull_request
+        run: |-
+          git fetch origin pull/${{ github.event.pull_request.number }}/merge:scratch
+          git checkout scratch
+
+      - name: Setup Java 8
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 8
+
+      - name: Cache Coursier cache
+        uses: coursier/cache-action@v6
+
+      - name: Run multi-broker and long running integration tests
+        run: sbt -Dpekko.build.pekko.version=1.0.x "tests/IntegrationTest/test"
+
+      - name: Print logs on failure
+        if: ${{ failure() }}
+        run: find . -name "*.log" -exec ./scripts/cat-log.sh {} \;
