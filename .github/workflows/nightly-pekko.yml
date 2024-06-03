@@ -1,4 +1,4 @@
-name: Nightly Test with Pekko 1.0 libs
+name: Nightly Test
 
 on:
   workflow_dispatch:
@@ -23,9 +23,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { java-version: 8,  scala-version: 2.12, sbt-opts: '' }
-          - { java-version: 8,  scala-version: 2.13, sbt-opts: '' }
-          - { java-version: 8,  scala-version: 3.3, sbt-opts: '' }
+          - { java-version: 8,  scala-version: 2.12, pekko-version: '1.0.x' }
+          - { java-version: 8,  scala-version: 2.12, pekko-version: 'main' }
+          - { java-version: 8,  scala-version: 2.13, pekko-version: '1.0.x' }
+          - { java-version: 8,  scala-version: 2.13, pekko-version: 'main' }
+          - { java-version: 8,  scala-version: 3.3, pekko-version: '1.0.x' }
+          - { java-version: 8,  scala-version: 3.3, pekko-version: 'main' }
     steps:
       - name: Checkout
         uses: actions/checkout@v4
