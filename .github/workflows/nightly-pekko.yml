@@ -52,7 +52,7 @@ jobs:
         uses: coursier/cache-action@v6
 
       - name: Run tests with Scala ${{ matrix.scala-version }} and Java ${{ matrix.java-version }}
-        run: sbt -Dpekko.build.pekko.version=1.0.x "++${{ matrix.scala-version }} test" ${{ matrix.sbt-opts }}
+        run: sbt -Dpekko.build.pekko.version=1.0.x "++${{ matrix.scala-version }} test"
 
       - name: Print logs on failure
         if: ${{ failure() }}
