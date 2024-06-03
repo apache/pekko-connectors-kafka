@@ -17,7 +17,7 @@ env:
 
 jobs:  
   test:
-    name: Build and Test with Pekko 1.0
+    name: Build and Test with Pekko ${{ matrix.pekko-version }}
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
@@ -51,15 +51,15 @@ jobs:
       - name: Cache Coursier cache
         uses: coursier/cache-action@v6
 
-      - name: Run tests with Scala ${{ matrix.scala-version }} and Java ${{ matrix.java-version }}
-        run: sbt -Dpekko.build.pekko.version=1.0.x "++${{ matrix.scala-version }} test"
+      - name: Run tests with Scala ${{ matrix.scala-version }} and Java ${{ matrix.java-version }} with Pekko ${{ matrix.pekko-version }}
+        run: sbt -Dpekko.build.pekko.version=${{ matrix.pekko-version }} "++${{ matrix.scala-version }} test"
 
       - name: Print logs on failure
         if: ${{ failure() }}
         run: find . -name "*.log" -exec ./scripts/cat-log.sh {} \;
 
   integration-test:
-    name: Integration tests with Pekko 1.0
+    name: Integration tests with Pekko ${{ matrix.pekko-version }}
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
@@ -84,7 +84,7 @@ jobs:
         uses: coursier/cache-action@v6
 
       - name: Run multi-broker and long running integration tests
-        run: sbt -Dpekko.build.pekko.version=1.0.x "tests/IntegrationTest/test"
+        run: sbt -Dpekko.build.pekko.version=${{ matrix.pekko-version }} "tests/IntegrationTest/test"
 
       - name: Print logs on failure
         if: ${{ failure() }}
