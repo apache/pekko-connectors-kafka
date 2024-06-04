@@ -1,4 +1,4 @@
-name: Nightly Test
+name: Nightly Build and Test
 
 on:
   workflow_dispatch:
@@ -15,20 +15,16 @@ env:
   PEKKO_TEST_TIMEFACTOR: 10.0
   EVENT_NAME: ${{ github.event_name }}
 
-jobs:  
-  test:
-    name: Build and Test with Pekko ${{ matrix.pekko-version }}
+jobs:
+  compile-and-test:
+    name: Build and Test
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - { java-version: 8,  scala-version: 2.12, pekko-version: '1.0.x' }
-          - { java-version: 8,  scala-version: 2.12, pekko-version: 'main' }
-          - { java-version: 8,  scala-version: 2.13, pekko-version: '1.0.x' }
-          - { java-version: 8,  scala-version: 2.13, pekko-version: 'main' }
-          - { java-version: 8,  scala-version: 3.3, pekko-version: '1.0.x' }
-          - { java-version: 8,  scala-version: 3.3, pekko-version: 'main' }
+        SCALA_VERSION: [2.12, 2.13, 3]
+        JDK: [8]
+        PEKKO_VERSION: ['main', '1.0.x']
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -36,43 +32,43 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
 
-      - name: Checkout GitHub merge
-        if: github.event.pull_request
-        run: |-
-          git fetch origin pull/${{ github.event.pull_request.number }}/merge:scratch
-          git checkout scratch
-
-      - name: Setup Java ${{ matrix.java-version }}
+      - name: Set up JDK ${{ matrix.JDK }}
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: ${{ matrix.java-version }}
+          java-version: ${{ matrix.JDK }}
 
       - name: Cache Coursier cache
         uses: coursier/cache-action@v6
 
-      - name: Run tests with Scala ${{ matrix.scala-version }} and Java ${{ matrix.java-version }} with Pekko ${{ matrix.pekko-version }}
-        run: sbt -Dpekko.build.pekko.version=${{ matrix.pekko-version }} "++${{ matrix.scala-version }} test"
+      - name: Cache Build Target
+        uses: actions/cache@v4
+        with:
+          path: project/**/target
+          key: build-target-${{ hashFiles('**/*.sbt', 'project/build.properties', 'project/**/*.scala') }}
+
+      - name: Compile everything
+        run: sbt -Dpekko.build.pekko.version=${{ matrix.PEKKO_VERSION }} "++ ${{ matrix.SCALA_VERSION }}" Test/compile
+
+      - name: Run all tests JDK ${{ matrix.JDK }}, Scala ${{ matrix.SCALA_VERSION }}, Pekko ${{ matrix.PEKKO_VERSION }}
+        run: sbt -Dpekko.build.pekko.version=${{ matrix.PEKKO_VERSION }} "++ ${{ matrix.SCALA_VERSION }} test"
 
       - name: Print logs on failure
         if: ${{ failure() }}
         run: find . -name "*.log" -exec ./scripts/cat-log.sh {} \;
-
   integration-test:
-    name: Integration tests with Pekko ${{ matrix.pekko-version }}
+    name: Integration tests
     runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        PEKKO_VERSION: ['main', '1.0.x']
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           fetch-tags: true
-
-      - name: Checkout GitHub merge
-        if: github.event.pull_request
-        run: |-
-          git fetch origin pull/${{ github.event.pull_request.number }}/merge:scratch
-          git checkout scratch
 
       - name: Setup Java 8
         uses: actions/setup-java@v4
@@ -83,8 +79,17 @@ jobs:
       - name: Cache Coursier cache
         uses: coursier/cache-action@v6
 
+      - name: Cache Build Target
+        uses: actions/cache@v4
+        with:
+          path: project/**/target
+          key: build-target-${{ hashFiles('**/*.sbt', 'project/build.properties', 'project/**/*.scala') }}
+
+      - name: Compile everything
+        run: sbt -Dpekko.build.pekko.version=${{ matrix.PEKKO_VERSION }} "++ ${{ matrix.SCALA_VERSION }}" tests/IntegrationTest/compile
+
       - name: Run multi-broker and long running integration tests
-        run: sbt -Dpekko.build.pekko.version=${{ matrix.pekko-version }} "tests/IntegrationTest/test"
+        run: sbt -Dpekko.build.pekko.version=${{ matrix.PEKKO_VERSION }} "tests/IntegrationTest/test"
 
       - name: Print logs on failure
         if: ${{ failure() }}
