@@ -1,9 +1,8 @@
 name: Nightly Build and Test
 
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: "0 2 * * *"
+  pull_request:
+    branches: ['**']
     
 permissions: {}
 
