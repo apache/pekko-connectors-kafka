@@ -29,7 +29,7 @@ object Versions {
   val KafkaVersionForDocs = "37"
 
   val scalaTestVersion = "3.2.18"
-  val scalaPBVersion = "0.11.15"
+  val scalaPBVersion = "0.11.17"
   val testcontainersVersion = "1.19.8"
   val logbackVersion = "1.3.14"
   val slf4jVersion = "2.0.13"
