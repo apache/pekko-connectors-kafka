@@ -112,8 +112,9 @@ object Transactional {
    */
   def flow[K, V](
       settings: ProducerSettings[K, V],
-      transactionalId: String): Flow[Envelope[K, V, ConsumerMessage.PartitionOffset], Results[K, V,
-    ConsumerMessage.PartitionOffset], NotUsed] = {
+      transactionalId: String): Flow[Envelope[K, V, ConsumerMessage.PartitionOffset],
+    Results[K, V,
+      ConsumerMessage.PartitionOffset], NotUsed] = {
     require(transactionalId != null && transactionalId.length > 0, "You must define a Transactional id.")
     require(settings.producerFactorySync.isEmpty, "You cannot use a shared or external producer factory.")
 
