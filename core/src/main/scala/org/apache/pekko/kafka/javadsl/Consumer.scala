@@ -278,7 +278,8 @@ object Consumer {
   def plainPartitionedManualOffsetSource[K, V](
       settings: ConsumerSettings[K, V],
       subscription: AutoSubscription,
-      getOffsetsOnAssign: java.util.function.Function[java.util.Set[TopicPartition], CompletionStage[
+      getOffsetsOnAssign: java.util.function.Function[java.util.Set[TopicPartition],
+        CompletionStage[
           java.util.Map[TopicPartition, Long]]])
       : Source[Pair[TopicPartition, Source[ConsumerRecord[K, V], NotUsed]], Control] =
     scaladsl.Consumer
@@ -306,7 +307,8 @@ object Consumer {
   def plainPartitionedManualOffsetSource[K, V](
       settings: ConsumerSettings[K, V],
       subscription: AutoSubscription,
-      getOffsetsOnAssign: java.util.function.Function[java.util.Set[TopicPartition], CompletionStage[
+      getOffsetsOnAssign: java.util.function.Function[java.util.Set[TopicPartition],
+        CompletionStage[
           java.util.Map[TopicPartition, Long]]],
       onRevoke: java.util.function.Consumer[java.util.Set[TopicPartition]])
       : Source[Pair[TopicPartition, Source[ConsumerRecord[K, V], NotUsed]], Control] =
@@ -344,7 +346,8 @@ object Consumer {
   def committablePartitionedManualOffsetSource[K, V](
       settings: ConsumerSettings[K, V],
       subscription: AutoSubscription,
-      getOffsetsOnAssign: java.util.function.Function[java.util.Set[TopicPartition], CompletionStage[
+      getOffsetsOnAssign: java.util.function.Function[java.util.Set[TopicPartition],
+        CompletionStage[
           java.util.Map[TopicPartition, Long]]])
       : Source[Pair[TopicPartition, Source[CommittableMessage[K, V], NotUsed]], Control] =
     scaladsl.Consumer
@@ -366,7 +369,8 @@ object Consumer {
   def committablePartitionedManualOffsetSource[K, V](
       settings: ConsumerSettings[K, V],
       subscription: AutoSubscription,
-      getOffsetsOnAssign: java.util.function.Function[java.util.Set[TopicPartition], CompletionStage[
+      getOffsetsOnAssign: java.util.function.Function[java.util.Set[TopicPartition],
+        CompletionStage[
           java.util.Map[TopicPartition, Long]]],
       onRevoke: java.util.function.Consumer[java.util.Set[TopicPartition]])
       : Source[Pair[TopicPartition, Source[CommittableMessage[K, V], NotUsed]], Control] =
