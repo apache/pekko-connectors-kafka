@@ -15,8 +15,7 @@ sourceDistName := "apache-pekko-connectors-kafka"
 sourceDistIncubating := false
 
 ThisBuild / reproducibleBuildsCheckResolver := Resolver.ApacheMavenStagingRepo
-// FIXME can we optimized it? https://github.com/apache/pekko-connectors-kafka/pull/193
-ThisBuild / resolvers ++= (if (isSnapshot.value) Seq(Resolver.ApacheMavenSnapshotsRepo) else Seq())
+ThisBuild / resolvers += Resolver.ApacheMavenSnapshotsRepo
 
 addCommandAlias("verifyCodeStyle", "scalafmtCheckAll; scalafmtSbtCheck; +headerCheckAll; javafmtCheckAll")
 addCommandAlias("applyCodeStyle", "+headerCreateAll; scalafmtAll; scalafmtSbt; javafmtAll")
