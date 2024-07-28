@@ -84,7 +84,7 @@ object Order extends scalapb.GeneratedMessageCompanion[docs.scaladsl.proto.Order
   override def merge(`_message__`: docs.scaladsl.proto.Order,
       `_input__`: _root_.com.google.protobuf.CodedInputStream): docs.scaladsl.proto.Order = {
     var __id = `_message__`.id
-    var `_unknownFields__` : _root_.scalapb.UnknownFieldSet.Builder = null
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
     while (!_done__) {
       val _tag__ = _input__.readTag()
