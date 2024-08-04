@@ -40,8 +40,8 @@ object Dependencies {
     "io.spray" %% "spray-json" % "1.3.6" % Test,
     "com.fasterxml.jackson.core" % "jackson-databind" % "2.17.2" % Test,
     // See http://hamcrest.org/JavaHamcrest/distributables#upgrading-from-hamcrest-1x
-    "org.hamcrest" % "hamcrest-library" % "2.2" % Test,
-    "org.hamcrest" % "hamcrest" % "2.2" % Test,
+    "org.hamcrest" % "hamcrest-library" % "3.0" % Test,
+    "org.hamcrest" % "hamcrest" % "3.0" % Test,
     "org.apache.pekko" %% "pekko-slf4j" % pekkoVersion % Test,
     "ch.qos.logback" % "logback-classic" % logbackVersion % Test,
     "org.slf4j" % "log4j-over-slf4j" % slf4jVersion % Test,
