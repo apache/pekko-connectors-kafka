@@ -32,7 +32,7 @@ object Versions {
   val scalaPBVersion = "0.11.17"
   val testcontainersVersion = "1.20.1"
   val logbackVersion = "1.3.14"
-  val slf4jVersion = "2.0.13"
+  val slf4jVersion = "2.0.16"
   // this depends on Kafka, and should be upgraded to such latest version
   // that depends on the same Kafka version, as is defined above
   // See https://mvnrepository.com/artifact/io.confluent/kafka-avro-serializer?repo=confluent-packages
