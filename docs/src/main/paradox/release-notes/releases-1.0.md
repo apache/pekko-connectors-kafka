@@ -9,7 +9,7 @@ Apache Pekko has changed the package names, among other changes. The new package
 
 Config names have changed to use `pekko` instead of `akka` in their names.
 
-Users switching from Akka to Pekko should read our [Migration Guide](https://pekko.apache.org/docs/pekko/current/project/migration-guides.html).
+Users switching from Akka to Pekko should read our [Migration Guide](https://pekko.apache.org/docs/pekko/1.0/project/migration-guides.html).
 
 Generally, we have tried to make it as easy as possible to switch existing Akka based projects over to using Pekko.
 
