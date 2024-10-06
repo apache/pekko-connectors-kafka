@@ -58,7 +58,7 @@ lazy val testkit = project
   .settings(
     name := "pekko-connectors-kafka-testkit",
     AutomaticModuleName.settings("org.apache.pekko.kafka.testkit"),
-    JupiterKeys.junitJupiterVersion := "5.11.1",
+    JupiterKeys.junitJupiterVersion := "5.11.2",
     libraryDependencies ++= Dependencies.testKitDependencies.value,
     libraryDependencies ++= Seq(
       "org.junit.jupiter" % "junit-jupiter-api" % JupiterKeys.junitJupiterVersion.value % Provided),
