@@ -24,8 +24,6 @@ import sbtlicensereport.SbtLicenseReport.autoImportImpl.dumpLicenseReportAggrega
 object ParadoxSettings {
 
   val themeSettings = Seq(
-    // allow access to snapshots for pekko-sbt-paradox
-    resolvers += "Apache Nexus Snapshots".at("https://repository.apache.org/content/repositories/snapshots/"),
     pekkoParadoxGithub := Some("https://github.com/apache/pekko-connectors-kafka"))
 
   val propertiesSettings = Seq(
