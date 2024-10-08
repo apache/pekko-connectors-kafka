@@ -8,6 +8,7 @@
  */
 
 import net.bzzt.reproduciblebuilds.ReproducibleBuildsPlugin.reproducibleBuildsCheckResolver
+import com.github.pjfanning.pekkobuild._
 import com.typesafe.tools.mima.core.{ Problem, ProblemFilters }
 import ProjectSettings.commonSettings
 
@@ -59,7 +60,7 @@ lazy val testkit = project
     name := "pekko-connectors-kafka-testkit",
     AutomaticModuleName.settings("org.apache.pekko.kafka.testkit"),
     JupiterKeys.junitJupiterVersion := "5.11.2",
-    libraryDependencies ++= Dependencies.testKitDependencies.value,
+    libraryDependencies ++= Dependencies.testKitDependencies,
     libraryDependencies ++= Seq(
       "org.junit.jupiter" % "junit-jupiter-api" % JupiterKeys.junitJupiterVersion.value % Provided),
     mimaPreviousArtifacts := Set(
@@ -72,11 +73,11 @@ lazy val `cluster-sharding` = project
   .enablePlugins(ReproducibleBuildsPlugin)
   .disablePlugins(SitePlugin)
   .settings(commonSettings)
+  .addPekkoModuleDependency("pekko-cluster-sharding-typed", "", PekkoCoreDependency.default)
   .settings(
     name := "pekko-connectors-kafka-cluster-sharding",
     AutomaticModuleName.settings("org.apache.pekko.kafka.cluster.sharding"),
     AddMetaInfLicenseFiles.clusterShardingSettings,
-    libraryDependencies ++= Dependencies.clusterShardingDependencies,
     mimaPreviousArtifacts := Set(
       organization.value %% name.value % mimaCompareVersion))
 
@@ -88,10 +89,12 @@ lazy val tests = project
   .settings(commonSettings)
   .settings(Defaults.itSettings)
   .settings(headerSettings(IntegrationTest))
+  .addPekkoModuleDependency("pekko-discovery", "test", PekkoCoreDependency.default)
+  .addPekkoModuleDependency("pekko-slf4j", "test", PekkoCoreDependency.default)
   .settings(
     name := "pekko-connectors-kafka-tests",
     resolvers ++= ResolverSettings.testSpecificResolvers,
-    libraryDependencies ++= Dependencies.testDependencies.value,
+    libraryDependencies ++= Dependencies.testDependencies,
     publish / skip := true,
     Test / fork := true,
     Test / parallelExecution := false,
@@ -101,10 +104,12 @@ lazy val `java-tests` = project
   .dependsOn(core, testkit, `cluster-sharding`, tests % "compile->compile;test->test")
   .disablePlugins(MimaPlugin, SitePlugin)
   .settings(commonSettings)
+  .addPekkoModuleDependency("pekko-discovery", "test", PekkoCoreDependency.default)
+  .addPekkoModuleDependency("pekko-slf4j", "test", PekkoCoreDependency.default)
   .settings(
     name := "pekko-connectors-kafka-java-tests",
     resolvers ++= ResolverSettings.testSpecificResolvers,
-    libraryDependencies ++= Dependencies.testDependencies.value,
+    libraryDependencies ++= Dependencies.testDependencies,
     libraryDependencies ++= Seq(
       "org.junit.vintage" % "junit-vintage-engine" % JupiterKeys.junitVintageVersion.value % Test,
       "net.aichler" % "jupiter-interface" % JupiterKeys.jupiterVersion.value % Test),
@@ -147,8 +152,10 @@ lazy val benchmarks = project
   .settings(commonSettings)
   .settings(Defaults.itSettings)
   .settings(headerSettings(IntegrationTest))
+  .addPekkoModuleDependency("pekko-slf4j", "it", PekkoCoreDependency.default)
+  .addPekkoModuleDependency("pekko-stream-testkit", "it", PekkoCoreDependency.default)
   .settings(
     name := "pekko-connectors-kafka-benchmarks",
     publish / skip := true,
     IntegrationTest / parallelExecution := false,
-    libraryDependencies ++= Dependencies.benchmarkDependencies.value)
+    libraryDependencies ++= Dependencies.benchmarkDependencies)

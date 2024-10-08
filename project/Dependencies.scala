@@ -11,25 +11,20 @@ import Versions._
 import sbt._
 
 object Dependencies {
-  lazy val benchmarkDependencies = Def.setting(Seq(
+  lazy val benchmarkDependencies = Seq(
     "com.typesafe.scala-logging" %% "scala-logging" % "3.9.5",
     "io.dropwizard.metrics" % "metrics-core" % "4.2.28",
     "ch.qos.logback" % "logback-classic" % logbackVersion,
     "org.slf4j" % "log4j-over-slf4j" % slf4jVersion,
     "org.testcontainers" % "kafka" % testcontainersVersion % IntegrationTest,
-    "org.apache.pekko" %% "pekko-slf4j" % pekkoVersion % IntegrationTest,
-    "org.apache.pekko" %% "pekko-stream-testkit" % pekkoVersion % IntegrationTest,
-    "org.scalatest" %% "scalatest" % scalaTestVersion % IntegrationTest))
-
-  lazy val clusterShardingDependencies = Seq("org.apache.pekko" %% "pekko-cluster-sharding-typed" % pekkoVersion)
+    "org.scalatest" %% "scalatest" % scalaTestVersion % IntegrationTest)
 
   lazy val coreDependencies = Seq(
     "org.apache.pekko" %% "pekko-stream" % pekkoVersion,
     "org.apache.pekko" %% "pekko-discovery" % pekkoVersion % Provided,
     "org.apache.kafka" % "kafka-clients" % kafkaVersion)
 
-  lazy val testDependencies = Def.setting(Seq(
-    "org.apache.pekko" %% "pekko-discovery" % pekkoVersion,
+  lazy val testDependencies = Seq(
     "com.google.protobuf" % "protobuf-java" % "3.25.5", // use the same version as in scalapb
     ("io.confluent" % "kafka-avro-serializer" % confluentAvroSerializerVersion % Test).excludeAll(
       confluentLibsExclusionRules: _*),
@@ -42,18 +37,17 @@ object Dependencies {
     // See http://hamcrest.org/JavaHamcrest/distributables#upgrading-from-hamcrest-1x
     "org.hamcrest" % "hamcrest-library" % "3.0" % Test,
     "org.hamcrest" % "hamcrest" % "3.0" % Test,
-    "org.apache.pekko" %% "pekko-slf4j" % pekkoVersion % Test,
     "ch.qos.logback" % "logback-classic" % logbackVersion % Test,
     "org.slf4j" % "log4j-over-slf4j" % slf4jVersion % Test,
     // Schema registry uses Glassfish which uses java.util.logging
     "org.slf4j" % "jul-to-slf4j" % slf4jVersion % Test,
     "org.mockito" % "mockito-core" % "4.11.0" % Test,
-    "com.thesamet.scalapb" %% "scalapb-runtime" % scalaPBVersion % Test))
+    "com.thesamet.scalapb" %% "scalapb-runtime" % scalaPBVersion % Test)
 
-  lazy val testKitDependencies = Def.setting(Seq(
+  lazy val testKitDependencies = Seq(
     "org.apache.pekko" %% "pekko-stream-testkit" % pekkoVersion,
     "org.testcontainers" % "kafka" % testcontainersVersion % Provided,
     "org.scalatest" %% "scalatest" % scalaTestVersion % Provided,
-    "junit" % "junit" % "4.13.2" % Provided))
+    "junit" % "junit" % "4.13.2" % Provided)
 
 }
