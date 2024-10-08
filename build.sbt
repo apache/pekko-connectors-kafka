@@ -43,6 +43,8 @@ lazy val core = project
   .disablePlugins(SitePlugin)
   .settings(commonSettings)
   .settings(VersionGenerator.settings)
+  .addPekkoModuleDependency("pekko-stream", "", PekkoCoreDependency.default)
+  .addPekkoModuleDependency("pekko-discovery", "provided", PekkoCoreDependency.default)
   .settings(
     name := "pekko-connectors-kafka",
     AutomaticModuleName.settings("org.apache.pekko.kafka"),
@@ -56,6 +58,7 @@ lazy val testkit = project
   .enablePlugins(ReproducibleBuildsPlugin)
   .disablePlugins(SitePlugin)
   .settings(commonSettings)
+  .addPekkoModuleDependency("pekko-stream-testkit", "", PekkoCoreDependency.default)
   .settings(
     name := "pekko-connectors-kafka-testkit",
     AutomaticModuleName.settings("org.apache.pekko.kafka.testkit"),

@@ -20,8 +20,6 @@ object Dependencies {
     "org.scalatest" %% "scalatest" % scalaTestVersion % IntegrationTest)
 
   lazy val coreDependencies = Seq(
-    "org.apache.pekko" %% "pekko-stream" % pekkoVersion,
-    "org.apache.pekko" %% "pekko-discovery" % pekkoVersion % Provided,
     "org.apache.kafka" % "kafka-clients" % kafkaVersion)
 
   lazy val testDependencies = Seq(
@@ -45,7 +43,6 @@ object Dependencies {
     "com.thesamet.scalapb" %% "scalapb-runtime" % scalaPBVersion % Test)
 
   lazy val testKitDependencies = Seq(
-    "org.apache.pekko" %% "pekko-stream-testkit" % pekkoVersion,
     "org.testcontainers" % "kafka" % testcontainersVersion % Provided,
     "org.scalatest" %% "scalatest" % scalaTestVersion % Provided,
     "junit" % "junit" % "4.13.2" % Provided)
