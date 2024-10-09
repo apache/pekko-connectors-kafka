@@ -34,7 +34,7 @@ object ParadoxSettings {
       "image.base_url" -> "images/",
       "confluent.version" -> confluentAvroSerializerVersion,
       "scalatest.version" -> scalaTestVersion,
-      "pekko.version" -> pekkoVersion,
+      "pekko.version" -> PekkoCoreDependency.version,
       "extref.pekko.base_url" -> s"$pekkoDocs/pekko/$pekkoVersionForDocs/%s",
       "scaladoc.org.apache.pekko.base_url" -> s"$pekkoAPI/pekko/$pekkoVersionForDocs/",
       "javadoc.org.apache.pekko.base_url" -> s"$pekkoAPI/pekko/$pekkoVersionForDocs/",
