@@ -21,8 +21,8 @@ object Versions {
   val Scala3 = "3.3.4"
 
   val pekkoVersionForDocs = PekkoCoreDependency.default.link
-  val pekkoConnectorsKafkaVersionForDocs = PekkoConnectorsKafkaDependency.default.link
-  val pekkoManagementVersionForDocs = PekkoManagementDependency.default.link
+  val pekkoConnectorsKafkaVersionForDocs = "current"
+  val pekkoManagementVersionForDocs = "current"
 
   val kafkaVersion = "3.8.0"
   val KafkaVersionForDocs = "37"
