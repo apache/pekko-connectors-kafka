@@ -43,6 +43,9 @@ jobs:
           distribution: temurin
           java-version: 8
 
+      - name: Install sbt
+        uses: sbt/setup-sbt@v1
+
       - name: Publish to Apache Maven repo
         env:
           NEXUS_USER: ${{ secrets.NEXUS_USER }}
