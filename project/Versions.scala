@@ -20,7 +20,7 @@ object Versions {
   val Scala212 = "2.12.20"
   val Scala3 = "3.3.4"
 
-  val pekkoVersionForDocs = "current"
+  val pekkoVersionForDocs = PekkoCoreDependency.default.link
   val pekkoConnectorsKafkaVersionForDocs = "current"
   val pekkoManagementVersionForDocs = "current"
 
