@@ -46,7 +46,7 @@ object PerfFixtureHelpers {
 private[benchmarks] trait PerfFixtureHelpers extends LazyLogging {
   import PerfFixtureHelpers._
 
-  val producerTimeout = 6 minutes
+  val producerTimeout = 6.minutes
   val logPercentStep = 25
   val adminClientCloseTimeout = Duration.ofSeconds(5)
   val producerCloseTimeout = adminClientCloseTimeout

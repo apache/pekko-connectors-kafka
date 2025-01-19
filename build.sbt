@@ -135,8 +135,7 @@ lazy val docs = project
     Preprocess / siteSubdirName := s"api/pekko-connectors-kafka/${projectInfoVersion.value}",
     Preprocess / sourceDirectory := (LocalRootProject / ScalaUnidoc / unidoc / target).value,
     Preprocess / preprocessRules := Seq(
-      ("\\.java\\.scala".r, _ => ".java"),
-      ("https://javadoc\\.io/page/".r, _ => "https://javadoc\\.io/static/"),
+      ("\\.java\\.scala".r, _ => ".java"), ("https://javadoc\\.io/page/".r, _ => "https://javadoc\\.io/static/"),
       // bug in Scaladoc
       ("https://docs\\.oracle\\.com/en/java/javase/11/docs/api/java.base/java/time/Duration\\$.html".r,
         _ => "https://docs\\.oracle\\.com/en/java/javase/11/docs/api/java.base/java/time/Duration.html"),
