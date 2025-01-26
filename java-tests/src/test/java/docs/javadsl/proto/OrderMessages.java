@@ -110,7 +110,8 @@ public final class OrderMessages {
         throw new com.google.protobuf.InvalidProtocolBufferException(e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
+        // remove call that fails with protobuf 3.25.6
+        // makeExtensionsImmutable();
       }
     }
 
