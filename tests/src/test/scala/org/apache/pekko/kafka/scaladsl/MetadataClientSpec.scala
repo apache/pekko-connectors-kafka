@@ -31,7 +31,7 @@ class MetadataClientSpec extends SpecBase with TestcontainersKafkaLike {
       val partition0 = new TopicPartition(topic1, 0)
       val consumerSettings = consumerDefaults.withGroupId(group1)
 
-      val metadataClient = MetadataClient.create(consumerSettings, 1 second)
+      val metadataClient = MetadataClient.create(consumerSettings, 1.second)
 
       awaitProduce(produce(topic1, 1 to 10))
 
@@ -49,7 +49,7 @@ class MetadataClientSpec extends SpecBase with TestcontainersKafkaLike {
       val nonExistingPartition = new TopicPartition("non-existing topic", 0)
       val consumerSettings = consumerDefaults.withGroupId(group1)
 
-      val metadataClient = MetadataClient.create(consumerSettings, 1 second)
+      val metadataClient = MetadataClient.create(consumerSettings, 1.second)
 
       val beginningOffsetsFuture = metadataClient
         .getBeginningOffsets(Set(nonExistingPartition))
@@ -65,7 +65,7 @@ class MetadataClientSpec extends SpecBase with TestcontainersKafkaLike {
       val partition0 = new TopicPartition(topic1, 0)
       val consumerSettings = consumerDefaults.withGroupId(group1)
 
-      val metadataClient = MetadataClient.create(consumerSettings, 1 second)
+      val metadataClient = MetadataClient.create(consumerSettings, 1.second)
 
       awaitProduce(produce(topic1, 1 to 10))
 
@@ -83,7 +83,7 @@ class MetadataClientSpec extends SpecBase with TestcontainersKafkaLike {
       val group1 = createGroupId(1)
       val partition0 = new TopicPartition(topic1, 0)
       val consumerSettings = consumerDefaults.withGroupId(group1)
-      val metadataClient = MetadataClient.create(consumerSettings, 1 second)
+      val metadataClient = MetadataClient.create(consumerSettings, 1.second)
 
       awaitProduce(produce(topic1, 1 to 10))
 
@@ -98,7 +98,7 @@ class MetadataClientSpec extends SpecBase with TestcontainersKafkaLike {
       val group1 = createGroupId(1)
       val nonExistingPartition = new TopicPartition("non-existing topic", 0)
       val consumerSettings = consumerDefaults.withGroupId(group1)
-      val metadataClient = MetadataClient.create(consumerSettings, 1 second)
+      val metadataClient = MetadataClient.create(consumerSettings, 1.second)
 
       val endOffsetsFuture = metadataClient.getEndOffsets(Set(nonExistingPartition))
 
@@ -112,7 +112,7 @@ class MetadataClientSpec extends SpecBase with TestcontainersKafkaLike {
       val group1 = createGroupId(1)
       val partition0 = new TopicPartition(topic1, 0)
       val consumerSettings = consumerDefaults.withGroupId(group1)
-      val metadataClient = MetadataClient.create(consumerSettings, 1 second)
+      val metadataClient = MetadataClient.create(consumerSettings, 1.second)
 
       awaitProduce(produce(topic1, 1 to 10))
 
@@ -128,7 +128,7 @@ class MetadataClientSpec extends SpecBase with TestcontainersKafkaLike {
       val topic1 = createTopic(suffix = 1, partitions = 2)
       val topic2 = createTopic(suffix = 2, partitions = 1)
       val consumerSettings = consumerDefaults.withGroupId(group)
-      val metadataClient = MetadataClient.create(consumerSettings, 1 second)
+      val metadataClient = MetadataClient.create(consumerSettings, 1.second)
 
       awaitProduce(produce(topic1, 1 to 10, partition = 0))
       awaitProduce(produce(topic1, 1 to 10, partition = 1))
@@ -148,7 +148,7 @@ class MetadataClientSpec extends SpecBase with TestcontainersKafkaLike {
       val group = createGroupId(1)
       val topic = createTopic(suffix = 1, partitions = 2)
       val consumerSettings = consumerDefaults.withGroupId(group)
-      val metadataClient = MetadataClient.create(consumerSettings, 1 second)
+      val metadataClient = MetadataClient.create(consumerSettings, 1.second)
 
       awaitProduce(produce(topic, 1 to 10, partition = 0))
       awaitProduce(produce(topic, 1 to 10, partition = 1))

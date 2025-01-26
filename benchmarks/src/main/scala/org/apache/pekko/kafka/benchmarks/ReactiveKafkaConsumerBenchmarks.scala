@@ -36,7 +36,7 @@ import scala.language.postfixOps
 import scala.util.Success
 
 object ReactiveKafkaConsumerBenchmarks extends LazyLogging with InflightMetrics {
-  val streamingTimeout: FiniteDuration = 30 minutes
+  val streamingTimeout: FiniteDuration = 30.minutes
   type NonCommittableFixture = ReactiveKafkaConsumerTestFixture[ConsumerRecord[Array[Byte], String]]
   type CommittableFixture = ReactiveKafkaConsumerTestFixture[CommittableMessage[Array[Byte], String]]
 
