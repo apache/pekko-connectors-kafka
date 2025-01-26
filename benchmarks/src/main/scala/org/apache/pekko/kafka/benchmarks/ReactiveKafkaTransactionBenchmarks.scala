@@ -30,7 +30,7 @@ import scala.language.postfixOps
 import scala.util.Success
 
 object ReactiveKafkaTransactionBenchmarks extends LazyLogging {
-  val streamingTimeout: FiniteDuration = 30 minutes
+  val streamingTimeout: FiniteDuration = 30.minutes
   type TransactionFixture = ReactiveKafkaTransactionTestFixture[KTransactionMessage, KProducerMessage, KResult]
 
   /**
