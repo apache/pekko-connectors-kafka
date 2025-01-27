@@ -68,15 +68,16 @@ public final class OrderMessages {
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
-      return docs.sample.OrderMessages.internal_static_Order_descriptor;
+      return docs.javadsl.proto.OrderMessages.internal_static_Order_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return docs.sample.OrderMessages.internal_static_Order_fieldAccessorTable
+      return docs.javadsl.proto.OrderMessages.internal_static_Order_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              docs.sample.OrderMessages.Order.class, docs.sample.OrderMessages.Order.Builder.class);
+              docs.javadsl.proto.OrderMessages.Order.class,
+              docs.javadsl.proto.OrderMessages.Order.Builder.class);
     }
 
     public static final int ID_FIELD_NUMBER = 1;
@@ -157,10 +158,10 @@ public final class OrderMessages {
       if (obj == this) {
         return true;
       }
-      if (!(obj instanceof docs.sample.OrderMessages.Order)) {
+      if (!(obj instanceof docs.javadsl.proto.OrderMessages.Order)) {
         return super.equals(obj);
       }
-      docs.sample.OrderMessages.Order other = (docs.sample.OrderMessages.Order) obj;
+      docs.javadsl.proto.OrderMessages.Order other = (docs.javadsl.proto.OrderMessages.Order) obj;
 
       if (!getId().equals(other.getId())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
@@ -181,70 +182,71 @@ public final class OrderMessages {
       return hash;
     }
 
-    public static docs.sample.OrderMessages.Order parseFrom(java.nio.ByteBuffer data)
+    public static docs.javadsl.proto.OrderMessages.Order parseFrom(java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
 
-    public static docs.sample.OrderMessages.Order parseFrom(
+    public static docs.javadsl.proto.OrderMessages.Order parseFrom(
         java.nio.ByteBuffer data, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
 
-    public static docs.sample.OrderMessages.Order parseFrom(com.google.protobuf.ByteString data)
+    public static docs.javadsl.proto.OrderMessages.Order parseFrom(
+        com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
 
-    public static docs.sample.OrderMessages.Order parseFrom(
+    public static docs.javadsl.proto.OrderMessages.Order parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
 
-    public static docs.sample.OrderMessages.Order parseFrom(byte[] data)
+    public static docs.javadsl.proto.OrderMessages.Order parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
 
-    public static docs.sample.OrderMessages.Order parseFrom(
+    public static docs.javadsl.proto.OrderMessages.Order parseFrom(
         byte[] data, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
 
-    public static docs.sample.OrderMessages.Order parseFrom(java.io.InputStream input)
+    public static docs.javadsl.proto.OrderMessages.Order parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3.parseWithIOException(PARSER, input);
     }
 
-    public static docs.sample.OrderMessages.Order parseFrom(
+    public static docs.javadsl.proto.OrderMessages.Order parseFrom(
         java.io.InputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3.parseWithIOException(
           PARSER, input, extensionRegistry);
     }
 
-    public static docs.sample.OrderMessages.Order parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
+    public static docs.javadsl.proto.OrderMessages.Order parseDelimitedFrom(
+        java.io.InputStream input) throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3.parseDelimitedWithIOException(PARSER, input);
     }
 
-    public static docs.sample.OrderMessages.Order parseDelimitedFrom(
+    public static docs.javadsl.proto.OrderMessages.Order parseDelimitedFrom(
         java.io.InputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3.parseDelimitedWithIOException(
           PARSER, input, extensionRegistry);
     }
 
-    public static docs.sample.OrderMessages.Order parseFrom(
+    public static docs.javadsl.proto.OrderMessages.Order parseFrom(
         com.google.protobuf.CodedInputStream input) throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3.parseWithIOException(PARSER, input);
     }
 
-    public static docs.sample.OrderMessages.Order parseFrom(
+    public static docs.javadsl.proto.OrderMessages.Order parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -261,7 +263,7 @@ public final class OrderMessages {
       return DEFAULT_INSTANCE.toBuilder();
     }
 
-    public static Builder newBuilder(docs.sample.OrderMessages.Order prototype) {
+    public static Builder newBuilder(docs.javadsl.proto.OrderMessages.Order prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
 
@@ -281,21 +283,21 @@ public final class OrderMessages {
         extends com.google.protobuf.GeneratedMessageV3.Builder<Builder>
         implements
         // @@protoc_insertion_point(builder_implements:Order)
-        docs.sample.OrderMessages.OrderOrBuilder {
+        docs.javadsl.proto.OrderMessages.OrderOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
-        return docs.sample.OrderMessages.internal_static_Order_descriptor;
+        return docs.javadsl.proto.OrderMessages.internal_static_Order_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return docs.sample.OrderMessages.internal_static_Order_fieldAccessorTable
+        return docs.javadsl.proto.OrderMessages.internal_static_Order_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                docs.sample.OrderMessages.Order.class,
-                docs.sample.OrderMessages.Order.Builder.class);
+                docs.javadsl.proto.OrderMessages.Order.class,
+                docs.javadsl.proto.OrderMessages.Order.Builder.class);
       }
 
-      // Construct using docs.sample.OrderMessages.Order.newBuilder()
+      // Construct using docs.javadsl.proto.OrderMessages.Order.newBuilder()
       private Builder() {}
 
       private Builder(com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
@@ -312,17 +314,17 @@ public final class OrderMessages {
 
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
-        return docs.sample.OrderMessages.internal_static_Order_descriptor;
+        return docs.javadsl.proto.OrderMessages.internal_static_Order_descriptor;
       }
 
       @java.lang.Override
-      public docs.sample.OrderMessages.Order getDefaultInstanceForType() {
-        return docs.sample.OrderMessages.Order.getDefaultInstance();
+      public docs.javadsl.proto.OrderMessages.Order getDefaultInstanceForType() {
+        return docs.javadsl.proto.OrderMessages.Order.getDefaultInstance();
       }
 
       @java.lang.Override
-      public docs.sample.OrderMessages.Order build() {
-        docs.sample.OrderMessages.Order result = buildPartial();
+      public docs.javadsl.proto.OrderMessages.Order build() {
+        docs.javadsl.proto.OrderMessages.Order result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -330,8 +332,9 @@ public final class OrderMessages {
       }
 
       @java.lang.Override
-      public docs.sample.OrderMessages.Order buildPartial() {
-        docs.sample.OrderMessages.Order result = new docs.sample.OrderMessages.Order(this);
+      public docs.javadsl.proto.OrderMessages.Order buildPartial() {
+        docs.javadsl.proto.OrderMessages.Order result =
+            new docs.javadsl.proto.OrderMessages.Order(this);
         if (bitField0_ != 0) {
           buildPartial0(result);
         }
@@ -339,7 +342,7 @@ public final class OrderMessages {
         return result;
       }
 
-      private void buildPartial0(docs.sample.OrderMessages.Order result) {
+      private void buildPartial0(docs.javadsl.proto.OrderMessages.Order result) {
         int from_bitField0_ = bitField0_;
         if (((from_bitField0_ & 0x00000001) != 0)) {
           result.id_ = id_;
@@ -383,16 +386,16 @@ public final class OrderMessages {
 
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof docs.sample.OrderMessages.Order) {
-          return mergeFrom((docs.sample.OrderMessages.Order) other);
+        if (other instanceof docs.javadsl.proto.OrderMessages.Order) {
+          return mergeFrom((docs.javadsl.proto.OrderMessages.Order) other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(docs.sample.OrderMessages.Order other) {
-        if (other == docs.sample.OrderMessages.Order.getDefaultInstance()) return this;
+      public Builder mergeFrom(docs.javadsl.proto.OrderMessages.Order other) {
+        if (other == docs.javadsl.proto.OrderMessages.Order.getDefaultInstance()) return this;
         if (!other.getId().isEmpty()) {
           id_ = other.id_;
           bitField0_ |= 0x00000001;
@@ -541,13 +544,13 @@ public final class OrderMessages {
     }
 
     // @@protoc_insertion_point(class_scope:Order)
-    private static final docs.sample.OrderMessages.Order DEFAULT_INSTANCE;
+    private static final docs.javadsl.proto.OrderMessages.Order DEFAULT_INSTANCE;
 
     static {
-      DEFAULT_INSTANCE = new docs.sample.OrderMessages.Order();
+      DEFAULT_INSTANCE = new docs.javadsl.proto.OrderMessages.Order();
     }
 
-    public static docs.sample.OrderMessages.Order getDefaultInstance() {
+    public static docs.javadsl.proto.OrderMessages.Order getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
@@ -584,7 +587,7 @@ public final class OrderMessages {
     }
 
     @java.lang.Override
-    public docs.sample.OrderMessages.Order getDefaultInstanceForType() {
+    public docs.javadsl.proto.OrderMessages.Order getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
   }
@@ -601,8 +604,8 @@ public final class OrderMessages {
 
   static {
     java.lang.String[] descriptorData = {
-      "\n\013order.proto\"\023\n\005Order\022\n\n\002id\030\001 \001(\tB\034\n\013do"
-          + "cs.sampleB\rOrderMessagesb\006proto3"
+      "\n\013order.proto\"\023\n\005Order\022\n\n\002id\030\001 \001(\tB#\n\022do"
+          + "cs.javadsl.protoB\rOrderMessagesb\006proto3"
     };
     descriptor =
         com.google.protobuf.Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(
