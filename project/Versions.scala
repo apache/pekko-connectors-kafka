@@ -7,7 +7,6 @@
  * This file is part of the Apache Pekko project, which was derived from Akka.
  */
 
-import net.aichler.jupiter.sbt.Import.JupiterKeys
 import sbt._
 import sbt.Keys._
 import sbt.ExclusionRule
