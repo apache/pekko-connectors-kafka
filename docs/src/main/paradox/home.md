@@ -12,7 +12,7 @@ This **Apache Pekko Connectors Kafka connector** lets you connect [Apache Kafka]
 
 | Kafka client                                                            | Scala Versions | Apache Pekko version | Apache Pekko Connectors Kafka Connector
 |-------------------------------------------------------------------------|----------------|----------------------|-------------------------
-| [3.0.1](https://archive.apache.org/dist/kafka/3.0.1/RELEASE_NOTES.html) | 2.12, 2.13, 3  | 1.0.0                | 1.0.0
+| 3.7.1+ | 2.12, 2.13, 3  | 1.0.0+            | 1.1.0
 
 @@@ note
 
