@@ -8,11 +8,11 @@ This **Apache Pekko Connectors Kafka connector** lets you connect [Apache Kafka]
 
 @@project-info{ projectId="core" }
 
-## Matching Kafka Versions
+## Recommended Versions
 
 | Kafka client                                                            | Scala Versions | Apache Pekko version | Apache Pekko Connectors Kafka Connector
 |-------------------------------------------------------------------------|----------------|----------------------|-------------------------
-| 3.7.1+ | 2.12, 2.13, 3  | 1.0.0+            | 1.1.0
+| 3.7.1+ | 2.12, 2.13, 3.3  | 1.1.0+ (but 1.0.0+ should be ok)            | 1.1.0
 
 @@@ note
 
