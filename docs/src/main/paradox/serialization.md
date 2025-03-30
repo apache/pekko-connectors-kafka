@@ -66,7 +66,7 @@ Maven
         <dependency>
           <groupId>io.confluent</groupId>
           <artifactId>kafka-avro-serializer</artifactId>
-          <version>confluent.version (eg. 5.0.0)</version>
+          <version>confluent.version (eg. 7.9.0)</version>
         </dependency>
         ...
       </dependencies>
@@ -84,14 +84,14 @@ Maven
 
 sbt
 :   ```scala
-    libraryDependencies += "io.confluent" % "kafka-avro-serializer" % confluentAvroVersion, //  eg. 5.0.0
+    libraryDependencies += "io.confluent" % "kafka-avro-serializer" % confluentAvroVersion, //  eg. 7.9.0
     resolvers += "Confluent Maven Repository" at "https://packages.confluent.io/maven/",
     ```
 
 Gradle
 :   ```gradle
     dependencies {
-      compile group: 'io.confluent', name: 'kafka-avro-serializer', version: confluentAvroVersion // eg. 5.0.0
+      compile group: 'io.confluent', name: 'kafka-avro-serializer', version: confluentAvroVersion // eg. 7.9.0
     }
     repositories {
       maven {
