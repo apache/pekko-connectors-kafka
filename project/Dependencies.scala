@@ -23,7 +23,7 @@ object Dependencies {
     "org.apache.kafka" % "kafka-clients" % kafkaVersion)
 
   lazy val testDependencies = Seq(
-    "com.google.protobuf" % "protobuf-java" % "3.25.6", // use the same version as in scalapb
+    "com.google.protobuf" % "protobuf-java" % "3.25.7", // use the same version as in scalapb
     ("io.confluent" % "kafka-avro-serializer" % confluentAvroSerializerVersion % Test).excludeAll(
       confluentLibsExclusionRules: _*),
     "commons-codec" % "commons-codec" % "1.18.0" % Test,
