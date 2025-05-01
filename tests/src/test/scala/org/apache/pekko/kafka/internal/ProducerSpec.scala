@@ -158,7 +158,7 @@ class ProducerSpec(_system: ActorSystem)
     assertAllStagesStopped {
       val input = (1 to 10).map { recordAndMetadata(_)._1 }
 
-      val mockProducer = new MockProducer[String, String](true, new StringSerializer, new StringSerializer)
+      val mockProducer = new MockProducer[String, String](true, None.orNull, new StringSerializer, new StringSerializer)
 
       val fut: Future[Done] = Source(input).runWith(Producer.plainSink(settings.withProducer(mockProducer)))
 
