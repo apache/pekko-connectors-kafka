@@ -23,7 +23,7 @@ object Versions {
   val pekkoConnectorsKafkaVersionForDocs = "current"
   val pekkoManagementVersionForDocs = "current"
 
-  val kafkaVersion = "3.9.0"
+  val kafkaVersion = "3.9.1"
   val KafkaVersionForDocs = "37"
 
   val scalaTestVersion = "3.2.19"
