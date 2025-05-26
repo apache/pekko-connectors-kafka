@@ -26,7 +26,6 @@ import pekko.stream.scaladsl.{ Keep, RestartSource, Sink }
 import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.scalatest.concurrent.PatienceConfiguration.Interval
 import org.scalatest.concurrent.ScalaFutures
-import org.scalatest.Ignore
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
@@ -35,7 +34,6 @@ import scala.concurrent.duration._
 import scala.concurrent.{ Await, Future, TimeoutException }
 import scala.util.{ Failure, Success }
 
-@Ignore
 class TransactionsPartitionedSourceSpec
     extends SpecBase
     with TestcontainersKafkaPerClassLike
