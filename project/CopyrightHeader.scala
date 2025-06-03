@@ -24,7 +24,7 @@ trait CopyrightHeader extends AutoPlugin {
   override def trigger: PluginTrigger = allRequirements
 
   protected def headerMappingSettings: Seq[Def.Setting[_]] =
-    Seq(Compile, Test, IntegrationTest, Default).flatMap { config =>
+    Seq(Compile, Test, Default).flatMap { config =>
       inConfig(config)(
         Seq(
           headerLicense := Some(HeaderLicense.Custom(apacheHeader)),
