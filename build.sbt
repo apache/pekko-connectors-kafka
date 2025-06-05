@@ -35,7 +35,7 @@ lazy val `pekko-connectors-kafka` =
       publish / skip := true,
       ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(core, testkit, `cluster-sharding`),
       onLoadMessage := ProjectSettings.onLoadMessage)
-    .aggregate(core, testkit, `cluster-sharding`, tests, `integration-tests`, `java-tests`, benchmarks, docs)
+    .aggregate(core, testkit, `cluster-sharding`, tests, `java-tests`, benchmarks, docs)
 
 lazy val core = project
   .enablePlugins(ReproducibleBuildsPlugin)
