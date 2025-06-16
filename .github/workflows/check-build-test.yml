@@ -7,7 +7,7 @@ on:
       - main
       - 1.0.x
     tags-ignore: [ v.* ]
-    
+
 permissions: {}
 
 concurrency:
@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           # we don't know what commit the last tag was it's safer to get entire repo so previousStableVersion resolves
           fetch-depth: 0
@@ -38,16 +38,16 @@ jobs:
 
 
       - name: Setup Java 11
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
         with:
           distribution: temurin
           java-version: 11
 
       - name: Install sbt
-        uses: sbt/setup-sbt@v1          
+        uses: sbt/setup-sbt@6c68d2fe8dfbc0a0534d70101baa2e0420e1a506 # v1.1.9
 
       - name: Cache Coursier cache
-        uses: coursier/cache-action@v6
+        uses: coursier/cache-action@4e2615869d13561d626ed48655e1a39e5b192b3c # v6.4.7
 
       - name: Code style check and binary-compatibility check
         # Run locally with: sbt 'javafmtCheckAll; mimaReportBinaryIssues'
@@ -58,7 +58,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0
           fetch-tags: true
@@ -70,13 +70,13 @@ jobs:
           git checkout scratch
 
       - name: Setup Java 11
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
         with:
           distribution: temurin
           java-version: 11
 
       - name: Cache Coursier cache
-        uses: coursier/cache-action@v6
+        uses: coursier/cache-action@4e2615869d13561d626ed48655e1a39e5b192b3c # v6.4.7
 
       - name: Compile all code with fatal warnings for Java 11 and Scala 2.12/2.13/3
         # Run locally with: env CI=true sbt 'clean ; Test/compile ; It/compile'
@@ -87,7 +87,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0
           fetch-tags: true
@@ -99,16 +99,16 @@ jobs:
           git checkout scratch
 
       - name: Setup Java 11
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
         with:
           distribution: temurin
           java-version: 11
 
       - name: Install sbt
-        uses: sbt/setup-sbt@v1
+        uses: sbt/setup-sbt@6c68d2fe8dfbc0a0534d70101baa2e0420e1a506 # v1.1.9
 
       - name: Cache Coursier cache
-        uses: coursier/cache-action@v6
+        uses: coursier/cache-action@4e2615869d13561d626ed48655e1a39e5b192b3c # v6.4.7
 
       - name: Create all API docs for artifacts/website and all reference docs
         run: sbt "doc ; unidoc ; docs/paradoxBrowse"
@@ -129,7 +129,7 @@ jobs:
           - { java-version: 11, scala-version: 3.3, sbt-opts: '-J-XX:+UnlockExperimentalVMOptions -J-XX:+UseJVMCICompiler' }
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0
           fetch-tags: true
@@ -141,16 +141,16 @@ jobs:
           git checkout scratch
 
       - name: Setup Java ${{ matrix.java-version }}
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
         with:
           distribution: temurin
           java-version: ${{ matrix.java-version }}
 
       - name: Install sbt
-        uses: sbt/setup-sbt@v1
+        uses: sbt/setup-sbt@6c68d2fe8dfbc0a0534d70101baa2e0420e1a506 # v1.1.9
 
       - name: Cache Coursier cache
-        uses: coursier/cache-action@v6
+        uses: coursier/cache-action@4e2615869d13561d626ed48655e1a39e5b192b3c # v6.4.7
 
       - name: Run tests with Scala ${{ matrix.scala-version }} and Java ${{ matrix.java-version }}
         run: sbt "++${{ matrix.scala-version }} test" ${{ matrix.sbt-opts }}
@@ -165,7 +165,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0
           fetch-tags: true
@@ -177,16 +177,16 @@ jobs:
           git checkout scratch
 
       - name: Setup Java 8
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
         with:
           distribution: temurin
           java-version: 8
 
       - name: Install sbt
-        uses: sbt/setup-sbt@v1
+        uses: sbt/setup-sbt@6c68d2fe8dfbc0a0534d70101baa2e0420e1a506 # v1.1.9
 
       - name: Cache Coursier cache
-        uses: coursier/cache-action@v6
+        uses: coursier/cache-action@4e2615869d13561d626ed48655e1a39e5b192b3c # v6.4.7
 
       - name: Run multi-broker and long running integration tests
         run: sbt "tests/IntegrationTest/test"
@@ -200,7 +200,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0
           fetch-tags: true
@@ -212,16 +212,16 @@ jobs:
           git checkout scratch
 
       - name: Setup Java 8
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
         with:
           distribution: temurin
           java-version: 8
 
       - name: Install sbt
-        uses: sbt/setup-sbt@v1
+        uses: sbt/setup-sbt@6c68d2fe8dfbc0a0534d70101baa2e0420e1a506 # v1.1.9
 
       - name: Cache Coursier cache
-        uses: coursier/cache-action@v6
+        uses: coursier/cache-action@4e2615869d13561d626ed48655e1a39e5b192b3c # v6.4.7
 
       - name: "Compile benchmark tests"
         run: sbt "benchmarks/IntegrationTest/compile"
