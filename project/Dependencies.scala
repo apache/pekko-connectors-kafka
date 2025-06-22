@@ -47,4 +47,8 @@ object Dependencies {
     "org.scalatest" %% "scalatest" % scalaTestVersion % Provided,
     "junit" % "junit" % "4.13.2" % Provided)
 
+  lazy val benchmarksDependencies = Seq(
+    "org.testcontainers" % "kafka" % testcontainersVersion % Test,
+    "org.scalatest" %% "scalatest" % scalaTestVersion % Test)
+
 }
