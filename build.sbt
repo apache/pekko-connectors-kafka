@@ -157,7 +157,6 @@ lazy val benchmarks = project
   .dependsOn(core, testkit)
   .disablePlugins(MimaPlugin, SitePlugin)
   .settings(commonSettings)
-  .settings(libraryDependencies ++= Dependencies.benchmarksDependencies)
   .addPekkoModuleDependency("pekko-slf4j", "test", PekkoCoreDependency.default)
   .addPekkoModuleDependency("pekko-stream-testkit", "test", PekkoCoreDependency.default)
   .settings(

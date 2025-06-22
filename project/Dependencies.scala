@@ -16,8 +16,8 @@ object Dependencies {
     "io.dropwizard.metrics" % "metrics-core" % "4.2.33",
     "ch.qos.logback" % "logback-classic" % logbackVersion,
     "org.slf4j" % "log4j-over-slf4j" % slf4jVersion,
-    "org.testcontainers" % "kafka" % testcontainersVersion % IntegrationTest,
-    "org.scalatest" %% "scalatest" % scalaTestVersion % IntegrationTest)
+    "org.testcontainers" % "kafka" % testcontainersVersion % Test,
+    "org.scalatest" %% "scalatest" % scalaTestVersion % Test)
 
   lazy val coreDependencies = Seq(
     "org.apache.kafka" % "kafka-clients" % kafkaVersion)
@@ -46,9 +46,5 @@ object Dependencies {
     "org.testcontainers" % "kafka" % testcontainersVersion % Provided,
     "org.scalatest" %% "scalatest" % scalaTestVersion % Provided,
     "junit" % "junit" % "4.13.2" % Provided)
-
-  lazy val benchmarksDependencies = Seq(
-    "org.testcontainers" % "kafka" % testcontainersVersion % Test,
-    "org.scalatest" %% "scalatest" % scalaTestVersion % Test)
 
 }
