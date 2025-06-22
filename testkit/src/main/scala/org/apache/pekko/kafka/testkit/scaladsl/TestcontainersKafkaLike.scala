@@ -30,7 +30,7 @@ trait TestcontainersKafkaLike extends TestcontainersKafka.Spec {
   override def kafkaPort: Int = TestcontainersKafka.Singleton.kafkaPort
   override def bootstrapServers: String = TestcontainersKafka.Singleton.bootstrapServers
   override def brokerContainers: Vector[PekkoConnectorsKafkaContainer] = TestcontainersKafka.Singleton.brokerContainers
-  override def zookeeperContainer: GenericContainer[_] = TestcontainersKafka.Singleton.zookeeperContainer
+  override def zookeeperContainer: Option[GenericContainer[_]] = TestcontainersKafka.Singleton.zookeeperContainer
   override def schemaRegistryContainer: Option[SchemaRegistryContainer] =
     TestcontainersKafka.Singleton.schemaRegistryContainer
   override def schemaRegistryUrl: String = TestcontainersKafka.Singleton.schemaRegistryUrl

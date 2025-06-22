@@ -64,9 +64,9 @@ public class KafkaContainerCluster implements Startable {
   private final Duration clusterStartTimeout;
   private final Duration readinessCheckTimeout;
   private final Network network;
-  private final GenericContainer zookeeper;
   private final Collection<PekkoConnectorsKafkaContainer> brokers;
   private DockerImageName schemaRegistryImage;
+  private Optional<GenericContainer> zookeeper = Optional.empty();
   private Optional<SchemaRegistryContainer> schemaRegistry = Optional.empty();
 
   public KafkaContainerCluster(int brokersNum, int internalTopicsRf) {
@@ -111,13 +111,15 @@ public class KafkaContainerCluster implements Startable {
     this.network = Network.newNetwork();
     this.schemaRegistryImage = schemaRegistryImage;
 
-    this.zookeeper =
-        new GenericContainer(zooKeeperImage)
-            .withNetwork(network)
-            .withNetworkAliases("zookeeper")
-            .withEnv(
-                "ZOOKEEPER_CLIENT_PORT",
-                String.valueOf(PekkoConnectorsKafkaContainer.ZOOKEEPER_PORT));
+    if (!PekkoConnectorsKafkaContainer.DEFAULT_CONFLUENT_PLATFORM_VERSION.startsWith("8.")) {
+      this.zookeeper = Optional.of(
+              new GenericContainer(zooKeeperImage)
+                      .withNetwork(network)
+                      .withNetworkAliases("zookeeper")
+                      .withEnv(
+                              "ZOOKEEPER_CLIENT_PORT",
+                              String.valueOf(PekkoConnectorsKafkaContainer.ZOOKEEPER_PORT)));
+    }
 
     this.brokers =
         IntStream.range(0, this.brokersNum)
@@ -153,7 +155,7 @@ public class KafkaContainerCluster implements Startable {
     return this.network;
   }
 
-  public GenericContainer getZooKeeper() {
+  public Optional<GenericContainer> getZooKeeper() {
     return this.zookeeper;
   }
 
