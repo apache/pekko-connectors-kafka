@@ -13,7 +13,7 @@ import sbt._
 object Dependencies {
   lazy val benchmarkDependencies = Seq(
     "com.typesafe.scala-logging" %% "scala-logging" % "3.9.5",
-    "io.dropwizard.metrics" % "metrics-core" % "4.2.32",
+    "io.dropwizard.metrics" % "metrics-core" % "4.2.33",
     "ch.qos.logback" % "logback-classic" % logbackVersion,
     "org.slf4j" % "log4j-over-slf4j" % slf4jVersion,
     "org.testcontainers" % "kafka" % testcontainersVersion % IntegrationTest,
