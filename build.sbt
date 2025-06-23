@@ -35,7 +35,7 @@ lazy val `pekko-connectors-kafka` =
       publish / skip := true,
       ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(core, testkit, `cluster-sharding`),
       onLoadMessage := ProjectSettings.onLoadMessage)
-    .aggregate(core, testkit, `cluster-sharding`, tests, `java-tests`, benchmarks, docs)
+    .aggregate(core, testkit, `cluster-sharding`, tests, `java-tests`, docs)
 
 lazy val core = project
   .enablePlugins(ReproducibleBuildsPlugin)
@@ -86,11 +86,7 @@ lazy val `cluster-sharding` = project
 lazy val tests = project
   .dependsOn(core, testkit, `cluster-sharding`)
   .disablePlugins(MimaPlugin, SitePlugin)
-  .configs(IntegrationTest.extend(Test))
-  .settings(inConfig(IntegrationTest)(JavaFormatterPlugin.toBeScopedSettings))
   .settings(commonSettings)
-  .settings(Defaults.itSettings)
-  .settings(headerSettings(IntegrationTest))
   .addPekkoModuleDependency("pekko-discovery", "test", PekkoCoreDependency.default)
   .addPekkoModuleDependency("pekko-slf4j", "test", PekkoCoreDependency.default)
   .settings(
@@ -99,8 +95,21 @@ lazy val tests = project
     libraryDependencies ++= Dependencies.testDependencies,
     publish / skip := true,
     Test / fork := true,
-    Test / parallelExecution := false,
-    IntegrationTest / parallelExecution := false)
+    Test / parallelExecution := false)
+
+lazy val `int-tests` = project
+  .dependsOn(core, testkit, `cluster-sharding`, tests % "compile->compile;test->test")
+  .disablePlugins(MimaPlugin, SitePlugin)
+  .settings(commonSettings)
+  .addPekkoModuleDependency("pekko-discovery", "test", PekkoCoreDependency.default)
+  .addPekkoModuleDependency("pekko-slf4j", "test", PekkoCoreDependency.default)
+  .settings(
+    name := "pekko-connectors-kafka-int-tests",
+    resolvers ++= ResolverSettings.testSpecificResolvers,
+    libraryDependencies ++= Dependencies.testDependencies,
+    publish / skip := true,
+    Test / fork := true,
+    Test / parallelExecution := false)
 
 lazy val `java-tests` = project
   .dependsOn(core, testkit, `cluster-sharding`, tests % "compile->compile;test->test")
@@ -147,15 +156,11 @@ lazy val docs = project
 lazy val benchmarks = project
   .dependsOn(core, testkit)
   .disablePlugins(MimaPlugin, SitePlugin)
-  .configs(IntegrationTest)
-  .settings(inConfig(IntegrationTest)(JavaFormatterPlugin.toBeScopedSettings))
   .settings(commonSettings)
-  .settings(Defaults.itSettings)
-  .settings(headerSettings(IntegrationTest))
-  .addPekkoModuleDependency("pekko-slf4j", "it", PekkoCoreDependency.default)
-  .addPekkoModuleDependency("pekko-stream-testkit", "it", PekkoCoreDependency.default)
+  .addPekkoModuleDependency("pekko-slf4j", "test", PekkoCoreDependency.default)
+  .addPekkoModuleDependency("pekko-stream-testkit", "test", PekkoCoreDependency.default)
   .settings(
     name := "pekko-connectors-kafka-benchmarks",
     publish / skip := true,
-    IntegrationTest / parallelExecution := false,
+    Test / parallelExecution := false,
     libraryDependencies ++= Dependencies.benchmarkDependencies)
