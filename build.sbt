@@ -114,12 +114,11 @@ lazy val `java-tests` = project
     libraryDependencies ++= Dependencies.testDependencies,
     libraryDependencies ++= Seq(
       "org.junit.vintage" % "junit-vintage-engine" % JupiterKeys.junitVintageVersion.value % Test,
-      "net.aichler" % "jupiter-interface" % JupiterKeys.jupiterVersion.value % Test),
+      "com.github.sbt.junit" % "jupiter-interface" % JupiterKeys.jupiterVersion.value % Test),
     publish / skip := true,
     Test / compileOrder := CompileOrder.ScalaThenJava,
     Test / fork := true,
-    Test / parallelExecution := false,
-    IntegrationTest / parallelExecution := false)
+    Test / parallelExecution := false)
 
 lazy val docs = project
   .enablePlugins(ParadoxPlugin, PekkoParadoxPlugin, ParadoxSitePlugin, PreprocessPlugin)

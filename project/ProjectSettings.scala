@@ -8,10 +8,10 @@
  */
 
 import Versions._
+import com.github.sbt.junit.jupiter.sbt.Import.jupiterTestFramework
 import com.github.sbt.JavaFormatterPlugin.autoImport.javafmtOnCompile
 import com.lightbend.paradox.projectinfo.ParadoxProjectInfoPlugin.autoImport.projectInfoVersion
 import com.typesafe.tools.mima.plugin.MimaKeys.mimaReportSignatureProblems
-import net.aichler.jupiter.sbt.Import.jupiterTestFramework
 import org.scalafmt.sbt.ScalafmtPlugin.autoImport.scalafmtOnCompile
 import sbt.{ Def, _ }
 import sbt.Keys._
