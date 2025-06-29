@@ -41,7 +41,7 @@ public class PekkoConnectorsKafkaContainer extends GenericContainer<PekkoConnect
 
   // Align these confluent platform constants with testkit/src/main/resources/reference.conf
   public static final String DEFAULT_CONFLUENT_PLATFORM_VERSION =
-    System.getProperty("CONFLUENT_PLATFORM_VERSION", "8.0.0");
+      System.getProperty("CONFLUENT_PLATFORM_VERSION", "8.0.0");
 
   public static final DockerImageName DEFAULT_ZOOKEEPER_IMAGE_NAME =
       DockerImageName.parse("confluentinc/cp-zookeeper")
