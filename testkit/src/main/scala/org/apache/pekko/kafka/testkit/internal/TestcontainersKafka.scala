@@ -53,9 +53,9 @@ object TestcontainersKafka {
       cluster.getBrokers.asScala.toVector
     }
 
-    def zookeeperContainer: GenericContainer[_] = {
+    def zookeeperContainer: Option[GenericContainer[_]] = {
       requireStarted()
-      cluster.getZooKeeper
+      cluster.getZooKeeper.toScala
     }
 
     def schemaRegistryContainer: Option[SchemaRegistryContainer] = {
@@ -89,8 +89,12 @@ object TestcontainersKafka {
           settings.readinessCheckTimeout.asJava)
         configureKafka(brokerContainers)
         configureKafkaConsumer.accept(brokerContainers.asJavaCollection)
-        configureZooKeeper(zookeeperContainer)
-        configureZooKeeperConsumer.accept(zookeeperContainer)
+        zookeeperContainer match {
+          case Some(container) =>
+            configureZooKeeper(container)
+            configureZooKeeperConsumer.accept(container)
+          case _ =>
+        }
         schemaRegistryContainer match {
           case Some(container) => configureSchemaRegistry(container)
           case _               =>
