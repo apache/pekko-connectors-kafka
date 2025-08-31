@@ -32,7 +32,7 @@ import scala.concurrent.duration._
 class RetentionPeriodSpec extends SpecBase with TestcontainersKafkaPerClassLike {
   // https://docs.confluent.io/current/installation/versions-interoperability.html
   private final val confluentPlatformVersion =
-    System.getProperty("CONFLUENT_PLATFORM_VERSION", "7.9.2");
+    System.getProperty("CONFLUENT_PLATFORM_VERSION", "7.9.2")
 
   override val testcontainersSettings = KafkaTestkitTestcontainersSettings(system)
     .withKafkaImageTag(confluentPlatformVersion)
