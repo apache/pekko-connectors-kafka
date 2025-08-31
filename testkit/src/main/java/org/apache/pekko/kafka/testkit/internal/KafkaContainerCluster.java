@@ -64,9 +64,9 @@ public class KafkaContainerCluster implements Startable {
   private final Duration clusterStartTimeout;
   private final Duration readinessCheckTimeout;
   private final Network network;
-  private final GenericContainer zookeeper;
   private final Collection<PekkoConnectorsKafkaContainer> brokers;
   private DockerImageName schemaRegistryImage;
+  private Optional<GenericContainer> zookeeper = Optional.empty();
   private Optional<SchemaRegistryContainer> schemaRegistry = Optional.empty();
 
   public KafkaContainerCluster(int brokersNum, int internalTopicsRf) {
@@ -111,31 +111,42 @@ public class KafkaContainerCluster implements Startable {
     this.network = Network.newNetwork();
     this.schemaRegistryImage = schemaRegistryImage;
 
-    this.zookeeper =
-        new GenericContainer(zooKeeperImage)
-            .withNetwork(network)
-            .withNetworkAliases("zookeeper")
-            .withEnv(
-                "ZOOKEEPER_CLIENT_PORT",
-                String.valueOf(PekkoConnectorsKafkaContainer.ZOOKEEPER_PORT));
+    if (!PekkoConnectorsKafkaContainer.DEFAULT_CONFLUENT_PLATFORM_VERSION.startsWith("8.")) {
+      this.zookeeper =
+          Optional.of(
+              new GenericContainer(zooKeeperImage)
+                  .withNetwork(network)
+                  .withNetworkAliases("zookeeper")
+                  .withEnv(
+                      "ZOOKEEPER_CLIENT_PORT",
+                      String.valueOf(PekkoConnectorsKafkaContainer.ZOOKEEPER_PORT)));
+    }
 
     this.brokers =
         IntStream.range(0, this.brokersNum)
             .mapToObj(
-                brokerNum ->
-                    new PekkoConnectorsKafkaContainer(kafkaImage)
-                        .withNetwork(this.network)
-                        .withBrokerNum(brokerNum)
-                        .withRemoteJmxService()
-                        .dependsOn(this.zookeeper)
-                        .withExternalZookeeper(
-                            "zookeeper:" + PekkoConnectorsKafkaContainer.ZOOKEEPER_PORT)
-                        .withEnv("KAFKA_BROKER_ID", brokerNum + "")
-                        .withEnv("KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR", internalTopicsRf + "")
-                        .withEnv("KAFKA_OFFSETS_TOPIC_NUM_PARTITIONS", internalTopicsRf + "")
-                        .withEnv(
-                            "KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR", internalTopicsRf + "")
-                        .withEnv("KAFKA_TRANSACTION_STATE_LOG_MIN_ISR", internalTopicsRf + ""))
+                brokerNum -> {
+                  PekkoConnectorsKafkaContainer container =
+                      new PekkoConnectorsKafkaContainer(kafkaImage)
+                          .withNetwork(this.network)
+                          .withBrokerNum(brokerNum)
+                          .withRemoteJmxService()
+                          .withEnv("KAFKA_BROKER_ID", brokerNum + "")
+                          .withEnv("KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR", internalTopicsRf + "")
+                          .withEnv("KAFKA_OFFSETS_TOPIC_NUM_PARTITIONS", internalTopicsRf + "")
+                          .withEnv(
+                              "KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR",
+                              internalTopicsRf + "")
+                          .withEnv("KAFKA_TRANSACTION_STATE_LOG_MIN_ISR", internalTopicsRf + "");
+                  if (this.zookeeper.isPresent()) {
+                    container =
+                        container
+                            .dependsOn(this.zookeeper.get())
+                            .withExternalZookeeper(
+                                "zookeeper:" + PekkoConnectorsKafkaContainer.ZOOKEEPER_PORT);
+                  }
+                  return container;
+                })
             .collect(Collectors.toList());
 
     if (useSchemaRegistry) {
@@ -153,7 +164,7 @@ public class KafkaContainerCluster implements Startable {
     return this.network;
   }
 
-  public GenericContainer getZooKeeper() {
+  public Optional<GenericContainer> getZooKeeper() {
     return this.zookeeper;
   }
 
@@ -185,7 +196,7 @@ public class KafkaContainerCluster implements Startable {
 
   private Stream<GenericContainer> allContainers() {
     return Stream.concat(
-        Stream.concat(this.brokers.stream(), Stream.of(this.zookeeper)),
+        Stream.concat(this.brokers.stream(), optionalStream(this.zookeeper)),
         optionalStream(this.schemaRegistry));
   }
 
@@ -223,7 +234,8 @@ public class KafkaContainerCluster implements Startable {
           broker ->
               setContainerLogger(
                   LOGGING_NAMESPACE_PREFIX + ".broker.broker-" + broker.getBrokerNum(), broker));
-      setContainerLogger(LOGGING_NAMESPACE_PREFIX + ".zookeeper", this.zookeeper);
+      this.zookeeper.ifPresent(
+          container -> setContainerLogger(LOGGING_NAMESPACE_PREFIX + ".zookeeper", container));
       this.schemaRegistry.ifPresent(
           container -> setContainerLogger(LOGGING_NAMESPACE_PREFIX + ".schemaregistry", container));
     }
@@ -235,24 +247,33 @@ public class KafkaContainerCluster implements Startable {
     container.withLogConsumer(logConsumer);
   }
 
+  // assert that cluster has formed
   private void waitForClusterFormation() {
-    // assert that cluster has formed
+    int stepCount = 1;
+    if (this.zookeeper.isPresent()) {
+      stepCount++;
+      runReadinessCheck(
+          "Readiness check (1/2). ZooKeeper state updated.",
+          () -> {
+            Container.ExecResult result =
+                this.zookeeper
+                    .get()
+                    .execInContainer(
+                        "sh",
+                        "-c",
+                        "zookeeper-shell zookeeper:"
+                            + PekkoConnectorsKafkaContainer.ZOOKEEPER_PORT
+                            + " ls /brokers/ids | tail -n 1");
+            String brokers = result.getStdout();
+            return brokers != null && brokers.split(",").length == this.brokersNum;
+          });
+    }
     runReadinessCheck(
-        "Readiness check (1/2). ZooKeeper state updated.",
-        () -> {
-          Container.ExecResult result =
-              this.zookeeper.execInContainer(
-                  "sh",
-                  "-c",
-                  "zookeeper-shell zookeeper:"
-                      + PekkoConnectorsKafkaContainer.ZOOKEEPER_PORT
-                      + " ls /brokers/ids | tail -n 1");
-          String brokers = result.getStdout();
-          return brokers != null && brokers.split(",").length == this.brokersNum;
-        });
-
-    runReadinessCheck(
-        "Readiness check (2/2). Run producer consumer with acks=all.",
+        "Readiness check ("
+            + stepCount
+            + "/"
+            + stepCount
+            + "). Run producer consumer with acks=all.",
         () -> this.brokers.stream().findFirst().map(this::runReadinessCheck).orElse(false));
   }
 
