@@ -59,7 +59,7 @@ public class SendProducerTest extends TestcontainersKafkaTest {
 
     ProducerSettings<String, String> producerSettings = producerDefaults();
     // #record
-    SendProducer<String, String> producer = new SendProducer<>(producerSettings, system);
+    SendProducer<String, String> producer = SendProducer.create(producerSettings, system);
     try {
       CompletionStage<RecordMetadata> result =
           producer.send(new ProducerRecord<>(topic, "key", "value"));
