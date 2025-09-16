@@ -108,7 +108,6 @@ final class SendProducer[K, V] private (val settings: ProducerSettings[K, V], sy
 
 object SendProducer {
 
-  @deprecated("use create method instead", "1.2.0")
   def apply[K, V](settings: ProducerSettings[K, V])(implicit system: ClassicActorSystemProvider): SendProducer[K, V] =
     create(settings)
 
