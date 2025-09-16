@@ -26,6 +26,7 @@ import scala.concurrent.{ ExecutionContext, Future, Promise }
 
 /**
  * Utility class for producing to Kafka without using Apache Pekko Streams.
+ *
  * @param settings producer settings used to create or access the [[org.apache.kafka.clients.producer.Producer]]
  */
 final class SendProducer[K, V] private (val settings: ProducerSettings[K, V], system: ActorSystem) {
@@ -106,7 +107,19 @@ final class SendProducer[K, V] private (val settings: ProducerSettings[K, V], sy
 }
 
 object SendProducer {
+
+  @deprecated("use create method instead", "1.2.0")
   def apply[K, V](settings: ProducerSettings[K, V])(implicit system: ClassicActorSystemProvider): SendProducer[K, V] =
+    create(settings)
+
+  /**
+   * Utility class for producing to Kafka without using Apache Pekko Streams.
+   * Every Producer will create a new Kafka Producer instance under the hood.
+   *
+   * @param settings producer settings used to create or access the [[org.apache.kafka.clients.producer.Producer]]
+   * @since 1.2.0
+   */
+  def create[K, V](settings: ProducerSettings[K, V])(implicit system: ClassicActorSystemProvider): SendProducer[K, V] =
     new SendProducer(settings, system.classicSystem)
 
   // kept for bin-compatibility

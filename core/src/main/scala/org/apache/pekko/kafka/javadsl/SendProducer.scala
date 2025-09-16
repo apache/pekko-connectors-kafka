@@ -32,16 +32,18 @@ final class SendProducer[K, V] private (underlying: scaladsl.SendProducer[K, V])
   // kept for bin-compatibility
   @deprecated("use the variant with ClassicActorSystemProvider instead", "Alpakka Kafka 2.0.5")
   private[kafka] def this(settings: ProducerSettings[K, V], system: ActorSystem) =
-    this(scaladsl.SendProducer(settings)(system))
+    this(scaladsl.SendProducer.create(settings)(system))
 
   /**
    * Utility class for producing to Kafka without using Apache Pekko Streams.
    * @param settings producer settings used to create or access the [[org.apache.kafka.clients.producer.Producer]]
    *
    * The internal asynchronous operations run on the provided `Executor` (which may be an `ActorSystem`'s dispatcher).
+   *
+   * Every Producer will create a new Kafka Producer instance under the hood.
    */
   def this(settings: ProducerSettings[K, V], system: ClassicActorSystemProvider) =
-    this(scaladsl.SendProducer(settings)(system.classicSystem))
+    this(scaladsl.SendProducer.create(settings)(system.classicSystem))
 
   /**
    * Send records to Kafka topics and complete a future with the result.
@@ -71,4 +73,20 @@ final class SendProducer[K, V] private (underlying: scaladsl.SendProducer[K, V])
   def close(): CompletionStage[Done] = underlying.close().asJava
 
   override def toString: String = s"SendProducer(${underlying.settings})"
+}
+
+object SendProducer {
+
+  /**
+   * Utility class for producing to Kafka without using Apache Pekko Streams.
+   * @param settings producer settings used to create or access the [[org.apache.kafka.clients.producer.Producer]]
+   *
+   * The internal asynchronous operations run on the provided `Executor` (which may be an `ActorSystem`'s dispatcher).
+   *
+   * Every Producer will create a new Kafka Producer instance under the hood.
+   *
+   * @since 1.2.0
+   */
+  def create[K, V](settings: ProducerSettings[K, V], system: ClassicActorSystemProvider): SendProducer[K, V] =
+    new SendProducer(settings, system)
 }
