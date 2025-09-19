@@ -815,7 +815,7 @@ object PartitionedSourceSpec {
       if (data2.nonEmpty) {
         log.debug(s"poll result $data2")
       }
-      new ConsumerRecords[K, V](data2.asJava)
+      new ConsumerRecords[K, V](data2.asJava, java.util.Collections.emptyMap())
     }
     override def position(partition: TopicPartition): Long = 0
     override def position(partition: TopicPartition, timeout: java.time.Duration): Long = 0
