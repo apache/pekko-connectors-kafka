@@ -26,7 +26,6 @@ import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import pekko.stream.testkit.scaladsl.TestSink
 import pekko.testkit.TestProbe
 import pekko.{ Done, NotUsed }
-import pekko.util.ccompat.JavaConverters._
 import org.apache.kafka.clients.consumer.{ ConsumerConfig, ConsumerPartitionAssignor, ConsumerRecord }
 import org.apache.kafka.clients.consumer.internals.AbstractPartitionAssignor
 import org.apache.kafka.common.TopicPartition
@@ -34,6 +33,7 @@ import org.scalatest.Inside
 import org.slf4j.{ Logger, LoggerFactory }
 
 import scala.concurrent.duration._
+import scala.jdk.CollectionConverters._
 import scala.util.Random
 
 class RebalanceSpec extends SpecBase with TestcontainersKafkaLike with Inside {

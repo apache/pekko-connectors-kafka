@@ -26,7 +26,6 @@ import pekko.stream.scaladsl._
 import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import pekko.stream.testkit.scaladsl.TestSink
 import pekko.testkit.TestKit
-import pekko.util.ccompat.JavaConverters._
 import com.typesafe.config.ConfigFactory
 import org.apache.kafka.clients.consumer._
 import org.apache.kafka.common.serialization.StringDeserializer
@@ -39,6 +38,7 @@ import org.scalatest.matchers.should.Matchers
 import scala.collection.immutable.Seq
 import scala.concurrent.duration._
 import scala.concurrent.{ Await, ExecutionContext, Future }
+import scala.jdk.CollectionConverters._
 
 object ConsumerSpec {
   type K = String

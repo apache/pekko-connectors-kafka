@@ -18,7 +18,6 @@ import java.util.Locale
 
 import org.apache.pekko
 import pekko.kafka.benchmarks.app.RunTestCommand
-import pekko.util.ccompat.JavaConverters._
 import org.apache.kafka.clients.consumer.{ ConsumerConfig, KafkaConsumer }
 import org.apache.kafka.clients.producer.{ KafkaProducer, ProducerConfig }
 import org.apache.kafka.common.IsolationLevel
@@ -28,6 +27,8 @@ import org.apache.kafka.common.serialization.{
   StringDeserializer,
   StringSerializer
 }
+
+import scala.jdk.CollectionConverters._
 
 case class KafkaTransactionTestFixture(sourceTopic: String,
     sinkTopic: String,

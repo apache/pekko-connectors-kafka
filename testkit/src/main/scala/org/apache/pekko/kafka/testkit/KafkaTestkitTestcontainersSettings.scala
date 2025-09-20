@@ -16,11 +16,12 @@ package org.apache.pekko.kafka.testkit
 
 import java.time.Duration
 import java.util.function.Consumer
+
 import org.apache.pekko
 import pekko.actor.ActorSystem
 import pekko.util.JavaDurationConverters._
-import com.typesafe.config.Config
 import pekko.kafka.testkit.internal.PekkoConnectorsKafkaContainer
+import com.typesafe.config.Config
 import org.testcontainers.containers.GenericContainer
 
 import scala.concurrent.duration.FiniteDuration

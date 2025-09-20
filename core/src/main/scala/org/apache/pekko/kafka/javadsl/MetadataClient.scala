@@ -20,14 +20,13 @@ import org.apache.pekko
 import pekko.actor.{ ActorRef, ActorSystem }
 import pekko.dispatch.ExecutionContexts
 import pekko.kafka.ConsumerSettings
-import pekko.util.ccompat._
-import pekko.util.ccompat.JavaConverters._
-import pekko.util.FutureConverters._
 import pekko.util.Timeout
 import org.apache.kafka.clients.consumer.OffsetAndMetadata
 import org.apache.kafka.common.{ PartitionInfo, TopicPartition }
 
 import scala.concurrent.ExecutionContext
+import scala.jdk.CollectionConverters._
+import scala.jdk.FutureConverters._
 
 class MetadataClient private (metadataClient: pekko.kafka.scaladsl.MetadataClient) {
 

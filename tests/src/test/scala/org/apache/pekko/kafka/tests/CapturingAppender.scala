@@ -85,7 +85,7 @@ import ch.qos.logback.core.AppenderBase
    * Also clears the buffer..
    */
   def flush(): Unit = synchronized {
-    import pekko.util.ccompat.JavaConverters._
+    import scala.jdk.CollectionConverters._
     val logbackLogger = getLogbackLogger(classOf[CapturingAppender].getName + "Delegate")
     val appenders = logbackLogger.iteratorForAppenders().asScala.filterNot(_ == this).toList
     for (event <- buffer; appender <- appenders) {

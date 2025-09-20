@@ -24,7 +24,7 @@ import pekko.kafka.internal.ProducerStage.ProducerCompletionState
 import pekko.kafka.{ ConsumerMessage, ProducerSettings }
 import pekko.stream.stage._
 import pekko.stream.{ Attributes, FlowShape }
-import pekko.util.ccompat.JavaConverters._
+import scala.jdk.CollectionConverters._
 import org.apache.kafka.clients.consumer.{ ConsumerGroupMetadata, OffsetAndMetadata }
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.TopicPartition

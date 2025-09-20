@@ -21,15 +21,15 @@ import org.apache.pekko
 import pekko.annotation.InternalApi
 import pekko.kafka.internal._
 import pekko.util.JavaDurationConverters._
-import pekko.util.ccompat.JavaConverters._
-import pekko.util.OptionConverters._
-import pekko.util.FutureConverters._
 import com.typesafe.config.Config
 import org.apache.kafka.clients.consumer.{ Consumer, ConsumerConfig, KafkaConsumer }
 import org.apache.kafka.common.serialization.Deserializer
 
 import scala.concurrent.{ ExecutionContext, Future }
 import scala.concurrent.duration._
+import scala.jdk.CollectionConverters._
+import scala.jdk.OptionConverters._
+import scala.jdk.FutureConverters._
 
 object ConsumerSettings {
 

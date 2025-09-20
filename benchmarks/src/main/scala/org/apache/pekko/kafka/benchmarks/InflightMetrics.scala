@@ -22,13 +22,13 @@ import pekko.actor.Cancellable
 import pekko.kafka.scaladsl.Consumer.Control
 import pekko.stream.Materializer
 import pekko.stream.scaladsl.{ Keep, Sink, Source }
-import pekko.util.ccompat.JavaConverters._
 import com.codahale.metrics.{ Histogram, MetricRegistry }
 import javax.management.remote.{ JMXConnectorFactory, JMXServiceURL }
 import javax.management.{ Attribute, MBeanServerConnection, ObjectName }
 
 import scala.concurrent.duration.{ FiniteDuration, _ }
 import scala.concurrent.{ ExecutionContext, Future }
+import scala.jdk.CollectionConverters._
 
 private[benchmarks] trait InflightMetrics {
   import InflightMetrics._

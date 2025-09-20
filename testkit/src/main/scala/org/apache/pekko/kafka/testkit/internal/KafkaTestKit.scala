@@ -23,7 +23,7 @@ import org.apache.pekko
 import pekko.actor.ActorSystem
 import pekko.kafka.testkit.KafkaTestkitSettings
 import pekko.kafka.{ CommitterSettings, ConsumerSettings, ProducerSettings }
-import pekko.util.ccompat.JavaConverters._
+import scala.jdk.CollectionConverters._
 import org.apache.kafka.clients.admin.{ Admin, AdminClientConfig, NewTopic }
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.common.serialization.{ Deserializer, Serializer, StringDeserializer, StringSerializer }

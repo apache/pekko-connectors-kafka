@@ -18,7 +18,6 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 import org.apache.pekko
 import pekko.testkit.TestKit
-import pekko.util.ccompat.JavaConverters._
 import pekko.util.JavaDurationConverters._
 import org.apache.kafka.clients.consumer._
 import org.apache.kafka.common.TopicPartition
@@ -30,6 +29,7 @@ import org.mockito.{ ArgumentMatchers, Mockito }
 
 import scala.collection.immutable.Seq
 import scala.concurrent.duration._
+import scala.jdk.CollectionConverters._
 
 object ConsumerMock {
   type OnCompleteHandler = Map[TopicPartition, OffsetAndMetadata] => (Map[TopicPartition, OffsetAndMetadata], Exception)

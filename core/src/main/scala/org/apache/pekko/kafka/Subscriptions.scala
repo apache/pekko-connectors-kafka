@@ -19,7 +19,7 @@ import pekko.actor.ActorRef
 import pekko.annotation.{ ApiMayChange, InternalApi }
 import pekko.kafka.internal.PartitionAssignmentHelpers
 import pekko.kafka.internal.PartitionAssignmentHelpers.EmptyPartitionAssignmentHandler
-import pekko.util.ccompat.JavaConverters._
+import scala.jdk.CollectionConverters._
 import org.apache.kafka.common.TopicPartition
 
 import scala.annotation.varargs
