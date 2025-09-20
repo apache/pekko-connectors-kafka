@@ -25,12 +25,11 @@ import org.apache.kafka.clients.producer.{ KafkaProducer, Producer, ProducerConf
 import org.apache.kafka.common.serialization.Serializer
 
 import scala.concurrent.duration._
-import pekko.util.ccompat.JavaConverters._
-import pekko.util.FutureConverters._
-import pekko.util.JavaDurationConverters._
-import pekko.util.OptionConverters._
-
 import scala.concurrent.{ ExecutionContext, Future }
+import scala.jdk.CollectionConverters._
+import scala.jdk.DurationConverters._
+import scala.jdk.FutureConverters._
+import scala.jdk.OptionConverters._
 
 object ProducerSettings {
 
@@ -78,11 +77,11 @@ object ProducerSettings {
       valueSerializer != null &&
       (valueSerializer.isDefined || properties.contains(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG)),
       "Value serializer should be defined or declared in configuration")
-    val closeTimeout = config.getDuration("close-timeout").asScala
+    val closeTimeout = config.getDuration("close-timeout").toScala
     val closeOnProducerStop = config.getBoolean("close-on-producer-stop")
     val parallelism = config.getInt("parallelism")
     val dispatcher = config.getString("use-dispatcher")
-    val eosCommitInterval = config.getDuration("eos-commit-interval").asScala
+    val eosCommitInterval = config.getDuration("eos-commit-interval").toScala
     new ProducerSettings[K, V](
       properties,
       keySerializer,
@@ -295,7 +294,7 @@ class ProducerSettings[K, V] @InternalApi private[kafka] (
    * Duration to wait for `KafkaProducer.close` to finish.
    */
   def withCloseTimeout(closeTimeout: java.time.Duration): ProducerSettings[K, V] =
-    copy(closeTimeout = closeTimeout.asScala)
+    copy(closeTimeout = closeTimeout.toScala)
 
   /**
    * Call `KafkaProducer.close` on the [[org.apache.kafka.clients.producer.KafkaProducer]] when the producer stage
@@ -330,7 +329,7 @@ class ProducerSettings[K, V] @InternalApi private[kafka] (
    * The time interval to commit a transaction when using the `Transactional.sink` or `Transactional.flow`.
    */
   def withEosCommitInterval(eosCommitInterval: java.time.Duration): ProducerSettings[K, V] =
-    copy(eosCommitInterval = eosCommitInterval.asScala)
+    copy(eosCommitInterval = eosCommitInterval.toScala)
 
   /**
    * Scala API.

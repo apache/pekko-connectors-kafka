@@ -20,16 +20,16 @@ import java.util.concurrent.{ CompletionStage, Executor }
 import org.apache.pekko
 import pekko.annotation.InternalApi
 import pekko.kafka.internal._
-import pekko.util.JavaDurationConverters._
-import pekko.util.ccompat.JavaConverters._
-import pekko.util.OptionConverters._
-import pekko.util.FutureConverters._
 import com.typesafe.config.Config
 import org.apache.kafka.clients.consumer.{ Consumer, ConsumerConfig, KafkaConsumer }
 import org.apache.kafka.common.serialization.Deserializer
 
 import scala.concurrent.{ ExecutionContext, Future }
 import scala.concurrent.duration._
+import scala.jdk.CollectionConverters._
+import scala.jdk.DurationConverters._
+import scala.jdk.FutureConverters._
+import scala.jdk.OptionConverters._
 
 object ConsumerSettings {
 
@@ -79,21 +79,21 @@ object ConsumerSettings {
       valueDeserializer != null &&
       (valueDeserializer.isDefined || properties.contains(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG)),
       "Value deserializer should be defined or declared in configuration")
-    val pollInterval = config.getDuration("poll-interval").asScala
-    val pollTimeout = config.getDuration("poll-timeout").asScala
-    val stopTimeout = config.getDuration("stop-timeout").asScala
-    val closeTimeout = config.getDuration("close-timeout").asScala
-    val commitTimeout = config.getDuration("commit-timeout").asScala
-    val commitTimeWarning = config.getDuration("commit-time-warning").asScala
+    val pollInterval = config.getDuration("poll-interval").toScala
+    val pollTimeout = config.getDuration("poll-timeout").toScala
+    val stopTimeout = config.getDuration("stop-timeout").toScala
+    val closeTimeout = config.getDuration("close-timeout").toScala
+    val commitTimeout = config.getDuration("commit-timeout").toScala
+    val commitTimeWarning = config.getDuration("commit-time-warning").toScala
     val commitRefreshInterval = ConfigSettings.getPotentiallyInfiniteDuration(config, "commit-refresh-interval")
     val dispatcher = config.getString("use-dispatcher")
-    val waitClosePartition = config.getDuration("wait-close-partition").asScala
-    val positionTimeout = config.getDuration("position-timeout").asScala
-    val offsetForTimesTimeout = config.getDuration("offset-for-times-timeout").asScala
-    val metadataRequestTimeout = config.getDuration("metadata-request-timeout").asScala
-    val drainingCheckInterval = config.getDuration("eos-draining-check-interval").asScala
+    val waitClosePartition = config.getDuration("wait-close-partition").toScala
+    val positionTimeout = config.getDuration("position-timeout").toScala
+    val offsetForTimesTimeout = config.getDuration("offset-for-times-timeout").toScala
+    val metadataRequestTimeout = config.getDuration("metadata-request-timeout").toScala
+    val drainingCheckInterval = config.getDuration("eos-draining-check-interval").toScala
     val connectionCheckerSettings = ConnectionCheckerSettings(config.getConfig(ConnectionCheckerSettings.configPath))
-    val partitionHandlerWarning = config.getDuration("partition-handler-warning").asScala
+    val partitionHandlerWarning = config.getDuration("partition-handler-warning").toScala
     val resetProtectionThreshold = OffsetResetProtectionSettings(
       config.getConfig(OffsetResetProtectionSettings.configPath))
 
@@ -339,7 +339,7 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
    * Set the maximum duration a poll to the Kafka broker is allowed to take.
    */
   def withPollTimeout(pollTimeout: java.time.Duration): ConsumerSettings[K, V] =
-    copy(pollTimeout = pollTimeout.asScala)
+    copy(pollTimeout = pollTimeout.toScala)
 
   /**
    * Set the interval from one scheduled poll to the next.
@@ -352,7 +352,7 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
    * Set the interval from one scheduled poll to the next.
    */
   def withPollInterval(pollInterval: java.time.Duration): ConsumerSettings[K, V] =
-    copy(pollInterval = pollInterval.asScala)
+    copy(pollInterval = pollInterval.toScala)
 
   /**
    * The stage will await outstanding offset commit requests before
@@ -369,7 +369,7 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
    * stop forcefully.
    */
   def withStopTimeout(stopTimeout: java.time.Duration): ConsumerSettings[K, V] =
-    copy(stopTimeout = stopTimeout.asScala)
+    copy(stopTimeout = stopTimeout.toScala)
 
   /**
    * Set duration to wait for `KafkaConsumer.close` to finish.
@@ -382,7 +382,7 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
    * Set duration to wait for `KafkaConsumer.close` to finish.
    */
   def withCloseTimeout(closeTimeout: java.time.Duration): ConsumerSettings[K, V] =
-    copy(closeTimeout = closeTimeout.asScala)
+    copy(closeTimeout = closeTimeout.toScala)
 
   /**
    * If offset commit requests are not completed within this timeout
@@ -397,7 +397,7 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
    * the returned Future is completed with [[pekko.kafka.CommitTimeoutException]].
    */
   def withCommitTimeout(commitTimeout: java.time.Duration): ConsumerSettings[K, V] =
-    copy(commitTimeout = commitTimeout.asScala)
+    copy(commitTimeout = commitTimeout.toScala)
 
   /**
    * If commits take longer than this time a warning is logged
@@ -410,7 +410,7 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
    * If commits take longer than this time a warning is logged
    */
   def withCommitWarning(commitTimeWarning: java.time.Duration): ConsumerSettings[K, V] =
-    copy(commitTimeWarning = commitTimeWarning.asScala)
+    copy(commitTimeWarning = commitTimeWarning.toScala)
 
   /**
    * Fully qualified config path which holds the dispatcher configuration
@@ -438,7 +438,7 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
    */
   def withCommitRefreshInterval(commitRefreshInterval: java.time.Duration): ConsumerSettings[K, V] =
     if (commitRefreshInterval.isZero) copy(commitRefreshInterval = Duration.Inf)
-    else copy(commitRefreshInterval = commitRefreshInterval.asScala)
+    else copy(commitRefreshInterval = commitRefreshInterval.toScala)
 
   /**
    * Time to wait for pending requests when a partition is closed.
@@ -458,7 +458,7 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
    * Time to wait for pending requests when a partition is closed.
    */
   def withWaitClosePartition(waitClosePartition: java.time.Duration): ConsumerSettings[K, V] =
-    copy(waitClosePartition = waitClosePartition.asScala)
+    copy(waitClosePartition = waitClosePartition.toScala)
 
   /** Scala API: Limits the blocking on Kafka consumer position calls. */
   def withPositionTimeout(positionTimeout: FiniteDuration): ConsumerSettings[K, V] =
@@ -466,7 +466,7 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
 
   /** Java API: Limits the blocking on Kafka consumer position calls. */
   def withPositionTimeout(positionTimeout: java.time.Duration): ConsumerSettings[K, V] =
-    copy(positionTimeout = positionTimeout.asScala)
+    copy(positionTimeout = positionTimeout.toScala)
 
   /** Scala API: Limits the blocking on Kafka consumer offsetForTimes calls. */
   def withOffsetForTimesTimeout(offsetForTimesTimeout: FiniteDuration): ConsumerSettings[K, V] =
@@ -474,7 +474,7 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
 
   /** Java API: Limits the blocking on Kafka consumer offsetForTimes calls. */
   def withOffsetForTimesTimeout(offsetForTimesTimeout: java.time.Duration): ConsumerSettings[K, V] =
-    copy(offsetForTimesTimeout = offsetForTimesTimeout.asScala)
+    copy(offsetForTimesTimeout = offsetForTimesTimeout.toScala)
 
   /** Scala API */
   def withMetadataRequestTimeout(metadataRequestTimeout: FiniteDuration): ConsumerSettings[K, V] =
@@ -482,7 +482,7 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
 
   /** Java API */
   def withMetadataRequestTimeout(metadataRequestTimeout: java.time.Duration): ConsumerSettings[K, V] =
-    copy(metadataRequestTimeout = metadataRequestTimeout.asScala)
+    copy(metadataRequestTimeout = metadataRequestTimeout.toScala)
 
   /** Scala API: Check interval for TransactionalProducer when finishing transaction before shutting down consumer */
   def withDrainingCheckInterval(drainingCheckInterval: FiniteDuration): ConsumerSettings[K, V] =
@@ -490,7 +490,7 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
 
   /** Java API: Check interval for TransactionalProducer when finishing transaction before shutting down consumer */
   def withDrainingCheckInterval(drainingCheckInterval: java.time.Duration): ConsumerSettings[K, V] =
-    copy(drainingCheckInterval = drainingCheckInterval.asScala)
+    copy(drainingCheckInterval = drainingCheckInterval.toScala)
 
   /** Scala API */
   def withPartitionHandlerWarning(partitionHandlerWarning: FiniteDuration): ConsumerSettings[K, V] =
@@ -498,7 +498,7 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
 
   /** Java API */
   def withPartitionHandlerWarning(partitionHandlerWarning: java.time.Duration): ConsumerSettings[K, V] =
-    copy(partitionHandlerWarning = partitionHandlerWarning.asScala)
+    copy(partitionHandlerWarning = partitionHandlerWarning.toScala)
 
   /**
    * Scala API.
@@ -535,10 +535,10 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
    */
   def getProperties: java.util.Map[String, AnyRef] = properties.asInstanceOf[Map[String, AnyRef]].asJava
 
-  def getCloseTimeout: java.time.Duration = closeTimeout.asJava
-  def getPositionTimeout: java.time.Duration = positionTimeout.asJava
-  def getOffsetForTimesTimeout: java.time.Duration = offsetForTimesTimeout.asJava
-  def getMetadataRequestTimeout: java.time.Duration = metadataRequestTimeout.asJava
+  def getCloseTimeout: java.time.Duration = closeTimeout.toJava
+  def getPositionTimeout: java.time.Duration = positionTimeout.toJava
+  def getOffsetForTimesTimeout: java.time.Duration = offsetForTimesTimeout.toJava
+  def getMetadataRequestTimeout: java.time.Duration = metadataRequestTimeout.toJava
 
   private def copy(
       properties: Map[String, String] = properties,

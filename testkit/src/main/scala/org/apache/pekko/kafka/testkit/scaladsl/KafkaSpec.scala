@@ -31,7 +31,6 @@ import pekko.stream.scaladsl.{ Keep, Source }
 import pekko.stream.testkit.TestSubscriber
 import pekko.stream.testkit.scaladsl.TestSink
 import pekko.testkit.TestKit
-import pekko.util.ccompat.JavaConverters._
 import org.apache.kafka.clients.admin._
 import org.apache.kafka.clients.producer.{ Producer => KProducer, ProducerRecord }
 import org.apache.kafka.common.ConsumerGroupState
@@ -40,6 +39,7 @@ import org.slf4j.{ Logger, LoggerFactory }
 import scala.collection.immutable
 import scala.concurrent.duration._
 import scala.concurrent.{ Await, ExecutionContext, Future }
+import scala.jdk.CollectionConverters._
 import scala.util.Try
 
 abstract class KafkaSpec(_kafkaPort: Int, val zooKeeperPort: Int, actorSystem: ActorSystem)

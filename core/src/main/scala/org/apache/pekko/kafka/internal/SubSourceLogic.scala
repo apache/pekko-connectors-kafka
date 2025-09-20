@@ -29,7 +29,6 @@ import pekko.stream.scaladsl.Source
 import pekko.stream.stage.GraphStageLogic.StageActor
 import pekko.stream.stage._
 import pekko.stream.{ Attributes, Outlet, SourceShape }
-import pekko.util.ccompat._
 import pekko.util.Timeout
 import org.apache.kafka.common.TopicPartition
 

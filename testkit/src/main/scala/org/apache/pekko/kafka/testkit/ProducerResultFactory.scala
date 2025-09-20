@@ -17,11 +17,11 @@ package org.apache.pekko.kafka.testkit
 import org.apache.pekko
 import pekko.annotation.ApiMayChange
 import pekko.kafka.ProducerMessage
-import pekko.util.ccompat.JavaConverters._
 import org.apache.kafka.clients.producer.{ ProducerRecord, RecordMetadata }
 import org.apache.kafka.common.TopicPartition
 
 import scala.collection.immutable
+import scala.jdk.CollectionConverters._
 
 /**
  * Factory methods to create instances that normally are emitted by [[pekko.kafka.scaladsl.Producer]] and [[pekko.kafka.javadsl.Producer]] flows.

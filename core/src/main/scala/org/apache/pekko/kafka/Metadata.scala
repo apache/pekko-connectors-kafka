@@ -18,12 +18,11 @@ import java.util.Optional
 
 import org.apache.pekko
 import pekko.actor.NoSerializationVerificationNeeded
-import pekko.util.ccompat._
-import pekko.util.ccompat.JavaConverters._
 import org.apache.kafka.clients.consumer.{ OffsetAndMetadata, OffsetAndTimestamp }
 import org.apache.kafka.common.{ PartitionInfo, TopicPartition }
 
 import scala.util.Try
+import scala.jdk.CollectionConverters._
 
 /**
  * Messages for Kafka metadata fetching via [[KafkaConsumerActor]].

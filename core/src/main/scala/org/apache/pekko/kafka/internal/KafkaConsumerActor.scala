@@ -31,13 +31,10 @@ import pekko.actor.{
   Timers
 }
 import pekko.annotation.InternalApi
-import pekko.util.JavaDurationConverters._
 import pekko.event.LoggingReceive
 import pekko.kafka.KafkaConsumerActor.{ StopLike, StoppingException }
 import pekko.kafka._
 import pekko.kafka.scaladsl.PartitionAssignmentHandler
-import pekko.util.ccompat._
-import pekko.util.ccompat.JavaConverters._
 import org.apache.kafka.clients.consumer._
 import org.apache.kafka.common.errors.RebalanceInProgressException
 import org.apache.kafka.common.{ Metric, MetricName, TopicPartition }
@@ -45,6 +42,8 @@ import org.apache.kafka.common.{ Metric, MetricName, TopicPartition }
 import scala.annotation.nowarn
 import scala.concurrent.{ ExecutionContext, Future }
 import scala.concurrent.duration._
+import scala.jdk.CollectionConverters._
+import scala.jdk.DurationConverters._
 import scala.util.{ Success, Try }
 import scala.util.control.NonFatal
 
@@ -420,7 +419,7 @@ import scala.util.control.NonFatal
     this.settings = updatedSettings
     if (settings.connectionCheckerSettings.enable)
       context.actorOf(ConnectionChecker.props(settings.connectionCheckerSettings))
-    pollTimeout = settings.pollTimeout.asJava
+    pollTimeout = settings.pollTimeout.toJava
     offsetForTimesTimeout = settings.getOffsetForTimesTimeout
     positionTimeout = settings.getPositionTimeout
     val progressTrackingFactory: () => ConsumerProgressTracking = () => ensureProgressTracker()
@@ -763,7 +762,8 @@ import scala.util.control.NonFatal
   private[KafkaConsumerActor] final class RebalanceListenerImpl(
       partitionAssignmentHandler: PartitionAssignmentHandler) extends RebalanceListener {
 
-    private val restrictedConsumer = new RestrictedConsumer(consumer, settings.partitionHandlerWarning.*(0.95d).asJava)
+    private val restrictedConsumer =
+      new RestrictedConsumer(consumer, toJavaDuration(settings.partitionHandlerWarning.*(0.95d)))
     private val warningDuration = settings.partitionHandlerWarning.toNanos
 
     override def onPartitionsAssigned(partitions: java.util.Collection[TopicPartition]): Unit = {
@@ -806,6 +806,13 @@ import scala.util.control.NonFatal
           method,
           duration / 1000000L)
       }
+    }
+
+    // scala.jdk.DurationConverters only works with FiniteDuration
+    // the value here should always be finite
+    private def toJavaDuration(d: Duration): java.time.Duration = d match {
+      case fd: FiniteDuration => fd.toJava
+      case _                  => throw new IllegalArgumentException(s"Expected FiniteDuration, got $d")
     }
   }
 

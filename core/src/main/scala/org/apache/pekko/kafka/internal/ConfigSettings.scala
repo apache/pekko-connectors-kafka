@@ -22,8 +22,8 @@ import com.typesafe.config.{ Config, ConfigObject }
 
 import scala.annotation.tailrec
 import scala.concurrent.duration.Duration
-import pekko.util.ccompat.JavaConverters._
-import pekko.util.JavaDurationConverters._
+import scala.jdk.CollectionConverters._
+import scala.jdk.DurationConverters._
 
 /**
  * INTERNAL API
@@ -52,7 +52,7 @@ import pekko.util.JavaDurationConverters._
   }
 
   import org.apache.kafka
-  import org.apache.pekko.util.ccompat.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   def serializeAndMaskKafkaProperties[A <: kafka.common.config.AbstractConfig](
       properties: Map[String, AnyRef], constructor: java.util.Map[String, AnyRef] => A): String = {
@@ -69,7 +69,7 @@ import pekko.util.JavaDurationConverters._
 
   def getPotentiallyInfiniteDuration(underlying: Config, path: String): Duration = underlying.getString(path) match {
     case "infinite" => Duration.Inf
-    case _          => underlying.getDuration(path).asScala
+    case _          => underlying.getDuration(path).toScala
   }
 
 }

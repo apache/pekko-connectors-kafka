@@ -19,17 +19,16 @@ import org.apache.pekko
 import pekko.Done
 import pekko.actor.ActorRef
 import pekko.annotation.InternalApi
-import pekko.dispatch.ExecutionContexts
 import pekko.kafka.internal.KafkaConsumerActor.Internal.{ ConsumerMetrics, RequestMetrics }
 import pekko.kafka.{ javadsl, scaladsl }
 import pekko.stream.SourceShape
 import pekko.stream.stage.GraphStageLogic
-import pekko.util.ccompat.JavaConverters._
-import pekko.util.FutureConverters._
 import pekko.util.Timeout
 import org.apache.kafka.common.{ Metric, MetricName }
 
 import scala.concurrent.{ ExecutionContext, Future, Promise }
+import scala.jdk.CollectionConverters._
+import scala.jdk.FutureConverters._
 
 private object PromiseControl {
   sealed trait ControlOperation
@@ -96,7 +95,7 @@ private trait MetricsControl extends scaladsl.Consumer.Control {
         consumer
           .ask(RequestMetrics)(Timeout(1.minute))
           .mapTo[ConsumerMetrics]
-          .map(_.metrics)(ExecutionContexts.parasitic)
+          .map(_.metrics)(ExecutionContext.parasitic)
       }(executionContext)
   }
 }
@@ -115,7 +114,7 @@ final private[kafka] class ConsumerControlAsJava(underlying: scaladsl.Consumer.C
   override def isShutdown: CompletionStage[Done] = underlying.isShutdown.asJava
 
   override def getMetrics: CompletionStage[java.util.Map[MetricName, Metric]] =
-    underlying.metrics.map(_.asJava)(ExecutionContexts.parasitic).asJava
+    underlying.metrics.map(_.asJava)(ExecutionContext.parasitic).asJava
 }
 
 /** Internal API */

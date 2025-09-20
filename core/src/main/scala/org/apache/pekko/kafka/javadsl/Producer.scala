@@ -15,6 +15,7 @@
 package org.apache.pekko.kafka.javadsl
 
 import java.util.concurrent.CompletionStage
+
 import org.apache.pekko
 import pekko.annotation.ApiMayChange
 import pekko.kafka.ConsumerMessage.Committable
@@ -22,10 +23,10 @@ import pekko.kafka.ProducerMessage._
 import pekko.kafka.{ scaladsl, CommitterSettings, ConsumerMessage, ProducerSettings }
 import pekko.stream.javadsl.{ Flow, FlowWithContext, Sink }
 import pekko.{ japi, Done, NotUsed }
-import pekko.util.FutureConverters._
 import org.apache.kafka.clients.producer.ProducerRecord
 
 import scala.annotation.nowarn
+import scala.jdk.FutureConverters._
 
 /**
  * Apache Pekko Stream connector for publishing messages to Kafka topics.

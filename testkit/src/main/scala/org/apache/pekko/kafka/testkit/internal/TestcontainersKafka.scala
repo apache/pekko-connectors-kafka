@@ -17,11 +17,12 @@ package org.apache.pekko.kafka.testkit.internal
 import org.apache.pekko
 import pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
 import pekko.kafka.testkit.scaladsl.KafkaSpec
-import pekko.util.JavaDurationConverters._
-import pekko.util.OptionConverters._
-import pekko.util.ccompat.JavaConverters._
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.utility.DockerImageName
+
+import scala.jdk.CollectionConverters._
+import scala.jdk.DurationConverters._
+import scala.jdk.OptionConverters._
 
 object TestcontainersKafka {
   trait Spec extends KafkaSpec {
@@ -85,8 +86,8 @@ object TestcontainersKafka {
           internalTopicsReplicationFactor,
           settings.useSchemaRegistry,
           settings.containerLogging,
-          settings.clusterStartTimeout.asJava,
-          settings.readinessCheckTimeout.asJava)
+          settings.clusterStartTimeout.toJava,
+          settings.readinessCheckTimeout.toJava)
         configureKafka(brokerContainers)
         configureKafkaConsumer.accept(brokerContainers.asJavaCollection)
         zookeeperContainer match {

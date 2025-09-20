@@ -17,7 +17,6 @@ package org.apache.pekko.kafka.internal
 import org.apache.pekko
 import pekko.actor.ActorRef
 import pekko.annotation.InternalApi
-import pekko.dispatch.ExecutionContexts
 import pekko.kafka.ConsumerMessage.{ CommittableMessage, CommittableOffset }
 import pekko.kafka._
 import pekko.kafka.internal.KafkaConsumerActor.Internal.{ Commit, CommitSingle, CommitWithoutReply }
@@ -153,7 +152,7 @@ private[kafka] object KafkaAsyncConsumerCommitterRef {
     }
     getFirstExecutionContext(batch)
       .map { implicit ec =>
-        Future.sequence(futures).map(_ => Done)(ExecutionContexts.parasitic)
+        Future.sequence(futures).map(_ => Done)(ExecutionContext.parasitic)
       }
       .getOrElse(Future.successful(Done))
   }
@@ -211,7 +210,7 @@ private[kafka] class KafkaAsyncConsumerCommitterRef(private val consumerActor: A
     import pekko.pattern.ask
     consumerActor
       .ask(msg)(Timeout(commitTimeout))
-      .map(_ => Done)(ExecutionContexts.parasitic)
+      .map(_ => Done)(ExecutionContext.parasitic)
       .recoverWith {
         case e: AskTimeoutException =>
           Future.failed(new CommitTimeoutException(s"Kafka commit took longer than: $commitTimeout (${e.getMessage})"))

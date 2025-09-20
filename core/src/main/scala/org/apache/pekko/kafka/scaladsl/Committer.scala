@@ -16,14 +16,13 @@ package org.apache.pekko.kafka.scaladsl
 
 import org.apache.pekko
 import pekko.annotation.ApiMayChange
-import pekko.dispatch.ExecutionContexts
 import pekko.kafka.CommitterSettings
 import pekko.kafka.ConsumerMessage.{ Committable, CommittableOffsetBatch }
 import pekko.kafka.internal.CommitCollectorStage
 import pekko.stream.scaladsl.{ Flow, FlowWithContext, Keep, Sink }
 import pekko.{ Done, NotUsed }
 
-import scala.concurrent.Future
+import scala.concurrent.{ ExecutionContext, Future }
 
 object Committer {
 
@@ -47,7 +46,7 @@ object Committer {
       case WaitForAck =>
         offsetBatches
           .mapAsyncUnordered(settings.parallelism) { batch =>
-            batch.commitInternal().map(_ => batch)(ExecutionContexts.parasitic)
+            batch.commitInternal().map(_ => batch)(ExecutionContext.parasitic)
           }
       case SendAndForget =>
         offsetBatches.map(_.tellCommit())

@@ -21,7 +21,7 @@ import pekko.kafka.scaladsl.PartitionAssignmentHandler
 import pekko.kafka.javadsl
 import pekko.kafka.{ AutoSubscription, RestrictedConsumer, TopicPartitionsAssigned, TopicPartitionsRevoked }
 import pekko.stream.stage.AsyncCallback
-import pekko.util.ccompat.JavaConverters._
+import scala.jdk.CollectionConverters._
 import org.apache.kafka.common.TopicPartition
 
 /**

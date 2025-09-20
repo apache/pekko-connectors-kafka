@@ -16,13 +16,13 @@ package org.apache.pekko.kafka.internal
 
 import org.apache.pekko
 import pekko.kafka.tests.scaladsl.LogCapturing
-import pekko.util.ccompat.JavaConverters._
 import org.apache.kafka.clients.consumer.{ Consumer, ConsumerRecord, ConsumerRecords, OffsetAndMetadata }
 import org.apache.kafka.common.TopicPartition
 import org.mockito.Mockito
 import org.scalatest.flatspec.AnyFlatSpecLike
 import org.scalatest.matchers.should.Matchers
 
+import scala.jdk.CollectionConverters._
 import scala.language.reflectiveCalls
 
 class ConsumerProgressTrackingSpec extends AnyFlatSpecLike with Matchers with LogCapturing {

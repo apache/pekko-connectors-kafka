@@ -16,7 +16,7 @@ package org.apache.pekko.kafka.internal
 
 import org.apache.pekko
 import pekko.annotation.InternalApi
-import pekko.util.ccompat.JavaConverters._
+import scala.jdk.CollectionConverters._
 import org.apache.kafka.clients.consumer.{ Consumer, ConsumerRecords, OffsetAndMetadata }
 import org.apache.kafka.common.TopicPartition
 

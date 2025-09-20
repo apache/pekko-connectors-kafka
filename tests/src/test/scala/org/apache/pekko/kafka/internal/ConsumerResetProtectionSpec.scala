@@ -22,7 +22,6 @@ import pekko.kafka.internal.KafkaConsumerActor.Internal.Seek
 import pekko.kafka.testkit.scaladsl.Slf4jToPekkoLoggingAdapter
 import pekko.kafka.tests.scaladsl.LogCapturing
 import pekko.testkit.{ ImplicitSender, TestKit }
-import pekko.util.ccompat.JavaConverters._
 import org.apache.kafka.clients.consumer.{ ConsumerRecord, ConsumerRecords }
 import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.header.internals.RecordHeaders
@@ -33,6 +32,7 @@ import org.slf4j.{ Logger, LoggerFactory }
 
 import java.util.Optional
 import scala.concurrent.duration._
+import scala.jdk.CollectionConverters._
 
 class ConsumerResetProtectionSpec
     extends TestKit(ActorSystem("ConsumerResetProtectionSpec"))

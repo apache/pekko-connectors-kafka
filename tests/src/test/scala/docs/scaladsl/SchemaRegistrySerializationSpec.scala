@@ -25,7 +25,6 @@ import pekko.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
 import pekko.stream.scaladsl.{ Keep, Sink, Source }
 import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import pekko.stream.testkit.scaladsl.TestSink
-import pekko.util.ccompat.JavaConverters._
 import io.confluent.kafka.serializers.KafkaAvroDeserializerConfig
 import org.apache.avro.specific.SpecificRecordBase
 import org.apache.avro.util.Utf8
@@ -34,6 +33,7 @@ import org.apache.kafka.common.TopicPartition
 
 import scala.collection.immutable
 import scala.concurrent.duration._
+import scala.jdk.CollectionConverters._
 // #imports
 import io.confluent.kafka.serializers.{ AbstractKafkaAvroSerDeConfig, KafkaAvroDeserializer, KafkaAvroSerializer }
 import org.apache.avro.specific.SpecificRecord

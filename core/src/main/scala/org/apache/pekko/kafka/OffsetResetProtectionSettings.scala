@@ -13,14 +13,15 @@
  */
 
 package org.apache.pekko.kafka
+
 import java.time.{ Duration => JDuration }
 
 import org.apache.pekko
 import pekko.annotation.InternalApi
-import pekko.util.JavaDurationConverters._
 import com.typesafe.config.Config
 
 import scala.concurrent.duration._
+import scala.jdk.DurationConverters._
 
 class OffsetResetProtectionSettings @InternalApi private[kafka] (val enable: Boolean,
     val offsetThreshold: Long,
@@ -60,7 +61,7 @@ class OffsetResetProtectionSettings @InternalApi private[kafka] (val enable: Boo
    * If the record is more than this duration earlier the last received record, it is considered a reset
    */
   def withTimeThreshold(timeThreshold: JDuration): OffsetResetProtectionSettings =
-    copy(timeThreshold = timeThreshold.asScala)
+    copy(timeThreshold = timeThreshold.toScala)
 
   override def toString: String =
     s"org.apache.pekko.kafka.OffsetResetProtectionSettings(" +
@@ -89,7 +90,7 @@ object OffsetResetProtectionSettings {
    * threshold are considered indicative of an offset reset.
    */
   def apply(offsetThreshold: Long, timeThreshold: java.time.Duration): OffsetResetProtectionSettings =
-    new OffsetResetProtectionSettings(true, offsetThreshold, timeThreshold.asScala)
+    new OffsetResetProtectionSettings(true, offsetThreshold, timeThreshold.toScala)
 
   /**
    * Create settings from a configuration with layout `connection-checker`.
@@ -98,7 +99,7 @@ object OffsetResetProtectionSettings {
     val enable = config.getBoolean("enable")
     if (enable) {
       val offsetThreshold = config.getLong("offset-threshold")
-      val timeThreshold = config.getDuration("time-threshold").asScala
+      val timeThreshold = config.getDuration("time-threshold").toScala
       apply(offsetThreshold, timeThreshold)
     } else Disabled
   }

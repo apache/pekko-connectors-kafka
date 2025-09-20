@@ -26,8 +26,9 @@ import pekko.kafka.internal.{ ConsumerControlAsJava, TransactionalSourceWithOffs
 import pekko.kafka.javadsl.Consumer.Control
 import pekko.stream.javadsl._
 import pekko.{ Done, NotUsed }
-import pekko.util.FutureConverters._
 import org.apache.kafka.clients.consumer.ConsumerRecord
+
+import scala.jdk.FutureConverters._
 
 /**
  *  Apache Pekko Stream connector to support transactions between Kafka topics.
