@@ -26,7 +26,7 @@ import pekko.kafka._
 import pekko.kafka.internal.{ ConsumerControlAsJava, SourceWithOffsetContext }
 import pekko.stream.javadsl.{ Source, SourceWithContext }
 import pekko.{ Done, NotUsed }
-import pekko.util.FutureConverters._
+import scala.jdk.FutureConverters._
 import scala.jdk.CollectionConverters._
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.common.{ Metric, MetricName, TopicPartition }

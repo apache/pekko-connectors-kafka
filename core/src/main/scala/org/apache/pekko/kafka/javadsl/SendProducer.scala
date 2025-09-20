@@ -21,7 +21,7 @@ import pekko.Done
 import pekko.actor.{ ActorSystem, ClassicActorSystemProvider }
 import pekko.kafka.ProducerMessage._
 import pekko.kafka.{ scaladsl, ProducerSettings }
-import pekko.util.FutureConverters._
+import scala.jdk.FutureConverters._
 import org.apache.kafka.clients.producer.{ ProducerRecord, RecordMetadata }
 
 /**

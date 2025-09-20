@@ -22,7 +22,7 @@ import org.apache.pekko
 import pekko.Done
 import pekko.kafka.internal.ConsumerControlAsJava
 import pekko.kafka.tests.scaladsl.LogCapturing
-import pekko.util.FutureConverters._
+import scala.jdk.FutureConverters._
 import org.apache.kafka.common.{ Metric, MetricName }
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.matchers.should.Matchers

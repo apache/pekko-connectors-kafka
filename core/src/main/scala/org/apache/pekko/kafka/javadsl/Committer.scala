@@ -23,7 +23,7 @@ import pekko.{ Done, NotUsed }
 import pekko.kafka.ConsumerMessage.{ Committable, CommittableOffsetBatch }
 import pekko.kafka.{ scaladsl, CommitterSettings }
 import pekko.stream.javadsl.{ Flow, FlowWithContext, Sink }
-import pekko.util.FutureConverters._
+import scala.jdk.FutureConverters._
 
 object Committer {
 

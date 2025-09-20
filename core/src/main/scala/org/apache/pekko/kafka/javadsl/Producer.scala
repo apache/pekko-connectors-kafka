@@ -22,7 +22,7 @@ import pekko.kafka.ProducerMessage._
 import pekko.kafka.{ scaladsl, CommitterSettings, ConsumerMessage, ProducerSettings }
 import pekko.stream.javadsl.{ Flow, FlowWithContext, Sink }
 import pekko.{ japi, Done, NotUsed }
-import pekko.util.FutureConverters._
+import scala.jdk.FutureConverters._
 import org.apache.kafka.clients.producer.ProducerRecord
 
 import scala.annotation.nowarn

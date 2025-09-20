@@ -26,7 +26,7 @@ import pekko.kafka.internal.{ ConsumerControlAsJava, TransactionalSourceWithOffs
 import pekko.kafka.javadsl.Consumer.Control
 import pekko.stream.javadsl._
 import pekko.{ Done, NotUsed }
-import pekko.util.FutureConverters._
+import scala.jdk.FutureConverters._
 import org.apache.kafka.clients.consumer.ConsumerRecord
 
 /**

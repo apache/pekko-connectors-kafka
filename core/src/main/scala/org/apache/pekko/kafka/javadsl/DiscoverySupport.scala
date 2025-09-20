@@ -20,7 +20,7 @@ import org.apache.pekko
 import pekko.actor.{ ActorSystem, ClassicActorSystemProvider }
 import pekko.kafka.{ scaladsl, ConsumerSettings, ProducerSettings }
 import pekko.util.FunctionConverters._
-import pekko.util.FutureConverters._
+import scala.jdk.FutureConverters._
 import com.typesafe.config.Config
 
 import scala.concurrent.Future
