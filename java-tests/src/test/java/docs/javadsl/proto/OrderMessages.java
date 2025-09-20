@@ -92,8 +92,8 @@ public final class OrderMessages {
     @java.lang.Override
     public java.lang.String getId() {
       java.lang.Object ref = id_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
+      if (ref instanceof java.lang.String s) {
+        return s;
       } else {
         com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
@@ -109,9 +109,9 @@ public final class OrderMessages {
     @java.lang.Override
     public com.google.protobuf.ByteString getIdBytes() {
       java.lang.Object ref = id_;
-      if (ref instanceof java.lang.String) {
+      if (ref instanceof java.lang.String s) {
         com.google.protobuf.ByteString b =
-            com.google.protobuf.ByteString.copyFromUtf8((java.lang.String) ref);
+            com.google.protobuf.ByteString.copyFromUtf8(s);
         id_ = b;
         return b;
       } else {
@@ -158,14 +158,13 @@ public final class OrderMessages {
       if (obj == this) {
         return true;
       }
-      if (!(obj instanceof docs.javadsl.proto.OrderMessages.Order)) {
+      if (obj instanceof docs.javadsl.proto.OrderMessages.Order other) {
+        if (!getId().equals(other.getId())) return false;
+        if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+        return true;
+      } else {
         return super.equals(obj);
       }
-      docs.javadsl.proto.OrderMessages.Order other = (docs.javadsl.proto.OrderMessages.Order) obj;
-
-      if (!getId().equals(other.getId())) return false;
-      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
-      return true;
     }
 
     @java.lang.Override
@@ -386,8 +385,8 @@ public final class OrderMessages {
 
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof docs.javadsl.proto.OrderMessages.Order) {
-          return mergeFrom((docs.javadsl.proto.OrderMessages.Order) other);
+        if (other instanceof docs.javadsl.proto.OrderMessages.Order order) {
+          return mergeFrom(order);
         } else {
           super.mergeFrom(other);
           return this;
@@ -460,13 +459,13 @@ public final class OrderMessages {
        */
       public java.lang.String getId() {
         java.lang.Object ref = id_;
-        if (!(ref instanceof java.lang.String)) {
+        if (ref instanceof java.lang.String s) {
+          return s;
+        } else {
           com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
           id_ = s;
           return s;
-        } else {
-          return (java.lang.String) ref;
         }
       }
       /**
@@ -476,9 +475,9 @@ public final class OrderMessages {
        */
       public com.google.protobuf.ByteString getIdBytes() {
         java.lang.Object ref = id_;
-        if (ref instanceof String) {
+        if (ref instanceof String s) {
           com.google.protobuf.ByteString b =
-              com.google.protobuf.ByteString.copyFromUtf8((java.lang.String) ref);
+              com.google.protobuf.ByteString.copyFromUtf8(s);
           id_ = b;
           return b;
         } else {
