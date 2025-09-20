@@ -123,11 +123,8 @@ jobs:
       matrix:
         include:
           - { java-version: 17,  scala-version: 2.12, sbt-opts: '' }
-          - { java-version: 17, scala-version: 2.12, sbt-opts: '-J-XX:+UnlockExperimentalVMOptions -J-XX:+UseJVMCICompiler' }
           - { java-version: 17,  scala-version: 2.13, sbt-opts: '' }
-          - { java-version: 17, scala-version: 2.13, sbt-opts: '-J-XX:+UnlockExperimentalVMOptions -J-XX:+UseJVMCICompiler' }
           - { java-version: 17,  scala-version: 3.3, sbt-opts: '' }
-          - { java-version: 17, scala-version: 3.3, sbt-opts: '-J-XX:+UnlockExperimentalVMOptions -J-XX:+UseJVMCICompiler' }
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
