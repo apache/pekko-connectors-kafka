@@ -762,7 +762,8 @@ import scala.util.control.NonFatal
   private[KafkaConsumerActor] final class RebalanceListenerImpl(
       partitionAssignmentHandler: PartitionAssignmentHandler) extends RebalanceListener {
 
-    private val restrictedConsumer = new RestrictedConsumer(consumer, toJavaDuration(settings.partitionHandlerWarning.*(0.95d)))
+    private val restrictedConsumer =
+      new RestrictedConsumer(consumer, toJavaDuration(settings.partitionHandlerWarning.*(0.95d)))
     private val warningDuration = settings.partitionHandlerWarning.toNanos
 
     override def onPartitionsAssigned(partitions: java.util.Collection[TopicPartition]): Unit = {
@@ -808,7 +809,7 @@ import scala.util.control.NonFatal
     }
 
     // scala.jdk.DurationConverters only works with FiniteDuration
-    // the value here should always be finite 
+    // the value here should always be finite
     private def toJavaDuration(d: Duration): java.time.Duration = d match {
       case fd: FiniteDuration => fd.toJava
       case _                  => throw new IllegalArgumentException(s"Expected FiniteDuration, got $d")
