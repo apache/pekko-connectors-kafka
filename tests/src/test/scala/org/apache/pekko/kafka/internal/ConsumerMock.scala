@@ -18,7 +18,6 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 import org.apache.pekko
 import pekko.testkit.TestKit
-import pekko.util.JavaDurationConverters._
 import org.apache.kafka.clients.consumer._
 import org.apache.kafka.common.TopicPartition
 import org.mockito.Mockito._
@@ -30,6 +29,7 @@ import org.mockito.{ ArgumentMatchers, Mockito }
 import scala.collection.immutable.Seq
 import scala.concurrent.duration._
 import scala.jdk.CollectionConverters._
+import scala.jdk.DurationConverters._
 
 object ConsumerMock {
   type OnCompleteHandler = Map[TopicPartition, OffsetAndMetadata] => (Map[TopicPartition, OffsetAndMetadata], Exception)
@@ -169,7 +169,7 @@ class ConsumerMock[K, V](handler: ConsumerMock.CommitHandler = new ConsumerMock.
     }
 
   def verifyClosed(mode: VerificationMode = Mockito.times(1)) =
-    verify(mock, mode).close(ConsumerMock.closeTimeout.asJava)
+    verify(mock, mode).close(ConsumerMock.closeTimeout.toJava)
 
   def verifyPoll(mode: VerificationMode = Mockito.atLeastOnce()) =
     verify(mock, mode).poll(ArgumentMatchers.any[java.time.Duration])

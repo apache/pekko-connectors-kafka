@@ -23,7 +23,7 @@ import com.typesafe.config.{ Config, ConfigObject }
 import scala.annotation.tailrec
 import scala.concurrent.duration.Duration
 import scala.jdk.CollectionConverters._
-import pekko.util.JavaDurationConverters._
+import scala.jdk.DurationConverters._
 
 /**
  * INTERNAL API
@@ -69,7 +69,7 @@ import pekko.util.JavaDurationConverters._
 
   def getPotentiallyInfiniteDuration(underlying: Config, path: String): Duration = underlying.getString(path) match {
     case "infinite" => Duration.Inf
-    case _          => underlying.getDuration(path).asScala
+    case _          => underlying.getDuration(path).toScala
   }
 
 }

@@ -16,13 +16,12 @@ package org.apache.pekko.kafka.internal
 
 import org.apache.pekko
 import pekko.annotation.InternalApi
-import pekko.dispatch.ExecutionContexts
 import pekko.kafka.ProducerSettings
 import pekko.stream.stage._
-import pekko.util.JavaDurationConverters._
 import org.apache.kafka.clients.producer.Producer
 
 import scala.concurrent.ExecutionContext
+import scala.jdk.DurationConverters._
 import scala.util.control.NonFatal
 import scala.util.{ Failure, Success }
 
@@ -89,7 +88,7 @@ private[kafka] trait DeferredProducer[K, V] {
               log.error(e, "producer creation failed")
               closeAndFailStageCb.invoke(e)
               e
-            })(ExecutionContexts.parasitic)
+            })(ExecutionContext.parasitic)
         changeProducerAssignmentLifecycle(AsyncCreateRequestSent)
     }
   }
@@ -112,7 +111,7 @@ private[kafka] trait DeferredProducer[K, V] {
       try {
         // we do not have to check if producer was already closed in send-callback as `flush()` and `close()` are effectively no-ops in this case
         producer.flush()
-        producer.close(producerSettings.closeTimeout.asJava)
+        producer.close(producerSettings.closeTimeout.toJava)
         log.debug("Producer closed")
       } catch {
         case NonFatal(ex) => log.error(ex, "Problem occurred during producer close")

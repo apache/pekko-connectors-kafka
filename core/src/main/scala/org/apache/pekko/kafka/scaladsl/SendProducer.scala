@@ -19,10 +19,10 @@ import pekko.Done
 import pekko.actor.{ ActorSystem, ClassicActorSystemProvider }
 import pekko.kafka.ProducerMessage._
 import pekko.kafka.ProducerSettings
-import pekko.util.JavaDurationConverters._
 import org.apache.kafka.clients.producer.{ Callback, ProducerRecord, RecordMetadata }
 
 import scala.concurrent.{ ExecutionContext, Future, Promise }
+import scala.jdk.DurationConverters._
 
 /**
  * Utility class for producing to Kafka without using Apache Pekko Streams.
@@ -96,7 +96,7 @@ final class SendProducer[K, V] private (val settings: ProducerSettings[K, V], sy
     if (settings.closeProducerOnStop) producerFuture.map { producer =>
       // we do not have to check if producer was already closed in send-callback as `flush()` and `close()` are effectively no-ops in this case
       producer.flush()
-      producer.close(settings.closeTimeout.asJava)
+      producer.close(settings.closeTimeout.toJava)
       Done
     }
     else Future.successful(Done)
