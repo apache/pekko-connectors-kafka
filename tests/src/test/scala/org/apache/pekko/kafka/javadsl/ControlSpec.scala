@@ -22,13 +22,13 @@ import org.apache.pekko
 import pekko.Done
 import pekko.kafka.internal.ConsumerControlAsJava
 import pekko.kafka.tests.scaladsl.LogCapturing
-import scala.jdk.FutureConverters._
 import org.apache.kafka.common.{ Metric, MetricName }
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
 import scala.concurrent.Future
+import scala.jdk.FutureConverters._
 import scala.language.reflectiveCalls
 
 object ControlSpec {

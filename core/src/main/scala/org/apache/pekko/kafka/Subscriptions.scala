@@ -19,10 +19,10 @@ import pekko.actor.ActorRef
 import pekko.annotation.{ ApiMayChange, InternalApi }
 import pekko.kafka.internal.PartitionAssignmentHelpers
 import pekko.kafka.internal.PartitionAssignmentHelpers.EmptyPartitionAssignmentHandler
-import scala.jdk.CollectionConverters._
 import org.apache.kafka.common.TopicPartition
 
 import scala.annotation.varargs
+import scala.jdk.CollectionConverters._
 
 sealed trait Subscription {
 

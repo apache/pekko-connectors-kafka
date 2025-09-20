@@ -19,11 +19,11 @@ import java.util.concurrent.CompletionStage
 import org.apache.pekko
 import pekko.actor.{ ActorSystem, ClassicActorSystemProvider }
 import pekko.kafka.{ scaladsl, ConsumerSettings, ProducerSettings }
-import pekko.util.FunctionConverters._
-import scala.jdk.FutureConverters._
 import com.typesafe.config.Config
 
 import scala.concurrent.Future
+import scala.jdk.FunctionConverters._
+import scala.jdk.FutureConverters._
 
 /**
  * Scala API.
