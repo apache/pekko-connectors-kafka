@@ -122,7 +122,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { java-version: 17,  scala-version: 2.12, sbt-opts: '' }
           - { java-version: 17,  scala-version: 2.13, sbt-opts: '' }
           - { java-version: 17,  scala-version: 3.3, sbt-opts: '' }
     steps:
