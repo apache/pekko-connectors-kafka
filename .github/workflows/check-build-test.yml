@@ -6,6 +6,7 @@ on:
     branches:
       - main
       - 1.0.x
+      - 1.1.x
     tags-ignore: [ v.* ]
 
 permissions: {}
@@ -37,11 +38,11 @@ jobs:
           git checkout scratch
 
 
-      - name: Setup Java 11
+      - name: Setup Java 17
         uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
         with:
           distribution: temurin
-          java-version: 11
+          java-version: 17
 
       - name: Install sbt
         uses: sbt/setup-sbt@6c68d2fe8dfbc0a0534d70101baa2e0420e1a506 # v1.1.9
@@ -69,11 +70,11 @@ jobs:
           git fetch origin pull/${{ github.event.pull_request.number }}/merge:scratch
           git checkout scratch
 
-      - name: Setup Java 11
+      - name: Setup Java 17
         uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
         with:
           distribution: temurin
-          java-version: 11
+          java-version: 17
 
       - name: Cache Coursier cache
         uses: coursier/cache-action@4e2615869d13561d626ed48655e1a39e5b192b3c # v6.4.7
@@ -98,11 +99,11 @@ jobs:
           git fetch origin pull/${{ github.event.pull_request.number }}/merge:scratch
           git checkout scratch
 
-      - name: Setup Java 11
+      - name: Setup Java 17
         uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
         with:
           distribution: temurin
-          java-version: 11
+          java-version: 17
 
       - name: Install sbt
         uses: sbt/setup-sbt@6c68d2fe8dfbc0a0534d70101baa2e0420e1a506 # v1.1.9
@@ -121,10 +122,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { java-version: 8,  scala-version: 2.13, sbt-opts: '' }
-          - { java-version: 11, scala-version: 2.13, sbt-opts: '-J-XX:+UnlockExperimentalVMOptions -J-XX:+UseJVMCICompiler' }
-          - { java-version: 8,  scala-version: 3.3, sbt-opts: '' }
-          - { java-version: 11, scala-version: 3.3, sbt-opts: '-J-XX:+UnlockExperimentalVMOptions -J-XX:+UseJVMCICompiler' }
+          - { java-version: 17,  scala-version: 2.13, sbt-opts: '' }
+          - { java-version: 17,  scala-version: 3.3, sbt-opts: '' }
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -174,11 +173,11 @@ jobs:
           git fetch origin pull/${{ github.event.pull_request.number }}/merge:scratch
           git checkout scratch
 
-      - name: Setup Java 8
+      - name: Setup Java 17
         uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
         with:
           distribution: temurin
-          java-version: 8
+          java-version: 17
 
       - name: Install sbt
         uses: sbt/setup-sbt@6c68d2fe8dfbc0a0534d70101baa2e0420e1a506 # v1.1.9
@@ -209,11 +208,11 @@ jobs:
           git fetch origin pull/${{ github.event.pull_request.number }}/merge:scratch
           git checkout scratch
 
-      - name: Setup Java 8
+      - name: Setup Java 17
         uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
         with:
           distribution: temurin
-          java-version: 8
+          java-version: 17
 
       - name: Install sbt
         uses: sbt/setup-sbt@6c68d2fe8dfbc0a0534d70101baa2e0420e1a506 # v1.1.9

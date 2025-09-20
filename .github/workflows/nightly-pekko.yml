@@ -24,13 +24,14 @@ jobs:
       matrix:
         SCALA_VERSION: [2.12, 2.13, 3]
         JDK: [8]
-        PEKKO_VERSION: ['main', '1.0.x']
+        PEKKO_VERSION: ['1.2.x', '1.1.x']
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0
           fetch-tags: true
+          ref: 1.1.x
 
       - name: Set up JDK ${{ matrix.JDK }}
         uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
@@ -65,13 +66,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        PEKKO_VERSION: ['main', '1.0.x']
+        PEKKO_VERSION: ['1.2.x', '1.1.x']
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0
           fetch-tags: true
+          ref: 1.1.x
 
       - name: Setup Java 8
         uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
