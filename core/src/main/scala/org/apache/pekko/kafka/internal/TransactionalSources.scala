@@ -31,7 +31,6 @@ import pekko.kafka.{ AutoSubscription, ConsumerFailed, ConsumerSettings, Restric
 import pekko.stream.SourceShape
 import pekko.stream.scaladsl.Source
 import pekko.stream.stage.{ AsyncCallback, GraphStageLogic }
-import pekko.util.ccompat._
 import pekko.util.Timeout
 import org.apache.kafka.clients.consumer.{ ConsumerConfig, ConsumerRecord, OffsetAndMetadata }
 import org.apache.kafka.common.{ IsolationLevel, TopicPartition }

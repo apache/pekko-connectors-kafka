@@ -31,13 +31,13 @@ import pekko.kafka.scaladsl.MetadataClient
 import pekko.kafka._
 import pekko.util.Timeout._
 import org.apache.kafka.common.utils.Utils
+import org.slf4j.LoggerFactory
 
 import scala.concurrent.duration._
 import scala.concurrent.{ ExecutionContextExecutor, Future }
+import scala.jdk.FutureConverters._
+import scala.jdk.DurationConverters._
 import scala.util.{ Failure, Success }
-import pekko.util.FutureConverters._
-import pekko.util.JavaDurationConverters._
-import org.slf4j.LoggerFactory
 
 /**
  * API MAY CHANGE
@@ -88,7 +88,7 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
   def messageExtractor[M](topic: String,
       timeout: java.time.Duration,
       settings: ConsumerSettings[_, _]): CompletionStage[KafkaShardingMessageExtractor[M]] =
-    getPartitionCount(topic, timeout.asScala, settings)
+    getPartitionCount(topic, timeout.toScala, settings)
       .map(new KafkaShardingMessageExtractor[M](_))(system.dispatcher)
       .asJava
 
@@ -153,7 +153,7 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
       timeout: java.time.Duration,
       entityIdExtractor: java.util.function.Function[M, String],
       settings: ConsumerSettings[_, _]): CompletionStage[KafkaShardingNoEnvelopeExtractor[M]] =
-    getPartitionCount(topic, timeout.asScala, settings)
+    getPartitionCount(topic, timeout.toScala, settings)
       .map(partitions => new KafkaShardingNoEnvelopeExtractor[M](partitions, e => entityIdExtractor.apply(e)))(
         system.dispatcher)
       .asJava

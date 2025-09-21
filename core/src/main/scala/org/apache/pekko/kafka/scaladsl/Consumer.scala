@@ -17,7 +17,6 @@ package org.apache.pekko.kafka.scaladsl
 import org.apache.pekko
 import pekko.actor.ActorRef
 import pekko.annotation.ApiMayChange
-import pekko.dispatch.ExecutionContexts
 import pekko.kafka.ConsumerMessage.{ CommittableMessage, CommittableOffset }
 import pekko.kafka._
 import pekko.kafka.internal._
@@ -114,8 +113,8 @@ object Consumer {
     override def shutdown(): Future[Done] =
       control
         .shutdown()
-        .flatMap(_ => streamCompletion)(ExecutionContexts.parasitic)
-        .map(_ => Done)(ExecutionContexts.parasitic)
+        .flatMap(_ => streamCompletion)(ExecutionContext.parasitic)
+        .map(_ => Done)(ExecutionContext.parasitic)
 
     override def drainAndShutdown[S](streamCompletion: Future[S])(implicit ec: ExecutionContext): Future[S] =
       control.drainAndShutdown(streamCompletion)
@@ -129,8 +128,8 @@ object Consumer {
 
     override def isShutdown: Future[Done] =
       control.isShutdown
-        .flatMap(_ => streamCompletion)(ExecutionContexts.parasitic)
-        .map(_ => Done)(ExecutionContexts.parasitic)
+        .flatMap(_ => streamCompletion)(ExecutionContext.parasitic)
+        .map(_ => Done)(ExecutionContext.parasitic)
 
     override def metrics: Future[Map[MetricName, Metric]] = control.metrics
   }
@@ -265,7 +264,7 @@ object Consumer {
   def atMostOnceSource[K, V](settings: ConsumerSettings[K, V],
       subscription: Subscription): Source[ConsumerRecord[K, V], Control] =
     committableSource[K, V](settings, subscription).mapAsync(1) { m =>
-      m.committableOffset.commitInternal().map(_ => m.record)(ExecutionContexts.parasitic)
+      m.committableOffset.commitInternal().map(_ => m.record)(ExecutionContext.parasitic)
     }
 
   /**

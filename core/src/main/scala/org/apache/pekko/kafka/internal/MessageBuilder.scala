@@ -27,14 +27,13 @@ import pekko.kafka.ConsumerMessage.{
   TransactionalMessage,
   _
 }
-import pekko.util.ccompat._
-import pekko.util.ccompat.JavaConverters._
-import pekko.util.FutureConverters._
 import org.apache.kafka.clients.consumer.{ ConsumerRecord, OffsetAndMetadata }
 import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.requests.OffsetFetchResponse
 
 import scala.concurrent.Future
+import scala.jdk.CollectionConverters._
+import scala.jdk.FutureConverters._
 
 /** Internal API */
 @InternalApi

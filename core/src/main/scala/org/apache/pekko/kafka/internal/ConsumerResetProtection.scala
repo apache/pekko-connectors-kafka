@@ -22,7 +22,7 @@ import pekko.annotation.InternalApi
 import pekko.event.LoggingAdapter
 import pekko.kafka.OffsetResetProtectionSettings
 import pekko.kafka.internal.KafkaConsumerActor.Internal.Seek
-import pekko.util.ccompat.JavaConverters._
+import scala.jdk.CollectionConverters._
 import org.apache.kafka.clients.consumer.{ ConsumerRecord, ConsumerRecords, OffsetAndMetadata }
 import org.apache.kafka.common.TopicPartition
 

@@ -16,10 +16,10 @@ package org.apache.pekko.kafka
 
 import org.apache.pekko
 import pekko.NotUsed
-import pekko.util.ccompat.JavaConverters._
 import org.apache.kafka.clients.producer.{ ProducerRecord, RecordMetadata }
 
 import scala.collection.immutable
+import scala.jdk.CollectionConverters._
 
 /**
  * Classes that are used in both [[javadsl.Producer]] and

@@ -14,12 +14,12 @@
 
 package org.apache.pekko.kafka
 
-import org.apache.pekko.util.JavaDurationConverters._
+import java.time.{ Duration => JDuration }
+
 import com.typesafe.config.Config
 
 import scala.concurrent.duration._
-
-import java.time.{ Duration => JDuration }
+import scala.jdk.DurationConverters._
 
 class ConnectionCheckerSettings private[kafka] (val enable: Boolean,
     val maxRetries: Int,
@@ -48,7 +48,7 @@ class ConnectionCheckerSettings private[kafka] (val enable: Boolean,
 
   /** Java API */
   def withCheckInterval(checkInterval: JDuration): ConnectionCheckerSettings =
-    copy(checkInterval = checkInterval.asScala)
+    copy(checkInterval = checkInterval.toScala)
 
   override def toString: String =
     s"org.apache.pekko.kafka.ConnectionCheckerSettings(" +
@@ -78,7 +78,7 @@ object ConnectionCheckerSettings {
     if (enable) {
       val retries = config.getInt("max-retries")
       val factor = config.getDouble("backoff-factor")
-      val checkInterval = config.getDuration("check-interval").asScala
+      val checkInterval = config.getDuration("check-interval").toScala
       apply(retries, checkInterval, factor)
     } else Disabled
   }
