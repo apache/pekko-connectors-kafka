@@ -57,7 +57,7 @@ object ConsumerMessage {
    * or a number of offsets aggregated as [[CommittableOffsetBatch]].
    */
   @DoNotInherit trait Committable {
-  
+
     @InternalApi
     private[kafka] def commitInternal(): Future[Done]
 
