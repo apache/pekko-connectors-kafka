@@ -22,7 +22,8 @@ addSbtPlugin("com.github.sbt" % "sbt-java-formatter" % "0.9.0")
 addSbtPlugin("com.github.sbt" % "sbt-unidoc" % "0.6.0")
 // Java 11 module names are not added https://github.com/ThoughtWorksInc/sbt-api-mappings/issues/58
 addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "3.0.2")
-addSbtPlugin(("com.github.sbt" % "sbt-site-paradox" % "1.7.0").excludeAll(
-  "com.lightbend.paradox", "sbt-paradox"))
 
 addSbtPlugin("org.apache.pekko" % "pekko-sbt-paradox" % "1.0.1")
+addSbtPlugin("com.github.sbt" % "sbt-site-paradox" % "1.7.0")
+addSbtPlugin("com.lightbend.paradox" % "sbt-paradox-theme" % "0.10.7")
+addSbtPlugin("com.lightbend.paradox" % "sbt-paradox" % "0.10.7")

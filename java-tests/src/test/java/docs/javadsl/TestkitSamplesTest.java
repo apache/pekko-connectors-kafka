@@ -99,13 +99,8 @@ public class TestkitSamplesTest {
                     create()
                 .map(
                     msg -> {
-                      if (msg instanceof ProducerMessage.Message) {
-                        ProducerMessage.Message<String, String, ConsumerMessage.CommittableOffset>
-                            msg2 =
-                                (ProducerMessage.Message<
-                                        String, String, ConsumerMessage.CommittableOffset>)
-                                    msg;
-                        return ProducerResultFactory.result(msg2);
+                      if (msg instanceof ProducerMessage.Message<String, String, ConsumerMessage.CommittableOffset> pmsg) {
+                        return ProducerResultFactory.result(pmsg);
                       } else throw new RuntimeException("unexpected element: " + msg);
                     });
 

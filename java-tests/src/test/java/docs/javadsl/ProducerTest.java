@@ -199,9 +199,7 @@ class ProducerTest extends TestcontainersKafkaTest {
             .via(Producer.flexiFlow(producerSettings))
             .map(
                 result -> {
-                  if (result instanceof ProducerMessage.Result) {
-                    ProducerMessage.Result<String, String, Integer> res =
-                        (ProducerMessage.Result<String, String, Integer>) result;
+                  if (result instanceof ProducerMessage.Result<String, String, Integer> res) {
                     ProducerRecord<String, String> record = res.message().record();
                     RecordMetadata meta = res.metadata();
                     return meta.topic()
@@ -211,9 +209,7 @@ class ProducerTest extends TestcontainersKafkaTest {
                         + res.offset()
                         + ": "
                         + record.value();
-                  } else if (result instanceof ProducerMessage.MultiResult) {
-                    ProducerMessage.MultiResult<String, String, Integer> res =
-                        (ProducerMessage.MultiResult<String, String, Integer>) result;
+                  } else if (result instanceof ProducerMessage.MultiResult<String, String, Integer> res) {
                     return res.getParts().stream()
                         .map(
                             part -> {
