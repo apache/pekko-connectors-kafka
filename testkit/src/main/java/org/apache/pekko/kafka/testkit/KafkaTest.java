@@ -14,10 +14,8 @@
 
 package org.apache.pekko.kafka.testkit;
 
-import org.apache.pekko.actor.ActorSystem;
 import org.apache.pekko.actor.ClassicActorSystemProvider;
 import org.apache.pekko.kafka.testkit.javadsl.BaseKafkaTest;
-import org.apache.pekko.stream.Materializer;
 import org.apache.pekko.stream.testkit.javadsl.StreamTestKit;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -31,15 +29,6 @@ import org.junit.jupiter.api.BeforeAll;
  */
 @SuppressWarnings("unchecked")
 public abstract class KafkaTest extends BaseKafkaTest {
-
-  /**
-   * @deprecated Materializer no longer necessary in Akka 2.6, use
-   *     `KafkaTest(ClassicActorSystemProvider, String)` instead, since Alpakka Kafka 2.1.0
-   */
-  @Deprecated
-  protected KafkaTest(ActorSystem system, Materializer mat, String bootstrapServers) {
-    super(system, mat, bootstrapServers);
-  }
 
   protected KafkaTest(ClassicActorSystemProvider system, String bootstrapServers) {
     super(system, bootstrapServers);

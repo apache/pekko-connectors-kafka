@@ -31,7 +31,6 @@ import org.apache.kafka.common.ConsumerGroupState;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.Serializer;
 import org.apache.pekko.Done;
-import org.apache.pekko.actor.ActorSystem;
 import org.apache.pekko.actor.ClassicActorSystemProvider;
 import org.apache.pekko.japi.Pair;
 import org.apache.pekko.kafka.Subscriptions;
@@ -54,18 +53,9 @@ public abstract class BaseKafkaTest extends KafkaTestKitClass {
 
   protected final Materializer materializer;
 
-  /**
-   * @deprecated Materializer no longer necessary in Akka 2.6, use
-   *     `BaseKafkaTest(ClassicActorSystemProvider, String)` instead, since Alpakka Kafka 2.1.0
-   */
-  @Deprecated
-  protected BaseKafkaTest(ActorSystem system, Materializer mat, String bootstrapServers) {
-    super(system, bootstrapServers);
-    this.materializer = mat;
-  }
-
   protected BaseKafkaTest(ClassicActorSystemProvider system, String bootstrapServers) {
-    this(system.classicSystem(), Materializer.matFromSystem(system), bootstrapServers);
+    super(system.classicSystem(), bootstrapServers);
+    this.materializer = Materializer.matFromSystem(system);
   }
 
   @Override

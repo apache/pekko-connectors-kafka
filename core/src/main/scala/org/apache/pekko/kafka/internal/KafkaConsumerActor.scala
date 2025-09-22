@@ -713,15 +713,6 @@ import scala.util.control.NonFatal
             .filterNot(_._2 == null)
             .toMap
         })
-
-    case req: Metadata.GetCommittedOffset @nowarn("cat=deprecation") =>
-      @nowarn("cat=deprecation") val resp = Metadata.CommittedOffset(
-        Try {
-          @nowarn("cat=deprecation") val offset = consumer.committed(req.partition, settings.getMetadataRequestTimeout)
-          offset
-        },
-        req.partition)
-      resp
   }
 
   private def stopFromMessage(msg: StopLike) = msg match {

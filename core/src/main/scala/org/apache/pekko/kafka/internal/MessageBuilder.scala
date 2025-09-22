@@ -142,8 +142,6 @@ private[kafka] trait OffsetContextBuilder[K, V]
     override val partitionOffset: ConsumerMessage.PartitionOffset,
     override val metadata: String)(
     val committer: KafkaAsyncConsumerCommitterRef) extends CommittableOffsetMetadata {
-  override def commitScaladsl(): Future[Done] = commitInternal()
-  override def commitJavadsl(): CompletionStage[Done] = commitInternal().asJava
   override def commitInternal(): Future[Done] = KafkaAsyncConsumerCommitterRef.commit(this)
   override val batchSize: Long = 1
 }
@@ -223,8 +221,6 @@ private[kafka] final class CommittableOffsetBatchImpl(
   override def toString: String =
     s"CommittableOffsetBatch(batchSize=$batchSize, ${offsets.mkString(", ")})"
 
-  override def commitScaladsl(): Future[Done] = commitInternal()
-
   override def commitInternal(): Future[Done] = KafkaAsyncConsumerCommitterRef.commit(this)
 
   override def tellCommit(): CommittableOffsetBatch = tellCommitWithPriority(emergency = false)
@@ -241,8 +237,6 @@ private[kafka] final class CommittableOffsetBatchImpl(
     val newCommitters = offsets.map { case (gtp, _) => gtp -> committerFor(gtp) }
     new CommittableOffsetBatchImpl(newOffsets, newCommitters, newOffsets.size.toLong)
   }
-
-  override def commitJavadsl(): CompletionStage[Done] = commitInternal().asJava
 
   /**
    * @return true if the batch contains no commits.

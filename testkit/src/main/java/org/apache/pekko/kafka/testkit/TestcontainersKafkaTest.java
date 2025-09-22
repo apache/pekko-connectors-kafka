@@ -17,7 +17,6 @@ package org.apache.pekko.kafka.testkit;
 import org.apache.pekko.actor.ActorSystem;
 import org.apache.pekko.actor.ClassicActorSystemProvider;
 import org.apache.pekko.kafka.testkit.internal.TestcontainersKafka;
-import org.apache.pekko.stream.Materializer;
 
 /**
  * JUnit 5 base class using [[https://www.testcontainers.org/ Testcontainers]] to start a Kafka
@@ -35,15 +34,6 @@ public abstract class TestcontainersKafkaTest extends KafkaTest {
 
   public static final KafkaTestkitTestcontainersSettings settings =
       TestcontainersKafka.Singleton().testcontainersSettings();
-
-  /**
-   * @deprecated Materializer no longer necessary in Akka 2.6, use
-   *     `TestcontainersKafkaTest(ClassicActorSystemProvider)` instead, since Alpakka Kafka 2.1.0
-   */
-  @Deprecated
-  protected TestcontainersKafkaTest(ActorSystem system, Materializer mat) {
-    super(system, mat, startKafka(settings));
-  }
 
   protected TestcontainersKafkaTest(ClassicActorSystemProvider system) {
     super(system, startKafka(settings));

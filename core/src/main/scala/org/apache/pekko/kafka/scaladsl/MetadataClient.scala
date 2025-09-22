@@ -75,16 +75,6 @@ class MetadataClient private (consumerActor: ActorRef, timeout: Timeout, managed
         case Failure(e)   => Future.failed(e)
       }(ExecutionContext.parasitic)
 
-  @deprecated("use `getCommittedOffsets`", "Alpakka Kafka 2.0.3")
-  def getCommittedOffset(partition: TopicPartition): Future[OffsetAndMetadata] =
-    (consumerActor ? GetCommittedOffset(partition))(timeout)
-      .mapTo[CommittedOffset]
-      .map(_.response)
-      .flatMap {
-        case Success(res) => Future.successful(res)
-        case Failure(e)   => Future.failed(e)
-      }(ExecutionContext.parasitic)
-
   def getCommittedOffsets(partitions: Set[TopicPartition]): Future[Map[TopicPartition, OffsetAndMetadata]] =
     (consumerActor ? GetCommittedOffsets(partitions))(timeout)
       .mapTo[CommittedOffsets]

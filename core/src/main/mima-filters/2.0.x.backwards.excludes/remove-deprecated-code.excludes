@@ -1,0 +1,41 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+
+# Remove deprecated code
+ProblemFilters.exclude[DirectMissingMethodProblem]("org.apache.pekko.kafka.ConsumerMessage#Committable.commitScaladsl")
+ProblemFilters.exclude[DirectMissingMethodProblem]("org.apache.pekko.kafka.ConsumerMessage#Committable.commitJavadsl")
+ProblemFilters.exclude[DirectMissingMethodProblem]("org.apache.pekko.kafka.Metadata.createGetCommittedOffset")
+ProblemFilters.exclude[MissingClassProblem]("org.apache.pekko.kafka.Metadata$CommittedOffset")
+ProblemFilters.exclude[MissingClassProblem]("org.apache.pekko.kafka.Metadata$CommittedOffset$")
+ProblemFilters.exclude[MissingClassProblem]("org.apache.pekko.kafka.Metadata$GetCommittedOffset")
+ProblemFilters.exclude[MissingClassProblem]("org.apache.pekko.kafka.Metadata$GetCommittedOffset$")
+ProblemFilters.exclude[DirectMissingMethodProblem]("org.apache.pekko.kafka.ProducerSettings.producerFactory")
+ProblemFilters.exclude[DirectMissingMethodProblem]("org.apache.pekko.kafka.RestrictedConsumer.committed")
+ProblemFilters.exclude[DirectMissingMethodProblem]("org.apache.pekko.kafka.javadsl.MetadataClient.getCommittedOffset")
+ProblemFilters.exclude[DirectMissingMethodProblem]("org.apache.pekko.kafka.javadsl.Producer.flowWithContext")
+ProblemFilters.exclude[DirectMissingMethodProblem]("org.apache.pekko.kafka.javadsl.Producer.flexiFlow")
+ProblemFilters.exclude[DirectMissingMethodProblem]("org.apache.pekko.kafka.javadsl.Producer.flow")
+ProblemFilters.exclude[DirectMissingMethodProblem]("org.apache.pekko.kafka.javadsl.Producer.committableSink")
+ProblemFilters.exclude[DirectMissingMethodProblem]("org.apache.pekko.kafka.javadsl.Producer.plainSink")
+ProblemFilters.exclude[DirectMissingMethodProblem]("org.apache.pekko.kafka.javadsl.SendProducer.this")
+ProblemFilters.exclude[DirectMissingMethodProblem]("org.apache.pekko.kafka.scaladsl.MetadataClient.getCommittedOffset")
+ProblemFilters.exclude[DirectMissingMethodProblem]("org.apache.pekko.kafka.scaladsl.Producer.flowWithContext")
+ProblemFilters.exclude[DirectMissingMethodProblem]("org.apache.pekko.kafka.scaladsl.Producer.flexiFlow")
+ProblemFilters.exclude[DirectMissingMethodProblem]("org.apache.pekko.kafka.scaladsl.Producer.flow")
+ProblemFilters.exclude[DirectMissingMethodProblem]("org.apache.pekko.kafka.scaladsl.Producer.committableSink")
+ProblemFilters.exclude[DirectMissingMethodProblem]("org.apache.pekko.kafka.scaladsl.Producer.plainSink")
+ProblemFilters.exclude[DirectMissingMethodProblem]("org.apache.pekko.kafka.scaladsl.SendProducer.apply")

@@ -30,11 +30,6 @@ import scala.jdk.FutureConverters._
  */
 final class SendProducer[K, V] private (underlying: scaladsl.SendProducer[K, V]) {
 
-  // kept for bin-compatibility
-  @deprecated("use the variant with ClassicActorSystemProvider instead", "Alpakka Kafka 2.0.5")
-  private[kafka] def this(settings: ProducerSettings[K, V], system: ActorSystem) =
-    this(scaladsl.SendProducer(settings)(system))
-
   /**
    * Utility class for producing to Kafka without using Apache Pekko Streams.
    * @param settings producer settings used to create or access the [[org.apache.kafka.clients.producer.Producer]]
