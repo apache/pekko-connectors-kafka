@@ -25,15 +25,6 @@ import org.junit.Before;
 @SuppressWarnings("unchecked")
 public abstract class KafkaJunit4Test extends BaseKafkaTest {
 
-  /**
-   * @deprecated Materializer no longer necessary in Akka 2.6, use
-   *     `KafkaJunit4Test(ClassicActorSystemProvider, String)` instead, since Alpakka Kafka 2.1.0
-   */
-  @Deprecated
-  protected KafkaJunit4Test(ActorSystem system, Materializer mat, String bootstrapServers) {
-    super(system, mat, bootstrapServers);
-  }
-
   protected KafkaJunit4Test(ClassicActorSystemProvider system, String bootstrapServers) {
     super(system, bootstrapServers);
   }

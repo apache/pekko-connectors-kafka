@@ -108,9 +108,4 @@ final class SendProducer[K, V] private (val settings: ProducerSettings[K, V], sy
 object SendProducer {
   def apply[K, V](settings: ProducerSettings[K, V])(implicit system: ClassicActorSystemProvider): SendProducer[K, V] =
     new SendProducer(settings, system.classicSystem)
-
-  // kept for bin-compatibility
-  @deprecated("use the variant with ClassicActorSystemProvider instead", "Alpakka Kafka 2.0.5")
-  def apply[K, V](settings: ProducerSettings[K, V], system: ActorSystem): SendProducer[K, V] =
-    new SendProducer(settings, system)
 }

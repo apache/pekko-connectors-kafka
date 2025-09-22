@@ -229,11 +229,6 @@ class ProducerSettings[K, V] @InternalApi private[kafka] (
     val enrichAsync: Option[ProducerSettings[K, V] => Future[ProducerSettings[K, V]]],
     val producerFactorySync: Option[ProducerSettings[K, V] => Producer[K, V]]) {
 
-  @deprecated(
-    "Use createKafkaProducer(), createKafkaProducerAsync(), or createKafkaProducerCompletionStage() to get a new KafkaProducer",
-    "Alpakka Kafka 2.0.0")
-  def producerFactory: ProducerSettings[K, V] => Producer[K, V] = _ => createKafkaProducer()
-
   /**
    * An id string to pass to the server when making requests. The purpose of this is to be able to track the source
    * of requests beyond just ip/port by allowing a logical application name to be included in server-side request logging.

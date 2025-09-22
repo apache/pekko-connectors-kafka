@@ -75,12 +75,6 @@ class MetadataClient private (metadataClient: pekko.kafka.scaladsl.MetadataClien
       }(ExecutionContext.parasitic)
       .asJava
 
-  @deprecated("use `getCommittedOffsets`", "Alpakka Kafka 2.0.3")
-  def getCommittedOffset(partition: TopicPartition): CompletionStage[OffsetAndMetadata] =
-    metadataClient
-      .getCommittedOffset(partition)
-      .asJava
-
   def getCommittedOffsets(
       partitions: java.util.Set[TopicPartition]): CompletionStage[java.util.Map[TopicPartition, OffsetAndMetadata]] =
     metadataClient
