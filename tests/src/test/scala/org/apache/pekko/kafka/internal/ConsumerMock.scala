@@ -26,6 +26,7 @@ import org.mockito.stubbing.Answer
 import org.mockito.verification.VerificationMode
 import org.mockito.{ ArgumentMatchers, Mockito }
 
+import scala.annotation.nowarn
 import scala.collection.immutable.Seq
 import scala.concurrent.duration._
 import scala.jdk.CollectionConverters._
@@ -168,6 +169,7 @@ class ConsumerMock[K, V](handler: ConsumerMock.CommitHandler = new ConsumerMock.
       responses :+= records
     }
 
+  @nowarn("msg=deprecated")
   def verifyClosed(mode: VerificationMode = Mockito.times(1)) =
     verify(mock, mode).close(ConsumerMock.closeTimeout.toJava)
 
