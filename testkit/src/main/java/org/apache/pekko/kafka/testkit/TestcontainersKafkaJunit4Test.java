@@ -18,7 +18,6 @@ import org.apache.pekko.actor.ActorSystem;
 import org.apache.pekko.actor.ClassicActorSystemProvider;
 import org.apache.pekko.kafka.testkit.internal.TestcontainersKafka;
 import org.apache.pekko.kafka.testkit.javadsl.KafkaJunit4Test;
-import org.apache.pekko.stream.Materializer;
 import org.junit.After;
 import org.junit.Before;
 

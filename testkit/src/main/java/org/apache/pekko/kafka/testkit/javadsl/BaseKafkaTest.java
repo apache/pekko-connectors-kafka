@@ -31,7 +31,6 @@ import org.apache.kafka.common.ConsumerGroupState;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.Serializer;
 import org.apache.pekko.Done;
-import org.apache.pekko.actor.ActorSystem;
 import org.apache.pekko.actor.ClassicActorSystemProvider;
 import org.apache.pekko.japi.Pair;
 import org.apache.pekko.kafka.Subscriptions;
