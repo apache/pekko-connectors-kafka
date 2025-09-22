@@ -55,7 +55,8 @@ public abstract class BaseKafkaTest extends KafkaTestKitClass {
   protected final Materializer materializer;
 
   protected BaseKafkaTest(ClassicActorSystemProvider system, String bootstrapServers) {
-    this(system.classicSystem(), Materializer.matFromSystem(system), bootstrapServers);
+    super(system.classicSystem(), bootstrapServers);
+    this.materializer = Materializer.matFromSystem(system);
   }
 
   @Override

@@ -40,7 +40,15 @@ sealed trait Subscription {
 /**
  * Kafka-speak for these is "Assignments".
  */
-sealed trait ManualSubscription extends Subscription
+sealed trait ManualSubscription extends Subscription {
+  /** @deprecated Manual subscriptions never rebalances, since Alpakka Kafka 1.0-RC1 */
+  @deprecated("Manual subscription never rebalances", "Alpakka Kafka 1.0-RC1")
+  def rebalanceListener: Option[ActorRef] = None
+
+  /** @deprecated Manual subscriptions never rebalances, since Alpakka Kafka 1.0-RC1 */
+  @deprecated("Manual subscription never rebalances", "Alpakka Kafka 1.0-RC1")
+  def withRebalanceListener(ref: ActorRef): ManualSubscription
+}
 
 /**
  * Kafka-speak for these is "Subscriptions".
