@@ -80,6 +80,7 @@ abstract class ConsumerDummy[K, V] extends Consumer[K, V] {
   override def endOffsets(
       partitions: java.util.Collection[TopicPartition]): java.util.Map[TopicPartition, java.lang.Long] = ???
   override def close(): Unit = {}
+  override def close(options: CloseOptions): Unit = {}
   override def close(timeout: java.time.Duration): Unit = {}
   override def wakeup(): Unit = ???
 
