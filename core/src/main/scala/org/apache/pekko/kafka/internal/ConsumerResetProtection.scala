@@ -68,7 +68,7 @@ object ConsumerResetProtection {
           .toMap
           .asJava
 
-      new ConsumerRecords[K, V](safe)
+      new ConsumerRecords[K, V](safe, java.util.Collections.emptyMap())
     }
 
     /**

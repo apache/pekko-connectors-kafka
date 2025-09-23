@@ -66,7 +66,7 @@ Maven
         <dependency>
           <groupId>io.confluent</groupId>
           <artifactId>kafka-avro-serializer</artifactId>
-          <version>confluent.version (eg. 7.9.2)</version>
+          <version>confluent.version (eg. 8.0.0)</version>
         </dependency>
         ...
       </dependencies>
@@ -84,14 +84,14 @@ Maven
 
 sbt
 :   ```scala
-    libraryDependencies += "io.confluent" % "kafka-avro-serializer" % confluentAvroVersion, //  eg. 7.9.2
+    libraryDependencies += "io.confluent" % "kafka-avro-serializer" % confluentAvroVersion, //  eg. 8.0.0
     resolvers += "Confluent Maven Repository" at "https://packages.confluent.io/maven/",
     ```
 
 Gradle
 :   ```gradle
     dependencies {
-      compile group: 'io.confluent', name: 'kafka-avro-serializer', version: confluentAvroVersion // eg. 7.9.2
+      compile group: 'io.confluent', name: 'kafka-avro-serializer', version: confluentAvroVersion // eg. 8.0.0
     }
     repositories {
       maven {
@@ -103,7 +103,7 @@ Gradle
 
 ### Producer
 
-To create serializers that use the Schema Registry, its URL needs to be provided as configuration `AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG` to the serializer and that serializer is used in the @apidoc[ProducerSettings$].
+To create serializers that use the Schema Registry, its URL needs to be provided as configuration `AbstractKafkaSchemaSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG` to the serializer and that serializer is used in the @apidoc[ProducerSettings$].
 
 Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/SchemaRegistrySerializationSpec.scala) { #imports #serializer }
@@ -115,7 +115,7 @@ Java
 
 ### Consumer
 
-To create deserializers that use the Schema Registry, its URL needs to be provided as configuration  `AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG` to the deserializer and that deserializer is used in the @apidoc[ConsumerSettings$].
+To create deserializers that use the Schema Registry, its URL needs to be provided as configuration  `AbstractKafkaSchemaSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG` to the deserializer and that deserializer is used in the @apidoc[ConsumerSettings$].
 
 Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/SchemaRegistrySerializationSpec.scala) { #imports #de-serializer }

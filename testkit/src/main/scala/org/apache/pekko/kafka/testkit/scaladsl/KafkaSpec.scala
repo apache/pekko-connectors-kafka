@@ -36,6 +36,7 @@ import org.apache.kafka.clients.producer.{ Producer => KProducer, ProducerRecord
 import org.apache.kafka.common.ConsumerGroupState
 import org.slf4j.{ Logger, LoggerFactory }
 
+import scala.annotation.nowarn
 import scala.collection.immutable
 import scala.concurrent.duration._
 import scala.concurrent.{ Await, ExecutionContext, Future }
@@ -119,6 +120,7 @@ abstract class KafkaSpec(_kafkaPort: Int, val zooKeeperPort: Int, actorSystem: A
    *
    * If the predicate does not hold after configured amount of time, throws an exception.
    */
+  @nowarn("cat=deprecation")
   def waitUntilConsumerSummary(groupId: String)(predicate: PartialFunction[List[MemberDescription], Boolean]): Unit =
     waitUntilConsumerGroup(groupId) { group =>
       group.state() == ConsumerGroupState.STABLE &&

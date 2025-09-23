@@ -21,6 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger
 import org.apache.pekko.Done
 import org.apache.kafka.clients.consumer._
 import org.apache.kafka.common.{ Metric, MetricName, PartitionInfo, TopicPartition }
+import org.apache.kafka.common.metrics.KafkaMetric
 import org.slf4j.{ Logger, LoggerFactory }
 
 import scala.concurrent.Promise
@@ -50,7 +51,6 @@ abstract class ConsumerDummy[K, V] extends Consumer[K, V] {
   override def subscribe(pattern: java.util.regex.Pattern, callback: ConsumerRebalanceListener): Unit = ???
   override def subscribe(pattern: java.util.regex.Pattern): Unit = ???
   override def unsubscribe(): Unit = ???
-  override def poll(timeout: Long): ConsumerRecords[K, V] = ???
   override def commitSync(): Unit = ???
   override def commitSync(offsets: java.util.Map[TopicPartition, OffsetAndMetadata]): Unit = ???
   override def commitAsync(): Unit = ???
@@ -63,7 +63,6 @@ abstract class ConsumerDummy[K, V] extends Consumer[K, V] {
   override def seekToEnd(partitions: java.util.Collection[TopicPartition]): Unit = ???
   override def position(partition: TopicPartition): Long = ???
   override def position(partition: TopicPartition, timeout: java.time.Duration): Long = ???
-  override def committed(partition: TopicPartition): OffsetAndMetadata = ???
   override def metrics(): java.util.Map[MetricName, _ <: Metric] = ???
   override def partitionsFor(topic: String): java.util.List[PartitionInfo] = ???
   override def listTopics(): java.util.Map[String, java.util.List[PartitionInfo]] = ???
@@ -81,13 +80,13 @@ abstract class ConsumerDummy[K, V] extends Consumer[K, V] {
   override def endOffsets(
       partitions: java.util.Collection[TopicPartition]): java.util.Map[TopicPartition, java.lang.Long] = ???
   override def close(): Unit = {}
+  override def close(options: CloseOptions): Unit = {}
   override def close(timeout: java.time.Duration): Unit = {}
   override def wakeup(): Unit = ???
 
   override def commitSync(timeout: java.time.Duration): Unit = ???
   override def commitSync(offsets: java.util.Map[TopicPartition, OffsetAndMetadata],
       timeout: java.time.Duration): Unit = ???
-  override def committed(partition: TopicPartition, timeout: java.time.Duration): OffsetAndMetadata = ???
   override def committed(partitions: util.Set[TopicPartition]): util.Map[TopicPartition, OffsetAndMetadata] = ???
   override def committed(partitions: util.Set[TopicPartition],
       timeout: Duration): util.Map[TopicPartition, OffsetAndMetadata] = ???
@@ -102,4 +101,11 @@ abstract class ConsumerDummy[K, V] extends Consumer[K, V] {
   override def groupMetadata(): ConsumerGroupMetadata = ???
   override def enforceRebalance(): Unit = ???
   override def currentLag(partition: TopicPartition): java.util.OptionalLong = ???
+
+  override def subscribe(sp: SubscriptionPattern): Unit = ???
+  override def subscribe(sp: SubscriptionPattern, listener: ConsumerRebalanceListener): Unit = ???
+
+  override def registerMetricForSubscription(metric: KafkaMetric): Unit = ???
+  override def unregisterMetricFromSubscription(metric: KafkaMetric): Unit = ???
+
 }

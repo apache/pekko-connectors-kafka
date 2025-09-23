@@ -445,6 +445,7 @@ import scala.util.control.NonFatal
     progressTracker
   }
 
+  @nowarn("msg=deprecated")
   override def postStop(): Unit = {
     // reply to outstanding requests is important if the actor is restarted
     requests.foreach {
