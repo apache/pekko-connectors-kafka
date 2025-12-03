@@ -15,7 +15,7 @@ object Versions {
   val Nightly: Boolean = sys.env.get("EVENT_NAME").contains("schedule")
 
   // align ignore-prefixes in scripts/link-validator.conf
-  val Scala213 = "2.13.17" // update even in link-validator.conf
+  val Scala213 = "2.13.18" // update even in link-validator.conf
   val Scala3 = "3.3.7"
 
   val pekkoVersionForDocs = "current"
