@@ -89,7 +89,7 @@ object Order extends scalapb.GeneratedMessageCompanion[docs.scaladsl.proto.Order
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0  => _done__ = true
         case 10 =>
           __id = _input__.readStringRequireUtf8()
         case tag =>

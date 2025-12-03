@@ -126,8 +126,8 @@ class IntegrationSpec extends SpecBase with TestcontainersKafkaLike with Inside 
       val Partitions1 = Set(allTps(0), allTps(1))
       val Partitions2 = Set(allTps(2), allTps(3))
       (assigned1.topicPartitions, assigned2.topicPartitions) match {
-        case (Partitions1, Partitions2) =>
-        case (Partitions2, Partitions1) =>
+        case (Partitions1, Partitions2)                =>
+        case (Partitions2, Partitions1)                =>
         case (receivePartitions1, receivedPartitions2) =>
           fail(
             s"The `TopicPartitionsAssigned` contained different topic partitions than expected:\nrebalanceActor1: $receivePartitions1\nrebalanceActor2: $receivedPartitions2")

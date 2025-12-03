@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory
   def getLogbackLogger(loggerName: String): ch.qos.logback.classic.Logger = {
     LoggerFactory.getLogger(loggerNameOrRoot(loggerName)) match {
       case logger: ch.qos.logback.classic.Logger => logger
-      case null =>
+      case null                                  =>
         throw new IllegalArgumentException(s"Couldn't find logger for [$loggerName].")
       case other =>
         throw new IllegalArgumentException(
@@ -45,7 +45,7 @@ import org.slf4j.LoggerFactory
       case ch.qos.logback.classic.Level.INFO_INT  => Level.INFO
       case ch.qos.logback.classic.Level.WARN_INT  => Level.WARN
       case ch.qos.logback.classic.Level.ERROR_INT => Level.ERROR
-      case _ =>
+      case _                                      =>
         throw new IllegalArgumentException("Level " + level.levelStr + ", " + level.levelInt + " is unknown.")
     }
   }
