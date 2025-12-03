@@ -172,7 +172,7 @@ trait TransactionsOps extends TestSuite with Matchers {
       topic: String)(implicit actorSystem: ActorSystem, mat: Materializer): TestSubscriber.Probe[String] =
     offsetValueSource(settings, topic)
       .map(_._2)
-      .runWith(TestSink.probe)
+      .runWith(TestSink())
 
   def offsetValueSource(settings: ConsumerSettings[String, String],
       topic: String): Source[(Long, String), Consumer.Control] =
