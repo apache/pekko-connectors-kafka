@@ -79,7 +79,7 @@ private[kafka] trait DeferredProducer[K, V] {
     producerFuture.value match {
       case Some(Success(p)) => assignProducer(p)
       case Some(Failure(e)) => failStage(e)
-      case None =>
+      case None             =>
         val assign = getAsyncCallback(assignProducer)
         producerFuture
           .transform(

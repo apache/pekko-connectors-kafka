@@ -190,7 +190,7 @@ private class DefaultProducerStageLogic[K, V, P, IN <: Envelope[K, V, P], OUT <:
       } else
         decider(exception) match {
           case Supervision.Stop => closeAndFailStageCb.invoke(exception)
-          case _ =>
+          case _                =>
             promise.failure(exception)
             confirmAndCheckForCompletionCB.invoke(())
         }

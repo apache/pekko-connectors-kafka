@@ -101,7 +101,7 @@ object CommitWhen {
   def valueOf(s: String): CommitWhen = s match {
     case "OffsetFirstObserved" => OffsetFirstObserved
     case "NextOffsetObserved"  => NextOffsetObserved
-    case other =>
+    case other                 =>
       throw new IllegalArgumentException(
         s"allowed values are: OffsetFirstObserved, NextOffsetObserved. Received: $other")
   }

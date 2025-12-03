@@ -263,7 +263,7 @@ private[benchmarks] object InflightMetrics {
 
   def reset(measurements: List[Measurement], registry: MetricRegistry): List[Metric] = measurements.map {
     case measurement @ Measurement(_, _, CounterMetricType, _) => BaseCounter(measurement, measurement)
-    case measurement @ Measurement(_, _, GaugeMetricType, _) =>
+    case measurement @ Measurement(_, _, GaugeMetricType, _)   =>
       HistogramGauge(measurement, registry.histogram(measurement.name))
   }
 

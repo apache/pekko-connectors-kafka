@@ -192,7 +192,7 @@ private[kafka] final class CommittableOffsetBatchImpl(
 
     val newCommitter = newOffset match {
       case c: CommittableOffsetImpl => c.committer
-      case _ =>
+      case _                        =>
         throw new IllegalArgumentException(
           s"Unknown CommittableOffset, got [${newOffset.getClass.getName}], " +
           s"expected [${classOf[CommittableOffsetImpl].getName}]")

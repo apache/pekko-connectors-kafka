@@ -389,7 +389,7 @@ import scala.util.control.NonFatal
   def stopping: Receive = LoggingReceive.withLabel("stopping") {
     case p: Poll[_, _] =>
       receivePoll(p)
-    case _: StopLike =>
+    case _: StopLike     =>
     case Terminated(ref) =>
       stageActorsMap = stageActorsMap.filterNot(_._2 == ref)
     case _ @(_: Commit | _: RequestMessages) =>
@@ -403,7 +403,7 @@ import scala.util.control.NonFatal
     log.debug("Starting {}", self)
     val updateSettings: Future[ConsumerSettings[K, V]] = _settings.enriched
     updateSettings.value match {
-      case Some(Success(s)) => applySettings(s)
+      case Some(Success(s))            => applySettings(s)
       case Some(scala.util.Failure(e)) =>
         owner.foreach(_ ! Failure(e))
         throw e
