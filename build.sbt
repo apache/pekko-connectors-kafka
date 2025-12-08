@@ -15,7 +15,6 @@ import ProjectSettings.commonSettings
 sourceDistName := "apache-pekko-connectors-kafka"
 sourceDistIncubating := false
 
-ThisBuild / resolvers += Resolver.ApacheMavenStagingRepo
 ThisBuild / reproducibleBuildsCheckResolver := Resolver.ApacheMavenStagingRepo
 
 addCommandAlias("verifyCodeStyle", "scalafmtCheckAll; scalafmtSbtCheck; +headerCheckAll; javafmtCheckAll")
