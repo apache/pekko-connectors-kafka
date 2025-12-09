@@ -48,7 +48,7 @@ class TimestampSpec extends SpecBase with TestcontainersKafkaLike with Inside wi
         val probe = Consumer
           .plainSource(consumerSettings, topicsAndTs)
           .map(_.value())
-          .runWith(TestSink.probe)
+          .runWith(TestSink())
 
         probe
           .request(50)
@@ -74,7 +74,7 @@ class TimestampSpec extends SpecBase with TestcontainersKafkaLike with Inside wi
 
         val probe = Consumer
           .plainSource(consumerSettings, topicsAndTs)
-          .runWith(TestSink.probe)
+          .runWith(TestSink())
 
         probe.ensureSubscription()
         probe.expectNoMessage(200.millis)
@@ -93,7 +93,7 @@ class TimestampSpec extends SpecBase with TestcontainersKafkaLike with Inside wi
 
         val probe = Consumer
           .plainSource(consumerSettings, topicsAndTs)
-          .runWith(TestSink.probe)
+          .runWith(TestSink())
 
         probe.ensureSubscription()
         probe.expectNoMessage(200.millis)
