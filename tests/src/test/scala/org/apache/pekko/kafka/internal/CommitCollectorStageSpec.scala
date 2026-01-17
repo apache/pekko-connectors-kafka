@@ -190,7 +190,8 @@ class CommitCollectorStageSpec(_system: ActorSystem)
         control.shutdown().futureValue shouldBe Done
       }
 
-      "batch commit all buffered elements if upstream has suddenly completed with delayed commits" in assertAllStagesStopped {
+      "batch commit all buffered elements if upstream has suddenly completed with delayed commits" in
+      assertAllStagesStopped {
         val (sourceProbe, control, sinkProbe) = streamProbes(settings)
         val committer = new TestBatchCommitter(settings, () => 50.millis)
 
@@ -285,7 +286,8 @@ class CommitCollectorStageSpec(_system: ActorSystem)
         // downstream out of order
         val lastBatch = batches.maxBy(_.offsets.values.last)
 
-        (lastBatch.offsets.values.last shouldBe batch2
+        (lastBatch.offsets.values.last shouldBe
+        batch2
           .asInstanceOf[CommittableOffsetBatch]
           .offsets
           .head
@@ -294,7 +296,8 @@ class CommitCollectorStageSpec(_system: ActorSystem)
 
         control.shutdown().futureValue shouldBe Done
       }
-      "only commit when the next offset is observed in a CommittableOffset preceded by a CommittableOffsetBatch" in assertAllStagesStopped {
+      "only commit when the next offset is observed in a CommittableOffset preceded by a CommittableOffsetBatch" in
+      assertAllStagesStopped {
         val (sourceProbe, control, sinkProbe, offsetFactory) = streamProbesWithOffsetFactory(settings)
         // create a mix of single offsets and batches of 1
         val (batch1, msg2, batch3) =
@@ -320,7 +323,8 @@ class CommitCollectorStageSpec(_system: ActorSystem)
 
         control.shutdown().futureValue shouldBe Done
       }
-      "only commit when the next offset is observed in a CommittableOffsetBatch preceded by a CommittableOffset" in assertAllStagesStopped {
+      "only commit when the next offset is observed in a CommittableOffsetBatch preceded by a CommittableOffset" in
+      assertAllStagesStopped {
         val (sourceProbe, control, sinkProbe, offsetFactory) = streamProbesWithOffsetFactory(settings)
         // create a mix of single offsets and batches of 1
         val (msg1, batch2, msg3) =
@@ -340,7 +344,8 @@ class CommitCollectorStageSpec(_system: ActorSystem)
         // downstream out of order
         val lastBatch = batches.maxBy(_.offsets.values.last)
 
-        (lastBatch.offsets.values.last shouldBe batch2
+        (lastBatch.offsets.values.last shouldBe
+        batch2
           .asInstanceOf[CommittableOffsetBatch]
           .offsets
           .head

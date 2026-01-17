@@ -30,10 +30,7 @@ import com.typesafe.scalalogging.LazyLogging
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.serialization.{
-  ByteArrayDeserializer,
-  ByteArraySerializer,
-  StringDeserializer,
-  StringSerializer
+  ByteArrayDeserializer, ByteArraySerializer, StringDeserializer, StringSerializer
 }
 
 import scala.concurrent.duration._

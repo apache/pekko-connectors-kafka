@@ -22,10 +22,7 @@ import org.apache.kafka.clients.consumer.{ ConsumerConfig, KafkaConsumer }
 import org.apache.kafka.clients.producer.{ KafkaProducer, ProducerConfig }
 import org.apache.kafka.common.IsolationLevel
 import org.apache.kafka.common.serialization.{
-  ByteArrayDeserializer,
-  ByteArraySerializer,
-  StringDeserializer,
-  StringSerializer
+  ByteArrayDeserializer, ByteArraySerializer, StringDeserializer, StringSerializer
 }
 
 import scala.jdk.CollectionConverters._

@@ -54,7 +54,8 @@ class TransactionsPartitionedSourceSpec
     .withInternalTopicsReplicationFactor(replicationFactor)
 
   "A multi-broker consume-transform-produce cycle" must {
-    "provide consistency when multiple partitioned transactional streams are being restarted" in assertAllStagesStopped {
+    "provide consistency when multiple partitioned transactional streams are being restarted" in
+    assertAllStagesStopped {
       // It's possible to get into a livelock situation where the `restartAfter` interval causes transactions to abort
       // over and over.  This can happen when there are a few partitions left to process and they can never be fully
       // processed because we always restart the stream before the transaction can be completed successfully.
@@ -74,10 +75,9 @@ class TransactionsPartitionedSourceSpec
       val elements = 100 * 1000 // 100 * 1,000 = 100,000
       val restartAfter = (10 * 1000) / sourcePartitions // (10 * 1,000) / 10 = 100
 
-      val producers: immutable.Seq[Future[Done]] =
-        (0 until sourcePartitions).map { part =>
-          produce(sourceTopic, range = 1 to elements, partition = part)
-        }
+      val producers: immutable.Seq[Future[Done]] = (0 until sourcePartitions).map { part =>
+        produce(sourceTopic, range = 1 to elements, partition = part)
+      }
 
       Await.result(Future.sequence(producers), 4.minute)
 

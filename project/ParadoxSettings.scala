@@ -10,11 +10,7 @@
 import Versions._
 import com.lightbend.paradox.apidoc.ApidocPlugin.autoImport.apidocRootPackage
 import com.lightbend.paradox.sbt.ParadoxPlugin.autoImport.{
-  paradox,
-  paradoxGroups,
-  paradoxMarkdownToHtml,
-  paradoxProperties,
-  paradoxRoots
+  paradox, paradoxGroups, paradoxMarkdownToHtml, paradoxProperties, paradoxRoots
 }
 import org.apache.pekko.PekkoParadoxPlugin.autoImport._
 import sbt._
@@ -38,8 +34,10 @@ object ParadoxSettings {
       "extref.pekko.base_url" -> s"$pekkoDocs/pekko/$pekkoVersionForDocs/%s",
       "scaladoc.org.apache.pekko.base_url" -> s"$pekkoAPI/pekko/$pekkoVersionForDocs/",
       "javadoc.org.apache.pekko.base_url" -> s"$pekkoAPI/pekko/$pekkoVersionForDocs/",
-      "scaladoc.org.apache.pekko.kafka.base_url" -> s"$pekkoAPI/pekko-connectors-kafka/$pekkoConnectorsKafkaVersionForDocs/",
-      "javadoc.org.apache.pekko.kafka.base_url" -> s"$pekkoAPI/pekko-connectors-kafka/$pekkoConnectorsKafkaVersionForDocs/",
+      "scaladoc.org.apache.pekko.kafka.base_url" ->
+      s"$pekkoAPI/pekko-connectors-kafka/$pekkoConnectorsKafkaVersionForDocs/",
+      "javadoc.org.apache.pekko.kafka.base_url" ->
+      s"$pekkoAPI/pekko-connectors-kafka/$pekkoConnectorsKafkaVersionForDocs/",
       "javadoc.org.apache.pekko.link_style" -> "direct",
       "extref.pekko-management.base_url" -> s"$pekkoDocs/pekko-management/$pekkoManagementVersionForDocs/%s",
       // Kafka
@@ -56,7 +54,8 @@ object ParadoxSettings {
       "scaladoc.com.typesafe.config.base_url" -> s"https://lightbend.github.io/config/latest/api/",
       // Testcontainers
       "testcontainers.version" -> testcontainersVersion,
-      "javadoc.org.testcontainers.containers.base_url" -> s"https://www.javadoc.io/doc/org.testcontainers/testcontainers/$testcontainersVersion/",
+      "javadoc.org.testcontainers.containers.base_url" ->
+      s"https://www.javadoc.io/doc/org.testcontainers/testcontainers/$testcontainersVersion/",
       "javadoc.org.testcontainers.containers.link_style" -> "direct"))
 
   val sourceGeneratorSettings = Seq(

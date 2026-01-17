@@ -198,7 +198,8 @@ class RebalanceExtSpec extends SpecBase with TestcontainersKafkaLike with Inside
 
   "Fetched records" must {
 
-    "no messages should be lost when two consumers consume from one topic and two partitions and one consumer aborts mid-stream" in assertAllStagesStopped {
+    "no messages should be lost when two consumers consume from one topic and two partitions and one consumer aborts mid-stream" in
+    assertAllStagesStopped {
       val topicCount = 1
       val partitionCount = 2
       val perPartitionMessageCount = 9

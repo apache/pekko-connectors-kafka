@@ -72,13 +72,12 @@ class TransactionsSourceSpec
       val restartAfter = 10 * 1000
 
       val partitionSize = elements / sourcePartitions
-      val producers: immutable.Seq[Future[Done]] =
-        (0 until sourcePartitions).map { part =>
-          val rangeStart = (part * partitionSize) + 1
-          val rangeEnd = partitionSize * (part + 1)
-          log.info(s"Producing [$rangeStart to $rangeEnd] to partition $part")
-          produce(sourceTopic, rangeStart to rangeEnd, part)
-        }
+      val producers: immutable.Seq[Future[Done]] = (0 until sourcePartitions).map { part =>
+        val rangeStart = (part * partitionSize) + 1
+        val rangeEnd = partitionSize * (part + 1)
+        log.info(s"Producing [$rangeStart to $rangeEnd] to partition $part")
+        produce(sourceTopic, rangeStart to rangeEnd, part)
+      }
 
       Await.result(Future.sequence(producers), 1.minute)
 
