@@ -76,7 +76,8 @@ object ProjectSettings extends AutoPlugin {
       "dev@pekko.apache.org",
       url("https://github.com/apache/pekko-connectors-kafka/graphs/contributors")),
     startYear := Some(2022),
-    description := "Apache Pekko Kafka Connector is a Reactive Enterprise Integration library for Java and Scala, based on Reactive Streams and Apache Pekko.",
+    description :=
+      "Apache Pekko Kafka Connector is a Reactive Enterprise Integration library for Java and Scala, based on Reactive Streams and Apache Pekko.",
     crossScalaVersions := Seq(Scala213, Scala3),
     scalaVersion := Scala213,
     crossVersion := CrossVersion.binary,

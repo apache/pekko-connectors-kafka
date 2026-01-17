@@ -57,23 +57,21 @@ class MetadataClient private (consumerActor: ActorRef, timeout: Timeout, managed
     getEndOffsets(Set(partition))
       .map(endOffsets => endOffsets(partition))
 
-  def listTopics(): Future[Map[String, List[PartitionInfo]]] =
-    (consumerActor ? ListTopics)(timeout)
-      .mapTo[Topics]
-      .map(_.response)
-      .flatMap {
-        case Success(res) => Future.successful(res)
-        case Failure(e)   => Future.failed(e)
-      }(ExecutionContext.parasitic)
+  def listTopics(): Future[Map[String, List[PartitionInfo]]] = (consumerActor ? ListTopics)(timeout)
+    .mapTo[Topics]
+    .map(_.response)
+    .flatMap {
+      case Success(res) => Future.successful(res)
+      case Failure(e)   => Future.failed(e)
+    }(ExecutionContext.parasitic)
 
-  def getPartitionsFor(topic: String): Future[List[PartitionInfo]] =
-    (consumerActor ? GetPartitionsFor(topic))(timeout)
-      .mapTo[PartitionsFor]
-      .map(_.response)
-      .flatMap {
-        case Success(res) => Future.successful(res)
-        case Failure(e)   => Future.failed(e)
-      }(ExecutionContext.parasitic)
+  def getPartitionsFor(topic: String): Future[List[PartitionInfo]] = (consumerActor ? GetPartitionsFor(topic))(timeout)
+    .mapTo[PartitionsFor]
+    .map(_.response)
+    .flatMap {
+      case Success(res) => Future.successful(res)
+      case Failure(e)   => Future.failed(e)
+    }(ExecutionContext.parasitic)
 
   def getCommittedOffsets(partitions: Set[TopicPartition]): Future[Map[TopicPartition, OffsetAndMetadata]] =
     (consumerActor ? GetCommittedOffsets(partitions))(timeout)

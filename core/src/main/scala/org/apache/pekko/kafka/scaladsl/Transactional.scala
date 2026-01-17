@@ -19,10 +19,7 @@ import pekko.annotation.{ ApiMayChange, InternalApi }
 import pekko.kafka.ConsumerMessage.{ PartitionOffset, TransactionalMessage }
 import pekko.kafka.ProducerMessage._
 import pekko.kafka.internal.{
-  TransactionalProducerStage,
-  TransactionalSource,
-  TransactionalSourceWithOffsetContext,
-  TransactionalSubSource
+  TransactionalProducerStage, TransactionalSource, TransactionalSourceWithOffsetContext, TransactionalSubSource
 }
 import pekko.kafka.scaladsl.Consumer.Control
 import pekko.kafka.{ AutoSubscription, ConsumerMessage, ConsumerSettings, ProducerSettings, Subscription }

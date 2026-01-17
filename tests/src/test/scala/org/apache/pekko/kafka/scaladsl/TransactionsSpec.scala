@@ -150,7 +150,8 @@ class TransactionsSpec extends SpecBase with TestcontainersKafkaLike with Transa
       }
     }
 
-    "complete with messages filtered out and transient failure causing an abort with restartable source" in assertAllStagesStopped {
+    "complete with messages filtered out and transient failure causing an abort with restartable source" in
+    assertAllStagesStopped {
       val sourceTopic = createTopic(1)
       val sinkTopic = createTopic(2)
       val group = createGroupId(1)
@@ -314,9 +315,9 @@ class TransactionsSpec extends SpecBase with TestcontainersKafkaLike with Transa
                 source
                   .map { msg =>
                     ProducerMessage.single(new ProducerRecord[String, String](sinkTopic,
-                        msg.record.partition(),
-                        msg.record.key(),
-                        msg.record.value),
+                      msg.record.partition(),
+                      msg.record.key(),
+                      msg.record.value),
                       msg.partitionOffset)
                   }
                   .runWith(Transactional.sink(producerDefaults, transactionalId))
@@ -380,9 +381,9 @@ class TransactionsSpec extends SpecBase with TestcontainersKafkaLike with Transa
                       throw new Exception("sub source failure")
                     }
                     ProducerMessage.single(new ProducerRecord[String, String](sinkTopic,
-                        msg.record.partition(),
-                        msg.record.key(),
-                        msg.record.value),
+                      msg.record.partition(),
+                      msg.record.key(),
+                      msg.record.value),
                       msg.partitionOffset)
                   }
                   .runWith(Transactional.sink(producerDefaults, transactionalId))
@@ -453,9 +454,9 @@ class TransactionsSpec extends SpecBase with TestcontainersKafkaLike with Transa
               source
                 .map { msg =>
                   ProducerMessage.single(new ProducerRecord[String, String](outTopic,
-                      msg.record.partition(),
-                      msg.record.key(),
-                      msg.record.value() + "-out"),
+                    msg.record.partition(),
+                    msg.record.key(),
+                    msg.record.value() + "-out"),
                     msg.partitionOffset)
                 }
                 .to(Transactional.sink(producerDefaults, transactionalId))

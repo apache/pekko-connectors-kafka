@@ -93,9 +93,9 @@ trait TransactionsOps extends TestSuite with Matchers {
               .idleTimeout(idleTimeout)
               .map { msg =>
                 ProducerMessage.single(new ProducerRecord[String, String](sinkTopic,
-                    msg.record.partition(),
-                    msg.record.key(),
-                    msg.record.value),
+                  msg.record.partition(),
+                  msg.record.key(),
+                  msg.record.value),
                   msg.partitionOffset)
               }
               .via(Transactional.flow(producerSettings, transactionalId))

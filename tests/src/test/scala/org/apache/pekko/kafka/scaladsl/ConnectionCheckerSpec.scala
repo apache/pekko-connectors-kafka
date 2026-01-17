@@ -74,7 +74,8 @@ class ConnectionCheckerSpec extends SpecBase with TestcontainersKafkaPerClassLik
       Await.ready(control.isShutdown.zip(futDone), failingDetectionTime)
     }
 
-    "fail stream and control.isShutdown when kafka down and not recover during max retries exceeded" in assertAllStagesStopped {
+    "fail stream and control.isShutdown when kafka down and not recover during max retries exceeded" in
+    assertAllStagesStopped {
       startCluster()
 
       val msg = "hello"

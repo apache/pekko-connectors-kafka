@@ -21,14 +21,7 @@ import org.apache.pekko
 import pekko.Done
 import pekko.actor.Status.Failure
 import pekko.actor.{
-  Actor,
-  ActorRef,
-  DeadLetterSuppression,
-  NoSerializationVerificationNeeded,
-  Stash,
-  Status,
-  Terminated,
-  Timers
+  Actor, ActorRef, DeadLetterSuppression, NoSerializationVerificationNeeded, Stash, Status, Terminated, Timers
 }
 import pekko.annotation.InternalApi
 import pekko.event.LoggingReceive

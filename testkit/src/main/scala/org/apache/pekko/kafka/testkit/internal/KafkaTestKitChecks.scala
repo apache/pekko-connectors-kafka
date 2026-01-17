@@ -18,10 +18,7 @@ import java.util.Collections
 import java.util.concurrent.TimeUnit
 
 import org.apache.kafka.clients.admin.{
-  Admin,
-  ConsumerGroupDescription,
-  DescribeClusterResult,
-  DescribeConsumerGroupsOptions
+  Admin, ConsumerGroupDescription, DescribeClusterResult, DescribeConsumerGroupsOptions
 }
 import org.slf4j.Logger
 

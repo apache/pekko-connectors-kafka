@@ -88,22 +88,23 @@ final class ConsumerProgressTrackerImpl extends ConsumerProgressTracking {
   }
 
   override def received[K, V](received: ConsumerRecords[K, V]): Unit = {
-    receivedMessagesImpl = receivedMessagesImpl ++ received
-      .partitions()
-      .asScala
-      // only tracks the partitions that are currently assigned, as assignment is a synchronous interaction and polls
-      // for an old consumer group epoch will not return (we get to make polls for the current generation). Supposing a
-      // revoke completes and then the poll() is received for a previous epoch, we drop the records here (partitions
-      // are no longer assigned to the consumer). If instead we get a poll() and then a revoke, we only track the
-      // offsets for that short period of time and then they are revoked, so that is also safe.
-      .intersect(assignedPartitions)
-      .map(tp => (tp, received.records(tp)))
-      // get the last record, its the largest offset/most recent timestamp
-      .map { case (partition, records) => (partition, records.get(records.size() - 1)) }
-      .map {
-        case (partition, record) =>
-          partition -> SafeOffsetAndTimestamp(record.offset(), record.timestamp())
-      }
+    receivedMessagesImpl = receivedMessagesImpl ++
+      received
+        .partitions()
+        .asScala
+        // only tracks the partitions that are currently assigned, as assignment is a synchronous interaction and polls
+        // for an old consumer group epoch will not return (we get to make polls for the current generation). Supposing a
+        // revoke completes and then the poll() is received for a previous epoch, we drop the records here (partitions
+        // are no longer assigned to the consumer). If instead we get a poll() and then a revoke, we only track the
+        // offsets for that short period of time and then they are revoked, so that is also safe.
+        .intersect(assignedPartitions)
+        .map(tp => (tp, received.records(tp)))
+        // get the last record, its the largest offset/most recent timestamp
+        .map { case (partition, records) => (partition, records.get(records.size() - 1)) }
+        .map {
+          case (partition, record) =>
+            partition -> SafeOffsetAndTimestamp(record.offset(), record.timestamp())
+        }
   }
 
   override def commitRequested(offsets: Map[TopicPartition, OffsetAndMetadata]): Unit = {

@@ -69,7 +69,8 @@ private[internal] trait CommitObservationLogic { self: GraphStageLogic =>
         deferredOffsets = deferredOffsets + (gtp -> committable)
         offsetBatch = offsetBatch.updated(dOffset)
       case Some(dOffsetBatch: CommittableOffsetBatch)
-          if dOffsetBatch.offsets.contains(gtp) && dOffsetBatch.offsets
+          if dOffsetBatch.offsets.contains(gtp) &&
+          dOffsetBatch.offsets
             .get(gtp)
             .head < offset =>
         deferredOffsets = deferredOffsets + (gtp -> committable)

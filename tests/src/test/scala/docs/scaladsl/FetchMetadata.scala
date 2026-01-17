@@ -120,8 +120,8 @@ class FetchMetadata extends DocsSpecBase with TestcontainersKafkaLike with TryVa
 
     val partition = 0
     val tp = new TopicPartition(topic, partition)
-    val topicsFuture: Future[Metadata.EndOffsets] =
-      (consumer ? Metadata.GetEndOffsets(Set(tp))).mapTo[Metadata.EndOffsets]
+    val topicsFuture
+        : Future[Metadata.EndOffsets] = (consumer ? Metadata.GetEndOffsets(Set(tp))).mapTo[Metadata.EndOffsets]
 
     val response = topicsFuture.futureValue.response
     (response should be).a(Symbol("success"))
