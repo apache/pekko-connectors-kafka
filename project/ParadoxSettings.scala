@@ -10,7 +10,11 @@
 import Versions._
 import com.lightbend.paradox.apidoc.ApidocPlugin.autoImport.apidocRootPackage
 import com.lightbend.paradox.sbt.ParadoxPlugin.autoImport.{
-  paradox, paradoxGroups, paradoxMarkdownToHtml, paradoxProperties, paradoxRoots
+  paradox,
+  paradoxGroups,
+  paradoxMarkdownToHtml,
+  paradoxProperties,
+  paradoxRoots
 }
 import org.apache.pekko.PekkoParadoxPlugin.autoImport._
 import sbt._
