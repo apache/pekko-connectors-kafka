@@ -26,7 +26,10 @@ import pekko.kafka.{ ConsumerMessage, ConsumerSettings, ProducerSettings, Subscr
 import pekko.stream.scaladsl.{ Flow, Source }
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.common.serialization.{
-  ByteArrayDeserializer, ByteArraySerializer, StringDeserializer, StringSerializer
+  ByteArrayDeserializer,
+  ByteArraySerializer,
+  StringDeserializer,
+  StringSerializer
 }
 
 import scala.concurrent.duration.FiniteDuration

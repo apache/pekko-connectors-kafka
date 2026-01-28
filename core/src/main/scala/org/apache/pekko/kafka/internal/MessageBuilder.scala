@@ -21,7 +21,11 @@ import pekko.Done
 import pekko.annotation.InternalApi
 import pekko.kafka.ConsumerMessage
 import pekko.kafka.ConsumerMessage.{
-  CommittableMessage, CommittableOffsetMetadata, GroupTopicPartition, TransactionalMessage, _
+  CommittableMessage,
+  CommittableOffsetMetadata,
+  GroupTopicPartition,
+  TransactionalMessage,
+  _
 }
 import org.apache.kafka.clients.consumer.{ ConsumerRecord, OffsetAndMetadata }
 import org.apache.kafka.common.TopicPartition
