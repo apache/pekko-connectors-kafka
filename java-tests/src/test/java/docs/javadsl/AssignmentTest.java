@@ -14,6 +14,17 @@
 
 package docs.javadsl;
 
+import static org.junit.Assert.assertEquals;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.CompletionStage;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.common.TopicPartition;
+// #testkit
 import org.apache.pekko.Done;
 import org.apache.pekko.actor.ActorSystem;
 import org.apache.pekko.kafka.AutoSubscription;
@@ -22,31 +33,20 @@ import org.apache.pekko.kafka.ProducerMessage;
 import org.apache.pekko.kafka.Subscriptions;
 import org.apache.pekko.kafka.javadsl.Consumer;
 // #testkit
+import org.apache.pekko.kafka.javadsl.Producer;
 import org.apache.pekko.kafka.testkit.TestcontainersKafkaJunit4Test;
 // #testkit
-import org.apache.pekko.kafka.javadsl.Producer;
 import org.apache.pekko.kafka.tests.javadsl.LogCapturingJunit4;
 import org.apache.pekko.stream.javadsl.Sink;
 import org.apache.pekko.stream.javadsl.Source;
 // #testkit
 import org.apache.pekko.testkit.javadsl.TestKit;
 // #testkit
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.common.TopicPartition;
-// #testkit
 import org.junit.AfterClass;
-import org.junit.Test;
-// #testkit
 import org.junit.Rule;
+import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.CompletionStage;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-import static org.junit.Assert.assertEquals;
+// #testkit
 
 // #testkit
 

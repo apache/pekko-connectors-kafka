@@ -14,46 +14,11 @@
 
 package docs.javadsl;
 
-import org.apache.pekko.Done;
-import org.apache.pekko.NotUsed;
-import org.apache.pekko.actor.AbstractLoggingActor;
-import org.apache.pekko.actor.ActorRef;
-import org.apache.pekko.actor.ActorSystem;
-import org.apache.pekko.actor.Props;
-import org.apache.pekko.actor.typed.Behavior;
-import org.apache.pekko.actor.typed.javadsl.ActorContext;
-import org.apache.pekko.actor.typed.javadsl.Behaviors;
-// #withTypedRebalanceListenerActor
-// #consumerActorTyped
-// adds support for actors to a classic actor system and context
-import org.apache.pekko.actor.typed.javadsl.Adapter;
-// #consumerActorTyped
-// #withTypedRebalanceListenerActor
-import org.apache.pekko.japi.Pair;
-import org.apache.pekko.kafka.*;
-import org.apache.pekko.kafka.javadsl.Committer;
-import org.apache.pekko.kafka.javadsl.Consumer;
-import org.apache.pekko.kafka.javadsl.Producer;
-import org.apache.pekko.kafka.javadsl.PartitionAssignmentHandler;
-import org.apache.pekko.kafka.testkit.TestcontainersKafkaTest;
-import org.apache.pekko.kafka.tests.javadsl.LogCapturingExtension;
-import org.apache.pekko.stream.RestartSettings;
-import org.apache.pekko.stream.javadsl.*;
-import org.apache.pekko.testkit.javadsl.TestKit;
-import com.typesafe.config.Config;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.common.Metric;
-import org.apache.kafka.common.MetricName;
-import org.apache.kafka.common.TopicPartition;
-import org.apache.kafka.common.serialization.ByteArrayDeserializer;
-import org.apache.kafka.common.serialization.StringDeserializer;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.extension.ExtendWith;
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.junit.Assert.assertEquals;
 
+import com.typesafe.config.Config;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
@@ -65,10 +30,44 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
-
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.*;
-import static org.junit.Assert.assertEquals;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.common.Metric;
+import org.apache.kafka.common.MetricName;
+import org.apache.kafka.common.TopicPartition;
+import org.apache.kafka.common.serialization.ByteArrayDeserializer;
+import org.apache.kafka.common.serialization.StringDeserializer;
+import org.apache.pekko.Done;
+import org.apache.pekko.NotUsed;
+import org.apache.pekko.actor.AbstractLoggingActor;
+import org.apache.pekko.actor.ActorRef;
+import org.apache.pekko.actor.ActorSystem;
+import org.apache.pekko.actor.Props;
+import org.apache.pekko.actor.typed.Behavior;
+import org.apache.pekko.actor.typed.javadsl.ActorContext;
+import org.apache.pekko.actor.typed.javadsl.Adapter;
+// #consumerActorTyped
+// #withTypedRebalanceListenerActor
+import org.apache.pekko.actor.typed.javadsl.Behaviors;
+// #withTypedRebalanceListenerActor
+// #consumerActorTyped
+// adds support for actors to a classic actor system and context
+import org.apache.pekko.japi.Pair;
+import org.apache.pekko.kafka.*;
+import org.apache.pekko.kafka.javadsl.Committer;
+import org.apache.pekko.kafka.javadsl.Consumer;
+import org.apache.pekko.kafka.javadsl.PartitionAssignmentHandler;
+import org.apache.pekko.kafka.javadsl.Producer;
+import org.apache.pekko.kafka.testkit.TestcontainersKafkaTest;
+import org.apache.pekko.kafka.tests.javadsl.LogCapturingExtension;
+import org.apache.pekko.stream.RestartSettings;
+import org.apache.pekko.stream.javadsl.*;
+import org.apache.pekko.testkit.javadsl.TestKit;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(LogCapturingExtension.class)
@@ -108,6 +107,7 @@ class ConsumerExampleTest extends TestcontainersKafkaTest {
       consumerSettings
           .withProperty(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "true")
           .withProperty(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "5000");
+
   // #settings-autocommit
 
   @Test
@@ -165,6 +165,7 @@ class ConsumerExampleTest extends TestcontainersKafkaTest {
 
     // #plainSource
   }
+
   // #plainSource
 
   @Test
@@ -650,7 +651,9 @@ class ConsumerExampleTest extends TestcontainersKafkaTest {
     // #consumerMetrics
     sleepMillis(
         100,
-        "to let the control establish itself (fails with `java.lang.IllegalStateException: not yet initialized: only setHandler is allowed in GraphStageLogic constructor)` otherwise");
+        "to let the control establish itself (fails with `java.lang.IllegalStateException: not yet"
+            + " initialized: only setHandler is allowed in GraphStageLogic constructor)`"
+            + " otherwise");
     // #consumerMetrics
     CompletionStage<Map<MetricName, Metric>> metrics = control.getMetrics();
     metrics.thenAccept(map -> System.out.println("Metrics: " + map));
