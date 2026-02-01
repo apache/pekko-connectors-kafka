@@ -39,6 +39,7 @@ public final class OrderMessages {
      * @return The id.
      */
     java.lang.String getId();
+
     /**
      * <code>string id = 1;</code>
      *
@@ -46,12 +47,14 @@ public final class OrderMessages {
      */
     com.google.protobuf.ByteString getIdBytes();
   }
+
   /** Protobuf type {@code Order} */
   public static final class Order extends com.google.protobuf.GeneratedMessageV3
       implements
       // @@protoc_insertion_point(message_implements:Order)
       OrderOrBuilder {
     private static final long serialVersionUID = 0L;
+
     // Use Order.newBuilder() to construct.
     private Order(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -84,6 +87,7 @@ public final class OrderMessages {
 
     @SuppressWarnings("serial")
     private volatile java.lang.Object id_ = "";
+
     /**
      * <code>string id = 1;</code>
      *
@@ -101,6 +105,7 @@ public final class OrderMessages {
         return s;
       }
     }
+
     /**
      * <code>string id = 1;</code>
      *
@@ -110,8 +115,7 @@ public final class OrderMessages {
     public com.google.protobuf.ByteString getIdBytes() {
       java.lang.Object ref = id_;
       if (ref instanceof java.lang.String s) {
-        com.google.protobuf.ByteString b =
-            com.google.protobuf.ByteString.copyFromUtf8(s);
+        com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8(s);
         id_ = b;
         return b;
       } else {
@@ -277,6 +281,7 @@ public final class OrderMessages {
       Builder builder = new Builder(parent);
       return builder;
     }
+
     /** Protobuf type {@code Order} */
     public static final class Builder
         extends com.google.protobuf.GeneratedMessageV3.Builder<Builder>
@@ -452,6 +457,7 @@ public final class OrderMessages {
       private int bitField0_;
 
       private java.lang.Object id_ = "";
+
       /**
        * <code>string id = 1;</code>
        *
@@ -468,6 +474,7 @@ public final class OrderMessages {
           return s;
         }
       }
+
       /**
        * <code>string id = 1;</code>
        *
@@ -476,14 +483,14 @@ public final class OrderMessages {
       public com.google.protobuf.ByteString getIdBytes() {
         java.lang.Object ref = id_;
         if (ref instanceof String s) {
-          com.google.protobuf.ByteString b =
-              com.google.protobuf.ByteString.copyFromUtf8(s);
+          com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8(s);
           id_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
+
       /**
        * <code>string id = 1;</code>
        *
@@ -499,6 +506,7 @@ public final class OrderMessages {
         onChanged();
         return this;
       }
+
       /**
        * <code>string id = 1;</code>
        *
@@ -510,6 +518,7 @@ public final class OrderMessages {
         onChanged();
         return this;
       }
+
       /**
        * <code>string id = 1;</code>
        *

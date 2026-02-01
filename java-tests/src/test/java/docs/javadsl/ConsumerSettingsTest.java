@@ -14,6 +14,9 @@
 
 package docs.javadsl;
 
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
+import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.pekko.actor.ActorSystem;
 import org.apache.pekko.kafka.ConsumerSettings;
 import org.apache.pekko.kafka.ConsumerSettingsSpec$;
@@ -21,9 +24,6 @@ import org.apache.pekko.kafka.ConsumerSettingsSpec$;
 import org.apache.pekko.kafka.javadsl.DiscoverySupport;
 // #discovery-settings
 import org.apache.pekko.testkit.javadsl.TestKit;
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
-import org.apache.kafka.common.serialization.StringDeserializer;
 import org.junit.jupiter.api.Test;
 
 public class ConsumerSettingsTest {

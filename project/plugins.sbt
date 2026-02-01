@@ -17,7 +17,7 @@ addSbtPlugin("com.github.sbt" % "sbt-license-report" % "1.9.0")
 addSbtPlugin("com.github.sbt" % "sbt-header" % "5.11.0")
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.6")
 addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "1.1.4")
-addSbtPlugin("com.github.sbt" % "sbt-java-formatter" % "0.9.0")
+addSbtPlugin("com.github.sbt" % "sbt-java-formatter" % "0.10.0")
 // docs
 addSbtPlugin("com.github.sbt" % "sbt-unidoc" % "0.6.1")
 // Java 11 module names are not added https://github.com/ThoughtWorksInc/sbt-api-mappings/issues/58

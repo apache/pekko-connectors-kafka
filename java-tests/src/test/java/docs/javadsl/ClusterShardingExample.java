@@ -49,6 +49,7 @@ public class ClusterShardingExample {
       this.mame = mame;
     }
   }
+
   // #user-entity
 
   public static Behavior<User> userBehaviour() {

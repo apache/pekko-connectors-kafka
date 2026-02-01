@@ -14,6 +14,19 @@
 
 package docs.javadsl;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
+import com.typesafe.config.Config;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.*;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.RecordMetadata;
+import org.apache.kafka.common.serialization.StringSerializer;
+// #testkit
 import org.apache.pekko.Done;
 import org.apache.pekko.actor.ActorSystem;
 import org.apache.pekko.kafka.*;
@@ -28,24 +41,11 @@ import org.apache.pekko.stream.javadsl.Source;
 // #testkit
 import org.apache.pekko.testkit.javadsl.TestKit;
 // #testkit
-import com.typesafe.config.Config;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.clients.producer.RecordMetadata;
-import org.apache.kafka.common.serialization.StringSerializer;
-// #testkit
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
+
 // #testkit
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.*;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
 // #testkit
 
@@ -209,7 +209,8 @@ class ProducerTest extends TestcontainersKafkaTest {
                         + res.offset()
                         + ": "
                         + record.value();
-                  } else if (result instanceof ProducerMessage.MultiResult<String, String, Integer> res) {
+                  } else if (result
+                      instanceof ProducerMessage.MultiResult<String, String, Integer> res) {
                     return res.getParts().stream()
                         .map(
                             part -> {

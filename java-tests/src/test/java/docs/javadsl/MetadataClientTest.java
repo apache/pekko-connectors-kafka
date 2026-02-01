@@ -15,21 +15,10 @@
 package docs.javadsl;
 
 // #metadataClient
-import org.apache.pekko.actor.ActorSystem;
-import org.apache.pekko.kafka.ConsumerSettings;
-import org.apache.pekko.kafka.javadsl.MetadataClient;
-import org.apache.pekko.kafka.testkit.TestcontainersKafkaJunit4Test;
-import org.apache.pekko.testkit.javadsl.TestKit;
-import org.apache.pekko.util.Timeout;
-// #metadataClient
-import org.apache.pekko.kafka.tests.javadsl.LogCapturingJunit4;
-import org.apache.kafka.common.PartitionInfo;
-import org.apache.kafka.common.TopicPartition;
-import org.hamcrest.core.IsInstanceOf;
-import org.junit.AfterClass;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import static java.util.stream.Collectors.toSet;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.core.Is.is;
 
 import java.util.Collections;
 import java.util.List;
@@ -40,11 +29,21 @@ import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-
-import static java.util.stream.Collectors.toSet;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.core.Is.is;
+import org.apache.kafka.common.PartitionInfo;
+import org.apache.kafka.common.TopicPartition;
+import org.apache.pekko.actor.ActorSystem;
+import org.apache.pekko.kafka.ConsumerSettings;
+import org.apache.pekko.kafka.javadsl.MetadataClient;
+import org.apache.pekko.kafka.testkit.TestcontainersKafkaJunit4Test;
+import org.apache.pekko.kafka.tests.javadsl.LogCapturingJunit4;
+import org.apache.pekko.testkit.javadsl.TestKit;
+import org.apache.pekko.util.Timeout;
+// #metadataClient
+import org.hamcrest.core.IsInstanceOf;
+import org.junit.AfterClass;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class MetadataClientTest extends TestcontainersKafkaJunit4Test {
 
