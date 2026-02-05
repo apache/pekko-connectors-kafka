@@ -17,6 +17,7 @@ package org.apache.pekko.kafka.testkit.internal;
 import com.github.dockerjava.api.command.InspectContainerResponse;
 import com.github.dockerjava.api.model.ContainerNetwork;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -190,6 +191,10 @@ public class PekkoConnectorsKafkaContainer extends GenericContainer<PekkoConnect
     if (enableRemoteJmxService) {
       addExposedPort(KAFKA_JMX_PORT);
     }
+
+    // It seems the default 60s is not enough
+    // https://github.com/apache/pekko-connectors-kafka/issues/321
+    withStartupTimeout(Duration.ofMinutes(6));
 
     super.doStart();
   }
