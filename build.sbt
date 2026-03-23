@@ -93,6 +93,8 @@ lazy val tests = project
     name := "pekko-connectors-kafka-tests",
     resolvers ++= ResolverSettings.testSpecificResolvers,
     libraryDependencies ++= Dependencies.testDependencies :+ Dependencies.mockito,
+    Test / javaOptions +=
+      s"-javaagent:${csrCacheDirectory.value.getAbsolutePath}/https/repo1.maven.org/maven2/org/mockito/mockito-core/${Versions.mockitoVersion}/mockito-core-${Versions.mockitoVersion}.jar",
     publish / skip := true,
     Test / fork := true,
     Test / parallelExecution := false)
