@@ -92,7 +92,7 @@ lazy val tests = project
   .settings(
     name := "pekko-connectors-kafka-tests",
     resolvers ++= ResolverSettings.testSpecificResolvers,
-    libraryDependencies ++= Dependencies.testDependencies,
+    libraryDependencies ++= Dependencies.testDependencies :+ Dependencies.mockito,
     publish / skip := true,
     Test / fork := true,
     Test / parallelExecution := false)
