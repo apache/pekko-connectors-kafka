@@ -147,9 +147,6 @@ lazy val docs = project
       // bug in Scaladoc
       ("https://docs\\.oracle\\.com/en/java/javase/17/docs/api/java.base/java/time/Duration\\$.html".r,
         _ => "https://docs\\.oracle\\.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html"),
-      // Add Java module name https://github.com/ThoughtWorksInc/sbt-api-mappings/issues/58
-      ("https://docs\\.oracle\\.com/en/java/javase/11/docs/api/".r,
-        _ => "https://docs\\.oracle\\.com/en/java/javase/11/docs/api/")),
     Paradox / siteSubdirName := s"docs/pekko-connectors-kafka/${projectInfoVersion.value}",
     ParadoxSettings.settings)
 
