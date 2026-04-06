@@ -146,7 +146,7 @@ lazy val docs = project
       ("\\.java\\.scala".r, _ => ".java"), ("https://javadoc\\.io/page/".r, _ => "https://javadoc\\.io/static/"),
       // bug in Scaladoc
       ("https://docs\\.oracle\\.com/en/java/javase/17/docs/api/java.base/java/time/Duration\\$.html".r,
-        _ => "https://docs\\.oracle\\.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html"),
+        _ => "https://docs\\.oracle\\.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html")),
     Paradox / siteSubdirName := s"docs/pekko-connectors-kafka/${projectInfoVersion.value}",
     ParadoxSettings.settings)
 
