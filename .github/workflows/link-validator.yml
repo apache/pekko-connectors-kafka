@@ -4,8 +4,6 @@ permissions: {}
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron:  '0 6 * * 1'
 
 jobs:
   validate-links:
