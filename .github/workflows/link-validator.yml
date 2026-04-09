@@ -4,10 +4,13 @@ permissions: {}
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron:  '0 6 * * 1'
 
 jobs:
   validate-links:
     runs-on: ubuntu-22.04
+    if: github.repository == 'apache/pekko-connectors-kafka'
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
