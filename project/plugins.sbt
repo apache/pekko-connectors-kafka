@@ -15,7 +15,7 @@ addSbtPlugin("com.github.pjfanning" % "sbt-pekko-build" % "0.4.7")
 addSbtPlugin("com.github.sbt" % "sbt-license-report" % "1.9.0")
 // discipline
 addSbtPlugin("com.github.sbt" % "sbt-header" % "5.11.0")
-addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.6")
+addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.6.0")
 addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "1.1.5")
 addSbtPlugin("com.github.sbt" % "sbt-java-formatter" % "0.11.0")
 // docs
