@@ -14,8 +14,11 @@
 
 package docs.javadsl;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.pekko.actor.ActorSystem;
 import org.apache.pekko.kafka.ConsumerSettings;
@@ -45,5 +48,20 @@ public class ConsumerSettingsTest {
                 DiscoverySupport.consumerBootstrapServers(consumerConfig, system));
     // #discovery-settings
     TestKit.shutdownActorSystem(system);
+  }
+
+  @Test
+  public void setAssignor() throws Exception {
+    ActorSystem system = ActorSystem.create("ConsumerSettingsTest");
+    ConsumerSettings<String, String> settings =
+        ConsumerSettings.create(system, new StringDeserializer(), new StringDeserializer())
+            .withPartitionAssignmentStrategies(
+                new String[] {
+                  org.apache.kafka.clients.consumer.CooperativeStickyAssignor.class.getName(),
+                  org.apache.kafka.clients.consumer.StickyAssignor.class.getName()
+                });
+    assertEquals(
+        "org.apache.kafka.clients.consumer.CooperativeStickyAssignor,org.apache.kafka.clients.consumer.StickyAssignor",
+        settings.getProperty(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG));
   }
 }
