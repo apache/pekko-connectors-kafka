@@ -36,7 +36,11 @@ import pekko.kafka.KafkaConsumerActor.{ StopLike, StoppingException }
 import pekko.kafka._
 import pekko.kafka.scaladsl.PartitionAssignmentHandler
 import org.apache.kafka.clients.consumer._
-import org.apache.kafka.common.errors.RebalanceInProgressException
+import org.apache.kafka.common.errors.{
+  CoordinatorLoadInProgressException,
+  RebalanceInProgressException,
+  TimeoutException
+}
 import org.apache.kafka.common.{ Metric, MetricName, TopicPartition }
 
 import scala.annotation.nowarn
@@ -597,7 +601,8 @@ import scala.util.control.NonFatal
               progressTracker.committed(offsets)
               replyTo.foreach(_ ! Done)
 
-            case e: RebalanceInProgressException   => retryCommits(duration, e)
+            case e @ (_: RebalanceInProgressException | _: TimeoutException | _: CoordinatorLoadInProgressException) =>
+              retryCommits(duration, e)
             case e: RetriableCommitFailedException => retryCommits(duration, e.getCause)
 
             case commitException =>
