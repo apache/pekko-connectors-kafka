@@ -149,7 +149,9 @@ private[internal] abstract class TransactionalSourceLogic[K, V, Msg](shape: Sour
 
   override def consumerGroupMetadata: ConsumerGroupMetadata =
     currentGroupMetadata.getOrElse(
-      throw new IllegalStateException(s"Consumer group metadata not yet available for group $groupId"))
+      throw new IllegalStateException(
+        s"Consumer group metadata not yet available for group $groupId. " +
+        "Metadata is populated on the first poll delivering messages from the consumer."))
 
   override lazy val committedMarker: CommittedMarker = {
     val ec = materializer.executionContext
@@ -385,7 +387,9 @@ private final class TransactionalSubSourceStageLogic[K, V](
 
   override def consumerGroupMetadata: ConsumerGroupMetadata =
     currentGroupMetadata.getOrElse(
-      throw new IllegalStateException(s"Consumer group metadata not yet available for group $groupId"))
+      throw new IllegalStateException(
+        s"Consumer group metadata not yet available for group $groupId. " +
+        "Metadata is populated on the first poll delivering messages from the consumer."))
 
   override def onMessage(rec: ConsumerRecord[K, V]): Unit =
     inFlightRecords.add(Map(new TopicPartition(rec.topic(), rec.partition()) -> rec.offset()))
