@@ -67,6 +67,8 @@ class ProducerSpec(_system: ActorSystem)
   implicit val ec: ExecutionContext = _system.dispatcher
 
   private val group = "group"
+  @scala.annotation.nowarn("msg=deprecated")
+  private val testGroupMetadata = new ConsumerGroupMetadata(group)
 
   type K = String
   type V = String
@@ -86,7 +88,8 @@ class ProducerSpec(_system: ActorSystem)
       PartitionOffsetCommittedMarker(consumerMessage.key,
         consumerMessage.offset,
         committer,
-        fromPartitionedSource = false)
+        fromPartitionedSource = false,
+        testGroupMetadata)
     ProducerMessage.Message(
       tuple._1,
       partitionOffsetCommittedMarker)
@@ -636,7 +639,11 @@ class ProducerMock[K, V](handler: ProducerMock.Handler[K, V])(implicit ec: Execu
   def verifyTxCommit(po: ConsumerMessage.PartitionOffset) = {
     val inOrder = Mockito.inOrder(mock)
     val offsets = Map(new TopicPartition(po.key.topic, po.key.partition) -> new OffsetAndMetadata(po.offset + 1)).asJava
-    inOrder.verify(mock).sendOffsetsToTransaction(offsets, new ConsumerGroupMetadata(po.key.groupId))
+    val expectedMeta = po match {
+      case m: ConsumerMessage.PartitionOffsetCommittedMarker => m.consumerGroupMetadata
+      case _                                                 => testGroupMetadata
+    }
+    inOrder.verify(mock).sendOffsetsToTransaction(offsets, expectedMeta)
     inOrder.verify(mock).commitTransaction()
     inOrder.verify(mock).beginTransaction()
   }
@@ -644,7 +651,11 @@ class ProducerMock[K, V](handler: ProducerMock.Handler[K, V])(implicit ec: Execu
   def verifyTxCommitWhenShutdown(po: ConsumerMessage.PartitionOffset) = {
     val inOrder = Mockito.inOrder(mock)
     val offsets = Map(new TopicPartition(po.key.topic, po.key.partition) -> new OffsetAndMetadata(po.offset + 1)).asJava
-    inOrder.verify(mock).sendOffsetsToTransaction(offsets, new ConsumerGroupMetadata(po.key.groupId))
+    val expectedMeta = po match {
+      case m: ConsumerMessage.PartitionOffsetCommittedMarker => m.consumerGroupMetadata
+      case _                                                 => testGroupMetadata
+    }
+    inOrder.verify(mock).sendOffsetsToTransaction(offsets, expectedMeta)
     inOrder.verify(mock).commitTransaction()
   }
 

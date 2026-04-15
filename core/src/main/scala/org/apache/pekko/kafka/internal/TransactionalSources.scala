@@ -32,7 +32,7 @@ import pekko.stream.SourceShape
 import pekko.stream.scaladsl.Source
 import pekko.stream.stage.{ AsyncCallback, GraphStageLogic }
 import pekko.util.Timeout
-import org.apache.kafka.clients.consumer.{ ConsumerConfig, ConsumerRecord, OffsetAndMetadata }
+import org.apache.kafka.clients.consumer.{ ConsumerConfig, ConsumerGroupMetadata, ConsumerRecord, OffsetAndMetadata }
 import org.apache.kafka.common.{ IsolationLevel, TopicPartition }
 
 import scala.concurrent.duration.FiniteDuration
@@ -141,6 +141,15 @@ private[internal] abstract class TransactionalSourceLogic[K, V, Msg](shape: Sour
   }
 
   override val groupId: String = consumerSettings.properties(ConsumerConfig.GROUP_ID_CONFIG)
+
+  private var currentGroupMetadata: Option[ConsumerGroupMetadata] = None
+
+  override protected def onGroupMetadata(metadata: ConsumerGroupMetadata): Unit =
+    currentGroupMetadata = Some(metadata)
+
+  override def consumerGroupMetadata: ConsumerGroupMetadata =
+    currentGroupMetadata.getOrElse(
+      throw new IllegalStateException(s"Consumer group metadata not yet available for group $groupId"))
 
   override lazy val committedMarker: CommittedMarker = {
     val ec = materializer.executionContext
@@ -368,6 +377,15 @@ private final class TransactionalSubSourceStageLogic[K, V](
   private val inFlightRecords = InFlightRecords.empty
 
   override def groupId: String = consumerSettings.properties(ConsumerConfig.GROUP_ID_CONFIG)
+
+  private var currentGroupMetadata: Option[ConsumerGroupMetadata] = None
+
+  override protected def onGroupMetadata(metadata: ConsumerGroupMetadata): Unit =
+    currentGroupMetadata = Some(metadata)
+
+  override def consumerGroupMetadata: ConsumerGroupMetadata =
+    currentGroupMetadata.getOrElse(
+      throw new IllegalStateException(s"Consumer group metadata not yet available for group $groupId"))
 
   override def onMessage(rec: ConsumerRecord[K, V]): Unit =
     inFlightRecords.add(Map(new TopicPartition(rec.topic(), rec.partition()) -> rec.offset()))
