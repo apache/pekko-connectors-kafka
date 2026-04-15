@@ -99,7 +99,7 @@ abstract class ConsumerDummy[K, V] extends Consumer[K, V] {
       timeout: java.time.Duration): java.util.Map[TopicPartition, java.lang.Long] = ???
   override def poll(timeout: java.time.Duration): ConsumerRecords[K, V] = ???
   @scala.annotation.nowarn("msg=deprecated")
-  override def groupMetadata(): ConsumerGroupMetadata = new ConsumerGroupMetadata("unknown")
+  override def groupMetadata(): ConsumerGroupMetadata = new ConsumerGroupMetadata("dummy-consumer-group")
   override def enforceRebalance(): Unit = ???
   override def currentLag(partition: TopicPartition): java.util.OptionalLong = ???
 
