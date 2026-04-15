@@ -48,6 +48,12 @@ import scala.concurrent.{ Await, ExecutionContext, Future, Promise }
 import scala.jdk.CollectionConverters._
 import scala.util.{ Failure, Success, Try }
 
+private[internal] object ProducerSpec {
+  val group = "group"
+  @scala.annotation.nowarn("msg=deprecated")
+  val testGroupMetadata = new ConsumerGroupMetadata(group)
+}
+
 class ProducerSpec(_system: ActorSystem)
     extends TestKit(_system)
     with AnyFlatSpecLike
@@ -65,10 +71,7 @@ class ProducerSpec(_system: ActorSystem)
   override def afterAll(): Unit = shutdown(system)
 
   implicit val ec: ExecutionContext = _system.dispatcher
-
-  private val group = "group"
-  @scala.annotation.nowarn("msg=deprecated")
-  private val testGroupMetadata = new ConsumerGroupMetadata(group)
+  import ProducerSpec._
 
   type K = String
   type V = String
@@ -641,7 +644,7 @@ class ProducerMock[K, V](handler: ProducerMock.Handler[K, V])(implicit ec: Execu
     val offsets = Map(new TopicPartition(po.key.topic, po.key.partition) -> new OffsetAndMetadata(po.offset + 1)).asJava
     val expectedMeta = po match {
       case m: ConsumerMessage.PartitionOffsetCommittedMarker => m.consumerGroupMetadata
-      case _                                                 => testGroupMetadata
+      case _                                                 => ProducerSpec.testGroupMetadata
     }
     inOrder.verify(mock).sendOffsetsToTransaction(offsets, expectedMeta)
     inOrder.verify(mock).commitTransaction()
@@ -653,7 +656,7 @@ class ProducerMock[K, V](handler: ProducerMock.Handler[K, V])(implicit ec: Execu
     val offsets = Map(new TopicPartition(po.key.topic, po.key.partition) -> new OffsetAndMetadata(po.offset + 1)).asJava
     val expectedMeta = po match {
       case m: ConsumerMessage.PartitionOffsetCommittedMarker => m.consumerGroupMetadata
-      case _                                                 => testGroupMetadata
+      case _                                                 => ProducerSpec.testGroupMetadata
     }
     inOrder.verify(mock).sendOffsetsToTransaction(offsets, expectedMeta)
     inOrder.verify(mock).commitTransaction()
