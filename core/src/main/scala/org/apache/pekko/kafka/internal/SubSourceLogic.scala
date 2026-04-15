@@ -429,6 +429,7 @@ private abstract class SubSourceStageLogic[K, V, Msg](
   protected def messageHandling: PartialFunction[(ActorRef, Any), Unit] = {
     case (_, msg: KafkaConsumerActor.Internal.Messages[K @unchecked, V @unchecked]) =>
       requested = false
+      msg.groupMetadata.foreach(onGroupMetadata)
       buffer = buffer ++ msg.messages
       pump()
     case (_, Status.Failure(e)) =>
@@ -436,6 +437,8 @@ private abstract class SubSourceStageLogic[K, V, Msg](
     case (_, Terminated(ref)) if ref == consumerActor =>
       failStage(new ConsumerFailed)
   }
+
+  protected def onGroupMetadata(metadata: org.apache.kafka.clients.consumer.ConsumerGroupMetadata): Unit = ()
 
   protected def onDownstreamFinishSubSourceCancellationStrategy(): SubSourceCancellationStrategy =
     if (buffer.hasNext) {

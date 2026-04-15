@@ -43,7 +43,6 @@ import org.apache.kafka.common.errors.{
 }
 import org.apache.kafka.common.{ Metric, MetricName, TopicPartition }
 
-import scala.annotation.nowarn
 import scala.concurrent.{ ExecutionContext, Future }
 import scala.concurrent.duration._
 import scala.jdk.CollectionConverters._
@@ -87,7 +86,8 @@ import scala.util.control.NonFatal
     // responses
     final case class Assigned(partition: List[TopicPartition]) extends NoSerializationVerificationNeeded
     final case class Revoked(partition: List[TopicPartition]) extends NoSerializationVerificationNeeded
-    final case class Messages[K, V](requestId: Int, messages: Iterator[ConsumerRecord[K, V]])
+    final case class Messages[K, V](requestId: Int, messages: Iterator[ConsumerRecord[K, V]],
+        groupMetadata: Option[ConsumerGroupMetadata] = None)
         extends NoSerializationVerificationNeeded
     final case class ConsumerMetrics(metrics: Map[MetricName, Metric]) extends NoSerializationVerificationNeeded {
       def getMetrics: java.util.Map[MetricName, Metric] = metrics.asJava
@@ -449,7 +449,6 @@ import scala.util.control.NonFatal
     progressTracker
   }
 
-  @nowarn("msg=deprecated")
   override def postStop(): Unit = {
     // reply to outstanding requests is important if the actor is restarted
     requests.foreach {
@@ -457,7 +456,7 @@ import scala.util.control.NonFatal
         ref ! Messages(req.requestId, Iterator.empty)
     }
     partitionAssignmentHandler.postStop()
-    consumer.close(settings.getCloseTimeout)
+    consumer.close(CloseOptions.timeout(settings.getCloseTimeout))
     super.postStop()
   }
 
@@ -643,7 +642,7 @@ import scala.util.control.NonFatal
           }
           val messages = b.result().iterator
           if (messages.nonEmpty) {
-            stageActorRef ! Messages(req.requestId, messages)
+            stageActorRef ! Messages(req.requestId, messages, Some(consumer.groupMetadata()))
             requests -= stageActorRef
           }
       }
