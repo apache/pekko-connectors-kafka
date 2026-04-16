@@ -35,7 +35,6 @@ import org.apache.pekko.kafka.cluster.sharding.KafkaClusterSharding;
 import org.apache.pekko.kafka.javadsl.Consumer;
 import org.apache.pekko.stream.javadsl.Flow;
 import org.apache.pekko.stream.javadsl.Sink;
-import org.apache.pekko.util.Timeout;
 
 public class ClusterShardingExample {
 
@@ -87,8 +86,8 @@ public class ClusterShardingExample {
                 .init(
                     Entity.of(typeKey, ctx -> userBehaviour())
                         .withAllocationStrategy(
-                            new ExternalShardAllocationStrategy(
-                                system, typeKey.name(), Timeout.create(Duration.ofSeconds(5))))
+                            ExternalShardAllocationStrategy.create(
+                                system, typeKey.name(), Duration.ofSeconds(5)))
                         .withMessageExtractor(extractor)));
     // #setup-cluster-sharding
 
