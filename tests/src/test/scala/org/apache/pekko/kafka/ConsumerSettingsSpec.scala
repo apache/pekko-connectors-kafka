@@ -19,6 +19,7 @@ import pekko.actor.ActorSystem
 import pekko.kafka.tests.scaladsl.LogCapturing
 import pekko.testkit.TestKit
 import com.typesafe.config.ConfigFactory
+import org.apache.kafka.clients.consumer.{ ConsumerConfig, CooperativeStickyAssignor }
 import org.apache.kafka.common.config.SslConfigs
 import org.apache.kafka.common.serialization.{ ByteArrayDeserializer, StringDeserializer }
 import org.scalatest.OptionValues
@@ -102,6 +103,43 @@ class ConsumerSettingsSpec
         .getConfig("pekko.kafka.consumer")
       val settings = ConsumerSettings(conf, None, Some(new ByteArrayDeserializer))
       settings.getProperty("bootstrap.servers") should ===("localhost:9092")
+    }
+
+    "handle withPartitionAssignmentStrategies" in {
+      val conf = ConfigFactory
+        .parseString(
+          """
+        pekko.kafka.consumer.kafka-clients.bootstrap.servers = "localhost:9092"
+        pekko.kafka.consumer.kafka-clients.key.deserializer = org.apache.kafka.common.serialization.StringDeserializer
+        pekko.kafka.consumer.kafka-clients.value.deserializer = org.apache.kafka.common.serialization.StringDeserializer
+        pekko.kafka.consumer.kafka-clients.client.id = client1
+        """)
+        .withFallback(ConfigFactory.load())
+        .getConfig("pekko.kafka.consumer")
+      val settings = ConsumerSettings(conf, None, None)
+        .withPartitionAssignmentStrategies(List(
+          classOf[org.apache.kafka.clients.consumer.CooperativeStickyAssignor].getName,
+          classOf[org.apache.kafka.clients.consumer.StickyAssignor].getName)
+        )
+      settings.getProperty(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG) should ===(
+        "org.apache.kafka.clients.consumer.CooperativeStickyAssignor,org.apache.kafka.clients.consumer.StickyAssignor")
+    }
+
+    "handle withPartitionAssignmentStrategyCooperativeStickyAssignor" in {
+      val conf = ConfigFactory
+        .parseString(
+          """
+        pekko.kafka.consumer.kafka-clients.bootstrap.servers = "localhost:9092"
+        pekko.kafka.consumer.kafka-clients.key.deserializer = org.apache.kafka.common.serialization.StringDeserializer
+        pekko.kafka.consumer.kafka-clients.value.deserializer = org.apache.kafka.common.serialization.StringDeserializer
+        pekko.kafka.consumer.kafka-clients.client.id = client1
+        """)
+        .withFallback(ConfigFactory.load())
+        .getConfig("pekko.kafka.consumer")
+      val settings = ConsumerSettings(conf, None, None)
+        .withPartitionAssignmentStrategyCooperativeStickyAssignor()
+      settings.getProperty(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG) should ===(
+        "org.apache.kafka.clients.consumer.CooperativeStickyAssignor")
     }
 
     "filter passwords from kafka-clients properties" in {
