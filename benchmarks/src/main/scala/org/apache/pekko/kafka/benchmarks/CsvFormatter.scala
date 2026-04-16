@@ -19,19 +19,6 @@ import org.apache.pekko.util.ByteString
 import java.nio.charset.{ Charset, StandardCharsets }
 import scala.collection.immutable
 
-private[benchmarks] sealed trait CsvQuotingStyle
-
-object CsvQuotingStyle {
-
-  /** Quote only fields requiring quotes */
-  case object Required extends CsvQuotingStyle
-
-  /** Quote all fields */
-  case object Always extends CsvQuotingStyle
-}
-
-// TODO: This needs to be deleted after migrating alpakka to pekko.
-// This is just temporary base to see everything compiles and tests will pass without any issue
 private[benchmarks] class CsvFormatter(delimiter: Char,
     quoteChar: Char,
     escapeChar: Char,
