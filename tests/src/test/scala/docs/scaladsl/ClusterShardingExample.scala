@@ -71,7 +71,7 @@ object ClusterShardingExample {
     case Success(extractor) =>
       ClusterSharding(system).init(
         Entity(typeKey)(createBehavior = _ => userBehaviour())
-          .withAllocationStrategy(new ExternalShardAllocationStrategy(system, typeKey.name))
+          .withAllocationStrategy(ExternalShardAllocationStrategy(system, typeKey.name, 5.seconds))
           .withMessageExtractor(extractor)
           .withSettings(ClusterShardingSettings(system)))
     case Failure(ex) => system.log.error("An error occurred while obtaining the message extractor", ex)
