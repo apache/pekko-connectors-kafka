@@ -2,8 +2,8 @@
 
 [scaladex]:            https://index.scala-lang.org/apache/pekko-connectors-kafka/
 [scaladex-badge]:      https://index.scala-lang.org/apache/pekko-connectors-kafka/latest.svg?target=_2.13
-[maven-central]:       https://maven-badges.herokuapp.com/maven-central/org.apache.pekko/pekko-connectors-kafka_2.13
-[maven-central-badge]: https://maven-badges.herokuapp.com/maven-central/org.apache.pekko/pekko-connectors-kafka_2.13/badge.svg
+[maven-central]:       https://search.maven.org/#search%7Cga%7C1%7Cpekko-connectors-kafka
+[maven-central-badge]: https://maven-badges.sml.io/maven-central/org.apache.pekko/pekko-connectors-kafka_2.13/badge.svg
 [gh-actions]:          https://github.com/apache/pekko-connectors-kafka/actions
 [gh-actions-badge]:    https://github.com/apache/pekko-connectors-kafka/workflows/CI/badge.svg?branch=main
 
