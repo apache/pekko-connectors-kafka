@@ -9,7 +9,7 @@
 
 import Versions._
 import com.github.sbt.junit.jupiter.sbt.Import.jupiterTestFramework
-import com.github.sbt.JavaFormatterPlugin.autoImport.javafmtOnCompile
+import com.github.sbt.JavaFormatterPlugin.autoImport.{ javafmtOnCompile, javafmtSortImports }
 import com.lightbend.paradox.projectinfo.ParadoxProjectInfoPlugin.autoImport.projectInfoVersion
 import com.typesafe.tools.mima.plugin.MimaKeys.mimaReportSignatureProblems
 import org.scalafmt.sbt.ScalafmtPlugin.autoImport.scalafmtOnCompile
@@ -121,6 +121,7 @@ object ProjectSettings extends AutoPlugin {
     testOptions += Tests.Argument(jupiterTestFramework, "-a", "-v", "-q", "-s"),
     scalafmtOnCompile := false,
     javafmtOnCompile := false,
+    javafmtSortImports := false,
     ThisBuild / mimaReportSignatureProblems := true,
     projectInfoVersion := (if (isSnapshot.value) "snapshot" else version.value))
 

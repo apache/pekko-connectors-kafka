@@ -16,6 +16,7 @@ sourceDistName := "apache-pekko-connectors-kafka"
 sourceDistIncubating := false
 
 ThisBuild / reproducibleBuildsCheckResolver := Resolver.ApacheMavenStagingRepo
+ThisBuild / javafmtFormatterCompatibleJavaVersion := 17
 
 addCommandAlias("verifyCodeStyle", "scalafmtCheckAll; scalafmtSbtCheck; +headerCheckAll; javafmtCheckAll")
 addCommandAlias("applyCodeStyle", "+headerCreateAll; scalafmtAll; scalafmtSbt; javafmtAll")
