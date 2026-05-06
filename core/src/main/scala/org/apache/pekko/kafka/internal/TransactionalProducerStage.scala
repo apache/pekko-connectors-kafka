@@ -75,6 +75,7 @@ private object TransactionalProducerStage {
 
     def group: String = head.key.groupId
     def committedMarker: CommittedMarker = head.committedMarker
+    def groupMetadata: ConsumerGroupMetadata = head.consumerGroupMetadata
 
     def offsetMap(): Map[TopicPartition, OffsetAndMetadata] = offsets.map {
       case (gtp, offset) => new TopicPartition(gtp.topic, gtp.partition) -> new OffsetAndMetadata(offset + 1)
@@ -247,7 +248,7 @@ private final class TransactionalProducerStageLogic[K, V, P](
       group,
       batch.offsets)
     val offsetMap = batch.offsetMap()
-    producer.sendOffsetsToTransaction(offsetMap.asJava, new ConsumerGroupMetadata(group))
+    producer.sendOffsetsToTransaction(offsetMap.asJava, batch.groupMetadata)
     producer.commitTransaction()
     log.debug("Committed transaction for transactional id '{}' consumer group '{}' with offsets: {}",
       transactionalId,
