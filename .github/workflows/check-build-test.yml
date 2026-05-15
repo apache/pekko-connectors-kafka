@@ -47,9 +47,6 @@ jobs:
       - name: Install sbt
         uses: sbt/setup-sbt@508b753e53cb6095967669e0911487d2b9bc9f41 # v1.1.22
 
-      - name: Cache Coursier cache
-        uses: coursier/cache-action@90c37294538be80a558fd665531fcdc2b467b475 # v8.1.0
-
       - name: Code style check and binary-compatibility check
         # Run locally with: sbt 'javafmtCheckAll; mimaReportBinaryIssues'
         run: sbt "javafmtCheckAll; mimaReportBinaryIssues"
@@ -75,9 +72,6 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-
-      - name: Cache Coursier cache
-        uses: coursier/cache-action@90c37294538be80a558fd665531fcdc2b467b475 # v8.1.0
 
       - name: Compile all code with fatal warnings for Java 17 and Scala 2.13/3
         # Run locally with: env CI=true sbt 'clean ; Test/compile'
@@ -107,9 +101,6 @@ jobs:
 
       - name: Install sbt
         uses: sbt/setup-sbt@508b753e53cb6095967669e0911487d2b9bc9f41 # v1.1.22
-
-      - name: Cache Coursier cache
-        uses: coursier/cache-action@90c37294538be80a558fd665531fcdc2b467b475 # v8.1.0
 
       - name: Create all API docs for artifacts/website and all reference docs
         run: sbt "doc ; unidoc ; docs/paradoxBrowse"
@@ -146,9 +137,6 @@ jobs:
       - name: Install sbt
         uses: sbt/setup-sbt@508b753e53cb6095967669e0911487d2b9bc9f41 # v1.1.22
 
-      - name: Cache Coursier cache
-        uses: coursier/cache-action@90c37294538be80a558fd665531fcdc2b467b475 # v8.1.0
-
       - name: Run tests with Scala ${{ matrix.scala-version }} and Java ${{ matrix.java-version }}
         run: sbt "++${{ matrix.scala-version }} test" ${{ matrix.sbt-opts }}
 
@@ -182,9 +170,6 @@ jobs:
       - name: Install sbt
         uses: sbt/setup-sbt@508b753e53cb6095967669e0911487d2b9bc9f41 # v1.1.22
 
-      - name: Cache Coursier cache
-        uses: coursier/cache-action@90c37294538be80a558fd665531fcdc2b467b475 # v8.1.0
-
       - name: Run multi-broker and long running integration tests
         run: sbt "int-tests/test"
 
@@ -216,9 +201,6 @@ jobs:
 
       - name: Install sbt
         uses: sbt/setup-sbt@508b753e53cb6095967669e0911487d2b9bc9f41 # v1.1.22
-
-      - name: Cache Coursier cache
-        uses: coursier/cache-action@90c37294538be80a558fd665531fcdc2b467b475 # v8.1.0
 
       - name: "Compile benchmark tests"
         run: sbt "benchmarks/Test/compile"
