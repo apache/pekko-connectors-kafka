@@ -14,7 +14,6 @@
 
 package org.apache.pekko.kafka.internal
 
-import java.util.concurrent.CompletableFuture
 import org.apache.pekko
 import pekko.actor.ActorSystem
 import pekko.kafka.ConsumerMessage.{ GroupTopicPartition, PartitionOffset, PartitionOffsetCommittedMarker }
@@ -43,6 +42,9 @@ import org.scalatest.BeforeAndAfterAll
 import org.scalatest.flatspec.AnyFlatSpecLike
 import org.scalatest.matchers.should.Matchers
 
+import java.util.concurrent.CompletableFuture
+
+import scala.annotation.nowarn
 import scala.concurrent.duration._
 import scala.concurrent.{ Await, ExecutionContext, Future, Promise }
 import scala.jdk.CollectionConverters._
@@ -633,6 +635,7 @@ class ProducerMock[K, V](handler: ProducerMock.Handler[K, V])(implicit ec: Execu
     inOrder.verify(mock).beginTransaction()
   }
 
+  @nowarn("msg=deprecated")
   def verifyTxCommit(po: ConsumerMessage.PartitionOffset) = {
     val inOrder = Mockito.inOrder(mock)
     val offsets = Map(new TopicPartition(po.key.topic, po.key.partition) -> new OffsetAndMetadata(po.offset + 1)).asJava
@@ -641,6 +644,7 @@ class ProducerMock[K, V](handler: ProducerMock.Handler[K, V])(implicit ec: Execu
     inOrder.verify(mock).beginTransaction()
   }
 
+  @nowarn("msg=deprecated")
   def verifyTxCommitWhenShutdown(po: ConsumerMessage.PartitionOffset) = {
     val inOrder = Mockito.inOrder(mock)
     val offsets = Map(new TopicPartition(po.key.topic, po.key.partition) -> new OffsetAndMetadata(po.offset + 1)).asJava

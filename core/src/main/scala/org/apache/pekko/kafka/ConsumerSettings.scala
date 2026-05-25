@@ -660,9 +660,14 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
     val propertiesWithMandatoryKeys = properties ++ Map(
       ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG -> keyDeserializerOpt.map(_.getClass).orNull,
       ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG -> valueDeserializerOpt.map(_.getClass).orNull)
-
+    val myProperties = if (propertiesWithMandatoryKeys.contains(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG)) {
+      propertiesWithMandatoryKeys
+    } else {
+      // If bootstrap servers are not included, add a placeholder to avoid confusion in the logs
+      propertiesWithMandatoryKeys + (ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG -> "undefined")
+    }
     val kafkaClients =
-      ConfigSettings.serializeAndMaskKafkaProperties(propertiesWithMandatoryKeys,
+      ConfigSettings.serializeAndMaskKafkaProperties(myProperties,
         new org.apache.kafka.clients.consumer.ConsumerConfig(_))
     "org.apache.pekko.kafka.ConsumerSettings(" +
     s"properties=$kafkaClients," +
