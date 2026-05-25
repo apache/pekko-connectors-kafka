@@ -16,7 +16,7 @@ package org.apache.pekko.kafka.internal
 
 import org.apache.pekko
 import pekko.actor.ActorSystem
-import pekko.annotation.warn
+import pekko.annotation.nowarn
 import pekko.kafka.ConsumerMessage.{ GroupTopicPartition, PartitionOffset, PartitionOffsetCommittedMarker }
 import pekko.kafka.ProducerMessage._
 import pekko.kafka.scaladsl.Producer
