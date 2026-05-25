@@ -14,10 +14,11 @@
 
 package org.apache.pekko.kafka.benchmarks
 
-import org.apache.pekko
-import pekko.kafka.benchmarks.KafkaConsumerBenchmarks.pollTimeoutMs
 import com.codahale.metrics.Meter
 import com.typesafe.scalalogging.LazyLogging
+import org.apache.pekko
+import pekko.annotation.nowarn
+import pekko.kafka.benchmarks.KafkaConsumerBenchmarks.pollTimeoutMs
 import org.apache.kafka.clients.consumer._
 import org.apache.kafka.clients.producer.{ Callback, ProducerRecord, RecordMetadata }
 import org.apache.kafka.common.TopicPartition
@@ -45,6 +46,7 @@ object KafkaTransactionBenchmarks extends LazyLogging {
     var accumulatedMsgCount = 0L
     var lastCommit = 0L
 
+    @nowarn("msg=deprecated")
     def doCommit(): Unit = {
       accumulatedMsgCount = 0
       val offsetMap = Map(new TopicPartition(fixture.sourceTopic, 0) -> new OffsetAndMetadata(lastProcessedOffset))

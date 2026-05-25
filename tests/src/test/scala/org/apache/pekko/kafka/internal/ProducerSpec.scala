@@ -14,9 +14,9 @@
 
 package org.apache.pekko.kafka.internal
 
-import java.util.concurrent.CompletableFuture
 import org.apache.pekko
 import pekko.actor.ActorSystem
+import pekko.annotation.warn
 import pekko.kafka.ConsumerMessage.{ GroupTopicPartition, PartitionOffset, PartitionOffsetCommittedMarker }
 import pekko.kafka.ProducerMessage._
 import pekko.kafka.scaladsl.Producer
@@ -43,11 +43,14 @@ import org.scalatest.BeforeAndAfterAll
 import org.scalatest.flatspec.AnyFlatSpecLike
 import org.scalatest.matchers.should.Matchers
 
+import java.util.concurrent.CompletableFuture
+
 import scala.concurrent.duration._
 import scala.concurrent.{ Await, ExecutionContext, Future, Promise }
 import scala.jdk.CollectionConverters._
 import scala.util.{ Failure, Success, Try }
 
+@nowarn("msg=deprecated")
 class ProducerSpec(_system: ActorSystem)
     extends TestKit(_system)
     with AnyFlatSpecLike
