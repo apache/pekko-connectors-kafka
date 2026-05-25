@@ -125,7 +125,6 @@ lazy val `java-tests` = project
     resolvers ++= ResolverSettings.testSpecificResolvers,
     libraryDependencies ++= Dependencies.testDependencies,
     libraryDependencies ++= Seq(
-      "org.junit.vintage" % "junit-vintage-engine" % JupiterKeys.junitVintageVersion.value % Test,
       "com.github.sbt.junit" % "jupiter-interface" % JupiterKeys.jupiterVersion.value % Test),
     publish / skip := true,
     Test / compileOrder := CompileOrder.ScalaThenJava,
