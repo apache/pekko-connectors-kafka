@@ -391,9 +391,14 @@ class ProducerSettings[K, V] @InternalApi private[kafka] (
     val propertiesWithMandatoryKeys = properties ++ Map(
       ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG -> keySerializerOpt.map(_.getClass).orNull,
       ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG -> valueSerializerOpt.map(_.getClass).orNull)
-
+    val myProperties = if (propertiesWithMandatoryKeys.contains(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG)) {
+      propertiesWithMandatoryKeys
+    } else {
+      // If bootstrap servers are not included, add a placeholder to avoid confusion in the logs
+      propertiesWithMandatoryKeys + (ProducerConfig.BOOTSTRAP_SERVERS_CONFIG -> "undefined")
+    }
     val kafkaClients =
-      ConfigSettings.serializeAndMaskKafkaProperties(propertiesWithMandatoryKeys,
+      ConfigSettings.serializeAndMaskKafkaProperties(myProperties,
         new org.apache.kafka.clients.producer.ProducerConfig(_))
     "org.apache.pekko.kafka.ProducerSettings(" +
     s"properties=$kafkaClients," +
