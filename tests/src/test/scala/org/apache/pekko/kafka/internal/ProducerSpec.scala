@@ -50,7 +50,6 @@ import scala.concurrent.{ Await, ExecutionContext, Future, Promise }
 import scala.jdk.CollectionConverters._
 import scala.util.{ Failure, Success, Try }
 
-@nowarn("msg=deprecated")
 class ProducerSpec(_system: ActorSystem)
     extends TestKit(_system)
     with AnyFlatSpecLike
@@ -636,6 +635,7 @@ class ProducerMock[K, V](handler: ProducerMock.Handler[K, V])(implicit ec: Execu
     inOrder.verify(mock).beginTransaction()
   }
 
+  @nowarn("msg=deprecated")
   def verifyTxCommit(po: ConsumerMessage.PartitionOffset) = {
     val inOrder = Mockito.inOrder(mock)
     val offsets = Map(new TopicPartition(po.key.topic, po.key.partition) -> new OffsetAndMetadata(po.offset + 1)).asJava
@@ -644,6 +644,7 @@ class ProducerMock[K, V](handler: ProducerMock.Handler[K, V])(implicit ec: Execu
     inOrder.verify(mock).beginTransaction()
   }
 
+  @nowarn("msg=deprecated")
   def verifyTxCommitWhenShutdown(po: ConsumerMessage.PartitionOffset) = {
     val inOrder = Mockito.inOrder(mock)
     val offsets = Map(new TopicPartition(po.key.topic, po.key.partition) -> new OffsetAndMetadata(po.offset + 1)).asJava
