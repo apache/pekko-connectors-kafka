@@ -642,7 +642,7 @@ import scala.util.control.NonFatal
           }
           val messages = b.result().iterator
           if (messages.nonEmpty) {
-            stageActorRef ! Messages(req.requestId, messages, Some(consumer.groupMetadata()))
+            stageActorRef ! Messages(req.requestId, messages, Try(consumer.groupMetadata()).toOption)
             requests -= stageActorRef
           }
       }
