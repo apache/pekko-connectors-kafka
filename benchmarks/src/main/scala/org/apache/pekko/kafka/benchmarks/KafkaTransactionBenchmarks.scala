@@ -17,13 +17,12 @@ package org.apache.pekko.kafka.benchmarks
 import com.codahale.metrics.Meter
 import com.typesafe.scalalogging.LazyLogging
 import org.apache.pekko
-import pekko.annotation.nowarn
 import pekko.kafka.benchmarks.KafkaConsumerBenchmarks.pollTimeoutMs
 import org.apache.kafka.clients.consumer._
 import org.apache.kafka.clients.producer.{ Callback, ProducerRecord, RecordMetadata }
 import org.apache.kafka.common.TopicPartition
 
-import scala.annotation.tailrec
+import scala.annotation.{ nowarn, tailrec }
 import scala.concurrent.duration.FiniteDuration
 import scala.jdk.CollectionConverters._
 
