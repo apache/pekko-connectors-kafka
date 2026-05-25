@@ -44,7 +44,7 @@ import org.scalatest.matchers.should.Matchers
 
 import java.util.concurrent.CompletableFuture
 
-import scala.annotations.nowarn
+import scala.annotation.nowarn
 import scala.concurrent.duration._
 import scala.concurrent.{ Await, ExecutionContext, Future, Promise }
 import scala.jdk.CollectionConverters._
