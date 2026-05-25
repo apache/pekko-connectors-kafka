@@ -642,7 +642,10 @@ import scala.util.control.NonFatal
           }
           val messages = b.result().iterator
           if (messages.nonEmpty) {
-            stageActorRef ! Messages(req.requestId, messages, Try(consumer.groupMetadata()).toOption)
+            val groupMetadata =
+              if (settings.properties.contains(ConsumerConfig.GROUP_ID_CONFIG)) Some(consumer.groupMetadata())
+              else None
+            stageActorRef ! Messages(req.requestId, messages, groupMetadata)
             requests -= stageActorRef
           }
       }
