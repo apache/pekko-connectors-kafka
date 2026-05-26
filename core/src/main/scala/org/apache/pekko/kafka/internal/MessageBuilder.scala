@@ -27,7 +27,7 @@ import pekko.kafka.ConsumerMessage.{
   TransactionalMessage,
   _
 }
-import org.apache.kafka.clients.consumer.{ ConsumerRecord, OffsetAndMetadata }
+import org.apache.kafka.clients.consumer.{ ConsumerGroupMetadata, ConsumerRecord, OffsetAndMetadata }
 import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.requests.OffsetFetchResponse
 
@@ -57,6 +57,8 @@ private[kafka] trait TransactionalMessageBuilderBase[K, V, Msg] extends MessageB
   def onMessage(consumerMessage: ConsumerRecord[K, V]): Unit
 
   def fromPartitionedSource: Boolean
+
+  def consumerGroupMetadata: ConsumerGroupMetadata
 }
 
 /** Internal API */
@@ -72,7 +74,8 @@ private[kafka] trait TransactionalMessageBuilder[K, V]
         partition = rec.partition),
       offset = rec.offset,
       committedMarker,
-      fromPartitionedSource)
+      fromPartitionedSource,
+      consumerGroupMetadata)
     ConsumerMessage.TransactionalMessage(rec, offset)
   }
 }
@@ -90,7 +93,8 @@ private[kafka] trait TransactionalOffsetContextBuilder[K, V]
         partition = rec.partition),
       offset = rec.offset,
       committedMarker,
-      fromPartitionedSource)
+      fromPartitionedSource,
+      consumerGroupMetadata)
     (rec, offset)
   }
 }

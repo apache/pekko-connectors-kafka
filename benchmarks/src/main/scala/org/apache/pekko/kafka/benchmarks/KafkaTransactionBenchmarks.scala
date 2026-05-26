@@ -22,7 +22,7 @@ import org.apache.kafka.clients.consumer._
 import org.apache.kafka.clients.producer.{ Callback, ProducerRecord, RecordMetadata }
 import org.apache.kafka.common.TopicPartition
 
-import scala.annotation.{ nowarn, tailrec }
+import scala.annotation.tailrec
 import scala.concurrent.duration.FiniteDuration
 import scala.jdk.CollectionConverters._
 
@@ -45,12 +45,11 @@ object KafkaTransactionBenchmarks extends LazyLogging {
     var accumulatedMsgCount = 0L
     var lastCommit = 0L
 
-    @nowarn("msg=deprecated")
     def doCommit(): Unit = {
       accumulatedMsgCount = 0
       val offsetMap = Map(new TopicPartition(fixture.sourceTopic, 0) -> new OffsetAndMetadata(lastProcessedOffset))
       logger.debug("Committing offset " + offsetMap.head._2.offset())
-      producer.sendOffsetsToTransaction(offsetMap.asJava, new ConsumerGroupMetadata(fixture.groupId))
+      producer.sendOffsetsToTransaction(offsetMap.asJava, consumer.groupMetadata())
       producer.commitTransaction()
     }
 

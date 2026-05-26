@@ -21,7 +21,7 @@ import org.apache.pekko
 import pekko.Done
 import pekko.annotation.{ DoNotInherit, InternalApi }
 import pekko.kafka.internal.{ CommittableOffsetBatchImpl, CommittedMarker }
-import org.apache.kafka.clients.consumer.ConsumerRecord
+import org.apache.kafka.clients.consumer.{ ConsumerGroupMetadata, ConsumerRecord }
 import org.apache.kafka.common.TopicPartition
 
 import scala.concurrent.Future
@@ -134,15 +134,17 @@ object ConsumerMessage {
 
   private[kafka] object PartitionOffsetCommittedMarker {
     def apply(key: GroupTopicPartition, offset: Long,
-        committedMarker: CommittedMarker, fromPartitionedSource: Boolean): PartitionOffsetCommittedMarker =
-      new PartitionOffsetCommittedMarker(key, offset, committedMarker, fromPartitionedSource)
+        committedMarker: CommittedMarker, fromPartitionedSource: Boolean,
+        consumerGroupMetadata: ConsumerGroupMetadata): PartitionOffsetCommittedMarker =
+      new PartitionOffsetCommittedMarker(key, offset, committedMarker, fromPartitionedSource, consumerGroupMetadata)
   }
 
   @InternalApi private[kafka] final class PartitionOffsetCommittedMarker(
       override val key: GroupTopicPartition,
       override val offset: Long,
       private[kafka] val committedMarker: CommittedMarker,
-      private[kafka] val fromPartitionedSource: Boolean) extends PartitionOffset(key, offset)
+      private[kafka] val fromPartitionedSource: Boolean,
+      private[kafka] val consumerGroupMetadata: ConsumerGroupMetadata) extends PartitionOffset(key, offset)
 
   /**
    * groupId, topic, partition key for an offset position.

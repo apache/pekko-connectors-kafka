@@ -76,6 +76,7 @@ import scala.concurrent.{ ExecutionContext, Future }
       // might be more than one in flight when we assign/revoke tps
       if (msg.requestId == requestId)
         requested = false
+      msg.groupMetadata.foreach(onGroupMetadata)
       buffer = buffer ++ msg.messages
       pump()
     case (_, Status.Failure(e)) =>
@@ -83,6 +84,8 @@ import scala.concurrent.{ ExecutionContext, Future }
     case (_, Terminated(ref)) if ref == consumerActor =>
       failStage(new ConsumerFailed())
   }
+
+  protected def onGroupMetadata(metadata: org.apache.kafka.clients.consumer.ConsumerGroupMetadata): Unit = ()
 
   protected def createConsumerActor(): ActorRef
 

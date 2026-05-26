@@ -62,7 +62,7 @@ import scala.concurrent.{ Future, Promise }
       complete(shape.out)
     }
     sourceActor.become(shuttingDownReceive.orElse {
-      case (_, Messages(requestId, messages)) =>
+      case (_, Messages(requestId, messages, _)) =>
         // Prevent stage failure during shutdown by ignoring Messages
         if (messages.hasNext)
           log.debug("Unexpected `Messages` received with requestId={} and a non-empty message iterator: {}",
