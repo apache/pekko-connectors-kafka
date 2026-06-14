@@ -61,7 +61,7 @@ private[kafka] trait DeferredProducer[K, V] {
   import DeferredProducer._
 
   /** The Kafka producer may be created lazily, assigned via `preStart` in `assignProducer`. */
-  protected var producer: Producer[K, V] = _
+  protected var producer: Producer[K, V] = null
   protected var producerAssignmentLifecycle: ProducerAssignmentLifecycle = Unassigned
 
   protected def producerSettings: ProducerSettings[K, V]

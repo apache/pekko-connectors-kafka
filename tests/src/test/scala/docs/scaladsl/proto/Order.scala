@@ -28,8 +28,8 @@ final case class Order(
     extends scalapb.GeneratedMessage
     with scalapb.lenses.Updatable[Order] {
   @transient
-  private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
-  private[this] def __computeSerializedValue(): _root_.scala.Int = {
+  private var __serializedSizeCachedValue: _root_.scala.Int = 0
+  private def __computeSerializedValue(): _root_.scala.Int = {
     var __size = 0
 
     {

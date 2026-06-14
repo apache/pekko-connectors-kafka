@@ -196,23 +196,23 @@ import scala.util.control.NonFatal
   private val pollMsg = Poll(this, periodic = true)
   private val delayedPollMsg = Poll(this, periodic = false)
 
-  private var settings: ConsumerSettings[K, V] = _
-  private var pollTimeout: java.time.Duration = _
+  private var settings: ConsumerSettings[K, V] = null
+  private var pollTimeout: java.time.Duration = null
 
   /** Limits the blocking on offsetForTimes */
-  private var offsetForTimesTimeout: java.time.Duration = _
+  private var offsetForTimesTimeout: java.time.Duration = null
 
   /** Limits the blocking on position in [[RebalanceListenerImpl]] */
-  private var positionTimeout: java.time.Duration = _
+  private var positionTimeout: java.time.Duration = null
 
   private var requests = Map.empty[ActorRef, RequestMessages]
 
   /** ActorRefs of all stages that sent subscriptions requests or `RegisterSubStage` to this actor (removed on their termination). */
   private var stageActorsMap = Map.empty[Set[TopicPartition], ActorRef]
-  private var consumer: Consumer[K, V] = _
+  private var consumer: Consumer[K, V] = null
   private var commitsInProgress = 0
-  private var commitRefreshing: CommitRefreshing = _
-  private var resetProtection: ConsumerResetProtection = _
+  private var commitRefreshing: CommitRefreshing = null
+  private var resetProtection: ConsumerResetProtection = null
   private var stopInProgress = false
 
   /**
