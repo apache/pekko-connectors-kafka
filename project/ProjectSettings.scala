@@ -94,7 +94,7 @@ object ProjectSettings extends AutoPlugin {
       else Seq.empty
     },
     scalacOptions ++= {
-      if (scalaBinaryVersion.value == "3") Seq("-Yfuture-lazy-vals")
+      if (scalaBinaryVersion.value == "3") Seq("-Yfuture-lazy-vals", "-release:17")
       else Seq.empty
     },
     Compile / doc / scalacOptions := scalacOptions.value ++ Seq(
