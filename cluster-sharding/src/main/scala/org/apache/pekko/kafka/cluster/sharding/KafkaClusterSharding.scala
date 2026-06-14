@@ -65,7 +65,7 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/1074")
   def messageExtractor[M](topic: String,
       timeout: FiniteDuration,
-      settings: ConsumerSettings[_, _]): Future[KafkaShardingMessageExtractor[M]] =
+      settings: ConsumerSettings[?, ?]): Future[KafkaShardingMessageExtractor[M]] =
     getPartitionCount(topic, timeout, settings).map(new KafkaShardingMessageExtractor[M](_))(system.dispatcher)
 
   /**
@@ -87,7 +87,7 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/1074")
   def messageExtractor[M](topic: String,
       timeout: java.time.Duration,
-      settings: ConsumerSettings[_, _]): CompletionStage[KafkaShardingMessageExtractor[M]] =
+      settings: ConsumerSettings[?, ?]): CompletionStage[KafkaShardingMessageExtractor[M]] =
     getPartitionCount(topic, timeout.toScala, settings)
       .map(new KafkaShardingMessageExtractor[M](_))(system.dispatcher)
       .asJava
@@ -126,7 +126,7 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
   def messageExtractorNoEnvelope[M](topic: String,
       timeout: FiniteDuration,
       entityIdExtractor: M => String,
-      settings: ConsumerSettings[_, _]): Future[KafkaShardingNoEnvelopeExtractor[M]] =
+      settings: ConsumerSettings[?, ?]): Future[KafkaShardingNoEnvelopeExtractor[M]] =
     getPartitionCount(topic, timeout, settings)
       .map(partitions => new KafkaShardingNoEnvelopeExtractor[M](partitions, entityIdExtractor))(system.dispatcher)
 
@@ -152,7 +152,7 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
       topic: String,
       timeout: java.time.Duration,
       entityIdExtractor: java.util.function.Function[M, String],
-      settings: ConsumerSettings[_, _]): CompletionStage[KafkaShardingNoEnvelopeExtractor[M]] =
+      settings: ConsumerSettings[?, ?]): CompletionStage[KafkaShardingNoEnvelopeExtractor[M]] =
     getPartitionCount(topic, timeout.toScala, settings)
       .map(partitions => new KafkaShardingNoEnvelopeExtractor[M](partitions, e => entityIdExtractor.apply(e)))(
         system.dispatcher)
@@ -194,7 +194,7 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
   private val metadataConsumerActorNum = new AtomicInteger
   private def getPartitionCount[M](topic: String,
       timeout: FiniteDuration,
-      settings: ConsumerSettings[_, _]): Future[Int] = {
+      settings: ConsumerSettings[?, ?]): Future[Int] = {
     implicit val ec: ExecutionContextExecutor = system.dispatcher
     val num = metadataConsumerActorNum.getAndIncrement()
     val consumerActor = system
@@ -209,7 +209,7 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
   }
 
   private val rebalanceListeners =
-    new ConcurrentHashMap[EntityTypeKey[_], pekko.actor.typed.ActorRef[ConsumerRebalanceEvent]]()
+    new ConcurrentHashMap[EntityTypeKey[?], pekko.actor.typed.ActorRef[ConsumerRebalanceEvent]]()
 
   /**
    * API MAY CHANGE
@@ -229,7 +229,7 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
    * }}}
    */
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/1074")
-  def rebalanceListener(typeKey: EntityTypeKey[_]): pekko.actor.typed.ActorRef[ConsumerRebalanceEvent] = {
+  def rebalanceListener(typeKey: EntityTypeKey[?]): pekko.actor.typed.ActorRef[ConsumerRebalanceEvent] = {
     rebalanceListeners.computeIfAbsent(typeKey,
       _ => {
         system.toTyped
@@ -258,7 +258,7 @@ final class KafkaClusterSharding(system: ExtendedActorSystem) extends Extension 
    */
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/1074")
   def rebalanceListener(
-      typeKey: pekko.cluster.sharding.typed.javadsl.EntityTypeKey[_])
+      typeKey: pekko.cluster.sharding.typed.javadsl.EntityTypeKey[?])
       : pekko.actor.typed.ActorRef[ConsumerRebalanceEvent] = {
     rebalanceListener(typeKey.asScala)
   }
@@ -299,7 +299,7 @@ object KafkaClusterSharding extends ExtensionId[KafkaClusterSharding] {
     // Used from future callbacks so can't use the log in the context
     private val log = LoggerFactory.getLogger(RebalanceListener.getClass)
 
-    def apply(typeKey: EntityTypeKey[_]): Behavior[ConsumerRebalanceEvent] =
+    def apply(typeKey: EntityTypeKey[?]): Behavior[ConsumerRebalanceEvent] =
       Behaviors.setup { ctx =>
         import ctx.executionContext
         val shardAllocationClient = ExternalShardAllocation(ctx.system).clientFor(typeKey.name)

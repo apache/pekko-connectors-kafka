@@ -113,7 +113,7 @@ class ProducerExample extends DocsSpecBase with TestcontainersKafkaLike {
       .createKafkaProducerAsync()
       .map { kafkaProducer =>
         // #producerMetrics
-        val metrics: java.util.Map[org.apache.kafka.common.MetricName, _ <: org.apache.kafka.common.Metric] =
+        val metrics: java.util.Map[org.apache.kafka.common.MetricName, ? <: org.apache.kafka.common.Metric] =
           kafkaProducer.metrics() // observe metrics
         // #producerMetrics
         metrics.isEmpty should be(false)

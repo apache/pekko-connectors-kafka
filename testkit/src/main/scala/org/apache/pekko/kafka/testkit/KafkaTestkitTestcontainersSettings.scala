@@ -44,12 +44,12 @@ final class KafkaTestkitTestcontainersSettings private (
       new Consumer[java.util.Collection[PekkoConnectorsKafkaContainer]]() {
         override def accept(arg: java.util.Collection[PekkoConnectorsKafkaContainer]): Unit = ()
       },
-    val configureZooKeeper: GenericContainer[_] => Unit = _ => (),
-    val configureZooKeeperConsumer: java.util.function.Consumer[GenericContainer[_]] =
-      new Consumer[GenericContainer[_]]() {
-        override def accept(arg: GenericContainer[_]): Unit = ()
+    val configureZooKeeper: GenericContainer[?] => Unit = _ => (),
+    val configureZooKeeperConsumer: java.util.function.Consumer[GenericContainer[?]] =
+      new Consumer[GenericContainer[?]]() {
+        override def accept(arg: GenericContainer[?]): Unit = ()
       },
-    val configureSchemaRegistry: GenericContainer[_] => Unit = _ => ()) {
+    val configureSchemaRegistry: GenericContainer[?] => Unit = _ => ()) {
 
   /**
    * Java Api
@@ -178,7 +178,7 @@ final class KafkaTestkitTestcontainersSettings private (
   /**
    * Replaces the default ZooKeeper testcontainers configuration logic
    */
-  def withConfigureZooKeeper(configureZooKeeper: GenericContainer[_] => Unit): KafkaTestkitTestcontainersSettings =
+  def withConfigureZooKeeper(configureZooKeeper: GenericContainer[?] => Unit): KafkaTestkitTestcontainersSettings =
     copy(configureZooKeeper = configureZooKeeper)
 
   /**
@@ -187,7 +187,7 @@ final class KafkaTestkitTestcontainersSettings private (
    * Replaces the default ZooKeeper testcontainers configuration logic
    */
   def withConfigureZooKeeperConsumer(
-      configureZooKeeperConsumer: java.util.function.Consumer[GenericContainer[_]])
+      configureZooKeeperConsumer: java.util.function.Consumer[GenericContainer[?]])
       : KafkaTestkitTestcontainersSettings =
     copy(configureZooKeeperConsumer = configureZooKeeperConsumer)
 
@@ -196,7 +196,7 @@ final class KafkaTestkitTestcontainersSettings private (
    * Replaces the default schema registry testcontainers configuration logic
    */
   def withConfigureSchemaRegistry(
-      configureSchemaRegistry: GenericContainer[_] => Unit): KafkaTestkitTestcontainersSettings =
+      configureSchemaRegistry: GenericContainer[?] => Unit): KafkaTestkitTestcontainersSettings =
     copy(configureSchemaRegistry = configureSchemaRegistry)
 
   /**
@@ -255,9 +255,9 @@ final class KafkaTestkitTestcontainersSettings private (
       configureKafka: Vector[PekkoConnectorsKafkaContainer] => Unit = configureKafka,
       configureKafkaConsumer: java.util.function.Consumer[java.util.Collection[PekkoConnectorsKafkaContainer]] =
         configureKafkaConsumer,
-      configureZooKeeper: GenericContainer[_] => Unit = configureZooKeeper,
-      configureZooKeeperConsumer: java.util.function.Consumer[GenericContainer[_]] = configureZooKeeperConsumer,
-      configureSchemaRegistry: GenericContainer[_] => Unit = configureSchemaRegistry)
+      configureZooKeeper: GenericContainer[?] => Unit = configureZooKeeper,
+      configureZooKeeperConsumer: java.util.function.Consumer[GenericContainer[?]] = configureZooKeeperConsumer,
+      configureSchemaRegistry: GenericContainer[?] => Unit = configureSchemaRegistry)
       : KafkaTestkitTestcontainersSettings =
     new KafkaTestkitTestcontainersSettings(zooKeeperImage,
       zooKeeperImageTag,

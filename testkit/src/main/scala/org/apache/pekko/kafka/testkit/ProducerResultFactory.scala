@@ -29,7 +29,7 @@ import scala.jdk.CollectionConverters._
 @ApiMayChange
 object ProducerResultFactory {
 
-  def recordMetadata(msg: ProducerRecord[_, _]): RecordMetadata = {
+  def recordMetadata(msg: ProducerRecord[?, ?]): RecordMetadata = {
     // null checks are required on Scala 2.11
     val partition = if (msg.partition == null) 0 else msg.partition.toInt
     val timestamp = if (msg.timestamp == null) 0L else msg.timestamp.toLong

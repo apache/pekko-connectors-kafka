@@ -118,7 +118,7 @@ private[kafka] trait CommittableMessageBuilder[K, V] extends MessageBuilder[K, V
 }
 
 private[kafka] object CommittableMessageBuilder {
-  val NoMetadataFromRecord: ConsumerRecord[_, _] => String = (_: ConsumerRecord[_, _]) =>
+  val NoMetadataFromRecord: ConsumerRecord[?, ?] => String = (_: ConsumerRecord[?, ?]) =>
     OffsetFetchResponse.NO_METADATA
 }
 

@@ -41,7 +41,7 @@ private object PromiseControl {
 private trait PromiseControl extends GraphStageLogic with scaladsl.Consumer.Control {
   import PromiseControl._
 
-  def shape: SourceShape[_]
+  def shape: SourceShape[?]
   def performShutdown(): Unit
   def performStop(): Unit = {
     setKeepGoing(true)

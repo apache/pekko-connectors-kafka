@@ -41,8 +41,8 @@ object IntegrationTests {
     i
   }
 
-  def stopRandomBroker(brokers: Vector[GenericContainer[_]], msgCount: Long)(implicit log: Logger): Unit = {
-    val broker: GenericContainer[_] = brokers(scala.util.Random.nextInt(brokers.length))
+  def stopRandomBroker(brokers: Vector[GenericContainer[?]], msgCount: Long)(implicit log: Logger): Unit = {
+    val broker: GenericContainer[?] = brokers(scala.util.Random.nextInt(brokers.length))
     val id = broker.getContainerId
     val networkAliases = broker.getNetworkAliases.asScala.mkString(",")
     log.warn(

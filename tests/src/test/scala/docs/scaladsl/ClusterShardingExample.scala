@@ -39,7 +39,7 @@ import scala.util.{ Failure, Success }
  * https://github.com/akka/akka-samples/tree/2.6/akka-sample-kafka-to-sharding-scala
  */
 object ClusterShardingExample {
-  implicit val system: ActorSystem[_] = ActorSystem(Behaviors.empty, "ClusterShardingExample")
+  implicit val system: ActorSystem[?] = ActorSystem(Behaviors.empty, "ClusterShardingExample")
   val kafkaBootstrapServers = "localhost:9092"
 
   implicit val ec: ExecutionContext = system.executionContext

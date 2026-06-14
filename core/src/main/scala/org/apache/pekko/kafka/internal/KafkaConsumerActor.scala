@@ -263,7 +263,7 @@ import scala.util.control.NonFatal
         case NonFatal(e) => sendFailure(e, sender())
       }
 
-    case p: Poll[_, _] =>
+    case p: Poll[?, ?] =>
       receivePoll(p)
 
     case req: RequestMessages =>
@@ -294,7 +294,7 @@ import scala.util.control.NonFatal
 
     case RequestMetrics =>
       try {
-        val unmodifiableYetMutableMetrics: java.util.Map[MetricName, _ <: Metric] = consumer.metrics()
+        val unmodifiableYetMutableMetrics: java.util.Map[MetricName, ? <: Metric] = consumer.metrics()
         sender() ! ConsumerMetrics(unmodifiableYetMutableMetrics.asScala.toMap)
       } catch {
         case NonFatal(e) => sendFailure(e, sender())
@@ -391,7 +391,7 @@ import scala.util.control.NonFatal
     }
 
   def stopping: Receive = LoggingReceive.withLabel("stopping") {
-    case p: Poll[_, _] =>
+    case p: Poll[?, ?] =>
       receivePoll(p)
     case _: StopLike     =>
     case Terminated(ref) =>
@@ -484,7 +484,7 @@ import scala.util.control.NonFatal
     commitAndPoll()
   }
 
-  private def receivePoll(p: Poll[_, _]): Unit =
+  private def receivePoll(p: Poll[?, ?]): Unit =
     if (p.target == this) {
       commitAndPoll()
       if (p.periodic)

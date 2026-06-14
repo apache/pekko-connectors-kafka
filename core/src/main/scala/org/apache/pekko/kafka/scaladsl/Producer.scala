@@ -82,7 +82,7 @@ object Producer {
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/880")
   def committableSinkWithOffsetContext[K, V](
       producerSettings: ProducerSettings[K, V],
-      committerSettings: CommitterSettings): Sink[(Envelope[K, V, _], Committable), Future[Done]] =
+      committerSettings: CommitterSettings): Sink[(Envelope[K, V, ?], Committable), Future[Done]] =
     committableSink(producerSettings, committerSettings)
       .contramap {
         case (env, offset) =>

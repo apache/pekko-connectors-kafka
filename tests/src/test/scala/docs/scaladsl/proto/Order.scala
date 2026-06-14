@@ -120,11 +120,11 @@ object Order extends scalapb.GeneratedMessageCompanion[docs.scaladsl.proto.Order
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor =
     OrderProto.javaDescriptor.getMessageTypes.get(0)
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = OrderProto.scalaDescriptor.messages(0)
-  def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] =
+  def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[?] =
     throw new MatchError(__number)
   lazy val nestedMessagesCompanions
-      : Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
-  def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] =
+      : Seq[_root_.scalapb.GeneratedMessageCompanion[? <: _root_.scalapb.GeneratedMessage]] = Seq.empty
+  def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[?] =
     throw new MatchError(__fieldNumber)
   lazy val defaultInstance = docs.scaladsl.proto.Order(
     id = "")

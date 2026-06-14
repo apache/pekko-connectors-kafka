@@ -66,7 +66,7 @@ object ProjectSettings extends AutoPlugin {
 
   private val apacheBaseRepo = "repository.apache.org"
 
-  lazy val commonSettings: Seq[Def.Setting[_]] = Def.settings(
+  lazy val commonSettings: Seq[Def.Setting[?]] = Def.settings(
     homepage := Some(url("https://pekko.apache.org/docs/pekko-connectors-kafka/current/")),
     scmInfo := Some(ScmInfo(url("https://github.com/apache/pekko-connectors-kafka"),
       "git@github.com:apache/pekko-connectors-kafka.git")),

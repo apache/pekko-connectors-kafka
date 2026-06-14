@@ -54,7 +54,7 @@ object TestcontainersKafka {
       cluster.getBrokers.asScala.toVector
     }
 
-    def zookeeperContainer: Option[GenericContainer[_]] = {
+    def zookeeperContainer: Option[GenericContainer[?]] = {
       requireStarted()
       cluster.getZooKeeper.toScala
     }

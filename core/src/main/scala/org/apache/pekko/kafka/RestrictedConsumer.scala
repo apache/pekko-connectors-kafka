@@ -24,7 +24,7 @@ import org.apache.kafka.common.TopicPartition
  * the [[pekko.kafka.scaladsl.PartitionAssignmentHandler]] callbacks.
  */
 @ApiMayChange
-final class RestrictedConsumer(consumer: Consumer[_, _], duration: java.time.Duration) {
+final class RestrictedConsumer(consumer: Consumer[?, ?], duration: java.time.Duration) {
 
   /**
    * See [[org.apache.kafka.clients.consumer.KafkaConsumer#assignment]]

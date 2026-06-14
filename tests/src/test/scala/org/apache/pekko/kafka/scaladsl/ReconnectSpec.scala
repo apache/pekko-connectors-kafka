@@ -48,7 +48,7 @@ class ReconnectSpec extends SpecBase with TestcontainersKafkaLike {
         .to(Producer.plainSink(producerDefaults.withBootstrapServers(s"localhost:$proxyPort")))
         .run()
 
-      def offerInOrder(msgs: Seq[String]): Future[_] =
+      def offerInOrder(msgs: Seq[String]): Future[?] =
         if (msgs.isEmpty) Future.successful(Done)
         else producer.offer(msgs.head).flatMap(_ => offerInOrder(msgs.tail))
 

@@ -98,7 +98,7 @@ private[internal] abstract class TransactionalSourceLogic[K, V, Msg](shape: Sour
 
   import TransactionalSourceLogic._
 
-  override protected def logSource: Class[_] = classOf[TransactionalSourceLogic[_, _, _]]
+  override protected def logSource: Class[?] = classOf[TransactionalSourceLogic[?, ?, ?]]
 
   private val inFlightRecords = InFlightRecords.empty
 

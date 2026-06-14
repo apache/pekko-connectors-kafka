@@ -84,7 +84,7 @@ object Producer {
    * committing, so it is "at-least once delivery" semantics.
    */
   @ApiMayChange(issue = "https://github.com/akka/alpakka-kafka/issues/880")
-  def committableSinkWithOffsetContext[K, V, IN <: Envelope[K, V, _], C <: Committable](
+  def committableSinkWithOffsetContext[K, V, IN <: Envelope[K, V, ?], C <: Committable](
       producerSettings: ProducerSettings[K, V],
       committerSettings: CommitterSettings): Sink[pekko.japi.Pair[IN, C], CompletionStage[Done]] =
     committableSink(producerSettings, committerSettings)

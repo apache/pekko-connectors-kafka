@@ -38,7 +38,7 @@ import scala.jdk.DurationConverters._
       if (unprocessedKeys.isEmpty) processedKeys
       else {
         c.toConfig.getAnyRef(unprocessedKeys.head) match {
-          case o: util.Map[_, _] =>
+          case o: util.Map[?, ?] =>
             collectKeys(c,
               processedKeys,
               unprocessedKeys.tail ::: o.keySet().asScala.toList.map(unprocessedKeys.head + "." + _))

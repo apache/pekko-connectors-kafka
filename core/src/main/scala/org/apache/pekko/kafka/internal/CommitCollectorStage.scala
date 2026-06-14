@@ -57,7 +57,7 @@ private final class CommitCollectorStageLogic(
   private val contextPropagation = pekko.stream.impl.ContextPropagation()
   private var contextSuspended = false
 
-  override protected def logSource: Class[_] = classOf[CommitCollectorStageLogic]
+  override protected def logSource: Class[?] = classOf[CommitCollectorStageLogic]
 
   private var pushOnNextPull = false
 
