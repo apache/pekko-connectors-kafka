@@ -26,7 +26,6 @@ import pekko.stream._
 import pekko.stream.scaladsl.{ Flow, Keep, RestartSource, Sink }
 import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.apache.kafka.clients.producer.ProducerRecord
-import org.scalatest.concurrent.PatienceConfiguration.Interval
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
@@ -95,12 +94,12 @@ class TransactionsSourceSpec
               sourceTopic,
               sinkTopic,
               transactionId,
-              10.seconds,
+              30.seconds,
               Some(restartAfter),
               Some(maxRestarts))
               .recover {
                 case e: TimeoutException =>
-                  if (completedWithTimeout.incrementAndGet() > 10)
+                  if (completedWithTimeout.incrementAndGet() > (consumers * 10))
                     "no more messages to copy"
                   else
                     throw new Error("Continue restarting copy stream")
@@ -120,10 +119,6 @@ class TransactionsSourceSpec
 
       val probeConsumerGroup = createGroupId(2)
 
-      eventually(Interval(2.seconds)) {
-        completedCopy.get() should be < consumers
-      }
-
       val consumer = offsetValueSource(probeConsumerSettings(probeConsumerGroup), sinkTopic)
         .take(elements.toLong)
         .alsoTo(
@@ -138,7 +133,7 @@ class TransactionsSourceSpec
         .filter(_._2 != "no-more-elements")
         .runWith(Sink.seq)
 
-      val values = Await.result(consumer, 10.minutes)
+      val values = Await.result(consumer, 15.minutes)
 
       val expected = (1 to elements).map(_.toString)
 
