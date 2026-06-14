@@ -93,6 +93,10 @@ object ProjectSettings extends AutoPlugin {
       if (insideCI.value && !Nightly && scalaVersion.value.startsWith("2.")) Seq("-Werror")
       else Seq.empty
     },
+    scalacOptions ++= {
+      if (scalaBinaryVersion.value == "3") Seq("-Yfuture-lazy-vals")
+      else Seq.empty
+    },
     Compile / doc / scalacOptions := scalacOptions.value ++ Seq(
       "-Wconf:cat=scaladoc:i",
       "-doc-title",
