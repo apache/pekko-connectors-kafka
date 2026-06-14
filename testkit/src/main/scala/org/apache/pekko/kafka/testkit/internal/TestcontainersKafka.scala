@@ -26,8 +26,8 @@ import scala.jdk.OptionConverters._
 
 object TestcontainersKafka {
   trait Spec extends KafkaSpec {
-    private var cluster: KafkaContainerCluster = _
-    private var kafkaBootstrapServersInternal: String = _
+    private var cluster: KafkaContainerCluster = null
+    private var kafkaBootstrapServersInternal: String = null
     private var kafkaPortInternal: Int = -1
 
     private def requireStarted(): Unit =

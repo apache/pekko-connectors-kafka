@@ -100,7 +100,7 @@ trait KafkaTestKit {
     config
   }
 
-  private var adminClientVar: Admin = _
+  private var adminClientVar: Admin = null
 
   /**
    * Access to the Kafka Admin client

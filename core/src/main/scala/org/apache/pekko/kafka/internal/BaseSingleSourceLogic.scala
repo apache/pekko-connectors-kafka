@@ -43,8 +43,8 @@ import scala.concurrent.{ ExecutionContext, Future }
 
   override protected def executionContext: ExecutionContext = materializer.executionContext
   protected def consumerFuture: Future[ActorRef]
-  protected final var consumerActor: ActorRef = _
-  protected var sourceActor: StageActor = _
+  protected final var consumerActor: ActorRef = null
+  protected var sourceActor: StageActor = null
   protected var tps = Set.empty[TopicPartition]
   private var requested = false
   private var requestId = 0

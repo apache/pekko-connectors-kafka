@@ -59,7 +59,7 @@ abstract class KafkaSpec(_kafkaPort: Int, val zooKeeperPort: Int, actorSystem: A
   implicit val mat: Materializer = SystemMaterializer(system).materializer
   implicit val scheduler: pekko.actor.Scheduler = system.scheduler
 
-  var testProducer: KProducer[String, String] = _
+  var testProducer: KProducer[String, String] = null
 
   def setUp(): Unit = {
     testProducer = Await.result(producerDefaults.createKafkaProducerAsync(), 2.seconds)

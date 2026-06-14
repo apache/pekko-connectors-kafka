@@ -70,8 +70,8 @@ private class SubSourceLogic[K, V, Msg](
   override def executionContext: ExecutionContext = materializer.executionContext
   override def consumerFuture: Future[ActorRef] = consumerPromise.future
 
-  protected var consumerActor: ActorRef = _
-  protected var sourceActor: StageActor = _
+  protected var consumerActor: ActorRef = null
+  protected var sourceActor: StageActor = null
 
   /** Kafka has notified us that we have these partitions assigned, but we have not created a source for them yet. */
   private var pendingPartitions: immutable.Set[TopicPartition] = immutable.Set.empty
@@ -413,7 +413,7 @@ private abstract class SubSourceStageLogic[K, V, Msg](
   override def id: String = s"${super.id}#$actorNumber"
   private val requestMessages = KafkaConsumerActor.Internal.RequestMessages(0, Set(tp))
   private var requested = false
-  protected var subSourceActor: StageActor = _
+  protected var subSourceActor: StageActor = null
 
   override def preStart(): Unit = {
     super.preStart()
