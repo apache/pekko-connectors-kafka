@@ -51,7 +51,7 @@ trait ConsumerProgressTracking extends ConsumerAssignmentTrackingListener {
   def received[K, V](records: ConsumerRecords[K, V]): Unit = {}
   def committed(offsets: java.util.Map[TopicPartition, OffsetAndMetadata]): Unit = {}
   def assignedPositionsAndSeek(assignedTps: Set[TopicPartition],
-      consumer: Consumer[_, _],
+      consumer: Consumer[?, ?],
       positionTimeout: java.time.Duration): Unit = {}
   def addProgressTrackingCallback(callback: ConsumerAssignmentTrackingListener): Unit = {}
 }
@@ -140,7 +140,7 @@ final class ConsumerProgressTrackerImpl extends ConsumerProgressTracking {
   }
 
   override def assignedPositionsAndSeek(assignedTps: Set[TopicPartition],
-      consumer: Consumer[_, _],
+      consumer: Consumer[?, ?],
       positionTimeout: java.time.Duration): Unit = {
     val assignedOffsets = assignedTps.map(tp => tp -> consumer.position(tp, positionTimeout)).toMap
     assignedPositions(assignedTps, assignedOffsets)

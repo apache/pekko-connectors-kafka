@@ -63,7 +63,7 @@ abstract class ConsumerDummy[K, V] extends Consumer[K, V] {
   override def seekToEnd(partitions: java.util.Collection[TopicPartition]): Unit = ???
   override def position(partition: TopicPartition): Long = ???
   override def position(partition: TopicPartition, timeout: java.time.Duration): Long = ???
-  override def metrics(): java.util.Map[MetricName, _ <: Metric] = ???
+  override def metrics(): java.util.Map[MetricName, ? <: Metric] = ???
   override def partitionsFor(topic: String): java.util.List[PartitionInfo] = ???
   override def listTopics(): java.util.Map[String, java.util.List[PartitionInfo]] = ???
   override def paused(): java.util.Set[TopicPartition] = ???

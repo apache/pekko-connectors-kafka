@@ -71,7 +71,7 @@ private final class CommittingProducerSinkStageLogic[K, V, IN <: Envelope[K, V, 
 
   override protected def getExecutionContext(): ExecutionContext = materializer.executionContext
 
-  override protected def logSource: Class[_] = classOf[CommittingProducerSinkStage[_, _, _]]
+  override protected def logSource: Class[?] = classOf[CommittingProducerSinkStage[?, ?, ?]]
 
   override protected val producerSettings: ProducerSettings[K, V] = stage.producerSettings
 

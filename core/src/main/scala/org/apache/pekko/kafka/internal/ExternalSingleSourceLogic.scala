@@ -32,7 +32,7 @@ import scala.concurrent.Future
     _consumerActor: ActorRef,
     val subscription: ManualSubscription) extends BaseSingleSourceLogic[K, V, Msg](shape) {
 
-  final override protected def logSource: Class[_] = classOf[ExternalSingleSourceLogic[K, V, Msg]]
+  final override protected def logSource: Class[?] = classOf[ExternalSingleSourceLogic[K, V, Msg]]
 
   final val consumerFuture: Future[ActorRef] = Future.successful(_consumerActor)
 

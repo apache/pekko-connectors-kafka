@@ -16,7 +16,7 @@ import sbt.Keys.sourceDirectory
 import sbt.{ inConfig, Compile, Def, Test, _ }
 
 object CopyrightHeaderForProtobuf extends CopyrightHeader {
-  override protected def headerMappingSettings: Seq[Def.Setting[_]] = {
+  override protected def headerMappingSettings: Seq[Def.Setting[?]] = {
     super.headerMappingSettings
     Seq(Compile, Test).flatMap { config =>
       inConfig(config) {

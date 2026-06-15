@@ -61,7 +61,7 @@ private class DefaultProducerStageLogic[K, V, P, IN <: Envelope[K, V, P], OUT <:
 
   override protected def getExecutionContext(): ExecutionContext = materializer.executionContext
 
-  override protected def logSource: Class[_] = classOf[DefaultProducerStage[_, _, _, _, _]]
+  override protected def logSource: Class[?] = classOf[DefaultProducerStage[?, ?, ?, ?, ?]]
 
   final override val producerSettings: ProducerSettings[K, V] = stage.settings
 
@@ -180,7 +180,7 @@ private class DefaultProducerStageLogic[K, V, P, IN <: Envelope[K, V, P], OUT <:
 
     }
 
-  private abstract class CallbackBase(promise: Promise[_]) extends Callback {
+  private abstract class CallbackBase(promise: Promise[?]) extends Callback {
     protected def emitElement(metadata: RecordMetadata): Unit
 
     override def onCompletion(metadata: RecordMetadata, exception: Exception): Unit =

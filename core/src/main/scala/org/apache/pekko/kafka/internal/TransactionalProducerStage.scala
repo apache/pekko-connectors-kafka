@@ -124,7 +124,7 @@ private final class TransactionalProducerStageLogic[K, V, P](
 
   private var firstMessage: Option[Envelope[K, V, P]] = None
 
-  override protected def logSource: Class[_] = classOf[TransactionalProducerStage[_, _, _]]
+  override protected def logSource: Class[?] = classOf[TransactionalProducerStage[?, ?, ?]]
 
   // we need to peek at the first message to generate the producer transactional id for partitioned sources
   override def preStart(): Unit = resumeDemand()

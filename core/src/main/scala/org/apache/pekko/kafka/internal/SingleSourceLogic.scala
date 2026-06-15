@@ -35,7 +35,7 @@ import scala.concurrent.{ Future, Promise }
     settings: ConsumerSettings[K, V],
     override protected val subscription: Subscription) extends BaseSingleSourceLogic[K, V, Msg](shape) {
 
-  override protected def logSource: Class[_] = classOf[SingleSourceLogic[K, V, Msg]]
+  override protected def logSource: Class[?] = classOf[SingleSourceLogic[K, V, Msg]]
   private val consumerPromise = Promise[ActorRef]()
   final val actorNumber = KafkaConsumerActor.Internal.nextNumber()
 

@@ -17,7 +17,7 @@ import sbt.Keys._
  */
 object VersionGenerator {
 
-  val settings: Seq[Setting[_]] = inConfig(Compile)(
+  val settings: Seq[Setting[?]] = inConfig(Compile)(
     Seq(
       resourceGenerators += generateVersion(resourceManaged, _ / "version.conf", """|pekko.kafka.version = "%s"
          |"""),
