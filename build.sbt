@@ -47,7 +47,6 @@ lazy val core = project
   .addPekkoModuleDependency("pekko-discovery", "provided", PekkoCoreDependency.default)
   .settings(
     name := "pekko-connectors-kafka",
-    AutomaticModuleName.settings("org.apache.pekko.kafka"),
     libraryDependencies ++= Dependencies.coreDependencies,
     mimaPreviousArtifacts := Set(
       organization.value %% name.value % mimaCompareVersion),
@@ -61,7 +60,6 @@ lazy val testkit = project
   .addPekkoModuleDependency("pekko-stream-testkit", "", PekkoCoreDependency.default)
   .settings(
     name := "pekko-connectors-kafka-testkit",
-    AutomaticModuleName.settings("org.apache.pekko.kafka.testkit"),
     JupiterKeys.junitJupiterVersion := "6.1.0",
     libraryDependencies ++= Dependencies.testKitDependencies,
     libraryDependencies ++= Seq(
@@ -79,7 +77,6 @@ lazy val `cluster-sharding` = project
   .addPekkoModuleDependency("pekko-cluster-sharding-typed", "", PekkoCoreDependency.default)
   .settings(
     name := "pekko-connectors-kafka-cluster-sharding",
-    AutomaticModuleName.settings("org.apache.pekko.kafka.cluster.sharding"),
     AddMetaInfLicenseFiles.clusterShardingSettings,
     mimaPreviousArtifacts := Set(
       organization.value %% name.value % mimaCompareVersion))
