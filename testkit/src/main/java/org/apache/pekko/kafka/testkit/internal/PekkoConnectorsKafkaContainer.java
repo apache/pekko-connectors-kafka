@@ -17,6 +17,7 @@ package org.apache.pekko.kafka.testkit.internal;
 import com.github.dockerjava.api.command.InspectContainerResponse;
 import com.github.dockerjava.api.model.ContainerNetwork;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -79,6 +80,9 @@ public class PekkoConnectorsKafkaContainer extends GenericContainer<PekkoConnect
     super.withNetwork(Network.SHARED);
 
     withExposedPorts(KAFKA_PORT);
+
+    // The default startup timeout of 1 minute is not enough for Kafka to start reliably in CI
+    withStartupTimeout(Duration.ofMinutes(3));
 
     withBrokerNum(this.brokerNum);
 
