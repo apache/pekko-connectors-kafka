@@ -144,4 +144,7 @@ object ProjectSettings extends AutoPlugin {
 
   override lazy val buildSettings = Seq(
     dynverSonatypeSnapshots := true)
+
+  override def globalSettings =
+    Seq(excludeLintKeys ++= Set(mimaReportSignatureProblems, projectInfoVersion))
 }
