@@ -106,7 +106,9 @@ object ProjectSettings extends AutoPlugin {
           "-Wconf:msg=is not declared infix:s",
           "-Wconf:msg=auto insertion will be deprecated:s",
           "-Wconf:msg=Invalid message filter:s") ++
-        (if (CrossVersion.partialVersion(scalaVersion.value).exists(_._2 < 9)) Seq("-Yfuture-lazy-vals", "-Wconf:msg=bad option.*-Yfuture-lazy-vals:s") else Seq.empty)
+        (if (CrossVersion.partialVersion(scalaVersion.value).exists(_._2 < 9))
+           Seq("-Yfuture-lazy-vals", "-Wconf:msg=bad option.*-Yfuture-lazy-vals:s")
+         else Seq.empty)
       else Seq.empty
     },
     Compile / doc / scalacOptions := scalacOptions.value ++ Seq(
