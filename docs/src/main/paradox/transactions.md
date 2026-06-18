@@ -17,7 +17,7 @@ A consumer group ID must be provided.
 
 Only use this source if you have the intention to connect it to a @apidoc[Transactional.flow](Transactional$) or @apidoc[Transactional.sink](Transactional$).
 
-<!-- TODO: uncomment when Transacitonal.partitionedSource is ready
+<!-- TODO: uncomment when Transactional.partitionedSource is ready
 ## Transactional Partitioned Source
 
 The @apidoc[Transactional.partitionedSource](Transactional$) is similar to the  `Transactional.source`.
@@ -79,7 +79,7 @@ Java
 : @@ snip [snip](/java-tests/src/test/java/docs/javadsl/TransactionsExampleTest.java) { #transactionalSink }
 
 
-<!-- TODO: uncomment when Transacitonal.partitionedSource is ready
+<!-- TODO: uncomment when Transactional.partitionedSource is ready
 ### Partitioned Source Example
 
 Scala

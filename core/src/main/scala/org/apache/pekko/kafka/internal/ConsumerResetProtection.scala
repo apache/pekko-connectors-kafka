@@ -46,9 +46,9 @@ sealed trait ConsumerResetProtection {
 @InternalApi
 object ConsumerResetProtection {
   def apply[K, V](log: LoggingAdapter,
-      setttings: OffsetResetProtectionSettings,
+      settings: OffsetResetProtectionSettings,
       progress: () => ConsumerProgressTracking): ConsumerResetProtection = {
-    if (setttings.enable) new Impl(log, setttings, progress()) else ConsumerResetProtection.Noop
+    if (settings.enable) new Impl(log, settings, progress()) else ConsumerResetProtection.Noop
   }
 
   private object Noop extends ConsumerResetProtection {
