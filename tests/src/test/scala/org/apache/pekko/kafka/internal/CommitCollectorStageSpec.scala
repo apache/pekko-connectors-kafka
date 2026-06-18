@@ -234,7 +234,7 @@ class CommitCollectorStageSpec(_system: ActorSystem)
 
         val commits = factory.committer.commits
 
-        (commits.last._2 shouldBe 10).withClue("last offset commit should be exactly the one preceeding the error")
+        (commits.last._2 shouldBe 10).withClue("last offset commit should be exactly the one preceding the error")
 
         control.shutdown().futureValue shouldBe Done
       }

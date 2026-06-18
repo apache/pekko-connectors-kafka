@@ -185,7 +185,7 @@ private final class TransactionalProducerStageLogic[K, V, P](
 
   /**
    * When using partitioned sources we extract the transactional id, group id, and topic partition information from
-   * the first message in order to define a `transacitonal.id` before constructing the [[org.apache.kafka.clients.producer.KafkaProducer]]
+   * the first message in order to define a `transactional.id` before constructing the [[org.apache.kafka.clients.producer.KafkaProducer]]
    */
   private def parseFirstMessage(msg: Envelope[K, V, P]): Boolean =
     producerAssignmentLifecycle match {
