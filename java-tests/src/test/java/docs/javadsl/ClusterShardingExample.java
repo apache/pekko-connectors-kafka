@@ -39,15 +39,7 @@ import org.apache.pekko.stream.javadsl.Sink;
 public class ClusterShardingExample {
 
   // #user-entity
-  static final class User {
-    public final String id;
-    public final String mame;
-
-    User(String id, String mame) {
-      this.id = id;
-      this.mame = mame;
-    }
-  }
+  record User(String id, String mame) {}
 
   // #user-entity
 
@@ -70,7 +62,7 @@ public class ClusterShardingExample {
             .messageExtractorNoEnvelope(
                 "user-topic",
                 Duration.ofSeconds(10),
-                (User msg) -> msg.id,
+                (User msg) -> msg.id(),
                 ConsumerSettings.create(
                     Adapter.toClassic(system), new StringDeserializer(), new StringDeserializer()));
     // #message-extractor
