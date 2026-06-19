@@ -141,6 +141,7 @@ lazy val docs = project
     Compile / paradox / name := "Pekko",
     makeSite := makeSite.dependsOn(LocalRootProject / ScalaUnidoc / doc).value,
     previewPath := (Paradox / siteSubdirName).value,
+    Global / excludeLintKeys += previewPath,
     Global / pekkoParadoxIncubatorNotice := None,
     Preprocess / siteSubdirName := s"api/pekko-connectors-kafka/${projectInfoVersion.value}",
     Preprocess / sourceDirectory := (LocalRootProject / ScalaUnidoc / unidoc / target).value,
