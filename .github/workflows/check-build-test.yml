@@ -45,7 +45,7 @@ jobs:
           java-version: 17
 
       - name: Install sbt
-        uses: sbt/setup-sbt@af116cce31c00823d3903ce687f9cda3a4f19f1b # v1.2.1
+        uses: sbt/setup-sbt@3afe9cf056c5d139bfc46579af1192d77a2f0821 # v1.4.0
 
       - name: Code style check and binary-compatibility check
         # Run locally with: sbt 'checkCodeStyle; mimaReportBinaryIssues'
@@ -100,7 +100,7 @@ jobs:
           java-version: 17
 
       - name: Install sbt
-        uses: sbt/setup-sbt@af116cce31c00823d3903ce687f9cda3a4f19f1b # v1.2.1
+        uses: sbt/setup-sbt@3afe9cf056c5d139bfc46579af1192d77a2f0821 # v1.4.0
 
       - name: Create all API docs for artifacts/website and all reference docs
         run: sbt "doc ; unidoc ; docs/paradoxBrowse"
@@ -135,7 +135,7 @@ jobs:
           java-version: ${{ matrix.java-version }}
 
       - name: Install sbt
-        uses: sbt/setup-sbt@af116cce31c00823d3903ce687f9cda3a4f19f1b # v1.2.1
+        uses: sbt/setup-sbt@3afe9cf056c5d139bfc46579af1192d77a2f0821 # v1.4.0
 
       - name: Run tests with Scala ${{ matrix.scala-version }} and Java ${{ matrix.java-version }}
         run: sbt "++${{ matrix.scala-version }} test" ${{ matrix.sbt-opts }}
@@ -168,7 +168,7 @@ jobs:
           java-version: 17
 
       - name: Install sbt
-        uses: sbt/setup-sbt@af116cce31c00823d3903ce687f9cda3a4f19f1b # v1.2.1
+        uses: sbt/setup-sbt@3afe9cf056c5d139bfc46579af1192d77a2f0821 # v1.4.0
 
       - name: Run multi-broker and long running integration tests
         run: sbt "int-tests/test"
@@ -200,7 +200,7 @@ jobs:
           java-version: 17
 
       - name: Install sbt
-        uses: sbt/setup-sbt@af116cce31c00823d3903ce687f9cda3a4f19f1b # v1.2.1
+        uses: sbt/setup-sbt@3afe9cf056c5d139bfc46579af1192d77a2f0821 # v1.4.0
 
       - name: "Compile benchmark tests"
         run: sbt "benchmarks/Test/compile"
