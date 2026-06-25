@@ -170,7 +170,7 @@ public class PekkoConnectorsKafkaContainer extends GenericContainer<PekkoConnect
     if (port == PORT_NOT_ASSIGNED) {
       throw new IllegalStateException("You should start Kafka container first");
     }
-    return String.format("PLAINTEXT://%s:%s", getHost(), port);
+    return "PLAINTEXT://%s:%s".formatted(getHost(), port);
   }
 
   public String getJmxServiceUrl() {
@@ -178,7 +178,7 @@ public class PekkoConnectorsKafkaContainer extends GenericContainer<PekkoConnect
       throw new IllegalStateException("You should start Kafka container first");
     }
 
-    return String.format("service:jmx:rmi:///jndi/rmi://%s:%s/jmxrmi", getHost(), jmxPort);
+    return "service:jmx:rmi:///jndi/rmi://%s:%s/jmxrmi".formatted(getHost(), jmxPort);
   }
 
   @Override
