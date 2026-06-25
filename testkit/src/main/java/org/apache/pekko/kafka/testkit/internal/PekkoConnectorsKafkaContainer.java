@@ -227,7 +227,7 @@ public class PekkoConnectorsKafkaContainer extends GenericContainer<PekkoConnect
       List<String> internalIps =
           containerInfo.getNetworkSettings().getNetworks().values().stream()
               .map(ContainerNetwork::getIpAddress)
-              .collect(Collectors.toList());
+              .toList();
 
       command += "export KAFKA_ZOOKEEPER_CONNECT='" + zookeeperConnect + "'\n";
       command +=

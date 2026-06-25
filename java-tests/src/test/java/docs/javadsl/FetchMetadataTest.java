@@ -26,7 +26,6 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletionStage;
-import java.util.stream.Collectors;
 import org.apache.kafka.common.PartitionInfo;
 
 // #metadata
@@ -85,7 +84,7 @@ public class FetchMetadataTest extends TestcontainersKafkaJunit4Test {
                                       return partitionInfos.stream()
                                           .map(info -> topic + ": " + info.toString());
                                     })
-                                .collect(Collectors.toList())));
+                                .toList())));
 
     // #metadata
     Optional<List<String>> optionalStrings =

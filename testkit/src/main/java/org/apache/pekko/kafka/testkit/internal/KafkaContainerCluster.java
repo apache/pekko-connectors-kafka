@@ -147,7 +147,7 @@ public class KafkaContainerCluster implements Startable {
                   }
                   return container;
                 })
-            .collect(Collectors.toList());
+            .toList();
 
     if (useSchemaRegistry) {
       this.schemaRegistry =
