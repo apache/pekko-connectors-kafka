@@ -18,7 +18,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import com.typesafe.config.Config;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
@@ -163,7 +162,7 @@ class ProducerTest extends TestcontainersKafkaTest {
     // #multiMessage
     ProducerMessage.Envelope<KeyType, ValueType, PassThroughType> multiMessage =
         ProducerMessage.multi(
-            Arrays.asList(
+            List.of(
                 new ProducerRecord<>("topicName", key, value),
                 new ProducerRecord<>("anotherTopic", key, value)),
             passThrough);

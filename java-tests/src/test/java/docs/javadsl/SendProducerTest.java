@@ -19,7 +19,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.isA;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.TimeUnit;
@@ -87,7 +86,7 @@ public class SendProducerTest extends TestcontainersKafkaTest {
     try {
       ProducerMessage.Envelope<String, String, String> envelope =
           ProducerMessage.multi(
-              Arrays.asList(
+              List.of(
                   new ProducerRecord<>(topic, "key", "value1"),
                   new ProducerRecord<>(topic, "key", "value2"),
                   new ProducerRecord<>(topic, "key", "value3")),

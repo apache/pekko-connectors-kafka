@@ -25,7 +25,6 @@ import org.apache.pekko.stream.javadsl.Keep;
 import org.apache.pekko.stream.javadsl.Sink;
 import org.apache.pekko.testkit.javadsl.TestKit;
 import org.junit.*;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Executor;
@@ -80,7 +79,7 @@ public class AtLeastOnceTest extends TestcontainersKafkaJunit4Test {
                 msg -> {
                   Envelope<String, String, CommittableOffset> multiMsg =
                       ProducerMessage.multi(
-                          Arrays.asList(
+                          List.of(
                               new ProducerRecord<>(topic2, msg.record().value()),
                               new ProducerRecord<>(topic3, msg.record().value())),
                           msg.committableOffset());
@@ -121,7 +120,7 @@ public class AtLeastOnceTest extends TestcontainersKafkaJunit4Test {
                 record -> {
                   Envelope<String, String, NotUsed> multiMsg =
                       ProducerMessage.multi(
-                          Arrays.asList(
+                          List.of(
                               new ProducerRecord<>(topic2, record.value()),
                               new ProducerRecord<>(topic3, record.value())));
                   return multiMsg;
@@ -172,7 +171,7 @@ public class AtLeastOnceTest extends TestcontainersKafkaJunit4Test {
                   if (duplicate(msg.record().value())) {
                     produce =
                         ProducerMessage.multi(
-                            Arrays.asList(
+                            List.of(
                                 new ProducerRecord<>(topic2, msg.record().value()),
                                 new ProducerRecord<>(topic3, msg.record().value())),
                             msg.committableOffset());

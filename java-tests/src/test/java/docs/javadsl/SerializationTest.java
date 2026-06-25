@@ -26,7 +26,6 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import docs.javadsl.proto.OrderMessages;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.*;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -79,7 +78,7 @@ public class SerializationTest extends TestcontainersKafkaTest {
     ConsumerSettings<String, String> consumerSettings = consumerDefaults().withGroupId(group);
 
     SampleData sample = new SampleData("Viktor", 45);
-    List<SampleData> samples = Arrays.asList(sample, sample, sample);
+    List<SampleData> samples = List.of(sample, sample, sample);
 
     // #jackson-serializer #jackson-deserializer
 
@@ -146,7 +145,7 @@ public class SerializationTest extends TestcontainersKafkaTest {
     final String group = createGroupId();
 
     OrderMessages.Order sample = OrderMessages.Order.newBuilder().setId("789465").build();
-    List<OrderMessages.Order> samples = Arrays.asList(sample, sample, sample);
+    List<OrderMessages.Order> samples = List.of(sample, sample, sample);
 
     // #protobuf-serializer
 

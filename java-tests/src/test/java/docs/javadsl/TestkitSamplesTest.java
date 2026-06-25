@@ -43,7 +43,6 @@ import org.apache.pekko.kafka.testkit.ProducerResultFactory;
 import org.apache.pekko.kafka.testkit.javadsl.ConsumerControlFactory;
 // #factories
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.TimeUnit;
@@ -72,7 +71,7 @@ public class TestkitSamplesTest {
 
     // create elements emitted by the mocked Consumer
     List<ConsumerMessage.CommittableMessage<String, String>> elements =
-        Arrays.asList(
+        List.of(
             ConsumerResultFactory.committableMessage(
                 new ConsumerRecord<>(topic, partition, startOffset, "key", "value 1"),
                 ConsumerResultFactory.committableOffset(

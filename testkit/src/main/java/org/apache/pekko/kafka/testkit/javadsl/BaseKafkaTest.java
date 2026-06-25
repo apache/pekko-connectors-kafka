@@ -15,7 +15,6 @@
 package org.apache.pekko.kafka.testkit.javadsl;
 
 import java.time.Duration;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CompletionStage;
@@ -89,7 +88,7 @@ public abstract class BaseKafkaTest extends KafkaTestKitClass {
       Serializer<K> keySerializer,
       Serializer<V> valueSerializer,
       Pair<K, V>... messages) {
-    return Source.from(Arrays.asList(messages))
+    return Source.from(List.of(messages))
         .map(pair -> new ProducerRecord<>(topic, pair.first(), pair.second()))
         .runWith(
             Producer.plainSink(producerDefaults(keySerializer, valueSerializer)), materializer);
