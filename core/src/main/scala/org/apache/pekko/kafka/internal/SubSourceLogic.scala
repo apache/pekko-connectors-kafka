@@ -283,10 +283,8 @@ private class SubSourceLogic[K, V, Msg](
     }
     materializer.scheduleOnce(
       settings.stopTimeout,
-      new Runnable {
-        override def run(): Unit =
-          consumerActor.tell(KafkaConsumerActor.Internal.StopFromStage(id), sourceActor.ref)
-      })
+      () => consumerActor.tell(KafkaConsumerActor.Internal.StopFromStage(id), sourceActor.ref)
+    )
   }
 
   /**
@@ -420,7 +418,7 @@ private abstract class SubSourceStageLogic[K, V, Msg](
     log.info("Starting. Partition {}", tp)
     subSourceActor = getStageActor(messageHandling)
     subSourceActor.watch(consumerActor)
-    val controlAndActor = ControlAndStageActor(this.asInstanceOf[Control], subSourceActor.ref)
+    val controlAndActor = ControlAndStageActor(this, subSourceActor.ref)
     val started = SubSourceStageLogicControl(tp, controlAndActor, filterRevokedPartitionsCB)
     subSourceStartedCb.invoke(started)
     consumerActor.tell(RegisterSubStage(requestMessages.tps), subSourceActor.ref)

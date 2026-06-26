@@ -79,11 +79,10 @@ import scala.concurrent.{ Future, Promise }
   }
 
   protected def stopConsumerActor(): Unit =
-    materializer.scheduleOnce(settings.stopTimeout,
-      new Runnable {
-        override def run(): Unit =
-          consumerActor.tell(KafkaConsumerActor.Internal.StopFromStage(id), sourceActor.ref)
-      })
+    materializer.scheduleOnce(
+      settings.stopTimeout,
+      () => consumerActor.tell(KafkaConsumerActor.Internal.StopFromStage(id), sourceActor.ref)
+    )
 
   /**
    * Opportunity for subclasses to add a different logic to the partition assignment callbacks.

@@ -78,13 +78,11 @@ final class SendProducer[K, V] private (val settings: ProducerSettings[K, V], sy
     val result = Promise[R]()
     producer.send(
       record,
-      new Callback {
-        override def onCompletion(metadata: RecordMetadata, exception: Exception): Unit = {
-          if (exception == null)
-            result.success(success(metadata))
-          else
-            result.failure(exception)
-        }
+      (metadata: RecordMetadata, exception: Exception) => {
+        if (exception == null)
+          result.success(success(metadata))
+        else
+          result.failure(exception)
       })
     result.future
   }
