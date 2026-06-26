@@ -27,7 +27,10 @@ import org.junit.Before;
  * unless `stopKafka()` is called.
  *
  * <p>The Testcontainers dependency has to be added explicitly.
+ *
+ * @deprecated Use {@link TestcontainersKafkaTest} instead (JUnit Jupiter/6).
  */
+@Deprecated(since = "2.0.0")
 @SuppressWarnings("unchecked")
 public abstract class TestcontainersKafkaJunit4Test extends KafkaJunit4Test {
 

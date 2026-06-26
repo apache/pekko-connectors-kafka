@@ -14,7 +14,7 @@
 
 package docs.javadsl;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 import java.util.concurrent.CompletionStage;
@@ -32,36 +32,37 @@ import org.apache.pekko.kafka.Subscriptions;
 import org.apache.pekko.kafka.javadsl.Consumer;
 // #testkit
 import org.apache.pekko.kafka.javadsl.Producer;
-import org.apache.pekko.kafka.testkit.TestcontainersKafkaJunit4Test;
+import org.apache.pekko.kafka.testkit.TestcontainersKafkaTest;
 // #testkit
-import org.apache.pekko.kafka.tests.javadsl.LogCapturingJunit4;
+import org.apache.pekko.kafka.tests.javadsl.LogCapturingExtension;
 import org.apache.pekko.stream.javadsl.Sink;
 import org.apache.pekko.stream.javadsl.Source;
 // #testkit
 import org.apache.pekko.testkit.javadsl.TestKit;
 // #testkit
-import org.junit.AfterClass;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 // #testkit
 
 // #testkit
 
-public class AssignmentTest extends TestcontainersKafkaJunit4Test {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(LogCapturingExtension.class)
+class AssignmentTest extends TestcontainersKafkaTest {
 
   private static final ActorSystem sys = ActorSystem.create("AssignmentTest");
 
-  public AssignmentTest() {
+  AssignmentTest() {
     super(sys);
   }
 
   // #testkit
 
-  @Rule public final LogCapturingJunit4 logCapturing = new LogCapturingJunit4();
-
   @Test
-  public void mustConsumeFromTheSpecifiedSingleTopic() throws Exception {
+  void mustConsumeFromTheSpecifiedSingleTopic() throws Exception {
     final String topic = createTopic();
     final String group = createGroupId();
     final Integer totalMessages = 100;
@@ -89,7 +90,7 @@ public class AssignmentTest extends TestcontainersKafkaJunit4Test {
   }
 
   @Test
-  public void mustConsumeFromTheSpecifiedTopicPattern() throws Exception {
+  void mustConsumeFromTheSpecifiedTopicPattern() throws Exception {
     final List<String> topics = List.of(createTopic(9001), createTopic(9002));
     final String group = createGroupId();
     final Integer totalMessages = 100;
@@ -121,7 +122,7 @@ public class AssignmentTest extends TestcontainersKafkaJunit4Test {
   }
 
   @Test
-  public void mustConsumeFromTheSpecifiedPartition() throws Exception {
+  void mustConsumeFromTheSpecifiedPartition() throws Exception {
     final String topic = createTopic(2, 2);
     final Integer totalMessages = 100;
     final CompletionStage<Done> producerCompletion =
@@ -153,7 +154,7 @@ public class AssignmentTest extends TestcontainersKafkaJunit4Test {
   }
 
   @Test
-  public void mustConsumeFromTheSpecifiedPartitionAndOffset() throws Exception {
+  void mustConsumeFromTheSpecifiedPartitionAndOffset() throws Exception {
     final String topic = createTopic(3);
     final Integer totalMessages = 100;
     final CompletionStage<Done> producerCompletion =
@@ -179,7 +180,7 @@ public class AssignmentTest extends TestcontainersKafkaJunit4Test {
   }
 
   @Test
-  public void mustConsumeFromTheSpecifiedPartitionAndTimestamp() throws Exception {
+  void mustConsumeFromTheSpecifiedPartitionAndTimestamp() throws Exception {
     final String topic = createTopic(4);
     final Integer totalMessages = 100;
     final CompletionStage<Done> producerCompletion =
@@ -214,8 +215,8 @@ public class AssignmentTest extends TestcontainersKafkaJunit4Test {
   }
 
   // #testkit
-  @AfterClass
-  public static void afterClass() {
+  @AfterAll
+  void afterClass() {
     TestKit.shutdownActorSystem(sys);
   }
 }

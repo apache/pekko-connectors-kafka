@@ -19,7 +19,12 @@ import org.apache.pekko.stream.testkit.javadsl.StreamTestKit;
 import org.junit.After;
 import org.junit.Before;
 
-/** JUnit 4 base-class with some convenience for accessing a Kafka broker. */
+/**
+ * JUnit 4 base-class with some convenience for accessing a Kafka broker.
+ *
+ * @deprecated Use {@link org.apache.pekko.kafka.testkit.KafkaTest} instead (JUnit Jupiter/6).
+ */
+@Deprecated(since = "2.0.0")
 @SuppressWarnings("unchecked")
 public abstract class KafkaJunit4Test extends BaseKafkaTest {
 

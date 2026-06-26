@@ -14,7 +14,7 @@
 
 package docs.javadsl;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.Duration;
 import java.util.List;
@@ -30,29 +30,30 @@ import org.apache.pekko.actor.ActorSystem;
 import org.apache.pekko.kafka.*;
 import org.apache.pekko.kafka.javadsl.Consumer;
 import org.apache.pekko.kafka.javadsl.Transactional;
-import org.apache.pekko.kafka.testkit.TestcontainersKafkaJunit4Test;
-import org.apache.pekko.kafka.tests.javadsl.LogCapturingJunit4;
+import org.apache.pekko.kafka.testkit.TestcontainersKafkaTest;
+import org.apache.pekko.kafka.tests.javadsl.LogCapturingExtension;
 import org.apache.pekko.stream.RestartSettings;
 import org.apache.pekko.stream.javadsl.*;
 import org.apache.pekko.testkit.javadsl.TestKit;
-import org.junit.AfterClass;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-public class TransactionsExampleTest extends TestcontainersKafkaJunit4Test {
-
-  @Rule public final LogCapturingJunit4 logCapturing = new LogCapturingJunit4();
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(LogCapturingExtension.class)
+class TransactionsExampleTest extends TestcontainersKafkaTest {
 
   private static final ActorSystem system = ActorSystem.create("TransactionsExampleTest");
   private final ExecutorService ec = Executors.newSingleThreadExecutor();
   private final ProducerSettings<String, String> producerSettings = txProducerDefaults();
 
-  public TransactionsExampleTest() {
+  TransactionsExampleTest() {
     super(system);
   }
 
-  @AfterClass
-  public static void afterClass() {
+  @AfterAll
+  void afterClass() {
     TestKit.shutdownActorSystem(system);
   }
 
@@ -70,7 +71,7 @@ public class TransactionsExampleTest extends TestcontainersKafkaJunit4Test {
   }
 
   @Test
-  public void sourceSink() throws Exception {
+  void sourceSink() throws Exception {
     ConsumerSettings<String, String> consumerSettings =
         consumerDefaults().withGroupId(createGroupId());
     String sourceTopic = createTopic(1);
@@ -106,7 +107,7 @@ public class TransactionsExampleTest extends TestcontainersKafkaJunit4Test {
   }
 
   @Test
-  public void withOffsetContext() throws Exception {
+  void withOffsetContext() throws Exception {
     ConsumerSettings<String, String> consumerSettings =
         consumerDefaults().withGroupId(createGroupId());
     String sourceTopic = createTopic(1);
@@ -135,7 +136,7 @@ public class TransactionsExampleTest extends TestcontainersKafkaJunit4Test {
   }
 
   @Test
-  public void usingRestartSource() throws Exception {
+  void usingRestartSource() throws Exception {
     ConsumerSettings<String, String> consumerSettings =
         consumerDefaults().withGroupId(createGroupId());
     String sourceTopic = createTopic(1);

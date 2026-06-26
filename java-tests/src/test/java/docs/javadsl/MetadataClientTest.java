@@ -19,6 +19,8 @@ import static java.util.stream.Collectors.toSet;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.core.Is.is;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 import java.util.Map;
@@ -33,35 +35,30 @@ import org.apache.kafka.common.TopicPartition;
 import org.apache.pekko.actor.ActorSystem;
 import org.apache.pekko.kafka.ConsumerSettings;
 import org.apache.pekko.kafka.javadsl.MetadataClient;
-import org.apache.pekko.kafka.testkit.TestcontainersKafkaJunit4Test;
-import org.apache.pekko.kafka.tests.javadsl.LogCapturingJunit4;
+import org.apache.pekko.kafka.testkit.TestcontainersKafkaTest;
+import org.apache.pekko.kafka.tests.javadsl.LogCapturingExtension;
 import org.apache.pekko.testkit.javadsl.TestKit;
 import org.apache.pekko.util.Timeout;
 // #metadataClient
-import org.hamcrest.core.IsInstanceOf;
-import org.junit.AfterClass;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-public class MetadataClientTest extends TestcontainersKafkaJunit4Test {
-
-  @Rule public final LogCapturingJunit4 logCapturing = new LogCapturingJunit4();
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(LogCapturingExtension.class)
+class MetadataClientTest extends TestcontainersKafkaTest {
 
   private static final ActorSystem sys = ActorSystem.create("MetadataClientTest");
   private static final Executor executor = Executors.newSingleThreadExecutor();
   private static final Timeout timeout = new Timeout(1, TimeUnit.SECONDS);
 
-  @SuppressWarnings("deprecation")
-  @Rule
-  public ExpectedException expectedException = ExpectedException.none();
-
-  public MetadataClientTest() {
+  MetadataClientTest() {
     super(sys);
   }
 
   @Test
-  public void shouldFetchBeginningOffsetsForGivenPartitions() {
+  void shouldFetchBeginningOffsetsForGivenPartitions() {
     final String topic1 = createTopic();
     final String group1 = createGroupId();
     // #metadataClient
@@ -85,11 +82,7 @@ public class MetadataClientTest extends TestcontainersKafkaJunit4Test {
   }
 
   @Test
-  public void shouldFailInCaseOfAnExceptionDuringFetchBeginningOffsetsForNonExistingTopics() {
-    expectedException.expect(CompletionException.class);
-    expectedException.expectCause(
-        IsInstanceOf.instanceOf(org.apache.kafka.common.errors.InvalidTopicException.class));
-
+  void shouldFailInCaseOfAnExceptionDuringFetchBeginningOffsetsForNonExistingTopics() {
     final String group1 = createGroupId();
     final TopicPartition nonExistingPartition = new TopicPartition("non-existing topic", 0);
     final ConsumerSettings<String, String> consumerSettings =
@@ -103,11 +96,14 @@ public class MetadataClientTest extends TestcontainersKafkaJunit4Test {
 
     metadataClient.close();
 
-    response.toCompletableFuture().join();
+    CompletionException exception =
+        assertThrows(CompletionException.class, () -> response.toCompletableFuture().join());
+    assertInstanceOf(
+        org.apache.kafka.common.errors.InvalidTopicException.class, exception.getCause());
   }
 
   @Test
-  public void shouldFetchBeginningOffsetForGivenPartition() {
+  void shouldFetchBeginningOffsetForGivenPartition() {
     final String topic1 = createTopic();
     final String group1 = createGroupId();
     final TopicPartition partition = new TopicPartition(topic1, 0);
@@ -125,7 +121,7 @@ public class MetadataClientTest extends TestcontainersKafkaJunit4Test {
   }
 
   @Test
-  public void shouldFetchEndOffsetsForGivenPartitions() {
+  void shouldFetchEndOffsetsForGivenPartitions() {
     final String topic1 = createTopic();
     final String group1 = createGroupId();
     final TopicPartition partition = new TopicPartition(topic1, 0);
@@ -147,11 +143,7 @@ public class MetadataClientTest extends TestcontainersKafkaJunit4Test {
   }
 
   @Test
-  public void shouldFailInCaseOfAnExceptionDuringFetchEndOffsetsForNonExistingTopic() {
-    expectedException.expect(CompletionException.class);
-    expectedException.expectCause(
-        IsInstanceOf.instanceOf(org.apache.kafka.common.errors.InvalidTopicException.class));
-
+  void shouldFailInCaseOfAnExceptionDuringFetchEndOffsetsForNonExistingTopic() {
     final String group1 = createGroupId();
     final TopicPartition nonExistingPartition = new TopicPartition("non-existing topic", 0);
     final ConsumerSettings<String, String> consumerSettings =
@@ -164,11 +156,15 @@ public class MetadataClientTest extends TestcontainersKafkaJunit4Test {
         metadataClient.getEndOffsets(Set.of(nonExistingPartition));
 
     metadataClient.close();
-    response.toCompletableFuture().join();
+
+    CompletionException exception =
+        assertThrows(CompletionException.class, () -> response.toCompletableFuture().join());
+    assertInstanceOf(
+        org.apache.kafka.common.errors.InvalidTopicException.class, exception.getCause());
   }
 
   @Test
-  public void shouldFetchEndOffsetForGivenPartition() {
+  void shouldFetchEndOffsetForGivenPartition() {
     final String topic1 = createTopic();
     final String group1 = createGroupId();
     final TopicPartition partition = new TopicPartition(topic1, 0);
@@ -188,7 +184,7 @@ public class MetadataClientTest extends TestcontainersKafkaJunit4Test {
   }
 
   @Test
-  public void shouldFetchTopicList() {
+  void shouldFetchTopicList() {
     final String group = createGroupId();
     final String topic1 = createTopic(1, 2);
     final String topic2 = createTopic(2, 1);
@@ -216,7 +212,7 @@ public class MetadataClientTest extends TestcontainersKafkaJunit4Test {
   }
 
   @Test
-  public void shouldFetchPartitionsInfoForGivenTopic() {
+  void shouldFetchPartitionsInfoForGivenTopic() {
     final String group = createGroupId();
     final String topic = createTopic(1, 2);
     final ConsumerSettings<String, String> consumerSettings = consumerDefaults().withGroupId(group);
@@ -238,8 +234,8 @@ public class MetadataClientTest extends TestcontainersKafkaJunit4Test {
     metadataClient.close();
   }
 
-  @AfterClass
-  public static void afterClass() {
+  @AfterAll
+  void afterClass() {
     TestKit.shutdownActorSystem(sys);
   }
 }
