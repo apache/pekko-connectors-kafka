@@ -184,7 +184,7 @@ public class KafkaContainerCluster implements Startable {
 
   public String getInternalNetworkBootstrapServers() {
     return IntStream.range(0, this.brokersNum)
-        .mapToObj(brokerNum -> String.format("broker-%s:%s", brokerNum, "9092"))
+        .mapToObj(brokerNum -> "broker-%s:%s".formatted(brokerNum, "9092"))
         .collect(Collectors.joining(","));
   }
 
