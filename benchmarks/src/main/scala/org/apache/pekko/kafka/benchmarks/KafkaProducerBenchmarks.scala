@@ -37,9 +37,7 @@ object KafkaProducerBenchmarks extends LazyLogging {
       val partition: Int = (i % fixture.numberOfPartitions).toInt
       producer.send(
         new ProducerRecord[Array[Byte], String](fixture.topic, partition, null, msg),
-        new Callback {
-          override def onCompletion(metadata: RecordMetadata, exception: Exception): Unit = meter.mark()
-        })
+        (_: RecordMetadata, _: Exception) => meter.mark())
 
       if (i % logStep == 0) {
         val lastPartEnd = System.nanoTime()

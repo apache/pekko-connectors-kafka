@@ -133,10 +133,7 @@ private[internal] abstract class TransactionalSourceLogic[K, V, Msg](shape: Sour
         log.debug(s"Draining partitions {}", partitions)
         materializer.scheduleOnce(
           consumerSettings.drainingCheckInterval,
-          new Runnable {
-            override def run(): Unit =
-              sourceActor.ref.tell(Drain(partitions, ack.orElse(Some(sender)), msg), sourceActor.ref)
-          })
+          () => sourceActor.ref.tell(Drain(partitions, ack.orElse(Some(sender)), msg), sourceActor.ref))
       }
   }
 
@@ -442,10 +439,7 @@ private final class TransactionalSubSourceStageLogic[K, V](
         log.debug(s"Draining partitions {}", partitions)
         materializer.scheduleOnce(
           consumerSettings.drainingCheckInterval,
-          new Runnable {
-            override def run(): Unit =
-              subSourceActor.ref.tell(Drain(partitions, ack.orElse(Some(sender)), msg), stageActor.ref)
-          })
+          () => subSourceActor.ref.tell(Drain(partitions, ack.orElse(Some(sender)), msg), stageActor.ref))
       }
     case (sender, DrainingComplete) =>
       completeStage()

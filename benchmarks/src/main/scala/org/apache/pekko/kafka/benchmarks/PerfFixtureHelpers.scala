@@ -97,20 +97,18 @@ private[benchmarks] trait PerfFixtureHelpers extends LazyLogging {
         val partition: Int = (i % ft.numberOfPartitions).toInt
         producer.send(
           new ProducerRecord[Array[Byte], String](ft.topic, partition, null, msg),
-          new Callback {
-            override def onCompletion(recordMetadata: RecordMetadata, e: Exception): Unit =
-              if (e == null) {
-                if (i % loggedStep == 0)
-                  logger.info(s"Written $i elements to Kafka (${100 * i / ft.msgCount}%)")
-                if (i >= ft.msgCount - 1 && !lastElementStoredPromise.isCompleted)
-                  lastElementStoredPromise.success(())
-              } else {
-                if (!lastElementStoredPromise.isCompleted) {
-                  e.printStackTrace()
-                  lastElementStoredPromise.failure(e)
-                }
+          (_: RecordMetadata, e: Exception) =>
+            if (e == null) {
+              if (i % loggedStep == 0)
+                logger.info(s"Written $i elements to Kafka (${100 * i / ft.msgCount}%)")
+              if (i >= ft.msgCount - 1 && !lastElementStoredPromise.isCompleted)
+                lastElementStoredPromise.success(())
+            } else {
+              if (!lastElementStoredPromise.isCompleted) {
+                e.printStackTrace()
+                lastElementStoredPromise.failure(e)
               }
-          })
+            })
       }
     }
     val lastElementStoredFuture = lastElementStoredPromise.future
