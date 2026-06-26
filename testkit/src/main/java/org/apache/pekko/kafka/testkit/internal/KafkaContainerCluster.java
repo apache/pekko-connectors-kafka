@@ -188,16 +188,10 @@ public class KafkaContainerCluster implements Startable {
         .collect(Collectors.joining(","));
   }
 
-  /** for backwards compatibility with Java 8 */
-  private <T> Stream<T> optionalStream(Optional<T> option) {
-    if (option.isPresent()) return Stream.of(option.get());
-    else return Stream.empty();
-  }
-
   private Stream<GenericContainer> allContainers() {
     return Stream.concat(
-        Stream.concat(this.brokers.stream(), optionalStream(this.zookeeper)),
-        optionalStream(this.schemaRegistry));
+        Stream.concat(this.brokers.stream(), this.zookeeper.stream()),
+        this.schemaRegistry.stream());
   }
 
   @Override
@@ -219,7 +213,7 @@ public class KafkaContainerCluster implements Startable {
       waitForClusterFormation();
 
       // start schema registry if the container is initialized
-      Startables.deepStart(optionalStream(this.schemaRegistry))
+      Startables.deepStart(this.schemaRegistry.stream())
           .get(clusterStartTimeout.getSeconds(), SECONDS);
 
     } catch (Exception ex) {
