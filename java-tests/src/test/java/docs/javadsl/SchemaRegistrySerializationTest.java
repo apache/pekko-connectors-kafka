@@ -23,7 +23,6 @@ import io.confluent.kafka.serializers.AbstractKafkaSchemaSerDeConfig;
 import io.confluent.kafka.serializers.KafkaAvroDeserializer;
 import io.confluent.kafka.serializers.KafkaAvroSerializer;
 // #imports
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -110,7 +109,7 @@ public class SchemaRegistrySerializationTest extends TestcontainersKafkaJunit4Te
             .withBootstrapServers(bootstrapServers());
 
     SampleAvroClass sample = new SampleAvroClass("key", "name");
-    List<SampleAvroClass> samples = Arrays.asList(sample, sample, sample);
+    List<SampleAvroClass> samples = List.of(sample, sample, sample);
     CompletionStage<Done> producerCompletion =
         Source.from(samples)
             .map(n -> new ProducerRecord<String, Object>(topic, n.key(), n))

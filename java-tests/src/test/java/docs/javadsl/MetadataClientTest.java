@@ -20,7 +20,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.core.Is.is;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -69,7 +68,7 @@ public class MetadataClientTest extends TestcontainersKafkaJunit4Test {
     final TopicPartition partition = new TopicPartition(topic1, 0);
     final ConsumerSettings<String, String> consumerSettings =
         consumerDefaults().withGroupId(group1);
-    final Set<TopicPartition> partitions = Collections.singleton(partition);
+    final Set<TopicPartition> partitions = Set.of(partition);
     final MetadataClient metadataClient =
         MetadataClient.create(consumerSettings, timeout, sys, executor);
 
@@ -95,7 +94,7 @@ public class MetadataClientTest extends TestcontainersKafkaJunit4Test {
     final TopicPartition nonExistingPartition = new TopicPartition("non-existing topic", 0);
     final ConsumerSettings<String, String> consumerSettings =
         consumerDefaults().withGroupId(group1);
-    final Set<TopicPartition> partitions = Collections.singleton(nonExistingPartition);
+    final Set<TopicPartition> partitions = Set.of(nonExistingPartition);
     final MetadataClient metadataClient =
         MetadataClient.create(consumerSettings, timeout, sys, executor);
 
@@ -139,7 +138,7 @@ public class MetadataClientTest extends TestcontainersKafkaJunit4Test {
     produceString(topic1, 10, partition.partition()).toCompletableFuture().join();
 
     final CompletionStage<Map<TopicPartition, Long>> response =
-        metadataClient.getEndOffsets(Collections.singleton(partition));
+        metadataClient.getEndOffsets(Set.of(partition));
     final Map<TopicPartition, Long> endOffsets = response.toCompletableFuture().join();
 
     assertThat(endOffsets.get(partition), is(10L));
@@ -162,7 +161,7 @@ public class MetadataClientTest extends TestcontainersKafkaJunit4Test {
         MetadataClient.create(consumerSettings, timeout, sys, executor);
 
     final CompletionStage<Map<TopicPartition, Long>> response =
-        metadataClient.getEndOffsets(Collections.singleton(nonExistingPartition));
+        metadataClient.getEndOffsets(Set.of(nonExistingPartition));
 
     metadataClient.close();
     response.toCompletableFuture().join();

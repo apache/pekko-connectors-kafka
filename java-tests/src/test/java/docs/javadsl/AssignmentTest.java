@@ -16,7 +16,6 @@ package docs.javadsl;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
@@ -92,7 +91,7 @@ public class AssignmentTest extends TestcontainersKafkaJunit4Test {
 
   @Test
   public void mustConsumeFromTheSpecifiedTopicPattern() throws Exception {
-    final List<String> topics = Arrays.asList(createTopic(9001), createTopic(9002));
+    final List<String> topics = List.of(createTopic(9001), createTopic(9002));
     final String group = createGroupId();
     final Integer totalMessages = 100;
     final CompletionStage<Done> producerCompletion =
