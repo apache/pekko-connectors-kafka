@@ -84,7 +84,7 @@ public class FetchMetadataTest extends TestcontainersKafkaJunit4Test {
                                       return partitionInfos.stream()
                                           .map(info -> topic + ": " + info.toString());
                                     })
-                                .toList())));
+                                .toList()));
 
     // #metadata
     Optional<List<String>> optionalStrings =
