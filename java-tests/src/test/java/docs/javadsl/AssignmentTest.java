@@ -18,7 +18,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 import java.util.concurrent.CompletionStage;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -101,7 +100,7 @@ public class AssignmentTest extends TestcontainersKafkaJunit4Test {
                     ProducerMessage.multi(
                         topics.stream()
                             .map(t -> new ProducerRecord<>(t, 0, DefaultKey(), msg.toString()))
-                            .collect(Collectors.toList())))
+                            .toList()))
             .via(Producer.flexiFlow(producerDefaults()))
             .runWith(Sink.ignore(), sys);
 
