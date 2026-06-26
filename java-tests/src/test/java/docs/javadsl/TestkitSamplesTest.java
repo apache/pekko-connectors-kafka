@@ -23,16 +23,17 @@ import org.apache.pekko.kafka.ConsumerMessage;
 import org.apache.pekko.kafka.ProducerMessage;
 import org.apache.pekko.kafka.javadsl.Committer;
 import org.apache.pekko.kafka.javadsl.Consumer;
-import org.apache.pekko.kafka.tests.javadsl.LogCapturingJunit4;
+import org.apache.pekko.kafka.tests.javadsl.LogCapturingExtension;
 import org.apache.pekko.stream.javadsl.Flow;
 import org.apache.pekko.stream.javadsl.Keep;
 import org.apache.pekko.stream.javadsl.Source;
 import org.apache.pekko.testkit.javadsl.TestKit;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import org.junit.AfterClass;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.*;
@@ -47,19 +48,19 @@ import java.util.List;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.TimeUnit;
 
-public class TestkitSamplesTest {
-
-  @Rule public final LogCapturingJunit4 logCapturing = new LogCapturingJunit4();
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(LogCapturingExtension.class)
+class TestkitSamplesTest {
 
   private static final ActorSystem sys = ActorSystem.create("TestkitSamplesTest");
 
-  @AfterClass
-  public static void afterClass() {
+  @AfterAll
+  void afterClass() {
     TestKit.shutdownActorSystem(sys);
   }
 
   @Test
-  public void withoutBrokerTesting() throws Exception {
+  void withoutBrokerTesting() throws Exception {
     String topic = "topic";
     String targetTopic = "target-topic";
     String groupId = "group1";

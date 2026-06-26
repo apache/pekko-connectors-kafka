@@ -47,20 +47,25 @@ import org.apache.pekko.kafka.Subscriptions;
 import org.apache.pekko.kafka.javadsl.Consumer;
 import org.apache.pekko.kafka.javadsl.Producer;
 import org.apache.pekko.kafka.testkit.KafkaTestkitTestcontainersSettings;
-import org.apache.pekko.kafka.testkit.TestcontainersKafkaJunit4Test;
+import org.apache.pekko.kafka.testkit.TestcontainersKafkaTest;
+import org.apache.pekko.kafka.tests.javadsl.LogCapturingExtension;
 import org.apache.pekko.stream.javadsl.Sink;
 import org.apache.pekko.stream.javadsl.Source;
 import org.apache.pekko.testkit.javadsl.TestKit;
-import org.junit.AfterClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 // #schema-registry-settings
-public class SchemaRegistrySerializationTest extends TestcontainersKafkaJunit4Test {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(LogCapturingExtension.class)
+class SchemaRegistrySerializationTest extends TestcontainersKafkaTest {
 
   private static final ActorSystem sys = ActorSystem.create("SchemaRegistrySerializationTest");
   private static final Executor ec = Executors.newSingleThreadExecutor();
 
-  public SchemaRegistrySerializationTest() {
+  SchemaRegistrySerializationTest() {
     // #schema-registry-settings
     // NOTE: Overriding KafkaTestkitTestcontainersSettings doesn't necessarily do anything here
     // because the JUnit testcontainer abstract classes run the testcontainers as a singleton.
@@ -77,7 +82,7 @@ public class SchemaRegistrySerializationTest extends TestcontainersKafkaJunit4Te
   // #schema-registry-settings
 
   @Test
-  public void avroDeSerMustWorkWithSchemaRegistry() throws Exception {
+  void avroDeSerMustWorkWithSchemaRegistry() throws Exception {
     final String topic = createTopic();
     final String group = createGroupId();
 
@@ -136,8 +141,8 @@ public class SchemaRegistrySerializationTest extends TestcontainersKafkaJunit4Te
     assertThat(result.size(), is(samples.size()));
   }
 
-  @AfterClass
-  public static void afterClass() {
+  @AfterAll
+  void afterClass() {
     TestKit.shutdownActorSystem(sys);
   }
   // #schema-registry-settings

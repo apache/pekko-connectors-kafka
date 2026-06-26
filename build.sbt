@@ -9,6 +9,7 @@
 
 import net.bzzt.reproduciblebuilds.ReproducibleBuildsPlugin.reproducibleBuildsCheckResolver
 import com.github.pjfanning.pekkobuild._
+import com.github.sbt.junit.jupiter.sbt.Import.JupiterKeys
 import com.typesafe.tools.mima.core.{ Problem, ProblemFilters }
 import ProjectSettings.commonSettings
 
@@ -17,6 +18,8 @@ sourceDistIncubating := false
 
 ThisBuild / reproducibleBuildsCheckResolver := Resolver.ApacheMavenStagingRepo
 ThisBuild / javafmtFormatterCompatibleJavaVersion := 17
+ThisBuild / JupiterKeys.junitJupiterVersion := "6.1.0"
+ThisBuild / JupiterKeys.junitPlatformVersion := "6.1.0"
 
 addCommandAlias("checkCodeStyle", "scalafmtCheckAll; scalafmtSbtCheck; javafmtCheckAll; +headerCheckAll")
 addCommandAlias("applyCodeStyle", "+headerCreateAll; scalafmtAll; scalafmtSbt; javafmtAll")
@@ -62,7 +65,6 @@ lazy val testkit = project
   .settings(
     name := "pekko-connectors-kafka-testkit",
     AutomaticModuleName.settings("org.apache.pekko.kafka.testkit"),
-    JupiterKeys.junitJupiterVersion := "6.1.0",
     libraryDependencies ++= Dependencies.testKitDependencies,
     libraryDependencies ++= Seq(
       "org.junit.jupiter" % "junit-jupiter-api" % JupiterKeys.junitJupiterVersion.value % Provided),

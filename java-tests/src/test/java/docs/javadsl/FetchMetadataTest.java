@@ -19,8 +19,8 @@ import org.apache.pekko.actor.ActorRef;
 import org.apache.pekko.kafka.ConsumerSettings;
 import org.apache.pekko.kafka.KafkaConsumerActor;
 import org.apache.pekko.kafka.Metadata;
-import org.apache.pekko.kafka.testkit.TestcontainersKafkaJunit4Test;
-import org.apache.pekko.kafka.tests.javadsl.LogCapturingJunit4;
+import org.apache.pekko.kafka.testkit.TestcontainersKafkaTest;
+import org.apache.pekko.kafka.tests.javadsl.LogCapturingExtension;
 import org.apache.pekko.pattern.Patterns;
 import java.time.Duration;
 import java.util.List;
@@ -32,29 +32,30 @@ import org.apache.kafka.common.PartitionInfo;
 import org.apache.pekko.actor.ActorSystem;
 import java.util.concurrent.TimeUnit;
 import org.apache.pekko.testkit.javadsl.TestKit;
-import org.junit.AfterClass;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-import static junit.framework.TestCase.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class FetchMetadataTest extends TestcontainersKafkaJunit4Test {
-
-  @Rule public final LogCapturingJunit4 logCapturing = new LogCapturingJunit4();
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(LogCapturingExtension.class)
+class FetchMetadataTest extends TestcontainersKafkaTest {
 
   private static final ActorSystem sys = ActorSystem.create("FetchMetadataTest");
 
-  public FetchMetadataTest() {
+  FetchMetadataTest() {
     super(sys);
   }
 
-  @AfterClass
-  public static void afterClass() {
+  @AfterAll
+  void afterClass() {
     TestKit.shutdownActorSystem(sys);
   }
 
   @Test
-  public void demo() throws Exception {
+  void demo() throws Exception {
     ConsumerSettings<String, String> consumerSettings =
         consumerDefaults().withGroupId(createGroupId());
     // #metadata
