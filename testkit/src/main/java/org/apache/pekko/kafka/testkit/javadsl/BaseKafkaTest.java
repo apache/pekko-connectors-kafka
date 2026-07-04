@@ -62,9 +62,7 @@ public abstract class BaseKafkaTest extends KafkaTestKitClass {
     return log;
   }
 
-  /**
-   * Overwrite to set different default timeout for {@code resultOf}.
-   */
+  /** Overwrite to set different default timeout for {@code resultOf}. */
   protected Duration resultOfTimeout() {
     return Duration.ofSeconds(5);
   }
