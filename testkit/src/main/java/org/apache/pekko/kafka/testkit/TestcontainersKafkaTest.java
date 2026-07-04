@@ -19,9 +19,9 @@ import org.apache.pekko.actor.ClassicActorSystemProvider;
 import org.apache.pekko.kafka.testkit.internal.TestcontainersKafka;
 
 /**
- * JUnit 5 base class using [[https://www.testcontainers.org/ Testcontainers]] to start a Kafka
- * broker in a Docker container. The Kafka broker will be kept around across multiple test classes,
- * unless `stopKafka()` is called (eg. from an `@AfterAll`-annotated method.
+ * JUnit 5 base class using <a href="https://www.testcontainers.org/">Testcontainers</a> to start a
+ * Kafka broker in a Docker container. The Kafka broker will be kept around across multiple test
+ * classes, unless `stopKafka()` is called (eg. from an `@AfterAll`-annotated method.
  *
  * <p>Extending classes must be annotated with `@TestInstance(Lifecycle.PER_CLASS)` to create a
  * single instance of the test class with `@BeforeAll` and `@AfterAll` annotated methods called by

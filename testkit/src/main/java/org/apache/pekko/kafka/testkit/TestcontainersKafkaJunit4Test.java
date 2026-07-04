@@ -22,9 +22,9 @@ import org.junit.After;
 import org.junit.Before;
 
 /**
- * JUnit 4 base class using [[https://www.testcontainers.org/ Testcontainers]] to start a Kafka
- * broker in a Docker container. The Kafka broker will be kept around across multiple test classes,
- * unless `stopKafka()` is called.
+ * JUnit 4 base class using <a href="https://www.testcontainers.org/">Testcontainers</a> to start a
+ * Kafka broker in a Docker container. The Kafka broker will be kept around across multiple test
+ * classes, unless `stopKafka()` is called.
  *
  * <p>The Testcontainers dependency has to be added explicitly.
  *
