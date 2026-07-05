@@ -47,6 +47,7 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 
 // #oneToMany #oneToConditional
 
+@SuppressWarnings({"deprecation", "unchecked"})
 public class AtLeastOnceTest extends TestcontainersKafkaJunit4Test {
 
   @Rule public final LogCapturingJunit4 logCapturing = new LogCapturingJunit4();

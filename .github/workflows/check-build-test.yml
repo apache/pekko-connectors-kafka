@@ -113,8 +113,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { java-version: 17,  scala-version: 2.13, sbt-opts: '' }
-          - { java-version: 17,  scala-version: 3.3, sbt-opts: '' }
+          - { java-version: 17,  scala-version: scala213, sbt-opts: '' }
+          - { java-version: 17,  scala-version: scala3, sbt-opts: '' }
+          - { java-version: 17,  scala-version: next, sbt-opts: '' }
     steps:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
@@ -138,7 +139,9 @@ jobs:
         uses: sbt/setup-sbt@3afe9cf056c5d139bfc46579af1192d77a2f0821 # v1.4.0
 
       - name: Run tests with Scala ${{ matrix.scala-version }} and Java ${{ matrix.java-version }}
-        run: sbt "++${{ matrix.scala-version }} test" ${{ matrix.sbt-opts }}
+        run: |-
+          scala_version="$(bash .github/scripts/resolve-scala-version.sh "${{ matrix.scala-version }}")"
+          sbt "++${scala_version}! test" ${{ matrix.sbt-opts }}
 
       - name: Print logs on failure
         if: ${{ failure() }}
