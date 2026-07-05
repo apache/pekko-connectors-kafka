@@ -94,12 +94,6 @@ trait KafkaTestKit {
 
   val settings = KafkaTestkitSettings(system)
 
-  private lazy val adminDefaults: java.util.Map[String, AnyRef] = {
-    val config = new java.util.HashMap[String, AnyRef]()
-    config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers)
-    config
-  }
-
   private var adminClientVar: Admin = null
 
   /**
@@ -119,7 +113,7 @@ trait KafkaTestKit {
    */
   def setUpAdminClient(): Unit =
     if (adminClientVar == null) {
-      adminClientVar = Admin.create(adminDefaults)
+      adminClientVar = Admin.create(KafkaTestKit.adminDefaultsMap(bootstrapServers))
     }
 
   /**
@@ -196,6 +190,14 @@ trait KafkaTestKit {
   def sleepSeconds(s: Int, msg: String): Unit = {
     log.debug(s"sleeping $s s $msg")
     Thread.sleep(s * 1000L)
+  }
+}
+
+object KafkaTestKit {
+  private[internal] def adminDefaultsMap(bootstrapServers: String): java.util.Map[String, AnyRef] = {
+    val config = new java.util.HashMap[String, AnyRef]()
+    config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers)
+    config
   }
 }
 
