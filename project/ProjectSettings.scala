@@ -65,6 +65,10 @@ object ProjectSettings extends AutoPlugin {
           """.stripMargin
 
   private val apacheBaseRepo = "repository.apache.org"
+  private val isScala38OrLater = Def.setting(CrossVersion.partialVersion(scalaVersion.value).exists {
+    case (3, minor) if minor >= 8 => true
+    case _                        => false
+  })
 
   lazy val commonSettings: Seq[Def.Setting[?]] = Def.settings(
     homepage := Some(url("https://pekko.apache.org/docs/pekko-connectors-kafka/current/")),
@@ -78,12 +82,17 @@ object ProjectSettings extends AutoPlugin {
     startYear := Some(2022),
     description :=
       "Apache Pekko Kafka Connector is a Reactive Enterprise Integration library for Java and Scala, based on Reactive Streams and Apache Pekko.",
-    crossScalaVersions := Seq(Scala213, Scala3),
+    crossScalaVersions := PublishedScalaVersions,
     scalaVersion := Scala213,
     crossVersion := CrossVersion.binary,
     javacOptions ++= Seq(
       "-Xlint:deprecation",
       "-Xlint:unchecked"),
+    javacOptions := {
+      val options = javacOptions.value
+      if (isScala38OrLater.value) options.filterNot(_.startsWith("-Xlint")) ++ Seq("-nowarn", "-Xlint:none")
+      else options
+    },
     scalacOptions ++= Seq(
       "-encoding",
       "UTF-8", // yes, this is 2 args
@@ -106,7 +115,9 @@ object ProjectSettings extends AutoPlugin {
           "-Wconf:msg=is not declared infix:s",
           "-Wconf:msg=auto insertion will be deprecated:s",
           "-Wconf:msg=Invalid message filter:s") ++
-        (if (CrossVersion.partialVersion(scalaVersion.value).exists(_._2 < 9))
+        (if (isScala38OrLater.value) Seq("-Wconf:any:s")
+         else Seq.empty) ++
+        (if (scalaVersion.value.startsWith("3.3."))
            Seq("-Yfuture-lazy-vals", "-Wconf:msg=bad option.*-Yfuture-lazy-vals:s")
          else Seq.empty)
       else Seq.empty

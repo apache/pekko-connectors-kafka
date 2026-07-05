@@ -50,6 +50,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 // #testkit
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@SuppressWarnings("unchecked")
 @ExtendWith(LogCapturingExtension.class)
 class AssignmentTest extends TestcontainersKafkaTest {
 
