@@ -12,7 +12,7 @@ addSbtPlugin("net.bzzt" % "sbt-reproducible-builds" % "0.35")
 addSbtPlugin("com.github.sbt.junit" % "sbt-jupiter-interface" % "0.19.0")
 addSbtPlugin("com.github.pjfanning" % "sbt-source-dist" % "0.1.13")
 addSbtPlugin("com.github.pjfanning" % "sbt-pekko-build" % "0.4.7")
-addSbtPlugin("com.github.sbt" % "sbt-license-report" % "1.9.0")
+addSbtPlugin("com.github.sbt" % "sbt-license-report" % "1.10.0")
 // discipline
 addSbtPlugin("com.github.sbt" % "sbt-header" % "5.11.0")
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.6.1")
