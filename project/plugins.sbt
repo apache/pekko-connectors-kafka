@@ -10,7 +10,7 @@
 addSbtPlugin("com.github.sbt" % "sbt-dynver" % "5.1.1")
 addSbtPlugin("net.bzzt" % "sbt-reproducible-builds" % "0.35")
 addSbtPlugin("com.github.sbt.junit" % "sbt-jupiter-interface" % "0.19.0")
-addSbtPlugin("com.github.pjfanning" % "sbt-source-dist" % "0.1.13")
+addSbtPlugin("com.github.pjfanning" % "sbt-source-dist" % "0.2.0")
 addSbtPlugin("com.github.pjfanning" % "sbt-pekko-build" % "0.4.7")
 addSbtPlugin("com.github.sbt" % "sbt-license-report" % "1.10.0")
 // discipline
