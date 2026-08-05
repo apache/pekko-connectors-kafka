@@ -93,7 +93,7 @@ class RebalanceSpec extends SpecBase with TestcontainersKafkaLike with Inside {
       probe1rebalanceActor.expectMsg(TopicPartitionsRevoked(probe1subscription, Set(tp1)))
       probe2rebalanceActor.fishForMessage(10.seconds) {
         case TopicPartitionsAssigned(`probe2subscription`, assigned) if assigned == Set(tp1) => true
-        case TopicPartitionsAssigned(`probe2subscription`, assigned) if assigned.isEmpty => false
+        case TopicPartitionsAssigned(`probe2subscription`, assigned) if assigned.isEmpty     => false
       }
     }
   }

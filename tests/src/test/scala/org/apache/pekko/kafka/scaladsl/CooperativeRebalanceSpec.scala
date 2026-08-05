@@ -1,10 +1,18 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * license agreements; and to You under the Apache License, version 2.0:
+ * contributor license agreements. See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  *
- *   https://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
- * This file is part of the Apache Pekko project, which was derived from Akka.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.apache.pekko.kafka.scaladsl
@@ -49,10 +57,10 @@ class CooperativeRebalanceSpec extends SpecBase with TestcontainersKafkaLike wit
 
   implicit override val patienceConfig: PatienceConfig = PatienceConfig(30.seconds, 500.millis)
 
-  final val partition1 = 1
-  final val consumerClientId1 = "consumer-1"
-  final val consumerClientId2 = "consumer-2"
-  final val consumerClientId3 = "consumer-3"
+  val partition1 = 1
+  val consumerClientId1 = "consumer-1"
+  val consumerClientId2 = "consumer-2"
+  val consumerClientId3 = "consumer-3"
 
   private def cooperativeSettings(group: String) =
     consumerDefaults
@@ -66,7 +74,7 @@ class CooperativeRebalanceSpec extends SpecBase with TestcontainersKafkaLike wit
       subscription: AutoSubscription,
       tps: Set[TopicPartition]): Unit =
     rebalanceActor.fishForMessage(10.seconds) {
-      case TopicPartitionsAssigned(`subscription`, assigned) if assigned == tps => true
+      case TopicPartitionsAssigned(`subscription`, assigned) if assigned == tps  => true
       case TopicPartitionsAssigned(`subscription`, assigned) if assigned.isEmpty => false
     }
 
@@ -118,7 +126,6 @@ class CooperativeRebalanceSpec extends SpecBase with TestcontainersKafkaLike wit
 
         PekkoConnectorsAssignor.clientIdToPartitionMap.set(Map(consumerClientId1 -> Set(tp0, tp1)))
 
-        log.debug("Subscribe consumer 1 and buffer records of tp1")
         val probe1rebalanceActor = TestProbe()
         val probe1subscription = Subscriptions.topics(topic1).withRebalanceListener(probe1rebalanceActor.ref)
         val (control1, probe1) = mode
@@ -129,7 +136,6 @@ class CooperativeRebalanceSpec extends SpecBase with TestcontainersKafkaLike wit
         probe1rebalanceActor.expectMsg(TopicPartitionsAssigned(probe1subscription, Set(tp0, tp1)))
         probe1.requestNext()
 
-        log.debug("Move tp1 to consumer 2 so that consumer 1 records a non-empty lastRevoked set")
         PekkoConnectorsAssignor.clientIdToPartitionMap.set(
           Map(consumerClientId1 -> Set(tp0), consumerClientId2 -> Set(tp1)))
         val (control2, probe2, probe2rebalanceActor, probe2subscription) = joinConsumer(consumerClientId2)
@@ -137,16 +143,13 @@ class CooperativeRebalanceSpec extends SpecBase with TestcontainersKafkaLike wit
         probe1rebalanceActor.expectMsg(TopicPartitionsRevoked(probe1subscription, Set(tp1)))
         awaitAssigned(probe2rebalanceActor, probe2subscription, Set(tp1))
 
-        log.debug("Return tp1 to consumer 1")
         PekkoConnectorsAssignor.clientIdToPartitionMap.set(Map(consumerClientId1 -> Set(tp0, tp1)))
         probe2.cancel()
         control2.isShutdown.futureValue shouldBe Done
         awaitAssigned(probe1rebalanceActor, probe1subscription, Set(tp1))
 
-        log.debug("Buffer records of the re-assigned tp1")
         probe1.requestNext()
 
-        log.debug("Join consumer 3: consumer 1 revokes nothing (no onRevoke) and gains nothing")
         PekkoConnectorsAssignor.clientIdToPartitionMap.set(
           Map(consumerClientId1 -> Set(tp0, tp1), consumerClientId3 -> Set.empty[TopicPartition]))
         val (control3, probe3, probe3rebalanceActor, probe3subscription) = joinConsumer(consumerClientId3)
@@ -157,7 +160,6 @@ class CooperativeRebalanceSpec extends SpecBase with TestcontainersKafkaLike wit
         // give the asynchronous buffer filter of the rebalance a chance to apply before demanding
         probe1.expectNoMessage(500.millis)
 
-        log.debug("The buffered records of tp1 must still be delivered")
         probe1.request(count * 3)
         val values = probe1.receiveWithin(5.seconds).map(_.value)
         values should contain allElementsOf (1 to count.toInt).map(_.toString)
