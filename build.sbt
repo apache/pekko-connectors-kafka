@@ -18,8 +18,8 @@ sourceDistIncubating := false
 
 ThisBuild / reproducibleBuildsCheckResolver := Resolver.ApacheMavenStagingRepo
 ThisBuild / javafmtFormatterCompatibleJavaVersion := 17
-ThisBuild / JupiterKeys.junitJupiterVersion := "6.1.2"
-ThisBuild / JupiterKeys.junitPlatformVersion := "6.1.2"
+ThisBuild / JupiterKeys.junitJupiterVersion := "6.1.3"
+ThisBuild / JupiterKeys.junitPlatformVersion := "6.1.3"
 Global / excludeLintKeys += JupiterKeys.junitPlatformVersion
 
 addCommandAlias("checkCodeStyle", "scalafmtCheckAll; scalafmtSbtCheck; javafmtCheckAll; +headerCheckAll")
