@@ -195,6 +195,10 @@ public class PekkoConnectorsKafkaContainer extends GenericContainer<PekkoConnect
       addExposedPort(KAFKA_JMX_PORT);
     }
 
+    // It seems the default 60s is not enough
+    // https://github.com/apache/pekko-connectors-kafka/issues/321
+    withStartupTimeout(Duration.ofMinutes(6));
+
     super.doStart();
   }
 
