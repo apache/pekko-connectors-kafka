@@ -216,9 +216,10 @@ import scala.util.control.NonFatal
   private var stopInProgress = false
 
   /**
-   * Collect commit offset maps until the next poll.
+   * Collect commit offsets until the next poll.
+   * Using a Map naturally deduplicates by TopicPartition, keeping only the latest offset.
    */
-  private var commitMaps = List.empty[(TopicPartition, OffsetAndMetadata)]
+  private var commitMaps = Map.empty[TopicPartition, OffsetAndMetadata]
 
   /**
    * Keeps commit senders that need a reply once stashed commits are made.
@@ -233,19 +234,17 @@ import scala.util.control.NonFatal
 
   def regularReceive: Receive = LoggingReceive {
     case Commit(tp, offset) =>
-      // prepending, as later received offsets most likely are higher
-      commitMaps = tp -> offset :: commitMaps
+      commitMaps = commitMaps.updated(tp, offset)
       commitSenders = commitSenders :+ sender()
 
     case CommitWithoutReply(tp, offset, emergency) =>
-      // prepending, as later received offsets most likely are higher
-      commitMaps = tp -> offset :: commitMaps
+      commitMaps = commitMaps.updated(tp, offset)
       if (emergency) {
         emergencyPoll()
       }
 
     case CommitSingle(tp, offset) =>
-      commitMaps = tp -> offset :: commitMaps
+      commitMaps = commitMaps.updated(tp, offset)
       commitSenders = commitSenders :+ sender()
       requestDelayedPoll()
 
@@ -554,16 +553,15 @@ import scala.util.control.NonFatal
   }
 
   private def commitAggregatedOffsets(): Unit = if (commitMaps.nonEmpty) {
-    val aggregatedOffsets = aggregateOffsets(commitMaps)
     // commits can occur after the partition has been revoked from the consumer, so ensure that we only attempt to
     // commit partitions that are currently assigned to the consumer. For high volume topics, this can lead to small
     // amounts of replayed data during a rebalance, but for low volume topics we can ensure that consumers never appear
     // 'stuck' because of out-of-order commits from slow consumers.
-    val assignedOffsetsToCommit = aggregatedOffsets.view.filterKeys(consumer.assignment().contains).toMap
+    val assignedOffsetsToCommit = commitMaps.view.filterKeys(consumer.assignment().contains).toMap
     progressTracker.commitRequested(assignedOffsetsToCommit)
     val replyTo = commitSenders
     // flush the data before calling `consumer.commitAsync` which might call the callback synchronously
-    commitMaps = List.empty
+    commitMaps = Map.empty
     commitSenders = Vector.empty
     commit(assignedOffsetsToCommit, replyTo)
   }
@@ -582,8 +580,8 @@ import scala.util.control.NonFatal
               duration / 1000000L,
               commitsInProgress,
               e.toString)
-            commitMaps = commitMap.toList ++ commitMaps
-            commitSenders = commitSenders ++ replyTo
+            commitMaps = commitMaps ++ commitMap
+            commitSenders = (commitSenders ++ replyTo).distinct
             requestDelayedPoll()
           }
 
