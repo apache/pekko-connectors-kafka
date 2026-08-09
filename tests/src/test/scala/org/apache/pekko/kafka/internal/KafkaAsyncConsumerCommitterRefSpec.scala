@@ -53,20 +53,20 @@ class KafkaAsyncConsumerCommitterRefSpec
       val ref2 = system.actorOf(Props.empty)
       val a = committer(ref1, 5.seconds)
       val b = committer(ref2, 5.seconds)
-      a should not equal b
+      (a should not).equal(b)
     }
 
     "not be equal for different timeout" in {
       val ref = system.actorOf(Props.empty)
       val a = committer(ref, 5.seconds)
       val b = committer(ref, 10.seconds)
-      a should not equal b
+      (a should not).equal(b)
     }
 
     "not be equal to a non-KafkaAsyncConsumerCommitterRef" in {
       val ref = system.actorOf(Props.empty)
       val a = committer(ref, 5.seconds)
-      a should not equal "not a committer"
+      (a should not).equal("not a committer")
     }
 
     "have consistent hashCode for equal instances" in {
@@ -82,7 +82,7 @@ class KafkaAsyncConsumerCommitterRefSpec
       val a = committer(ref1, 5.seconds)
       val b = committer(ref2, 5.seconds)
       // Not guaranteed but extremely likely
-      a.hashCode() should not equal b.hashCode()
+      (a.hashCode() should not).equal(b.hashCode())
     }
   }
 }
