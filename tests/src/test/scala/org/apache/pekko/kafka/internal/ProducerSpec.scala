@@ -30,7 +30,7 @@ import pekko.{ Done, NotUsed }
 import com.typesafe.config.ConfigFactory
 import org.apache.kafka.clients.consumer.{ ConsumerGroupMetadata, OffsetAndMetadata }
 import org.apache.kafka.clients.producer._
-import org.apache.kafka.common.TopicPartition
+import org.apache.kafka.common.{ KafkaException, TopicPartition }
 import org.apache.kafka.common.serialization.StringSerializer
 import org.mockito
 import org.mockito.Mockito
@@ -563,6 +563,80 @@ class ProducerSpec(_system: ActorSystem)
     client.verifyTxAbort()
     client.verifyClosed()
   }
+
+  it should "abort transaction and close producer when commitTransaction fails during shutdown" in {
+    val input = recordAndMetadata(1)
+
+    val client = {
+      val inputMap = Map(input)
+      new ProducerMock[K, V](ProducerMock.handlers.delayedMap(100.millis)(x => Try { inputMap(x) }))
+    }
+    val committedMarker = new CommittedMarkerMock
+
+    val (source, sink) = TestSource[TxMsg]()
+      .via(testTransactionProducerFlow(client))
+      .toMat(TestSink())(Keep.both)
+      .run()
+
+    val txMsg: TxMsg = toTxMessage(input, committedMarker.mock)
+    source.sendNext(txMsg)
+    sink.requestNext()
+
+    client.verifySend(atLeastOnce())
+
+    // Wait for the timer-based commit to succeed first
+    awaitAssert(client.verifyTxCommit(txMsg.passThrough), 2.second)
+
+    // Now make commitTransaction throw for the shutdown commit
+    Mockito
+      .doAnswer(_ => throw new KafkaException("commit failed"))
+      .when(client.mock)
+      .commitTransaction()
+
+    // Complete the source to trigger onCompletionSuccess
+    source.sendComplete()
+    sink.expectComplete()
+
+    // Verify: commitTransaction was called (and threw), then abortTransaction as fallback, then producer closed
+    client.verifyTxAbortAfterFailedCommit()
+  }
+
+  it should "close producer when abortTransaction fails during stage failure" in {
+    val input = recordAndMetadata(1)
+
+    val client = {
+      val inputMap = Map(input)
+      new ProducerMock[K, V](ProducerMock.handlers.delayedMap(100.millis)(x => Try { inputMap(x) }))
+    }
+    val committedMarker = new CommittedMarkerMock
+
+    val (source, sink) = TestSource[TxMsg]()
+      .via(testTransactionProducerFlow(client))
+      .toMat(Sink.lastOption)(Keep.both)
+      .run()
+
+    val txMsg = toTxMessage(input, committedMarker.mock)
+    source.sendNext(txMsg)
+
+    awaitAssert(client.verifyTxInitialized())
+
+    // Make abortTransaction throw
+    Mockito
+      .doAnswer(_ => throw new KafkaException("abort failed"))
+      .when(client.mock)
+      .abortTransaction()
+
+    // Trigger stage failure
+    source.sendError(new Exception("upstream failure"))
+
+    Await.ready(sink, remainingOrDefault)
+    sink.value should matchPattern {
+      case Some(Failure(_)) =>
+    }
+
+    // Even though abortTransaction throws, the producer should still be closed
+    client.verifyClosedAfterFailedAbort()
+  }
 }
 
 object ProducerMock {
@@ -667,6 +741,21 @@ class ProducerMock[K, V](handler: ProducerMock.Handler[K, V])(implicit ec: Execu
   }
 
   def verifyTxAbort() = {
+    val inOrder = Mockito.inOrder(mock)
+    inOrder.verify(mock).abortTransaction()
+    inOrder.verify(mock).flush()
+    inOrder.verify(mock).close(mockito.ArgumentMatchers.any[java.time.Duration])
+  }
+
+  def verifyTxAbortAfterFailedCommit() = {
+    val inOrder = Mockito.inOrder(mock)
+    inOrder.verify(mock).commitTransaction()
+    inOrder.verify(mock).abortTransaction()
+    inOrder.verify(mock).flush()
+    inOrder.verify(mock).close(mockito.ArgumentMatchers.any[java.time.Duration])
+  }
+
+  def verifyClosedAfterFailedAbort() = {
     val inOrder = Mockito.inOrder(mock)
     inOrder.verify(mock).abortTransaction()
     inOrder.verify(mock).flush()
