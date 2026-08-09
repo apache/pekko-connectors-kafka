@@ -659,10 +659,11 @@ import scala.util.control.NonFatal
 
   private def processErrors(exception: Throwable): Unit = {
     val sendTo = (stageActorsMap.values ++ owner).toSet
-    log.debug(s"sending failure {} to {}", exception.getClass, sendTo.mkString(","))
+    log.debug("sending failure {} to {}", exception.getClass, sendTo.mkString(","))
     stageActorsMap.values.foreach { stageActorRef =>
       sendFailure(exception, stageActorRef)
     }
+    owner.foreach(_ ! Failure(exception))
   }
 
   private def handleMetadataRequest(req: Metadata.Request): Metadata.Response = req match {
