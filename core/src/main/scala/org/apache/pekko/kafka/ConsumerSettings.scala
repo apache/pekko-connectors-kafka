@@ -94,6 +94,22 @@ object ConsumerSettings {
     val drainingCheckInterval = config.getDuration("eos-draining-check-interval").toScala
     val connectionCheckerSettings = ConnectionCheckerSettings(config.getConfig(ConnectionCheckerSettings.configPath))
     val partitionHandlerWarning = config.getDuration("partition-handler-warning").toScala
+    require(pollInterval > Duration.Zero, "poll-interval must be positive")
+    require(pollTimeout > Duration.Zero, "poll-timeout must be positive")
+    require(stopTimeout > Duration.Zero, "stop-timeout must be positive")
+    require(closeTimeout > Duration.Zero, "close-timeout must be positive")
+    require(commitTimeout > Duration.Zero, "commit-timeout must be positive")
+    require(commitTimeWarning > Duration.Zero, "commit-time-warning must be positive")
+    commitRefreshInterval match {
+      case fd: FiniteDuration => require(fd > Duration.Zero, "commit-refresh-interval must be positive when finite")
+      case _                  => // infinite is valid
+    }
+    require(waitClosePartition > Duration.Zero, "wait-close-partition must be positive")
+    require(positionTimeout > Duration.Zero, "position-timeout must be positive")
+    require(offsetForTimesTimeout > Duration.Zero, "offset-for-times-timeout must be positive")
+    require(metadataRequestTimeout > Duration.Zero, "metadata-request-timeout must be positive")
+    require(drainingCheckInterval > Duration.Zero, "eos-draining-check-interval must be positive")
+    require(partitionHandlerWarning > Duration.Zero, "partition-handler-warning must be positive")
     val resetProtectionThreshold = OffsetResetProtectionSettings(
       config.getConfig(OffsetResetProtectionSettings.configPath))
 

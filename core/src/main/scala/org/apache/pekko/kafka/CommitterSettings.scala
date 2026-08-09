@@ -135,6 +135,9 @@ object CommitterSettings {
     val maxBatch = config.getLong("max-batch")
     val maxInterval = config.getDuration("max-interval", TimeUnit.MILLISECONDS).millis
     val parallelism = config.getInt("parallelism")
+    require(maxBatch > 0, "max-batch must be positive")
+    require(maxInterval > Duration.Zero, "max-interval must be positive")
+    require(parallelism > 0, "parallelism must be positive")
     val delivery = CommitDelivery.valueOf(config.getString("delivery"))
     val when = CommitWhen.valueOf(config.getString("when"))
     new CommitterSettings(maxBatch, maxInterval, parallelism, delivery, when)
