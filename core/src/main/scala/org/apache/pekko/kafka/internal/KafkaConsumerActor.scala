@@ -659,7 +659,8 @@ import scala.util.control.NonFatal
 
   private def processErrors(exception: Throwable): Unit = {
     val sendTo = (stageActorsMap.values ++ owner).toSet
-    log.debug("sending failure {} to {}", exception.getClass, sendTo.mkString(","))
+    if (log.isDebugEnabled)
+      log.debug("sending failure {} to {}", exception.getClass, sendTo.mkString(","))
     stageActorsMap.values.foreach { stageActorRef =>
       sendFailure(exception, stageActorRef)
     }
