@@ -21,13 +21,17 @@ import pekko.kafka.ConsumerMessage._
 import pekko.kafka.scaladsl.Consumer
 import pekko.kafka.scaladsl.Consumer.Control
 import pekko.kafka.tests.scaladsl.LogCapturing
-import pekko.kafka.{ CommitTimeoutException, ConsumerSettings, Repeated, Subscriptions }
+import pekko.actor.Status.Failure
+import pekko.kafka.{ CommitTimeoutException, ConsumerSettings, KafkaConnectionFailed, Repeated, Subscriptions }
+import pekko.kafka.{ KafkaConsumerActor => PublicKafkaConsumerActor }
+import pekko.testkit.TestProbe
 import pekko.stream.scaladsl._
 import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import pekko.stream.testkit.scaladsl.TestSink
 import pekko.testkit.TestKit
 import com.typesafe.config.ConfigFactory
 import org.apache.kafka.clients.consumer._
+import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.mockito.Mockito._
 import org.scalatest.BeforeAndAfterAll
@@ -334,5 +338,35 @@ class ConsumerSpec(_system: ActorSystem)
     Await.result(done, remainingOrDefault)
     Await.result(control.isShutdown, remainingOrDefault)
     mock.verifyClosed()
+  }
+
+  it should "propagate KafkaConnectionFailed to owner actor" in {
+    val mock = new ConsumerMock[K, V]()
+    val ownerProbe = TestProbe()
+    val settings = ConsumerSettings
+      .create(system, new StringDeserializer, new StringDeserializer)
+      .withGroupId("group1")
+      .withCloseTimeout(ConsumerMock.closeTimeout)
+      .withConsumerFactory(_ => mock.mock)
+    val actor = system.actorOf(PublicKafkaConsumerActor.props(ownerProbe.ref, settings))
+
+    // trigger initialization by subscribing
+    actor ! KafkaConsumerActor.Internal.Subscribe(
+      Set("topic"),
+      new org.apache.pekko.kafka.scaladsl.PartitionAssignmentHandler {
+        override def onAssign(assignment: Set[TopicPartition],
+            restrictedConsumer: org.apache.pekko.kafka.RestrictedConsumer): Unit = ()
+        override def onRevoke(revokedTps: Set[TopicPartition],
+            restrictedConsumer: org.apache.pekko.kafka.RestrictedConsumer): Unit = ()
+        override def onLost(lostTps: Set[TopicPartition],
+            restrictedConsumer: org.apache.pekko.kafka.RestrictedConsumer): Unit = ()
+        override def onStop(currentTps: Set[TopicPartition],
+            restrictedConsumer: org.apache.pekko.kafka.RestrictedConsumer): Unit = ()
+      })
+
+    val kcf = KafkaConnectionFailed(new org.apache.kafka.common.errors.TimeoutException("connection lost"), 3)
+    actor ! kcf
+
+    ownerProbe.expectMsg(Failure(kcf))
   }
 }
