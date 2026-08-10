@@ -228,6 +228,9 @@ private[kafka] class KafkaAsyncConsumerCommitterRef(private val consumerActor: A
         this.consumerActor == that.consumerActor && this.commitTimeout == that.commitTimeout
       case _ => false
     }
+
+  override def hashCode(): Int =
+    java.util.Objects.hash(consumerActor, commitTimeout)
 }
 
 @InternalApi
