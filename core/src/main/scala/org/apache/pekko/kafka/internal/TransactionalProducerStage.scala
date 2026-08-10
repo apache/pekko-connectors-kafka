@@ -31,6 +31,7 @@ import org.apache.kafka.common.TopicPartition
 import scala.concurrent.Future
 import scala.concurrent.duration._
 import scala.jdk.CollectionConverters._
+import scala.util.control.NonFatal
 
 /**
  * INTERNAL API
@@ -231,12 +232,37 @@ private final class TransactionalProducerStageLogic[K, V, P](
   override def onCompletionSuccess(): Unit = {
     log.debug("Committing final transaction before shutdown")
     cancelTimer(commitSchedulerKey)
-    maybeCommitTransaction(beginNewTransaction = false, abortEmptyTransactionOnComplete = true)
+    setKeepGoing(true)
+    try {
+      batchOffsets match {
+        case batch: NonemptyTransactionBatch =>
+          commitTransaction(batch, beginNewTransaction = false)
+        case _: EmptyTransactionBatch =>
+          abortTransaction("Transaction is empty and stage is completing")
+        case _ =>
+          ()
+      }
+    } catch {
+      case NonFatal(ex) =>
+        log.error(ex, "Failed to commit final transaction, aborting")
+        try {
+          abortTransaction("Final transaction commit failed")
+        } catch {
+          case NonFatal(abortEx) =>
+            log.error(abortEx, "Failed to abort transaction after commit failure")
+        }
+        batchOffsets.committingFailed()
+    }
     super.onCompletionSuccess()
   }
 
   override def onCompletionFailure(ex: Throwable): Unit = {
-    abortTransaction("Stage failure")
+    try {
+      abortTransaction("Stage failure")
+    } catch {
+      case NonFatal(abortEx) =>
+        log.error(abortEx, "Failed to abort transaction during stage failure")
+    }
     batchOffsets.committingFailed()
     super.onCompletionFailure(ex)
   }
