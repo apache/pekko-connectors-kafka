@@ -20,6 +20,7 @@ import java.util.concurrent.atomic.AtomicReference
 import org.apache.pekko
 import pekko.kafka._
 import pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
+import pekko.util.ccompat.JavaConverters._
 import pekko.stream.scaladsl.{ Keep, Source }
 import pekko.stream.testkit.TestSubscriber
 import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
@@ -33,7 +34,6 @@ import org.scalatest.Inside
 import org.slf4j.{ Logger, LoggerFactory }
 
 import scala.concurrent.duration._
-import scala.jdk.CollectionConverters._
 import scala.util.Random
 
 class RebalanceSpec extends SpecBase with TestcontainersKafkaLike with Inside {
