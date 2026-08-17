@@ -76,6 +76,7 @@ class CooperativeRebalanceSpec extends SpecBase with TestcontainersKafkaLike wit
     rebalanceActor.fishForMessage(10.seconds) {
       case TopicPartitionsAssigned(`subscription`, assigned) if assigned == tps  => true
       case TopicPartitionsAssigned(`subscription`, assigned) if assigned.isEmpty => false
+      case _                                                                     => false
     }
 
   sealed trait SourceCase {
