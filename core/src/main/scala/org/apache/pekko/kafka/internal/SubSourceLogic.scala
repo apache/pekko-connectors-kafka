@@ -301,11 +301,13 @@ private class SubSourceLogic[K, V, Msg](
       override def onRevoke(revokedTps: Set[TopicPartition], consumer: RestrictedConsumer): Unit =
         lastRevoked = revokedTps
 
-      override def onAssign(assignedTps: Set[TopicPartition], consumer: RestrictedConsumer): Unit =
+      override def onAssign(assignedTps: Set[TopicPartition], consumer: RestrictedConsumer): Unit = {
         for {
           tp <- lastRevoked -- assignedTps
           control <- subSources.get(tp)
         } control.filterRevokedPartitionsCB.invoke(Set(tp))
+        lastRevoked = Set.empty
+      }
 
       override def onLost(lostTps: Set[TopicPartition], consumer: RestrictedConsumer): Unit =
         for {

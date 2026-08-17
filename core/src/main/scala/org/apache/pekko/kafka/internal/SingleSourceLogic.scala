@@ -96,8 +96,10 @@ import scala.concurrent.{ Future, Promise }
       override def onRevoke(revokedTps: Set[TopicPartition], consumer: RestrictedConsumer): Unit =
         lastRevoked = revokedTps
 
-      override def onAssign(assignedTps: Set[TopicPartition], consumer: RestrictedConsumer): Unit =
+      override def onAssign(assignedTps: Set[TopicPartition], consumer: RestrictedConsumer): Unit = {
         filterRevokedPartitionsCB.invoke(lastRevoked -- assignedTps)
+        lastRevoked = Set.empty
+      }
 
       override def onLost(lostTps: Set[TopicPartition], consumer: RestrictedConsumer): Unit =
         filterRevokedPartitionsCB.invoke(lostTps)

@@ -20,13 +20,13 @@ import java.util.concurrent.atomic.AtomicReference
 import org.apache.pekko
 import pekko.kafka._
 import pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
+import pekko.util.ccompat.JavaConverters._
 import pekko.stream.scaladsl.{ Keep, Source }
 import pekko.stream.testkit.TestSubscriber
 import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import pekko.stream.testkit.scaladsl.TestSink
 import pekko.testkit.TestProbe
 import pekko.{ Done, NotUsed }
-import pekko.util.ccompat.JavaConverters._
 import org.apache.kafka.clients.consumer.{ ConsumerConfig, ConsumerPartitionAssignor, ConsumerRecord }
 import org.apache.kafka.clients.consumer.internals.AbstractPartitionAssignor
 import org.apache.kafka.common.TopicPartition
@@ -45,197 +45,241 @@ class RebalanceSpec extends SpecBase with TestcontainersKafkaLike with Inside {
   final val consumerClientId1 = "consumer-1"
   final val consumerClientId2 = "consumer-2"
 
+  sealed trait ProtocolCase {
+    def label: String
+    def assignor: Class[?]
+
+    /** Expected rebalance listener events after the second consumer joins and takes tp1. */
+    def expectSecondConsumerJoin(
+        probe1rebalanceActor: TestProbe,
+        probe1subscription: AutoSubscription,
+        probe2rebalanceActor: TestProbe,
+        probe2subscription: AutoSubscription,
+        tp0: TopicPartition,
+        tp1: TopicPartition): Unit
+  }
+
+  case object EagerCase extends ProtocolCase {
+    override val label = "eager"
+    override val assignor: Class[?] = classOf[PekkoConnectorsAssignor]
+
+    override def expectSecondConsumerJoin(
+        probe1rebalanceActor: TestProbe,
+        probe1subscription: AutoSubscription,
+        probe2rebalanceActor: TestProbe,
+        probe2subscription: AutoSubscription,
+        tp0: TopicPartition,
+        tp1: TopicPartition): Unit = {
+      probe1rebalanceActor.expectMsg(TopicPartitionsRevoked(probe1subscription, Set(tp0, tp1)))
+      probe1rebalanceActor.expectMsg(TopicPartitionsAssigned(probe1subscription, Set(tp0)))
+      probe2rebalanceActor.expectMsg(TopicPartitionsAssigned(probe2subscription, Set(tp1)))
+    }
+  }
+
+  case object CooperativeCase extends ProtocolCase {
+    override val label = "cooperative"
+    override val assignor: Class[?] = classOf[CooperativePekkoConnectorsAssignor]
+
+    override def expectSecondConsumerJoin(
+        probe1rebalanceActor: TestProbe,
+        probe1subscription: AutoSubscription,
+        probe2rebalanceActor: TestProbe,
+        probe2subscription: AutoSubscription,
+        tp0: TopicPartition,
+        tp1: TopicPartition): Unit = {
+      // tp1 is revoked from consumer 1 and assigned to consumer 2 in a follow-up rebalance.
+      // Intermediate empty assignments are not asserted: members that fail the intermediate
+      // generation's sync with REBALANCE_IN_PROGRESS skip its assignment callback entirely.
+      probe1rebalanceActor.expectMsg(TopicPartitionsRevoked(probe1subscription, Set(tp1)))
+      probe2rebalanceActor.fishForMessage(10.seconds) {
+        case TopicPartitionsAssigned(`probe2subscription`, assigned) if assigned == Set(tp1) => true
+        case TopicPartitionsAssigned(`probe2subscription`, assigned) if assigned.isEmpty     => false
+      }
+    }
+  }
+
   "Fetched records" must {
 
     // The `max.poll.records` controls how many records Kafka fetches internally during a poll.
     // issue explained in https://github.com/akka/alpakka-kafka/issues/872
     // this test added with https://github.com/akka/alpakka-kafka/pull/865
-    "be removed from the source stage buffer when a partition is revoked" in assertAllStagesStopped {
-      val count = 20L
-      // de-coupling consecutive test runs with crossScalaVersions on build
-      val topicSuffix = Random.nextInt()
-      val topic1 = createTopic(topicSuffix, partitions = 2)
-      val group1 = createGroupId(1)
-      val tp0 = new TopicPartition(topic1, partition0)
-      val tp1 = new TopicPartition(topic1, partition1)
-      val consumerSettings = consumerDefaults
-        .withProperty(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "500") // 500 is the default value
-        .withProperty(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, classOf[PekkoConnectorsAssignor].getName)
-        .withGroupId(group1)
+    List(EagerCase, CooperativeCase).foreach { mode =>
+      s"be removed from the source stage buffer when a partition is revoked (${mode.label})" in assertAllStagesStopped {
+        val count = 20L
+        // de-coupling consecutive test runs with crossScalaVersions on build
+        val topicSuffix = Random.nextInt()
+        val topic1 = createTopic(topicSuffix, partitions = 2)
+        val group1 = createGroupId(1)
+        val tp0 = new TopicPartition(topic1, partition0)
+        val tp1 = new TopicPartition(topic1, partition1)
+        val consumerSettings = consumerDefaults
+          .withProperty(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "500") // 500 is the default value
+          .withProperty(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, mode.assignor.getName)
+          .withGroupId(group1)
 
-      awaitProduce(produce(topic1, 0 to count.toInt, partition1))
+        awaitProduce(produce(topic1, 0 to count.toInt, partition1))
 
-      PekkoConnectorsAssignor.clientIdToPartitionMap.set(
-        Map(
-          consumerClientId1 -> Set(tp0, tp1)))
+        PekkoConnectorsAssignor.clientIdToPartitionMap.set(
+          Map(
+            consumerClientId1 -> Set(tp0, tp1)))
 
-      log.debug("Subscribe to the topic (without demand)")
-      val probe1rebalanceActor = TestProbe()
-      val probe1subscription = Subscriptions.topics(topic1).withRebalanceListener(probe1rebalanceActor.ref)
-      val (control1, probe1) = Consumer
-        .plainSource(consumerSettings.withClientId(consumerClientId1), probe1subscription)
-        .toMat(TestSink.probe)(Keep.both)
-        .run()
+        log.debug("Subscribe to the topic (without demand)")
+        val probe1rebalanceActor = TestProbe()
+        val probe1subscription = Subscriptions.topics(topic1).withRebalanceListener(probe1rebalanceActor.ref)
+        val (control1, probe1) = Consumer
+          .plainSource(consumerSettings.withClientId(consumerClientId1), probe1subscription)
+          .toMat(TestSink())(Keep.both)
+          .run()
 
-      log.debug("Await initial partition assignment")
-      probe1rebalanceActor.expectMsg(
-        TopicPartitionsAssigned(probe1subscription,
-          Set(new TopicPartition(topic1, partition0), new TopicPartition(topic1, partition1))))
+        log.debug("Await initial partition assignment")
+        probe1rebalanceActor.expectMsg(
+          TopicPartitionsAssigned(probe1subscription,
+            Set(new TopicPartition(topic1, partition0), new TopicPartition(topic1, partition1))))
 
-      log.debug("read one message from probe1 with partition 1")
-      probe1.requestNext()
+        log.debug("read one message from probe1 with partition 1")
+        probe1.requestNext()
 
-      PekkoConnectorsAssignor.clientIdToPartitionMap.set(
-        Map(
-          consumerClientId1 -> Set(tp0),
-          consumerClientId2 -> Set(tp1)))
+        PekkoConnectorsAssignor.clientIdToPartitionMap.set(
+          Map(
+            consumerClientId1 -> Set(tp0),
+            consumerClientId2 -> Set(tp1)))
 
-      log.debug("Subscribe to the topic (without demand)")
-      val probe2rebalanceActor = TestProbe()
-      val probe2subscription = Subscriptions.topics(topic1).withRebalanceListener(probe2rebalanceActor.ref)
-      val (control2, probe2) = Consumer
-        .plainSource(consumerSettings.withClientId(consumerClientId2), probe2subscription)
-        .toMat(TestSink.probe)(Keep.both)
-        .run()
+        log.debug("Subscribe to the topic (without demand)")
+        val probe2rebalanceActor = TestProbe()
+        val probe2subscription = Subscriptions.topics(topic1).withRebalanceListener(probe2rebalanceActor.ref)
+        val (control2, probe2) = Consumer
+          .plainSource(consumerSettings.withClientId(consumerClientId2), probe2subscription)
+          .toMat(TestSink())(Keep.both)
+          .run()
 
-      log.debug("Await a revoke to consumer 1")
-      probe1rebalanceActor.expectMsg(
-        TopicPartitionsRevoked(probe1subscription,
-          Set(new TopicPartition(topic1, partition0), new TopicPartition(topic1, partition1))))
+        log.debug("Await the rebalance to complete")
+        mode.expectSecondConsumerJoin(probe1rebalanceActor, probe1subscription, probe2rebalanceActor,
+          probe2subscription, tp0, tp1)
 
-      log.debug("the rebalance finishes")
-      probe1rebalanceActor.expectMsg(
-        TopicPartitionsAssigned(probe1subscription, Set(new TopicPartition(topic1, partition0))))
-      probe2rebalanceActor.expectMsg(
-        TopicPartitionsAssigned(probe2subscription, Set(new TopicPartition(topic1, partition1))))
+        log.debug("resume demand on both consumers")
+        probe1.request(count)
+        probe2.request(count)
 
-      log.debug("resume demand on both consumers")
-      probe1.request(count)
-      probe2.request(count)
+        val probe2messages = probe2.expectNextN(count)
 
-      val probe2messages = probe2.expectNextN(count)
+        log.debug("no further messages enqueued on probe1 as partition 1 is balanced away")
+        probe1.expectNoMessage(500.millis)
 
-      log.debug("no further messages enqueued on probe1 as partition 1 is balanced away")
-      probe1.expectNoMessage(500.millis)
+        probe2messages should have size count
 
-      probe2messages should have size count
+        probe1.cancel()
+        probe2.cancel()
 
-      probe1.cancel()
-      probe2.cancel()
-
-      control1.isShutdown.futureValue shouldBe Done
-      control2.isShutdown.futureValue shouldBe Done
+        control1.isShutdown.futureValue shouldBe Done
+        control2.isShutdown.futureValue shouldBe Done
+      }
     }
 
-    "be removed from the partitioned source stage buffer when a partition is revoked" in assertAllStagesStopped {
-      def subSourcesWithProbes(
-          partitions: Int,
-          probe: TestSubscriber.Probe[(TopicPartition, Source[ConsumerRecord[String, String], NotUsed])])
-          : Seq[(TopicPartition, TestSubscriber.Probe[ConsumerRecord[String, String]])] =
-        probe
-          .expectNextN(partitions.toLong)
-          .map {
-            case (tp, subSource) =>
-              (tp, subSource.toMat(TestSink.probe)(Keep.right).run())
+    List(EagerCase, CooperativeCase).foreach { mode =>
+      s"be removed from the partitioned source stage buffer when a partition is revoked (${mode.label})" in
+      assertAllStagesStopped {
+        def subSourcesWithProbes(
+            partitions: Int,
+            probe: TestSubscriber.Probe[(TopicPartition, Source[ConsumerRecord[String, String], NotUsed])])
+            : Seq[(TopicPartition, TestSubscriber.Probe[ConsumerRecord[String, String]])] =
+          probe
+            .expectNextN(partitions.toLong)
+            .map {
+              case (tp, subSource) =>
+                (tp, subSource.toMat(TestSink())(Keep.right).run())
+            }
+
+        def runForSubSource(
+            partition: Int,
+            subSourcesWithProbes: Seq[(TopicPartition, TestSubscriber.Probe[ConsumerRecord[String, String]])])(
+            fun: TestSubscriber.Probe[ConsumerRecord[String, String]] => Unit) =
+          subSourcesWithProbes
+            .find { case (tp, _) => tp.partition() == partition }
+            .foreach { case (_, probe) => fun(probe) }
+
+        val count = 20L
+        // de-coupling consecutive test runs with crossScalaVersions on build
+        val topicSuffix = Random.nextInt()
+        val topic1 = createTopic(topicSuffix, partitions = 2)
+        val group1 = createGroupId(1)
+        val tp0 = new TopicPartition(topic1, partition0)
+        val tp1 = new TopicPartition(topic1, partition1)
+        val consumerSettings = consumerDefaults
+          .withProperty(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "500") // 500 is the default value
+          .withProperty(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, mode.assignor.getName)
+          .withGroupId(group1)
+
+        awaitProduce(produce(topic1, 0 to count.toInt, partition1))
+
+        PekkoConnectorsAssignor.clientIdToPartitionMap.set(
+          Map(
+            consumerClientId1 -> Set(tp0, tp1)))
+
+        log.debug("Subscribe to the topic (without demand)")
+        val probe1rebalanceActor = TestProbe()
+        val probe1subscription = Subscriptions.topics(topic1).withRebalanceListener(probe1rebalanceActor.ref)
+        val (control1, probe1) = Consumer
+          .plainPartitionedSource(consumerSettings.withClientId(consumerClientId1), probe1subscription)
+          .toMat(TestSink())(Keep.both)
+          .run()
+
+        log.debug("Await initial partition assignment")
+        probe1rebalanceActor.expectMsg(
+          TopicPartitionsAssigned(probe1subscription,
+            Set(new TopicPartition(topic1, partition0), new TopicPartition(topic1, partition1))))
+
+        log.debug("read 2 sub sources returned by partitioned source")
+        probe1.request(2)
+        val probe1RunningSubSourceProbes = subSourcesWithProbes(partitions = 2, probe1)
+
+        log.debug("read one message from probe1 sub source for partition 1")
+        probe1RunningSubSourceProbes
+          .find { case (tp, _) => tp.partition() == partition1 }
+          .foreach { case (_, probe) => probe.requestNext() }
+
+        PekkoConnectorsAssignor.clientIdToPartitionMap.set(
+          Map(
+            consumerClientId1 -> Set(tp0),
+            consumerClientId2 -> Set(tp1)))
+
+        log.debug("Subscribe to the topic (without demand)")
+        val probe2rebalanceActor = TestProbe()
+        val probe2subscription = Subscriptions.topics(topic1).withRebalanceListener(probe2rebalanceActor.ref)
+        val (control2, probe2) = Consumer
+          .plainPartitionedSource(consumerSettings.withClientId(consumerClientId2), probe2subscription)
+          .toMat(TestSink())(Keep.both)
+          .run()
+
+        probe2.request(1)
+        val probe2RunningSubSourceProbes = subSourcesWithProbes(partitions = 1, probe2)
+
+        log.debug("Await the rebalance to complete")
+        mode.expectSecondConsumerJoin(probe1rebalanceActor, probe1subscription, probe2rebalanceActor,
+          probe2subscription, tp0, tp1)
+
+        log.debug("resume demand on both consumers")
+        runForSubSource(partition = 1, probe1RunningSubSourceProbes)(_.request(count))
+        runForSubSource(partition = 1, probe2RunningSubSourceProbes)(_.request(count))
+
+        log.debug("no further messages enqueued on probe1 as partition 1 is balanced away")
+        runForSubSource(partition = 1, probe1RunningSubSourceProbes)(_.expectComplete())
+
+        val probe2messages = probe2RunningSubSourceProbes
+          .find { case (tp, _) => tp.partition() == partition1 }
+          .toList
+          .flatMap {
+            case (_, probe) =>
+              probe.expectNextN(count)
           }
 
-      def runForSubSource(
-          partition: Int,
-          subSourcesWithProbes: Seq[(TopicPartition, TestSubscriber.Probe[ConsumerRecord[String, String]])])(
-          fun: TestSubscriber.Probe[ConsumerRecord[String, String]] => Unit) =
-        subSourcesWithProbes
-          .find { case (tp, _) => tp.partition() == partition }
-          .foreach { case (_, probe) => fun(probe) }
+        probe2messages should have size count
 
-      val count = 20L
-      // de-coupling consecutive test runs with crossScalaVersions on build
-      val topicSuffix = Random.nextInt()
-      val topic1 = createTopic(topicSuffix, partitions = 2)
-      val group1 = createGroupId(1)
-      val tp0 = new TopicPartition(topic1, partition0)
-      val tp1 = new TopicPartition(topic1, partition1)
-      val consumerSettings = consumerDefaults
-        .withProperty(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "500") // 500 is the default value
-        .withProperty(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, classOf[PekkoConnectorsAssignor].getName)
-        .withGroupId(group1)
+        probe1.cancel()
+        probe2.cancel()
 
-      awaitProduce(produce(topic1, 0 to count.toInt, partition1))
-
-      PekkoConnectorsAssignor.clientIdToPartitionMap.set(
-        Map(
-          consumerClientId1 -> Set(tp0, tp1)))
-
-      log.debug("Subscribe to the topic (without demand)")
-      val probe1rebalanceActor = TestProbe()
-      val probe1subscription = Subscriptions.topics(topic1).withRebalanceListener(probe1rebalanceActor.ref)
-      val (control1, probe1) = Consumer
-        .plainPartitionedSource(consumerSettings.withClientId(consumerClientId1), probe1subscription)
-        .toMat(TestSink.probe)(Keep.both)
-        .run()
-
-      log.debug("Await initial partition assignment")
-      probe1rebalanceActor.expectMsg(
-        TopicPartitionsAssigned(probe1subscription,
-          Set(new TopicPartition(topic1, partition0), new TopicPartition(topic1, partition1))))
-
-      log.debug("read 2 sub sources returned by partitioned source")
-      probe1.request(2)
-      val probe1RunningSubSourceProbes = subSourcesWithProbes(partitions = 2, probe1)
-
-      log.debug("read one message from probe1 sub source for partition 1")
-      probe1RunningSubSourceProbes
-        .find { case (tp, _) => tp.partition() == partition1 }
-        .foreach { case (_, probe) => probe.requestNext() }
-
-      PekkoConnectorsAssignor.clientIdToPartitionMap.set(
-        Map(
-          consumerClientId1 -> Set(tp0),
-          consumerClientId2 -> Set(tp1)))
-
-      log.debug("Subscribe to the topic (without demand)")
-      val probe2rebalanceActor = TestProbe()
-      val probe2subscription = Subscriptions.topics(topic1).withRebalanceListener(probe2rebalanceActor.ref)
-      val (control2, probe2) = Consumer
-        .plainPartitionedSource(consumerSettings.withClientId(consumerClientId2), probe2subscription)
-        .toMat(TestSink.probe)(Keep.both)
-        .run()
-
-      probe2.request(1)
-      val probe2RunningSubSourceProbes = subSourcesWithProbes(partitions = 1, probe2)
-
-      log.debug("Await a revoke to consumer 1")
-      probe1rebalanceActor.expectMsg(
-        TopicPartitionsRevoked(probe1subscription,
-          Set(new TopicPartition(topic1, partition0), new TopicPartition(topic1, partition1))))
-
-      log.debug("the rebalance finishes")
-      probe1rebalanceActor.expectMsg(
-        TopicPartitionsAssigned(probe1subscription, Set(new TopicPartition(topic1, partition0))))
-      probe2rebalanceActor.expectMsg(
-        TopicPartitionsAssigned(probe2subscription, Set(new TopicPartition(topic1, partition1))))
-
-      log.debug("resume demand on both consumers")
-      runForSubSource(partition = 1, probe1RunningSubSourceProbes)(_.request(count))
-      runForSubSource(partition = 1, probe2RunningSubSourceProbes)(_.request(count))
-
-      log.debug("no further messages enqueued on probe1 as partition 1 is balanced away")
-      runForSubSource(partition = 1, probe1RunningSubSourceProbes)(_.expectComplete())
-
-      val probe2messages = probe2RunningSubSourceProbes
-        .find { case (tp, _) => tp.partition() == partition1 }
-        .toList
-        .flatMap {
-          case (_, probe) =>
-            probe.expectNextN(count)
-        }
-
-      probe2messages should have size count
-
-      probe1.cancel()
-      probe2.cancel()
-
-      control1.isShutdown.futureValue shouldBe Done
-      control2.isShutdown.futureValue shouldBe Done
+        control1.isShutdown.futureValue shouldBe Done
+        control2.isShutdown.futureValue shouldBe Done
+      }
     }
   }
 }
@@ -288,5 +332,40 @@ class PekkoConnectorsAssignor extends AbstractPartitionAssignor {
     log.debug(s"Assignments: $assignments")
 
     assignments.toMap.asJava
+  }
+}
+
+/**
+ * Variant of [[PekkoConnectorsAssignor]] that uses the cooperative rebalance protocol.
+ *
+ * The cooperative protocol requires that a partition never moves directly from one member to
+ * another within a single rebalance: it must be absent from all assignments for one generation
+ * (revoking it from its previous owner, which triggers a follow-up rebalance) before it may be
+ * assigned to its new owner.
+ */
+class CooperativePekkoConnectorsAssignor extends PekkoConnectorsAssignor {
+
+  override def name(): String = "pekko-connector-kafka-test-cooperative"
+
+  override def supportedProtocols(): util.List[ConsumerPartitionAssignor.RebalanceProtocol] =
+    util.Arrays.asList(ConsumerPartitionAssignor.RebalanceProtocol.COOPERATIVE)
+
+  override def assign(
+      partitionsPerTopic: util.Map[String, Integer],
+      subscriptions: util.Map[String, ConsumerPartitionAssignor.Subscription])
+      : util.Map[String, util.List[TopicPartition]] = {
+    val desired = super.assign(partitionsPerTopic, subscriptions).asScala
+    val currentOwner: Map[TopicPartition, String] = (for {
+      (memberId, subscription) <- subscriptions.asScala.toSeq
+      tp <- subscription.ownedPartitions().asScala
+    } yield tp -> memberId).toMap
+
+    desired.map {
+      case (memberId, tps) =>
+        val withoutMovingPartitions = tps.asScala.filter { tp =>
+          currentOwner.get(tp).forall(_ == memberId)
+        }
+        memberId -> withoutMovingPartitions.asJava
+    }.asJava
   }
 }
