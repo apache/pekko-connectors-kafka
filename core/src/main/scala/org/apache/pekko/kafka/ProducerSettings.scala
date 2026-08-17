@@ -82,6 +82,9 @@ object ProducerSettings {
     val parallelism = config.getInt("parallelism")
     val dispatcher = config.getString("use-dispatcher")
     val eosCommitInterval = config.getDuration("eos-commit-interval").toScala
+    require(closeTimeout > Duration.Zero, "close-timeout must be positive")
+    require(parallelism > 0, "parallelism must be positive")
+    require(eosCommitInterval > Duration.Zero, "eos-commit-interval must be positive")
     new ProducerSettings[K, V](
       properties,
       keySerializer,
