@@ -15,11 +15,10 @@
 package org.apache.pekko.kafka.scaladsl
 
 import org.apache.pekko
-import pekko.Done
 import pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import pekko.stream.scaladsl.{ Keep, Sink, Source, SourceQueueWithComplete, Tcp }
+import pekko.stream.scaladsl.{ Keep, Sink, Source, Tcp }
 import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
-import pekko.stream.{ KillSwitches, OverflowStrategy, UniqueKillSwitch }
+import pekko.stream.{ BoundedSourceQueue, KillSwitches, UniqueKillSwitch }
 import org.apache.kafka.clients.producer.ProducerRecord
 
 import scala.concurrent.duration._
@@ -42,15 +41,14 @@ class ReconnectSpec extends SpecBase with TestcontainersKafkaLike {
       val firstBatch = 10
       val messages = (1 to messagesProduced).map(_.toString)
       // start a producer flow with a queue as source
-      val producer: SourceQueueWithComplete[String] = Source
-        .queue[String](messagesProduced, OverflowStrategy.backpressure)
+      val producer: BoundedSourceQueue[String] = Source
+        .queue[String](messagesProduced)
         .map(msg => new ProducerRecord(topic1, partition0, DefaultKey, msg))
         .to(Producer.plainSink(producerDefaults.withBootstrapServers(s"localhost:$proxyPort")))
         .run()
 
-      def offerInOrder(msgs: Seq[String]): Future[?] =
-        if (msgs.isEmpty) Future.successful(Done)
-        else producer.offer(msgs.head).flatMap(_ => offerInOrder(msgs.tail))
+      def offerInOrder(msgs: Seq[String]): Unit =
+        msgs.foreach(producer.offer)
 
       // put one batch into the stream
       offerInOrder(messages.take(firstBatch))

@@ -22,7 +22,7 @@ import pekko.kafka.ConsumerMessage.PartitionOffset
 import pekko.kafka.scaladsl.Consumer.{ Control, DrainingControl }
 import pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
 import pekko.kafka.{ ProducerMessage, _ }
-import pekko.stream.{ OverflowStrategy, RestartSettings }
+import pekko.stream.RestartSettings
 import pekko.stream.scaladsl.{ Keep, RestartSource, Sink, Source }
 import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.apache.kafka.clients.consumer.ConsumerConfig
@@ -494,7 +494,7 @@ class TransactionsSpec extends SpecBase with TestcontainersKafkaLike with Transa
       val checkingGroup = createGroupId(2)
 
       val (counterQueue, counterCompletion) = Source
-        .queue[String](8, OverflowStrategy.fail)
+        .queue[String](totalMessages.toInt)
         .scan(0L)((c, _) => c + 1)
         .takeWhile(_ < totalMessages, inclusive = true)
         .toMat(Sink.last)(Keep.both)
@@ -505,7 +505,10 @@ class TransactionsSpec extends SpecBase with TestcontainersKafkaLike with Transa
             .withGroupId(checkingGroup)
             .withProperty(ConsumerConfig.ISOLATION_LEVEL_CONFIG, "read_committed"),
           Subscriptions.topics(outTopic))
-        .mapAsync(1)(el => counterQueue.offer(el.value()).map(_ => el))
+        .map { el =>
+          counterQueue.offer(el.value())
+          el
+        }
         .scan(0L)((c, _) => c + 1)
         .toMat(Sink.last)(DrainingControl.apply)
         .run()

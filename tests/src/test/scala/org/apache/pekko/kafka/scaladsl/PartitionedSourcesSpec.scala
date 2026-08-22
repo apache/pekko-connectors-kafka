@@ -23,7 +23,7 @@ import pekko.Done
 import pekko.kafka._
 import pekko.kafka.scaladsl.Consumer.DrainingControl
 import pekko.kafka.testkit.scaladsl.TestcontainersKafkaLike
-import pekko.stream.{ KillSwitches, OverflowStrategy }
+import pekko.stream.KillSwitches
 import pekko.stream.scaladsl.{ Keep, Sink, Source }
 import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import pekko.stream.testkit.scaladsl.TestSink
@@ -389,7 +389,7 @@ class PartitionedSourcesSpec extends SpecBase with TestcontainersKafkaLike with 
       awaitProduce(produce(topic, 1 to totalMessages))
 
       val (queue, accumulator) = Source
-        .queue[Long](8, OverflowStrategy.backpressure)
+        .queue[Long](totalMessages)
         .toMat(Sink.fold(0)((c, _) => c + 1))(Keep.both)
         .run()
 
@@ -401,7 +401,10 @@ class PartitionedSourcesSpec extends SpecBase with TestcontainersKafkaLike with 
           case (tp, source) =>
             source
               .log(tp.toString, _.offset())
-              .mapAsync(parallelism = 1)(rec => queue.offer(rec.offset()).map(_ => rec))
+              .map { rec =>
+                queue.offer(rec.offset())
+                rec
+              }
               .map(_.value().toInt)
               .takeWhile(_ < totalMessages, inclusive = true)
               .map { value =>
