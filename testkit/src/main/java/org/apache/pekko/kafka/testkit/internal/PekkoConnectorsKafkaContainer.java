@@ -136,13 +136,15 @@ public class PekkoConnectorsKafkaContainer extends GenericContainer<PekkoConnect
   }
 
   public PekkoConnectorsKafkaContainer withBrokerNum(int brokerNum) {
-    if (brokerNum != this.brokerNum) {
-      getNetworkAliases().remove("broker-" + this.brokerNum);
-      this.brokerNum = brokerNum;
+    // getNetworkAliases() returns a copy, so build the new alias list and set it explicitly
+    // to make sure the alias of the previous broker number is dropped
+    List<String> aliases = getNetworkAliases();
+    aliases.remove("broker-" + this.brokerNum);
+    this.brokerNum = brokerNum;
+    if (!aliases.contains("broker-" + brokerNum)) {
+      aliases.add("broker-" + brokerNum);
     }
-    if (!getNetworkAliases().contains("broker-" + this.brokerNum)) {
-      super.withNetworkAliases("broker-" + this.brokerNum);
-    }
+    setNetworkAliases(aliases);
     return withEnv("KAFKA_BROKER_ID", "" + this.brokerNum);
   }
 
