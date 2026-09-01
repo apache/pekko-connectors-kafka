@@ -55,6 +55,8 @@ public class KafkaContainerCluster implements Startable {
   private static final String READINESS_CHECK_SCRIPT = "/testcontainers_readiness_check.sh";
   private static final String READINESS_CHECK_TOPIC = "ready-kafka-container-cluster";
   private static final Version BOOTSTRAP_PARAM_MIN_VERSION = new Version("5.2.0");
+  // Confluent Platform 8.x images run Kafka 4, which supports KRaft mode only (no ZooKeeper)
+  private static final Version KRAFT_MIN_VERSION = new Version("8");
 
   private final Logger log = LoggerFactory.getLogger(getClass());
   private final Version kafkaImageTag;
@@ -111,7 +113,8 @@ public class KafkaContainerCluster implements Startable {
     this.network = Network.newNetwork();
     this.schemaRegistryImage = schemaRegistryImage;
 
-    if (!PekkoConnectorsKafkaContainer.DEFAULT_CONFLUENT_PLATFORM_VERSION.startsWith("8.")) {
+    boolean useKraft = this.kafkaImageTag.compareTo(KRAFT_MIN_VERSION) >= 0;
+    if (!useKraft) {
       this.zookeeper =
           Optional.of(
               new GenericContainer(zooKeeperImage)
@@ -122,6 +125,18 @@ public class KafkaContainerCluster implements Startable {
                       String.valueOf(PekkoConnectorsKafkaContainer.ZOOKEEPER_PORT)));
     }
 
+    // all KRaft nodes must agree on the controller quorum and share one cluster id
+    String controllerQuorumVoters =
+        IntStream.range(0, this.brokersNum)
+            .mapToObj(
+                brokerNum ->
+                    "%s@broker-%s:%s"
+                        .formatted(
+                            brokerNum,
+                            brokerNum,
+                            PekkoConnectorsKafkaContainer.KAFKA_CONTROLLER_PORT))
+            .collect(Collectors.joining(","));
+
     this.brokers =
         IntStream.range(0, this.brokersNum)
             .mapToObj(
@@ -131,7 +146,6 @@ public class KafkaContainerCluster implements Startable {
                           .withNetwork(this.network)
                           .withBrokerNum(brokerNum)
                           .withRemoteJmxService()
-                          .withEnv("KAFKA_BROKER_ID", brokerNum + "")
                           .withEnv("KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR", internalTopicsRf + "")
                           .withEnv("KAFKA_OFFSETS_TOPIC_NUM_PARTITIONS", internalTopicsRf + "")
                           .withEnv(
@@ -144,6 +158,11 @@ public class KafkaContainerCluster implements Startable {
                             .dependsOn(this.zookeeper.get())
                             .withExternalZookeeper(
                                 "zookeeper:" + PekkoConnectorsKafkaContainer.ZOOKEEPER_PORT);
+                  } else if (useKraft) {
+                    container =
+                        container
+                            .withEnv("CLUSTER_ID", PekkoConnectorsKafkaContainer.DEFAULT_CLUSTER_ID)
+                            .withEnv("KAFKA_CONTROLLER_QUORUM_VOTERS", controllerQuorumVoters);
                   }
                   return container;
                 })
@@ -320,7 +339,9 @@ public class KafkaContainerCluster implements Startable {
             + " \n";
     command += "MESSAGE=\"`date -u`\" \n";
     command +=
-        "echo \"$MESSAGE\" | kafka-console-producer --broker-list localhost:9092 --topic "
+        "echo \"$MESSAGE\" | kafka-console-producer "
+            + consoleProducerConnectParam()
+            + " --topic "
             + READINESS_CHECK_TOPIC
             + " --producer-property acks=all \n";
     command +=
@@ -337,6 +358,15 @@ public class KafkaContainerCluster implements Startable {
       return "--bootstrap-server localhost:9092";
     } else {
       return "--zookeeper zookeeper:" + PekkoConnectorsKafkaContainer.ZOOKEEPER_PORT;
+    }
+  }
+
+  private String consoleProducerConnectParam() {
+    // Kafka 4 removed the deprecated --broker-list option
+    if (this.kafkaImageTag.compareTo(KRAFT_MIN_VERSION) >= 0) {
+      return "--bootstrap-server localhost:9092";
+    } else {
+      return "--broker-list localhost:9092";
     }
   }
 

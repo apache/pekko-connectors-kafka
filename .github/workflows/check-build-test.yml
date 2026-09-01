@@ -113,9 +113,11 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { java-version: 17,  scala-version: scala213, sbt-opts: '' }
-          - { java-version: 17,  scala-version: scala3, sbt-opts: '' }
-          - { java-version: 17,  scala-version: next, sbt-opts: '' }
+          # confluent-version 7.x runs a Kafka 3 server, 8.x runs a Kafka 4 server
+          - { java-version: 17,  scala-version: scala213, sbt-opts: '', confluent-version: '7.9.2' }
+          - { java-version: 17,  scala-version: scala213, sbt-opts: '', confluent-version: '8.3.1' }
+          - { java-version: 17,  scala-version: scala3, sbt-opts: '', confluent-version: '7.9.2' }
+          - { java-version: 17,  scala-version: next, sbt-opts: '', confluent-version: '7.9.2' }
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -139,6 +141,8 @@ jobs:
         uses: sbt/setup-sbt@c7d2d6258b4bd0d3ec5129e6b3453199d3c79729 # v1.5.8
 
       - name: Run tests with Scala ${{ matrix.scala-version }} and Java ${{ matrix.java-version }}
+        env:
+          CONFLUENT_PLATFORM_VERSION: ${{ matrix.confluent-version }}
         run: |-
           scala_version="$(bash .github/scripts/resolve-scala-version.sh "${{ matrix.scala-version }}")"
           sbt "++${scala_version}! test" ${{ matrix.sbt-opts }}
@@ -148,9 +152,14 @@ jobs:
         run: find . -name "*.log" -exec ./scripts/cat-log.sh {} \;
 
   integration-test:
-    name: Integration tests
+    name: Integration tests (Confluent ${{ matrix.confluent-version }})
     needs: [check-code-style, check-code-compilation, check-docs]
     runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        # confluent-version 7.x runs a Kafka 3 server, 8.x runs a Kafka 4 server
+        confluent-version: ['7.9.2', '8.3.1']
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -174,6 +183,8 @@ jobs:
         uses: sbt/setup-sbt@c7d2d6258b4bd0d3ec5129e6b3453199d3c79729 # v1.5.8
 
       - name: Run multi-broker and long running integration tests
+        env:
+          CONFLUENT_PLATFORM_VERSION: ${{ matrix.confluent-version }}
         run: sbt "int-tests/test"
 
       - name: Print logs on failure

@@ -42,7 +42,9 @@ public class PekkoConnectorsKafkaContainer extends GenericContainer<PekkoConnect
 
   // Align these confluent platform constants with testkit/src/main/resources/reference.conf
   public static final String DEFAULT_CONFLUENT_PLATFORM_VERSION =
-      System.getProperty("CONFLUENT_PLATFORM_VERSION", "7.9.2");
+      System.getProperty(
+          "CONFLUENT_PLATFORM_VERSION",
+          System.getenv().getOrDefault("CONFLUENT_PLATFORM_VERSION", "7.9.2"));
 
   public static final DockerImageName DEFAULT_ZOOKEEPER_IMAGE_NAME =
       DockerImageName.parse("confluentinc/cp-zookeeper")
@@ -57,6 +59,11 @@ public class PekkoConnectorsKafkaContainer extends GenericContainer<PekkoConnect
 
   public static final int ZOOKEEPER_PORT = 2181;
 
+  public static final int KAFKA_CONTROLLER_PORT = 9094;
+
+  // matches the default cluster id used by testcontainers' KafkaContainer
+  public static final String DEFAULT_CLUSTER_ID = "4L6g3nShT-eMCtK--X86sw";
+
   private static final int PORT_NOT_ASSIGNED = -1;
 
   protected String externalZookeeperConnect = null;
@@ -70,12 +77,17 @@ public class PekkoConnectorsKafkaContainer extends GenericContainer<PekkoConnect
 
   private boolean enableRemoteJmxService = false;
 
+  private final boolean useKraft;
+
   public PekkoConnectorsKafkaContainer() {
     this(DEFAULT_KAFKA_IMAGE_NAME);
   }
 
   public PekkoConnectorsKafkaContainer(final DockerImageName dockerImageName) {
     super(dockerImageName);
+
+    // Kafka 4 (Confluent Platform 8.x) has no ZooKeeper support, brokers must run in KRaft mode
+    this.useKraft = requiresKraftMode(dockerImageName.getVersionPart());
 
     super.withNetwork(Network.SHARED);
 
@@ -100,6 +112,23 @@ public class PekkoConnectorsKafkaContainer extends GenericContainer<PekkoConnect
     withEnv("KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS", "0");
   }
 
+  private static boolean requiresKraftMode(String imageVersionPart) {
+    if (imageVersionPart == null) {
+      return false;
+    }
+    int dotIndex = imageVersionPart.indexOf('.');
+    String major = dotIndex > 0 ? imageVersionPart.substring(0, dotIndex) : imageVersionPart;
+    try {
+      return Integer.parseInt(major) >= 8;
+    } catch (NumberFormatException e) {
+      return false;
+    }
+  }
+
+  public boolean usesKraftMode() {
+    return useKraft;
+  }
+
   @Override
   public PekkoConnectorsKafkaContainer withNetwork(Network network) {
     useImplicitNetwork = false;
@@ -107,12 +136,16 @@ public class PekkoConnectorsKafkaContainer extends GenericContainer<PekkoConnect
   }
 
   public PekkoConnectorsKafkaContainer withBrokerNum(int brokerNum) {
-    if (brokerNum != this.brokerNum) {
-      this.brokerNum = brokerNum;
-      return super.withNetworkAliases("broker-" + this.brokerNum)
-          .withEnv("KAFKA_BROKER_ID", "" + this.brokerNum);
+    // getNetworkAliases() returns a copy, so build the new alias list and set it explicitly
+    // to make sure the alias of the previous broker number is dropped
+    List<String> aliases = getNetworkAliases();
+    aliases.remove("broker-" + this.brokerNum);
+    this.brokerNum = brokerNum;
+    if (!aliases.contains("broker-" + brokerNum)) {
+      aliases.add("broker-" + brokerNum);
     }
-    return this;
+    setNetworkAliases(aliases);
+    return withEnv("KAFKA_BROKER_ID", "" + this.brokerNum);
   }
 
   @Override
@@ -157,6 +190,11 @@ public class PekkoConnectorsKafkaContainer extends GenericContainer<PekkoConnect
   }
 
   public PekkoConnectorsKafkaContainer withExternalZookeeper(String connectString) {
+    if (useKraft) {
+      throw new IllegalStateException(
+          "ZooKeeper is not supported with Kafka 4 (Confluent Platform 8.x) images, "
+              + "the broker runs in KRaft mode");
+    }
     externalZookeeperConnect = connectString;
     return self();
   }
@@ -188,7 +226,9 @@ public class PekkoConnectorsKafkaContainer extends GenericContainer<PekkoConnect
         "-c",
         "while [ ! -f " + START_STOP_SCRIPT + " ]; do sleep 0.1; done; " + START_STOP_SCRIPT);
 
-    if (externalZookeeperConnect == null) {
+    if (useKraft) {
+      configureKraft();
+    } else if (externalZookeeperConnect == null) {
       addExposedPort(ZOOKEEPER_PORT);
     }
     if (enableRemoteJmxService) {
@@ -196,6 +236,34 @@ public class PekkoConnectorsKafkaContainer extends GenericContainer<PekkoConnect
     }
 
     super.doStart();
+  }
+
+  private void configureKraft() {
+    if (!getEnvMap().containsKey("CLUSTER_ID")) {
+      withEnv("CLUSTER_ID", DEFAULT_CLUSTER_ID);
+    }
+    // KRaft uses node.id instead of broker.id
+    getEnvMap().remove("KAFKA_BROKER_ID");
+    withEnv("KAFKA_NODE_ID", brokerNum + "");
+    withEnv("KAFKA_PROCESS_ROLES", "broker,controller");
+    withEnv("KAFKA_CONTROLLER_LISTENER_NAMES", "CONTROLLER");
+    String listeners = getEnvMap().get("KAFKA_LISTENERS");
+    if (listeners != null && !listeners.contains("CONTROLLER://")) {
+      withEnv("KAFKA_LISTENERS", listeners + ",CONTROLLER://0.0.0.0:" + KAFKA_CONTROLLER_PORT);
+    }
+    String protocolMap = getEnvMap().get("KAFKA_LISTENER_SECURITY_PROTOCOL_MAP");
+    if (protocolMap != null && !protocolMap.contains("CONTROLLER:")) {
+      withEnv("KAFKA_LISTENER_SECURITY_PROTOCOL_MAP", protocolMap + ",CONTROLLER:PLAINTEXT");
+    }
+    if (!getEnvMap().containsKey("KAFKA_CONTROLLER_QUORUM_VOTERS")) {
+      // a single node quorum, KafkaContainerCluster sets the full quorum for multi-broker setups
+      String host =
+          getNetwork() != null
+              ? getNetworkAliases().stream().findFirst().orElse("localhost")
+              : "localhost";
+      withEnv(
+          "KAFKA_CONTROLLER_QUORUM_VOTERS", brokerNum + "@" + host + ":" + KAFKA_CONTROLLER_PORT);
+    }
   }
 
   @Override
@@ -213,15 +281,18 @@ public class PekkoConnectorsKafkaContainer extends GenericContainer<PekkoConnect
       }
 
       String command = "#!/bin/bash\n";
-      final String zookeeperConnect;
-      if (externalZookeeperConnect != null) {
-        zookeeperConnect = externalZookeeperConnect;
-      } else {
-        zookeeperConnect = "localhost:" + ZOOKEEPER_PORT;
-        command += "echo 'clientPort=" + ZOOKEEPER_PORT + "' > zookeeper.properties\n";
-        command += "echo 'dataDir=/var/lib/zookeeper/data' >> zookeeper.properties\n";
-        command += "echo 'dataLogDir=/var/lib/zookeeper/log' >> zookeeper.properties\n";
-        command += "zookeeper-server-start zookeeper.properties &\n";
+      if (!useKraft) {
+        final String zookeeperConnect;
+        if (externalZookeeperConnect != null) {
+          zookeeperConnect = externalZookeeperConnect;
+        } else {
+          zookeeperConnect = "localhost:" + ZOOKEEPER_PORT;
+          command += "echo 'clientPort=" + ZOOKEEPER_PORT + "' > zookeeper.properties\n";
+          command += "echo 'dataDir=/var/lib/zookeeper/data' >> zookeeper.properties\n";
+          command += "echo 'dataLogDir=/var/lib/zookeeper/log' >> zookeeper.properties\n";
+          command += "zookeeper-server-start zookeeper.properties &\n";
+        }
+        command += "export KAFKA_ZOOKEEPER_CONNECT='" + zookeeperConnect + "'\n";
       }
 
       List<String> internalIps =
@@ -229,7 +300,6 @@ public class PekkoConnectorsKafkaContainer extends GenericContainer<PekkoConnect
               .map(ContainerNetwork::getIpAddress)
               .toList();
 
-      command += "export KAFKA_ZOOKEEPER_CONNECT='" + zookeeperConnect + "'\n";
       command +=
           "export KAFKA_ADVERTISED_LISTENERS='"
               + Stream.concat(
@@ -249,6 +319,11 @@ public class PekkoConnectorsKafkaContainer extends GenericContainer<PekkoConnect
 
       command += ". /etc/confluent/docker/bash-config \n";
       command += "/etc/confluent/docker/configure \n";
+      if (useKraft) {
+        // formats the KRaft storage directory with the provided CLUSTER_ID (no-op when
+        // already formatted, so the broker can be stopped and started again)
+        command += "/etc/confluent/docker/ensure \n";
+      }
       command += "/etc/confluent/docker/launch \n";
 
       copyFileToContainer(
