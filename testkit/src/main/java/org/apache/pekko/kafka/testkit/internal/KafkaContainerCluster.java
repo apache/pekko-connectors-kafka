@@ -236,6 +236,12 @@ public class KafkaContainerCluster implements Startable {
           .get(clusterStartTimeout.getSeconds(), SECONDS);
 
     } catch (Exception ex) {
+      // do not leave the containers that did start behind
+      try {
+        stop();
+      } catch (Exception stopEx) {
+        ex.addSuppressed(stopEx);
+      }
       throw new RuntimeException(ex);
     }
   }
