@@ -24,7 +24,7 @@ import pekko.kafka.tests.scaladsl.LogCapturing
 import pekko.actor.Status.Failure
 import pekko.kafka.{ CommitTimeoutException, ConsumerSettings, KafkaConnectionFailed, Repeated, Subscriptions }
 import pekko.kafka.{ KafkaConsumerActor => PublicKafkaConsumerActor }
-import pekko.testkit.TestProbe
+import pekko.testkit.{ EventFilter, TestProbe }
 import pekko.stream.scaladsl._
 import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import pekko.stream.testkit.scaladsl.TestSink
@@ -41,7 +41,7 @@ import org.scalatest.matchers.should.Matchers
 
 import scala.collection.immutable.Seq
 import scala.concurrent.duration._
-import scala.concurrent.{ Await, ExecutionContext, Future }
+import scala.concurrent.{ Await, ExecutionContext, Future, Promise }
 import scala.jdk.CollectionConverters._
 
 object ConsumerSpec {
@@ -368,5 +368,64 @@ class ConsumerSpec(_system: ActorSystem)
     actor ! kcf
 
     ownerProbe.expectMsg(Failure(kcf))
+  }
+
+  it should "close the Kafka consumer when the partition assignment handler fails on stop" in {
+    val mock = new ConsumerMock[K, V]()
+    val settings = ConsumerSettings
+      .create(system, new StringDeserializer, new StringDeserializer)
+      .withGroupId("group1")
+      .withCloseTimeout(ConsumerMock.closeTimeout)
+      .withConsumerFactory(_ => mock.mock)
+    val actor = system.actorOf(PublicKafkaConsumerActor.props(settings))
+
+    // trigger initialization by subscribing with a handler that fails when the actor stops
+    actor ! KafkaConsumerActor.Internal.Subscribe(
+      Set("topic"),
+      new org.apache.pekko.kafka.scaladsl.PartitionAssignmentHandler {
+        override def onAssign(assignment: Set[TopicPartition],
+            restrictedConsumer: org.apache.pekko.kafka.RestrictedConsumer): Unit = ()
+        override def onRevoke(revokedTps: Set[TopicPartition],
+            restrictedConsumer: org.apache.pekko.kafka.RestrictedConsumer): Unit = ()
+        override def onLost(lostTps: Set[TopicPartition],
+            restrictedConsumer: org.apache.pekko.kafka.RestrictedConsumer): Unit = ()
+        override def onStop(currentTps: Set[TopicPartition],
+            restrictedConsumer: org.apache.pekko.kafka.RestrictedConsumer): Unit =
+          throw new RuntimeException("partition assignment handler failed")
+      })
+
+    watch(actor)
+    actor ! PublicKafkaConsumerActor.Stop
+    expectTerminated(actor, remainingOrDefault)
+
+    mock.verifyClosed()
+  }
+
+  it should "stop cleanly when stopped before the Kafka consumer is created" in {
+    val sys = ActorSystem(
+      "ConsumerSpecStopBeforeConsumerCreated",
+      ConfigFactory
+        .parseString("""pekko.loggers = ["org.apache.pekko.testkit.TestEventListener"]""")
+        .withFallback(system.settings.config))
+    try {
+      val mock = new ConsumerMock[K, V]()
+      // the settings enrichment never completes, so the actor is stopped before it creates a consumer
+      val settings = ConsumerSettings
+        .create(sys, new StringDeserializer, new StringDeserializer)
+        .withGroupId("group1")
+        .withCloseTimeout(ConsumerMock.closeTimeout)
+        .withConsumerFactory(_ => mock.mock)
+        .withEnrichAsync(_ => Promise[ConsumerSettings[K, V]]().future)
+      val probe = TestProbe()(sys)
+
+      EventFilter[NullPointerException](occurrences = 0).intercept {
+        val actor = sys.actorOf(PublicKafkaConsumerActor.props(settings))
+        probe.watch(actor)
+        actor ! PublicKafkaConsumerActor.Stop
+        probe.expectTerminated(actor, remainingOrDefault)
+      }(sys)
+
+      mock.verifyClosed(never())
+    } finally TestKit.shutdownActorSystem(sys)
   }
 }
