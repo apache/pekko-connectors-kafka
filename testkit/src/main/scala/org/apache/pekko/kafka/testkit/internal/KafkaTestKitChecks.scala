@@ -59,7 +59,7 @@ object KafkaTestKitChecks {
     @tailrec def check(triesLeft: Int): Unit =
       Try(predicate(data())).recover {
         case ex =>
-          log.debug(s"Ignoring [${ex.getClass.getName}: ${ex.getMessage}] while waiting for desired state")
+          log.debug("Ignoring [{}: {}] while waiting for desired state", ex.getClass.getName, ex.getMessage)
           false
       } match {
         case Success(false) if triesLeft > 0 =>

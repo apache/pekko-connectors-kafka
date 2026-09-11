@@ -73,7 +73,7 @@ abstract class KafkaSpec(_kafkaPort: Int, val zooKeeperPort: Int, actorSystem: A
   }
 
   def sleep(time: FiniteDuration, msg: String = ""): Unit = {
-    log.debug(s"sleeping $time $msg")
+    log.debug("sleeping {} {}", time, msg)
     Thread.sleep(time.toMillis)
   }
 

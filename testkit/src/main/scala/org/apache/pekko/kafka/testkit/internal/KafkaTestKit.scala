@@ -183,12 +183,12 @@ trait KafkaTestKit {
   }
 
   def sleepMillis(ms: Long, msg: String): Unit = {
-    log.debug(s"sleeping $ms ms $msg")
+    log.debug("sleeping {} ms {}", ms, msg)
     Thread.sleep(ms)
   }
 
   def sleepSeconds(s: Int, msg: String): Unit = {
-    log.debug(s"sleeping $s s $msg")
+    log.debug("sleeping {} s {}", s, msg)
     Thread.sleep(s * 1000L)
   }
 }

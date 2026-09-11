@@ -130,7 +130,7 @@ private[internal] abstract class TransactionalSourceLogic[K, V, Msg](shape: Sour
         log.debug(s"Partitions drained ${partitions.mkString(",")}")
         ack.getOrElse(sender).tell(msg, sourceActor.ref)
       } else {
-        log.debug(s"Draining partitions {}", partitions)
+        log.debug("Draining partitions {}", partitions)
         materializer.scheduleOnce(
           consumerSettings.drainingCheckInterval,
           () => sourceActor.ref.tell(Drain(partitions, ack.orElse(Some(sender)), msg), sourceActor.ref))
@@ -428,7 +428,7 @@ private final class TransactionalSubSourceStageLogic[K, V](
         log.debug(s"Partitions drained ${partitions.mkString(",")}")
         ack.getOrElse(sender) ! msg
       } else {
-        log.debug(s"Draining partitions {}", partitions)
+        log.debug("Draining partitions {}", partitions)
         materializer.scheduleOnce(
           consumerSettings.drainingCheckInterval,
           () => subSourceActor.ref.tell(Drain(partitions, ack.orElse(Some(sender)), msg), stageActor.ref))

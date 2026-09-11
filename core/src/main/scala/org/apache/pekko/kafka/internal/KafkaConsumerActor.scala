@@ -430,8 +430,7 @@ import scala.util.control.NonFatal
     commitRefreshing = CommitRefreshing(settings.commitRefreshInterval, progressTrackingFactory)
     resetProtection = ConsumerResetProtection(log, settings.resetProtectionSettings, progressTrackingFactory)
     try {
-      if (log.isDebugEnabled)
-        log.debug(s"Creating Kafka consumer with ${settings.toString}")
+      log.debug("Creating Kafka consumer with {}", settings)
       consumer = settings.consumerFactory.apply(settings)
       context.become(regularReceive)
       unstashAll()

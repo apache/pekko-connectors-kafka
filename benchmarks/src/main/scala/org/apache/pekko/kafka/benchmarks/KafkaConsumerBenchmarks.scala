@@ -38,7 +38,7 @@ object KafkaConsumerBenchmarks extends LazyLogging {
       if (readSoFar >= readLimit)
         readSoFar
       else {
-        logger.debug(s"Polling")
+        logger.debug("Polling")
         meter.mark()
         pollInLoop(readLimit, readSoFar + 1)
       }
@@ -57,7 +57,7 @@ object KafkaConsumerBenchmarks extends LazyLogging {
       if (readSoFar >= readLimit)
         readSoFar
       else {
-        logger.debug(s"Polling")
+        logger.debug("Polling")
         val records = consumer.poll(pollTimeoutMs)
         val recordCount = records.count()
         records.iterator().asScala.toList // ensure records are processed
@@ -182,7 +182,7 @@ object KafkaConsumerBenchmarks extends LazyLogging {
       if (readSoFar >= readLimit)
         readSoFar
       else {
-        logger.debug(s"Polling")
+        logger.debug("Polling")
         consumer.pause(assignment)
         val records = consumer.poll(pollTimeoutMs)
 
