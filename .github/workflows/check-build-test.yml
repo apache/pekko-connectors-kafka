@@ -18,6 +18,9 @@ concurrency:
 env:
   PEKKO_TEST_TIMEFACTOR: 10.0
   EVENT_NAME: ${{ github.event_name }}
+  # sbt otherwise runs with a 1g heap, which the unscoped `mimaReportBinaryIssues`
+  # run in the Check Code Style job exhausts
+  JAVA_OPTS: "-Xmx4g"
 
 jobs:
   check-code-style:
