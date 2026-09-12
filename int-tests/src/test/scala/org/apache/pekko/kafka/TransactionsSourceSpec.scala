@@ -30,7 +30,6 @@ import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
-import scala.collection.immutable
 import scala.concurrent.duration._
 import scala.concurrent.{ Await, Future, TimeoutException }
 import scala.util.{ Failure, Success }
@@ -71,7 +70,7 @@ class TransactionsSourceSpec
       val restartAfter = 10 * 1000
 
       val partitionSize = elements / sourcePartitions
-      val producers: immutable.Seq[Future[Done]] = (0 until sourcePartitions).map { part =>
+      val producers: Seq[Future[Done]] = (0 until sourcePartitions).map { part =>
         val rangeStart = (part * partitionSize) + 1
         val rangeEnd = partitionSize * (part + 1)
         log.info(s"Producing [$rangeStart to $rangeEnd] to partition $part")

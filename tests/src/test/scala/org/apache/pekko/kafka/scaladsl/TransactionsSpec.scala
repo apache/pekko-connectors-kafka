@@ -269,7 +269,7 @@ class TransactionsSpec extends SpecBase with TestcontainersKafkaLike with Transa
             val concat = msgs.map(_.record.value()).reduce(_ + _)
 
             ProducerMessage.multi(
-              immutable.Seq(
+              Seq(
                 new ProducerRecord[String, String](sumsTopic, sum),
                 new ProducerRecord[String, String](concatsTopic, concat)),
               msgs.map(_.partitionOffset).maxBy(_.offset))
@@ -344,7 +344,7 @@ class TransactionsSpec extends SpecBase with TestcontainersKafkaLike with Transa
           sinkTopic,
           elementsToTake = (elements * maxPartitions).toLong)
 
-        val actualValues: immutable.Seq[(Int, Long, String)] = Await.result(consumer, 60.seconds)
+        val actualValues: Seq[(Int, Long, String)] = Await.result(consumer, 60.seconds)
         assertPartitionedConsistency(elements, maxPartitions, actualValues)
 
         Await.result(control.shutdown(), remainingOrDefault)
@@ -412,7 +412,7 @@ class TransactionsSpec extends SpecBase with TestcontainersKafkaLike with Transa
           elementsToTake = (elements * maxPartitions).toLong)
 
         log.info("Retrieve actual values")
-        val actualValues: immutable.Seq[(Int, Long, String)] = Await.result(consumer, 60.seconds)
+        val actualValues: Seq[(Int, Long, String)] = Await.result(consumer, 60.seconds)
 
         log.info("Waiting until partitions are assigned to one non-failed consumer")
         waitUntilConsumerSummary(group) {

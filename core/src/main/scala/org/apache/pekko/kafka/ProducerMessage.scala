@@ -18,7 +18,6 @@ import org.apache.pekko
 import pekko.NotUsed
 import org.apache.kafka.clients.producer.{ ProducerRecord, RecordMetadata }
 
-import scala.collection.immutable
 import scala.jdk.CollectionConverters._
 
 /**
@@ -100,7 +99,7 @@ object ProducerMessage {
    * that can be committed later in the flow.
    */
   final case class MultiMessage[K, V, +PassThrough](
-      records: immutable.Seq[ProducerRecord[K, V]],
+      records: Seq[ProducerRecord[K, V]],
       passThrough: PassThrough) extends Envelope[K, V, PassThrough] {
 
     /**
@@ -123,7 +122,7 @@ object ProducerMessage {
    * @tparam PassThrough the type of data passed through
    */
   def multi[K, V, PassThrough](
-      records: immutable.Seq[ProducerRecord[K, V]],
+      records: Seq[ProducerRecord[K, V]],
       passThrough: PassThrough): Envelope[K, V, PassThrough] = MultiMessage(records, passThrough)
 
   /**
@@ -133,7 +132,7 @@ object ProducerMessage {
    * @tparam V the type of values
    */
   def multi[K, V](
-      records: immutable.Seq[ProducerRecord[K, V]]): Envelope[K, V, NotUsed] = MultiMessage(records, NotUsed)
+      records: Seq[ProducerRecord[K, V]]): Envelope[K, V, NotUsed] = MultiMessage(records, NotUsed)
 
   /**
    * Java API:
@@ -222,7 +221,7 @@ object ProducerMessage {
    * successfully published.
    */
   final case class MultiResult[K, V, PassThrough] private[kafka] (
-      parts: immutable.Seq[MultiResultPart[K, V]],
+      parts: Seq[MultiResultPart[K, V]],
       passThrough: PassThrough) extends Results[K, V, PassThrough] {
 
     /**

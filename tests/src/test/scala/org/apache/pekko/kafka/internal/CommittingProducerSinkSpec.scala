@@ -40,7 +40,6 @@ import org.scalatest.flatspec.AnyFlatSpecLike
 import org.scalatest.matchers.should.Matchers
 import org.slf4j.{ Logger, LoggerFactory }
 
-import scala.collection.immutable
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
 import scala.jdk.CollectionConverters._
@@ -77,7 +76,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
   "committable producer sink" should "produce, and commit after interval" in assertAllStagesStopped {
     val consumer = FakeConsumer(groupId, topic, startOffset = 1616L)
 
-    val elements = immutable.Seq(
+    val elements = Seq(
       consumer.message(partition, "value 1"),
       consumer.message(partition, "value 2"))
 
@@ -113,7 +112,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
   it should "produce, and commit after interval with pass-through messages" in assertAllStagesStopped {
     val consumer = FakeConsumer(groupId, topic, startOffset = 1616L)
 
-    val elements = immutable.Seq(
+    val elements = Seq(
       consumer.message(partition, "skip"),
       consumer.message(partition, "send"))
 
@@ -153,7 +152,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
   it should "produce, and commit when batch size is reached" in assertAllStagesStopped {
     val consumer = FakeConsumer(groupId, topic, startOffset = 1616L)
 
-    val elements = immutable.Seq(
+    val elements = Seq(
       consumer.message(partition, "value 1"),
       consumer.message(partition, "value 2"))
 
@@ -187,7 +186,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
   it should "produce, and commit when batch size is reached with pass-through messages" in assertAllStagesStopped {
     val consumer = FakeConsumer(groupId, topic, startOffset = 1616L)
 
-    val elements = immutable.Seq(
+    val elements = Seq(
       consumer.message(partition, "value 1"),
       consumer.message(partition, "value 2"))
 
@@ -219,7 +218,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
   it should "produce, and commit when batch size is reached with multi-messages" in assertAllStagesStopped {
     val consumer = FakeConsumer(groupId, topic, startOffset = 1616L)
 
-    val elements = immutable.Seq(
+    val elements = Seq(
       consumer.message(partition, "value 1"),
       consumer.message(partition, "value 2"))
 
@@ -269,7 +268,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
       .concat(Source.maybe)
       .viaMat(ConsumerControlFactory.controlFlow())(Keep.right)
       .map { msg =>
-        ProducerMessage.multi(immutable.Seq.empty[ProducerRecord[String, String]], msg.committableOffset)
+        ProducerMessage.multi(Seq.empty[ProducerRecord[String, String]], msg.committableOffset)
       }
       .toMat(Producer.committableSink(producerSettings, committerSettings))(DrainingControl.apply)
       .run()
@@ -288,7 +287,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
   it should "produce, and commit when the next offset is observed" in assertAllStagesStopped {
     val consumer = FakeConsumer(groupId, topic, startOffset = 1616L)
 
-    val elements = immutable.Seq(
+    val elements = Seq(
       consumer.message(partition, "value 1"),
       consumer.message(partition, "value 2"))
 
@@ -324,7 +323,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
   it should "produce, and commit on completion" in assertAllStagesStopped {
     val consumer = FakeConsumer(groupId, topic, startOffset = 1616L)
 
-    val elements = immutable.Seq(
+    val elements = Seq(
       consumer.message(partition, "value 1"),
       consumer.message(partition, "value 2"))
 
@@ -360,7 +359,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
   it should "produce, and commit on delayed completion" in assertAllStagesStopped {
     val consumer = FakeConsumer(groupId, topic, startOffset = 1616L)
 
-    val elements = immutable.Seq(
+    val elements = Seq(
       consumer.message(partition, "value 1"),
       consumer.message(partition, "value 2"))
 
@@ -400,7 +399,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
   it should "produce, and commit on upstream failure" in assertAllStagesStopped {
     val consumer = FakeConsumer(groupId, topic, startOffset = 1616L)
 
-    val elements = immutable.Seq(
+    val elements = Seq(
       consumer.message(partition, "value 1"),
       consumer.message(partition, "value 2"))
 
@@ -436,7 +435,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
   it should "time out for missing producer reply" in assertAllStagesStopped {
     val consumer = FakeConsumer(groupId, topic, startOffset = 1616L)
 
-    val elements = immutable.Seq(
+    val elements = Seq(
       consumer.message(partition, "value 1"),
       consumer.message(partition, "value 2"))
 
@@ -476,7 +475,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
   it should "choose to ignore producer errors" in assertAllStagesStopped {
     val consumer = FakeConsumer(groupId, topic, startOffset = 1616L)
 
-    val elements = immutable.Seq(
+    val elements = Seq(
       consumer.message(partition, "value 1"),
       consumer.message(partition, "value 2"))
 
@@ -519,7 +518,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
   it should "choose to ignore producer errors and shut down cleanly" in assertAllStagesStopped {
     val consumer = FakeConsumer(groupId, topic, startOffset = 1616L)
 
-    val elements = immutable.Seq(
+    val elements = Seq(
       consumer.message(partition, "value 1"),
       consumer.message(partition, "value 2"))
 
@@ -565,7 +564,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
   it should "fail for commit timeout" in assertAllStagesStopped {
     val consumer = FakeConsumer(groupId, topic, startOffset = 1616L)
 
-    val elements = immutable.Seq(
+    val elements = Seq(
       consumer.message(partition, "value 1"),
       consumer.message(partition, "value 2"))
 
@@ -598,7 +597,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
   it should "ignore commit timeout" in assertAllStagesStopped {
     val consumer = FakeConsumer(groupId, topic, startOffset = 1616L)
 
-    val elements = immutable.Seq(
+    val elements = Seq(
       consumer.message(partition, "value 1"),
       consumer.message(partition, "value 2"))
 
@@ -636,7 +635,7 @@ class CommittingProducerSinkSpec(_system: ActorSystem)
   it should "not commit next offset after failure if it hasn't been observed" in assertAllStagesStopped {
     val consumer = FakeConsumer(groupId, topic, startOffset = 1616L)
 
-    val elements = immutable.Seq(
+    val elements = Seq(
       consumer.message(partition, "value 1"),
       consumer.message(partition, "value 2"))
 

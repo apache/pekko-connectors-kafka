@@ -140,11 +140,10 @@ class ProducerExample extends DocsSpecBase with TestcontainersKafkaLike {
       key: KeyType,
       value: ValueType,
       passThrough: PassThroughType): ProducerMessage.Envelope[KeyType, ValueType, PassThroughType] = {
-    import scala.collection.immutable
     // #multiMessage
     val multi: ProducerMessage.Envelope[KeyType, ValueType, PassThroughType] =
       ProducerMessage.multi(
-        immutable.Seq(
+        Seq(
           new ProducerRecord("topicName", key, value),
           new ProducerRecord("anotherTopic", key, value)),
         passThrough)

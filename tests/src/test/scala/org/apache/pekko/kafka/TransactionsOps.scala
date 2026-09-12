@@ -122,7 +122,7 @@ trait TransactionsOps extends TestSuite with Matchers {
       .via(Producer.flexiFlow(producerSettings))
       .runWith(Sink.ignore)
 
-  def checkForDuplicates(values: immutable.Seq[(Long, String)], expected: immutable.IndexedSeq[String]): Unit =
+  def checkForDuplicates(values: Seq[(Long, String)], expected: immutable.IndexedSeq[String]): Unit =
     withClue("Checking for duplicates: ") {
       val duplicates = values.map(_._2).diff(expected)
       if (duplicates.nonEmpty) {
@@ -147,7 +147,7 @@ trait TransactionsOps extends TestSuite with Matchers {
       }
     }
 
-  def checkForMissing(values: immutable.Seq[(Long, String)], expected: immutable.IndexedSeq[String]): Unit =
+  def checkForMissing(values: Seq[(Long, String)], expected: immutable.IndexedSeq[String]): Unit =
     withClue("Checking for missing: ") {
       val missing = expected.diff(values.map(_._2))
       if (missing.nonEmpty) {
@@ -181,7 +181,7 @@ trait TransactionsOps extends TestSuite with Matchers {
       .map(r => (r.offset(), r.value()))
 
   def consumePartitionOffsetValues(settings: ConsumerSettings[String, String], topic: String, elementsToTake: Long)(
-      implicit mat: Materializer): Future[immutable.Seq[(Int, Long, String)]] =
+      implicit mat: Materializer): Future[Seq[(Int, Long, String)]] =
     Consumer
       .plainSource(settings, Subscriptions.topics(topic))
       .map(r => (r.partition(), r.offset(), r.value()))
@@ -201,13 +201,13 @@ trait TransactionsOps extends TestSuite with Matchers {
   def assertPartitionedConsistency(
       elements: Int,
       maxPartitions: Int,
-      values: immutable.Seq[(Int, Long, String)]): Unit = {
-    val expectedValues: immutable.Seq[String] = (1 to elements).map(_.toString)
+      values: Seq[(Int, Long, String)]): Unit = {
+    val expectedValues: Seq[String] = (1 to elements).map(_.toString)
 
     for (partition <- 0 until maxPartitions) {
       println(s"Asserting values for partition: $partition")
 
-      val partitionMessages: immutable.Seq[String] =
+      val partitionMessages: Seq[String] =
         values.filter(_._1 == partition).map { case (_, _, value) => value }
 
       assert(partitionMessages.length == elements)

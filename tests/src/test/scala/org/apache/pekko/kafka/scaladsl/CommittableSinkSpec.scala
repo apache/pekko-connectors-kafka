@@ -23,7 +23,6 @@ import pekko.stream.scaladsl.{ Keep, Sink, Source }
 import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.apache.kafka.clients.producer.ProducerRecord
 
-import scala.collection.immutable
 import scala.concurrent.Future
 import scala.concurrent.duration._
 
@@ -111,7 +110,7 @@ class CommittableSinkSpec extends SpecBase with TestcontainersKafkaLike {
     }
   }
 
-  def produceStringRoundRobin(topic: String, range: immutable.Seq[String]): Future[Done] =
+  def produceStringRoundRobin(topic: String, range: Seq[String]): Future[Done] =
     Source(range)
       // NOTE: If no partition is specified but a key is present a partition will be chosen
       // using a hash of the key. If neither key nor partition is present a partition
