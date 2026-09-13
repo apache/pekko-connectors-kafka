@@ -27,7 +27,6 @@ import pekko.stream.scaladsl.{ Keep, Sink }
 import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.apache.kafka.clients.producer.ProducerRecord
 
-import scala.collection.immutable
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
@@ -50,7 +49,7 @@ class AtLeastOnce extends DocsSpecBase with TestcontainersKafkaLike {
         .committableSource(consumerSettings, Subscriptions.topics(topic1))
         .map(msg =>
           ProducerMessage.multi(
-            immutable.Seq(
+            Seq(
               new ProducerRecord(topic2, msg.record.key, msg.record.value),
               new ProducerRecord(topic3, msg.record.key, msg.record.value)),
             msg.committableOffset))
@@ -90,7 +89,7 @@ class AtLeastOnce extends DocsSpecBase with TestcontainersKafkaLike {
           val out: Envelope[String, String, CommittableOffset] =
             if (duplicate(msg.record.value))
               ProducerMessage.multi(
-                immutable.Seq(
+                Seq(
                   new ProducerRecord(topic2, msg.record.key, msg.record.value),
                   new ProducerRecord(topic3, msg.record.key, msg.record.value)),
                 msg.committableOffset)
@@ -138,7 +137,7 @@ class AtLeastOnce extends DocsSpecBase with TestcontainersKafkaLike {
           val out: Envelope[String, String, NotUsed] =
             if (duplicate(record.value))
               ProducerMessage.multi(
-                immutable.Seq(
+                Seq(
                   new ProducerRecord(topic2, record.key, record.value),
                   new ProducerRecord(topic3, record.key, record.value)))
             else if (ignore(record.value))

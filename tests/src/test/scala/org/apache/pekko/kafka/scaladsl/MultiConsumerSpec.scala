@@ -20,7 +20,6 @@ import pekko.kafka.testkit.KafkaTestkitTestcontainersSettings
 import pekko.kafka.testkit.scaladsl.TestcontainersKafkaPerClassLike
 import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 
-import scala.collection.immutable
 import scala.concurrent.duration._
 import scala.concurrent.{ Await, Future }
 
@@ -111,7 +110,7 @@ class MultiConsumerSpec extends SpecBase with TestcontainersKafkaPerClassLike {
       // produce 10 batches of 10 elements to all topics on different partitions
       val batches = 10
       val batchSize = 10
-      val produceMessages: immutable.Seq[Future[Done]] = (0 until batches)
+      val produceMessages: Seq[Future[Done]] = (0 until batches)
         .flatMap { batch =>
           topics.map { topic =>
             val batchStart = batch * batchSize

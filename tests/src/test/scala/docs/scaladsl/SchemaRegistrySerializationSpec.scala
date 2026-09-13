@@ -31,7 +31,6 @@ import org.apache.avro.util.Utf8
 import org.apache.avro.{ AvroRuntimeException, Schema }
 import org.apache.kafka.common.TopicPartition
 
-import scala.collection.immutable
 import scala.concurrent.duration._
 import scala.jdk.CollectionConverters._
 // #imports
@@ -116,7 +115,7 @@ class SchemaRegistrySerializationSpec extends DocsSpecBase with TestcontainersKa
       ProducerSettings(system, new StringSerializer, new ByteArraySerializer)
         .withBootstrapServers(bootstrapServers)
 
-    val samples = immutable.Seq("String1")
+    val samples = Seq("String1")
     val producerCompletion =
       Source(samples)
         .map(n => new ProducerRecord(topic, n, n.getBytes(StandardCharsets.UTF_8)))
@@ -141,7 +140,7 @@ class SchemaRegistrySerializationSpec extends DocsSpecBase with TestcontainersKa
     val consumerActor =
       system.actorOf(KafkaConsumerActor.props(specificRecordConsumerSettings(group)), "sharedKafkaConsumerActor")
 
-    val samples = immutable.Seq("String1", "String2", "String3")
+    val samples = Seq("String1", "String2", "String3")
 
     val (control1, probe1) =
       Consumer

@@ -23,7 +23,6 @@ import pekko.kafka.{ ConsumerSettings, ProducerMessage, Subscriptions }
 import pekko.stream.scaladsl.{ Keep, Sink }
 import org.apache.kafka.clients.producer.{ ProducerRecord, RecordMetadata }
 
-import scala.collection.immutable
 import scala.concurrent.duration._
 import scala.concurrent.{ Await, Future }
 
@@ -57,14 +56,14 @@ class SendProducerSpec extends DocsSpecBase with TestcontainersKafkaLike {
     val producer = SendProducer(producerDefaults)
     try {
       // #envelope
-      val message = ProducerMessage.multi(immutable.Seq(new ProducerRecord(topic1, "key", "value")), "context")
+      val message = ProducerMessage.multi(Seq(new ProducerRecord(topic1, "key", "value")), "context")
       val send: Future[ProducerMessage.Results[String, String, String]] = producer.sendEnvelope(message)
       // Blocking here for illustration only, you need to handle the future result
       Await.result(send, 2.seconds)
       // #envelope
       val result = send.futureValue
       result match {
-        case MultiResult(immutable.Seq(part), "context") =>
+        case MultiResult(Seq(part), "context") =>
           part.metadata.topic() shouldBe topic1
         case other => fail(s"unexpected result $other")
       }
@@ -83,7 +82,7 @@ class SendProducerSpec extends DocsSpecBase with TestcontainersKafkaLike {
     val producer = SendProducer(producerDefaults)
     try {
       val envelope: ProducerMessage.Envelope[String, String, String] =
-        ProducerMessage.multi(immutable.Seq(
+        ProducerMessage.multi(Seq(
             new ProducerRecord(topic1, "key", "value1"),
             new ProducerRecord(topic1, "key", "value2"),
             new ProducerRecord(topic1, "key", "value3")),
@@ -92,7 +91,7 @@ class SendProducerSpec extends DocsSpecBase with TestcontainersKafkaLike {
       // #multiMessage
       val result = send.futureValue
       result match {
-        case MultiResult(immutable.Seq(part1, part2, part3), "context") =>
+        case MultiResult(Seq(part1, part2, part3), "context") =>
           part1.metadata.topic() shouldBe topic1
         case other => fail(s"unexpected result $other")
       }

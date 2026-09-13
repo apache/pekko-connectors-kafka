@@ -79,7 +79,7 @@ class ConnectionCheckerSpec extends SpecBase with TestcontainersKafkaPerClassLik
       startCluster()
 
       val msg = "hello"
-      produceString(topic, scala.collection.immutable.Seq(msg))
+      produceString(topic, Seq(msg))
 
       val consumerSettings = noBrokerConsumerSettings.withBootstrapServers(bootstrapServers)
 

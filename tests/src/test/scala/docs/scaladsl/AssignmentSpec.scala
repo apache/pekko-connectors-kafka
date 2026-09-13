@@ -24,8 +24,6 @@ import pekko.stream.testkit.scaladsl.StreamTestKit.assertAllStagesStopped
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.TopicPartition
 
-import scala.collection.immutable
-
 class AssignmentSpec extends SpecBase with TestcontainersKafkaLike {
 
   "subscription with partition assignment" must {
@@ -56,7 +54,7 @@ class AssignmentSpec extends SpecBase with TestcontainersKafkaLike {
     "consume from the specified topic pattern" in assertAllStagesStopped {
       val suffix = (System.currentTimeMillis() % 10000).toInt
 
-      val topics = immutable.Seq(createTopic(suffix), createTopic(suffix))
+      val topics = Seq(createTopic(suffix), createTopic(suffix))
       val group = createGroupId()
       val totalMessages = 100
       val producerCompletion =

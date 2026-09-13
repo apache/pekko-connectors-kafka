@@ -34,7 +34,6 @@ import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.TopicPartition
 import org.scalatest.Inside
 
-import scala.collection.immutable
 import scala.concurrent.Future
 import scala.concurrent.duration._
 
@@ -140,7 +139,7 @@ class CommittingSpec extends SpecBase with TestcontainersKafkaLike with Inside {
           Set(new TopicPartition(topic1, partition0), new TopicPartition(topic1, partition1))))
 
       // read all messages from both partitions
-      val committables1: immutable.Seq[ConsumerMessage.CommittableMessage[String, String]] = probe1
+      val committables1: Seq[ConsumerMessage.CommittableMessage[String, String]] = probe1
         .request(count * 2L)
         .expectNextN(count * 2L)
 
@@ -220,7 +219,7 @@ class CommittingSpec extends SpecBase with TestcontainersKafkaLike with Inside {
           Set(new TopicPartition(topic1, partition0), new TopicPartition(topic1, partition1))))
 
       // read all messages from both partitions
-      val committables1: immutable.Seq[ConsumerMessage.CommittableMessage[String, String]] = probe1
+      val committables1: Seq[ConsumerMessage.CommittableMessage[String, String]] = probe1
         .request(count * 2L)
         .expectNextN(count * 2L)
 
@@ -248,7 +247,7 @@ class CommittingSpec extends SpecBase with TestcontainersKafkaLike with Inside {
             }
           })
 
-      val committables2: immutable.Seq[ConsumerMessage.CommittableMessage[String, String]] = probe2
+      val committables2: Seq[ConsumerMessage.CommittableMessage[String, String]] = probe2
         .request(count.toLong)
         .expectNextN(count.toLong)
 
@@ -596,7 +595,7 @@ class CommittingSpec extends SpecBase with TestcontainersKafkaLike with Inside {
     Source(1 to 10)
       .map(_.toString)
       .mapConcat(n =>
-        immutable.Seq(new ProducerRecord(topic, partition0, DefaultKey, n),
+        Seq(new ProducerRecord(topic, partition0, DefaultKey, n),
           new ProducerRecord(topic, partition1, DefaultKey, n)))
       .runWith(Producer.plainSink(producerDefaults.withProducer(testProducer)))
 }

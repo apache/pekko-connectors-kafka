@@ -33,7 +33,6 @@ import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.serialization.{ ByteArrayDeserializer, StringDeserializer }
 
-import scala.collection.immutable
 import scala.concurrent.duration._
 import scala.concurrent.{ Await, Future, Promise }
 
@@ -135,7 +134,7 @@ class ConsumerExample extends DocsSpecBase with TestcontainersKafkaLike {
     }
 
     // #atMostOnce
-    val control: DrainingControl[immutable.Seq[Done]] =
+    val control: DrainingControl[Seq[Done]] =
       Consumer
         .atMostOnceSource(consumerSettings, Subscriptions.topics(topic))
         .mapAsync(1)(record => business(record.key, record.value()))

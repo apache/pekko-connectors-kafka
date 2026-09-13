@@ -36,7 +36,6 @@ import org.apache.kafka.clients.producer.{ Producer => KProducer, ProducerRecord
 import org.apache.kafka.common.GroupState
 import org.slf4j.{ Logger, LoggerFactory }
 
-import scala.collection.immutable
 import scala.concurrent.duration._
 import scala.concurrent.{ Await, ExecutionContext, Future }
 import scala.jdk.CollectionConverters._
@@ -125,7 +124,7 @@ abstract class KafkaSpec(_kafkaPort: Int, val zooKeeperPort: Int, actorSystem: A
       Try(predicate(group.members().asScala.toList)).getOrElse(false)
     }
 
-  def createTopics(topics: Int*): immutable.Seq[String] = {
+  def createTopics(topics: Int*): Seq[String] = {
     val topicNames = topics.toList.map { number =>
       createTopicName(number)
     }
@@ -146,10 +145,10 @@ abstract class KafkaSpec(_kafkaPort: Int, val zooKeeperPort: Int, actorSystem: A
    * Produce messages to topic using specified range and return
    * a Future so the caller can synchronize consumption.
    */
-  def produce(topic: String, range: immutable.Seq[Int], partition: Int = partition0): Future[Done] =
+  def produce(topic: String, range: Seq[Int], partition: Int = partition0): Future[Done] =
     produceString(topic, range.map(_.toString), partition)
 
-  def produceString(topic: String, range: immutable.Seq[String], partition: Int = partition0): Future[Done] =
+  def produceString(topic: String, range: Seq[String], partition: Int = partition0): Future[Done] =
     Source(range)
       // NOTE: If no partition is specified but a key is present a partition will be chosen
       // using a hash of the key. If neither key nor partition is present a partition
@@ -166,7 +165,7 @@ abstract class KafkaSpec(_kafkaPort: Int, val zooKeeperPort: Int, actorSystem: A
       .map(n => new ProducerRecord(topic, partition0, DefaultKey, n.toString))
       .runWith(Producer.plainSink(settings))
 
-  def produceTimestamped(topic: String, timestampedRange: immutable.Seq[(Int, Long)]): Future[Done] =
+  def produceTimestamped(topic: String, timestampedRange: Seq[(Int, Long)]): Future[Done] =
     Source(timestampedRange)
       .map {
         case (n, ts) => new ProducerRecord(topic, partition0, ts, DefaultKey, n.toString)
@@ -177,7 +176,7 @@ abstract class KafkaSpec(_kafkaPort: Int, val zooKeeperPort: Int, actorSystem: A
    * Produce batches over several topics.
    */
   def produceBatches(topics: Seq[String], batches: Int, batchSize: Int): Future[Seq[Done]] = {
-    val produceMessages: immutable.Seq[Future[Done]] = (0 until batches)
+    val produceMessages: Seq[Future[Done]] = (0 until batches)
       .flatMap { batch =>
         topics.map { topic =>
           val batchStart = batch * batchSize

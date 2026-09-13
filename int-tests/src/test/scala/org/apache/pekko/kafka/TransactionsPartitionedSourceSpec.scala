@@ -30,7 +30,6 @@ import org.scalatest.Ignore
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
-import scala.collection.immutable
 import scala.concurrent.duration._
 import scala.concurrent.{ Await, Future, TimeoutException }
 import scala.util.{ Failure, Success }
@@ -75,7 +74,7 @@ class TransactionsPartitionedSourceSpec
       val elements = 100 * 1000 // 100 * 1,000 = 100,000
       val restartAfter = (10 * 1000) / sourcePartitions // (10 * 1,000) / 10 = 100
 
-      val producers: immutable.Seq[Future[Done]] = (0 until sourcePartitions).map { part =>
+      val producers: Seq[Future[Done]] = (0 until sourcePartitions).map { part =>
         produce(sourceTopic, range = 1 to elements, partition = part)
       }
 

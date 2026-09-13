@@ -20,7 +20,6 @@ import pekko.kafka.ProducerMessage
 import org.apache.kafka.clients.producer.{ ProducerRecord, RecordMetadata }
 import org.apache.kafka.common.TopicPartition
 
-import scala.collection.immutable
 import scala.jdk.CollectionConverters._
 
 /**
@@ -54,7 +53,7 @@ object ProducerResultFactory {
     ProducerMessage.MultiResultPart(metadata, record)
 
   def multiResult[K, V, PassThrough](
-      parts: immutable.Seq[ProducerMessage.MultiResultPart[K, V]],
+      parts: Seq[ProducerMessage.MultiResultPart[K, V]],
       passThrough: PassThrough): ProducerMessage.MultiResult[K, V, PassThrough] =
     ProducerMessage.MultiResult(parts, passThrough)
 
