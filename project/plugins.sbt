@@ -16,7 +16,7 @@ addSbtPlugin("com.github.sbt" % "sbt-license-report" % "1.10.0")
 // discipline
 addSbtPlugin("com.github.sbt" % "sbt-header" % "5.11.0")
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.6.2")
-addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "1.2.0")
+addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "1.2.1")
 addSbtPlugin("com.github.sbt" % "sbt-java-formatter" % "0.13.1")
 // docs
 addSbtPlugin("com.github.sbt" % "sbt-unidoc" % "0.6.1")
