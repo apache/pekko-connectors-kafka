@@ -22,7 +22,7 @@ These clients can communicate with brokers that are version 2.1.0 or newer. Olde
 
 Check even Confluent's [Versions and Interoperability](https://docs.confluent.io/platform/current/installation/versions-interoperability.html) page for more details. 
 
--- @extref:[Javadoc for `KafkaConsumer`](kafka:/javadoc/index.html?org/apache/kafka/clients/consumer/KafkaConsumer.html)
+-- @extref:[Javadoc for `KafkaConsumer`](kafka:/javadoc/org/apache/kafka/clients/consumer/KafkaConsumer.html)
 
 @@@
 
@@ -50,7 +50,7 @@ The table below shows Apache Pekko Connectors Kafka's direct dependencies and th
 @@dependencies { projectId="core" }
 
 * Apache Pekko Streams $pekko.version$ @extref[documentation](pekko:stream/index.html) and [sources](https://github.com/apache/pekko)
-* Apache Kafka client $kafka.version$ @extref[documentation](kafka:/documentation#index) and [sources](https://github.com/apache/kafka)
+* Apache Kafka client $kafka.version$ @extref[documentation](kafka:/getting-started/introduction/) and [sources](https://github.com/apache/kafka)
 
 
 ## Scala and Java APIs

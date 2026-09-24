@@ -18,12 +18,12 @@ This is just a start, please add your experiences to this list by [opening a Pul
 
 ## Security setup
 
-The different security setups offered by Kafka brokers are described in the @extref[Apache Kafka documentation](kafka:/documentation.html#security).
+The different security setups offered by Kafka brokers are described in the @extref[Apache Kafka documentation](kafka:/security/).
 
 
 ### SSL
 
-The properties described in Kafka's @extref[Configuring Kafka Clients for SSL](kafka:/documentation.html#security_configclients) go in the
+The properties described in Kafka's @extref[Configuring Kafka Clients for SSL](kafka:/security/encryption-and-authentication-using-ssl/#configuring-kafka-clients) go in the
 `pekko.kafka.consumer.kafka-clients` and `pekko.kafka.producer.kafka-clients` sections of the configuration, or can be added programmatically via
 `ProducerSettings.withProperties` and `ConsumerSettings.withProperties`. The necessary property name constants are available in @javadoc[SslConfigs](org.apache.kafka.common.config.SslConfigs).
 
@@ -47,7 +47,7 @@ You have the option to pass the passwords as command line parameters or environm
 
 ### Kerberos
 
-The properties described in Kafka's @extref[Configuring Kafka Clients for Kerberos](kafka:/documentation.html#security_sasl_kerberos_clientconfig) go in the
+The properties described in Kafka's @extref[Configuring Kafka Clients for Kerberos](kafka:/security/authentication-using-sasl/#configuring-kafka-clients) go in the
 `pekko.kafka.consumer.kafka-clients` and `pekko.kafka.producer.kafka-clients` sections of the configuration, or can be added programmatically via
 `ProducerSettings.withProperties` and `ConsumerSettings.withProperties`.
 

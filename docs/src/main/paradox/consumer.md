@@ -57,15 +57,15 @@ Important consumer settings
 : | Setting   | Description                                  |
 |-------------|----------------------------------------------|
 | stop-timeout | The stage will delay stopping the internal actor to allow processing of messages already in the stream (required for successful committing). This can be set to 0 for streams using @apidoc[Consumer.DrainingControl] |
-| kafka-clients | Section for properties passed unchanged to the Kafka client (see @extref:[Kafka's Consumer Configs](kafka:/documentation.html#consumerconfigs)) |
+| kafka-clients | Section for properties passed unchanged to the Kafka client (see @extref:[Kafka's Consumer Configs](kafka:/configuration/consumer-configs/)) |
 | connection-checker | Configuration to let the stream fail if the connection to the Kafka broker fails. |
 
-Explicitly selecting a [Consumer Assignment Strategy](https://kafka.apache.org/documentation/#consumerconfigs_partition.assignment.strategy) such as @javadoc[CooperativeStickyAssignor](org.apache.kafka.clients.consumer.CooperativeStickyAssignor) is recommended. They were introduced in [Kafka 3.0](https://kafka.apache.org/33/documentation.html#upgrade_300_notable). Please check the [Kafka upgrade guide](https://cwiki.apache.org/confluence/display/KAFKA/KIP-429:+Kafka+Consumer+Incremental+Rebalance+Protocol#KIP429:KafkaConsumerIncrementalRebalanceProtocol-Consumer) before changing it.
+Explicitly selecting a @extref:[Consumer Assignment Strategy](kafka:/configuration/consumer-configs/#partition.assignment.strategy) such as @javadoc[CooperativeStickyAssignor](org.apache.kafka.clients.consumer.CooperativeStickyAssignor) is recommended. They were introduced in [Kafka 3.0](https://kafka.apache.org/39/getting-started/upgrade/#notable-changes-in-300). Please check the [Kafka upgrade guide](https://cwiki.apache.org/confluence/display/KAFKA/KIP-429:+Kafka+Consumer+Incremental+Rebalance+Protocol#KIP429:KafkaConsumerIncrementalRebalanceProtocol-Consumer) before changing it.
 
 reference.conf (HOCON)
 : @@ snip [snip](/core/src/main/resources/reference.conf) { #consumer-settings }
 
-The Kafka documentation @extref:[Consumer Configs](kafka:/documentation.html#consumerconfigs) lists the settings, their defaults and importance. More detailed explanations are given in the @javadoc[KafkaConsumer](org.apache.kafka.clients.consumer.KafkaConsumer) API and constants are defined in @javadoc[ConsumerConfig](org.apache.kafka.clients.consumer.ConsumerConfig) API.
+The Kafka documentation @extref:[Consumer Configs](kafka:/configuration/consumer-configs/) lists the settings, their defaults and importance. More detailed explanations are given in the @javadoc[KafkaConsumer](org.apache.kafka.clients.consumer.KafkaConsumer) API and constants are defined in @javadoc[ConsumerConfig](org.apache.kafka.clients.consumer.ConsumerConfig) API.
 
 
 ### Programmatic construction
