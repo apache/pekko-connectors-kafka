@@ -27,7 +27,7 @@ object Versions {
   val kafkaVersion = "4.3.1"
   val KafkaVersionForDocs = "37"
 
-  val mockitoVersion = "5.23.0"
+  val mockitoVersion = "5.24.0"
   val scalaTestVersion = "3.2.20"
   val scalaPBVersion = "0.11.20"
   val testcontainersVersion = "1.21.4"
