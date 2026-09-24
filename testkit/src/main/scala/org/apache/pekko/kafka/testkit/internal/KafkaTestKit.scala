@@ -121,8 +121,10 @@ trait KafkaTestKit {
    */
   def cleanUpAdminClient(): Unit =
     if (adminClientVar != null) {
-      adminClientVar.close(Duration.ofSeconds(60))
+      val adminClientToClose = adminClientVar
+      // drop the reference first so that a failing close does not leave a closed client behind
       adminClientVar = null
+      adminClientToClose.close(Duration.ofSeconds(60))
     }
 
   /**
