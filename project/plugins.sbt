@@ -24,8 +24,8 @@ addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "3.1.0")
 
 addSbtPlugin("org.apache.pekko" % "pekko-sbt-paradox" % "1.0.1")
 addSbtPlugin("com.github.sbt" % "sbt-site-paradox" % "1.8.0")
-addSbtPlugin("com.lightbend.paradox" % "sbt-paradox-theme" % "0.11.0")
-addSbtPlugin("com.lightbend.paradox" % "sbt-paradox" % "0.11.0")
+addSbtPlugin("com.lightbend.paradox" % "sbt-paradox-theme" % "0.11.1")
+addSbtPlugin("com.lightbend.paradox" % "sbt-paradox" % "0.11.1")
 
 // https://eed3si9n.com/reducing-scaladoc-file-size-with-sbt-salad-days/
 addSbtPlugin("com.eed3si9n" % "sbt-salad-days" % "0.2.0")
