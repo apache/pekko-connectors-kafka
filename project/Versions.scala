@@ -29,7 +29,7 @@ object Versions {
 
   val mockitoVersion = "5.24.0"
   val scalaTestVersion = "3.2.20"
-  val scalaPBVersion = "0.11.20"
+  val scalaPBVersion = "0.11.21"
   val testcontainersVersion = "1.21.4"
   val logbackVersion = "1.6.5"
   val slf4jVersion = "2.0.20"
