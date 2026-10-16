@@ -83,7 +83,13 @@ private[kafka] trait DeferredProducer[K, V] {
         val assign = getAsyncCallback(assignProducer)
         producerFuture
           .transform(
-            producer => assign.invoke(producer),
+            producer =>
+              // the stage may have completed while the producer was being created; async callbacks are
+              // dropped silently in that case, so the feedback is needed to not leak the producer
+              assign
+                .invokeWithFeedback(producer)
+                .failed
+                .foreach(_ => closeUnassignedProducer(producer))(ExecutionContext.parasitic),
             e => {
               log.error(e, "producer creation failed")
               closeAndFailStageCb.invoke(e)
@@ -98,6 +104,20 @@ private[kafka] trait DeferredProducer[K, V] {
     producerAssignmentLifecycle = state
     log.debug("Asynchronous producer assignment lifecycle changed '{} -> {}'", oldState, state)
   }
+
+  /**
+   * Close a producer which was created after the stage completed and therefore never got assigned.
+   * Called from outside the stage logic, so it must not touch any stage state.
+   */
+  private def closeUnassignedProducer(p: Producer[K, V]): Unit =
+    if (producerSettings.closeProducerOnStop) {
+      try {
+        // nothing was ever sent with this producer, so there is nothing to flush
+        p.close(java.time.Duration.ZERO)
+      } catch {
+        case NonFatal(ex) => log.error(ex, "Problem occurred during producer close")
+      }
+    }
 
   protected def closeProducerImmediately(): Unit =
     if (producer != null && producerSettings.closeProducerOnStop) {
