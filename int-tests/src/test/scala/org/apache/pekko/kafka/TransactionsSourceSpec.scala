@@ -118,8 +118,17 @@ class TransactionsSourceSpec
 
       val probeConsumerGroup = createGroupId(2)
 
+      // Stop once every distinct value has been seen, not after `elements` records: re-reads of the
+      // same record would otherwise count towards the limit and end the stream before all values arrive.
       val consumer = offsetValueSource(probeConsumerSettings(probeConsumerGroup), sinkTopic)
-        .take(elements.toLong)
+        .statefulMap(() => Set.empty[String])(
+          (seen, offsetValue) => {
+            val updated = seen + offsetValue._2
+            (updated, (offsetValue, updated.size))
+          },
+          _ => None)
+        .takeWhile({ case (_, distinct) => distinct < elements }, inclusive = true)
+        .map(_._1)
         .alsoTo(
           Flow[(Long, String)]
             .scan(0) { case (count, _) => count + 1 }
@@ -127,7 +136,9 @@ class TransactionsSourceSpec
             .log("received")
             .to(Sink.ignore))
         .recover {
-          case t => (0L, "no-more-elements")
+          case t =>
+            log.error("Probe consumer failed", t)
+            (0L, "no-more-elements")
         }
         .filter(_._2 != "no-more-elements")
         .runWith(Sink.seq)
@@ -136,7 +147,8 @@ class TransactionsSourceSpec
 
       val expected = (1 to elements).map(_.toString)
 
-      log.info("Expected elements: {}, actual elements: {}", elements, values.length)
+      log.info("Expected elements: {}, actual elements: {}, distinct elements: {}", elements, values.length,
+        values.map(_._2).distinct.size)
 
       checkForMissing(values, expected)
       checkForDuplicates(values, expected)
