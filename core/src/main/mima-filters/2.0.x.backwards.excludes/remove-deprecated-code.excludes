@@ -39,3 +39,8 @@ ProblemFilters.exclude[DirectMissingMethodProblem]("org.apache.pekko.kafka.scala
 ProblemFilters.exclude[DirectMissingMethodProblem]("org.apache.pekko.kafka.scaladsl.Producer.committableSink")
 ProblemFilters.exclude[DirectMissingMethodProblem]("org.apache.pekko.kafka.scaladsl.Producer.plainSink")
 ProblemFilters.exclude[DirectMissingMethodProblem]("org.apache.pekko.kafka.scaladsl.SendProducer.apply")
+
+# Remove deprecated ManualSubscription.withRebalanceListener (since Alpakka Kafka 1.0-RC1)
+ProblemFilters.exclude[DirectMissingMethodProblem]("org.apache.pekko.kafka.ManualSubscription.withRebalanceListener")
+ProblemFilters.exclude[DirectMissingMethodProblem]("org.apache.pekko.kafka.Subscriptions#ManualSubscriptionImpl.withRebalanceListener")
+ProblemFilters.exclude[DirectMissingMethodProblem]("org.apache.pekko.kafka.Subscriptions#ManualSubscription.withRebalanceListener")
