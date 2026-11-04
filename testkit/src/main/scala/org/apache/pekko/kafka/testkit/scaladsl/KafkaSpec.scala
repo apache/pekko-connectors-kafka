@@ -66,9 +66,12 @@ abstract class KafkaSpec(_kafkaPort: Int, val zooKeeperPort: Int, actorSystem: A
   }
 
   def cleanUp(): Unit = {
-    if (testProducer ne null) testProducer.close(Duration.ofSeconds(60))
-    cleanUpAdminClient()
+    // every resource is released, even when releasing an earlier one failed
+    val producerClosed = Try(if (testProducer ne null) testProducer.close(Duration.ofSeconds(60)))
+    val adminClientClosed = Try(cleanUpAdminClient())
     TestKit.shutdownActorSystem(system)
+    producerClosed.get
+    adminClientClosed.get
   }
 
   def sleep(time: FiniteDuration, msg: String = ""): Unit = {
