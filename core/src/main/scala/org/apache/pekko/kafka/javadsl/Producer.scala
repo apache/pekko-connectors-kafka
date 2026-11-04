@@ -60,7 +60,7 @@ object Producer {
    * Note that there is a risk that something fails after publishing but before
    * committing, so it is "at-least once delivery" semantics.
    */
-  def committableSink[K, V, IN <: Envelope[K, V, ConsumerMessage.Committable]](
+  def committableSink[K, V, IN <: Envelope[K, V, ? <: ConsumerMessage.Committable]](
       producerSettings: ProducerSettings[K, V],
       committerSettings: CommitterSettings): Sink[IN, CompletionStage[Done]] =
     scaladsl.Producer
@@ -87,7 +87,7 @@ object Producer {
   def committableSinkWithOffsetContext[K, V, IN <: Envelope[K, V, ?], C <: Committable](
       producerSettings: ProducerSettings[K, V],
       committerSettings: CommitterSettings): Sink[pekko.japi.Pair[IN, C], CompletionStage[Done]] =
-    committableSink(producerSettings, committerSettings)
+    committableSink[K, V, Envelope[K, V, C]](producerSettings, committerSettings)
       .contramap(new pekko.japi.function.Function[japi.Pair[IN, C], Envelope[K, V, C]] {
         override def apply(p: japi.Pair[IN, C]) = p.first.withPassThrough(p.second)
       })

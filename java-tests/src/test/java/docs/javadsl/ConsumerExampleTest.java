@@ -285,7 +285,7 @@ class ConsumerExampleTest extends TestcontainersKafkaTest {
         Consumer.committableSource(consumerSettings, Subscriptions.topics(topic1, topic2))
             .map(
                 msg ->
-                    ProducerMessage.<String, String, ConsumerMessage.Committable>single(
+                    ProducerMessage.single(
                         new ProducerRecord<>(targetTopic, msg.record().key(), msg.record().value()),
                         msg.committableOffset()))
             .toMat(
