@@ -454,8 +454,16 @@ import scala.util.control.NonFatal
       case (ref, req) =>
         ref ! Messages(req.requestId, Iterator.empty)
     }
-    partitionAssignmentHandler.postStop()
-    consumer.close(CloseOptions.timeout(settings.getCloseTimeout))
+    try {
+      partitionAssignmentHandler.postStop()
+    } catch {
+      case NonFatal(ex) => log.error(ex, "Partition assignment handler failed in `onStop`")
+    } finally {
+      // the consumer is only created once the settings have been applied
+      if (consumer != null) {
+        consumer.close(CloseOptions.timeout(settings.getCloseTimeout))
+      }
+    }
     super.postStop()
   }
 
