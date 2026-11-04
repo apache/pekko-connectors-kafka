@@ -65,8 +65,8 @@ object Producer {
       committerSettings: CommitterSettings): Sink[IN, CompletionStage[Done]] =
     scaladsl.Producer
       .committableSink(producerSettings, committerSettings)
-      .mapMaterializedValue(_.asJava)
-      .asJava
+      .mapMaterializedValue[CompletionStage[Done]](_.asJava)
+      .asJava[IN]
 
   /**
    * Create a sink that is aware of the [[ConsumerMessage.Committable committable offset]] passed as
