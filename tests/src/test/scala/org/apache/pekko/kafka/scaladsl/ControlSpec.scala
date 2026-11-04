@@ -14,10 +14,12 @@
 
 package org.apache.pekko.kafka.scaladsl
 
+import java.util.concurrent.{ CompletableFuture, CompletionStage, Executor }
 import java.util.concurrent.atomic.AtomicBoolean
 
 import org.apache.pekko
 import pekko.Done
+import pekko.kafka.javadsl
 import pekko.kafka.scaladsl.Consumer.DrainingControl
 import pekko.kafka.tests.scaladsl.LogCapturing
 import org.apache.kafka.common.{ Metric, MetricName }
@@ -30,7 +32,8 @@ import scala.concurrent.Future
 
 object ControlSpec {
   class ControlImpl(stopFuture: Future[Done] = Future.successful(Done),
-      shutdownFuture: Future[Done] = Future.successful(Done))
+      shutdownFuture: Future[Done] = Future.successful(Done),
+      isShutdownFuture: Future[Done] = Future.failed(new NotImplementedError("")))
       extends Consumer.Control {
     val shutdownCalled = new AtomicBoolean(false)
 
@@ -39,8 +42,16 @@ object ControlSpec {
       shutdownCalled.set(true)
       shutdownFuture
     }
-    override def isShutdown: Future[Done] = ???
+    override def isShutdown: Future[Done] = isShutdownFuture
     override def metrics: Future[Map[MetricName, Metric]] = ???
+  }
+
+  class JavaControlImpl(isShutdownStage: CompletionStage[Done]) extends javadsl.Consumer.Control {
+    override def stop(): CompletionStage[Done] = ???
+    override def shutdown(): CompletionStage[Done] = ???
+    override def drainAndShutdown[T](streamCompletion: CompletionStage[T], ec: Executor): CompletionStage[T] = ???
+    override def isShutdown: CompletionStage[Done] = isShutdownStage
+    override def getMetrics: CompletionStage[java.util.Map[MetricName, Metric]] = ???
   }
 }
 
@@ -83,6 +94,33 @@ class ControlSpec extends AnyWordSpec with ScalaFutures with Matchers with LogCa
       value shouldBe a[RuntimeException]
       value.getMessage should be("expected")
       control.shutdownCalled.get() should be(true)
+    }
+
+    "return the same isShutdown future on every call" in {
+      val control = new ControlImpl(isShutdownFuture = Future.successful(Done))
+      val drainingControl = DrainingControl.apply(control, Future.successful("expected"))
+      (drainingControl.isShutdown should be).theSameInstanceAs(drainingControl.isShutdown)
+      drainingControl.isShutdown.futureValue should be(Done)
+    }
+  }
+
+  "javadsl DrainingControl" should {
+    "complete isShutdown only after the stream completes" in {
+      val streamCompletion = new CompletableFuture[String]()
+      val drainingControl = javadsl.Consumer.createDrainingControl(
+        new JavaControlImpl(CompletableFuture.completedFuture(Done)),
+        streamCompletion)
+      val isShutdown = drainingControl.isShutdown.toCompletableFuture
+      isShutdown.isDone should be(false)
+      streamCompletion.complete("done")
+      isShutdown.get() should be(Done)
+    }
+
+    "return the same isShutdown stage on every call" in {
+      val drainingControl = javadsl.Consumer.createDrainingControl(
+        new JavaControlImpl(CompletableFuture.completedFuture(Done)),
+        CompletableFuture.completedFuture("done"))
+      (drainingControl.isShutdown should be).theSameInstanceAs(drainingControl.isShutdown)
     }
   }
 }
