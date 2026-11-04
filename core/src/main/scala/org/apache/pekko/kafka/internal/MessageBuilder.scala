@@ -220,7 +220,8 @@ private[kafka] final class CommittableOffsetBatchImpl(
           s"expected [${classOf[CommittableOffsetBatchImpl].getName}]")
     }
 
-  override def getOffsets: java.util.Map[GroupTopicPartition, Long] = offsets.asJava
+  override def getOffsets: java.util.Map[GroupTopicPartition, java.lang.Long] =
+    offsets.view.mapValues(Long.box).toMap.asJava
 
   override def toString: String =
     s"CommittableOffsetBatch(batchSize=$batchSize, ${offsets.mkString(", ")})"

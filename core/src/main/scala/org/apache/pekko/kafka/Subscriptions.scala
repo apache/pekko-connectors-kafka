@@ -82,10 +82,22 @@ sealed trait AutoSubscription extends Subscription {
 sealed trait ConsumerRebalanceEvent
 @ApiMayChange
 final case class TopicPartitionsAssigned(sub: Subscription, topicPartitions: Set[TopicPartition])
-    extends ConsumerRebalanceEvent
+    extends ConsumerRebalanceEvent {
+
+  /**
+   * Java API
+   */
+  def getTopicPartitions: java.util.Set[TopicPartition] = topicPartitions.asJava
+}
 @ApiMayChange
 final case class TopicPartitionsRevoked(sub: Subscription, topicPartitions: Set[TopicPartition])
-    extends ConsumerRebalanceEvent
+    extends ConsumerRebalanceEvent {
+
+  /**
+   * Java API
+   */
+  def getTopicPartitions: java.util.Set[TopicPartition] = topicPartitions.asJava
+}
 
 object Subscriptions {
 
