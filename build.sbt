@@ -17,7 +17,6 @@ sourceDistName := "apache-pekko-connectors-kafka"
 sourceDistIncubating := false
 
 ThisBuild / reproducibleBuildsCheckResolver := Resolver.ApacheMavenStagingRepo
-ThisBuild / resolvers += Resolver.ApacheMavenStagingRepo
 ThisBuild / javafmtFormatterCompatibleJavaVersion := 17
 ThisBuild / JupiterKeys.junitJupiterVersion := "6.1.3"
 ThisBuild / JupiterKeys.junitPlatformVersion := "6.1.3"
