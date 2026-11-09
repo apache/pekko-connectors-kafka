@@ -109,12 +109,7 @@ object Consumer {
 
     override def stop(): Future[Done] = control.stop()
 
-    @deprecated("Use `drainAndShutdown` for proper shutdown of the stream.", "Alpakka Kafka 2.0.0")
-    override def shutdown(): Future[Done] =
-      control
-        .shutdown()
-        .flatMap(_ => streamCompletion)(ExecutionContext.parasitic)
-        .map(_ => Done)(ExecutionContext.parasitic)
+    override def shutdown(): Future[Done] = control.shutdown()
 
     override def drainAndShutdown[S](streamCompletion: Future[S])(implicit ec: ExecutionContext): Future[S] =
       control.drainAndShutdown(streamCompletion)
