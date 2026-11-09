@@ -36,7 +36,8 @@ import org.apache.kafka.clients.consumer.{ ConsumerConfig, ConsumerGroupMetadata
 import org.apache.kafka.common.{ IsolationLevel, TopicPartition }
 
 import scala.concurrent.duration.FiniteDuration
-import scala.concurrent.{ ExecutionContext, Future }
+import scala.concurrent.{ Await, ExecutionContext, Future }
+import scala.util.control.NonFatal
 
 /** Internal API */
 @InternalApi
@@ -168,31 +169,41 @@ private[internal] abstract class TransactionalSourceLogic[K, V, Msg](shape: Sour
 
   override protected def addToPartitionAssignmentHandler(
       handler: PartitionAssignmentHandler): PartitionAssignmentHandler = {
-    val asyncRevokedCall = new PartitionAssignmentHandler {
+    val blockingRevokedCall = new PartitionAssignmentHandler {
       override def onAssign(assignedTps: Set[TopicPartition], consumer: RestrictedConsumer): Unit = ()
 
       // This is invoked in the KafkaConsumerActor thread when doing poll.
-      // Uses async ask to avoid blocking the poll thread, which would prevent heartbeats
-      // and could deadlock if the stage actor needs the consumer actor to process commits.
-      override def onRevoke(revokedTps: Set[TopicPartition], consumer: RestrictedConsumer): Unit = {
-        import pekko.pattern.ask
-        implicit val timeout: Timeout = Timeout(consumerSettings.commitTimeout)
-        ask(stageActor.ref, Drain(revokedTps, None, Drained))
-          .onComplete {
-            case scala.util.Success(_) =>
-              sourceActor.ref.tell(Revoked(revokedTps.toList), consumerActor)
-            case scala.util.Failure(_) =>
-              sourceActor.ref.tell(Failure(new Error("Timeout while draining")), consumerActor)
-              consumerActor.tell(KafkaConsumerActor.Internal.StopFromStage(id), consumerActor)
-          }(ExecutionContext.parasitic)
-      }
+      // It must block until the in-flight records of the revoked partitions are committed (or the
+      // commit timeout passes): Kafka continues the rebalance as soon as this callback returns, and
+      // the new owner of a partition starts from its last committed offset. Returning early lets a
+      // transaction that is still open for a revoked partition commit after the new owner has
+      // re-read the same records, which duplicates them in the output.
+      override def onRevoke(revokedTps: Set[TopicPartition], consumer: RestrictedConsumer): Unit =
+        if (waitForDraining(revokedTps)) {
+          sourceActor.ref.tell(Revoked(revokedTps.toList), consumerActor)
+        } else {
+          sourceActor.ref.tell(Failure(new Error("Timeout while draining")), consumerActor)
+          consumerActor.tell(KafkaConsumerActor.Internal.StopFromStage(id), consumerActor)
+        }
 
       override def onLost(lostTps: Set[TopicPartition], consumer: RestrictedConsumer): Unit =
         onRevoke(lostTps, consumer)
 
       override def onStop(revokedTps: Set[TopicPartition], consumer: RestrictedConsumer): Unit = ()
     }
-    new PartitionAssignmentHelpers.Chain(handler, asyncRevokedCall)
+    new PartitionAssignmentHelpers.Chain(handler, blockingRevokedCall)
+  }
+
+  private def waitForDraining(partitions: Set[TopicPartition]): Boolean = {
+    import pekko.pattern.ask
+    implicit val timeout: Timeout = Timeout(consumerSettings.commitTimeout)
+    try {
+      Await.result(ask(stageActor.ref, Drain(partitions, None, Drained)), timeout.duration)
+      true
+    } catch {
+      case NonFatal(_) =>
+        false
+    }
   }
 }
 
@@ -242,31 +253,21 @@ private[kafka] final class TransactionalSubSource[K, V](
 
       override protected def addToPartitionAssignmentHandler(
           handler: PartitionAssignmentHandler): PartitionAssignmentHandler = {
-        val asyncRevokedCall = new PartitionAssignmentHandler {
+        val blockingRevokedCall = new PartitionAssignmentHandler {
           override def onAssign(assignedTps: Set[TopicPartition], consumer: RestrictedConsumer): Unit = ()
 
           // This is invoked in the KafkaConsumerActor thread when doing poll.
-          // Uses async ask to avoid blocking the poll thread, which would prevent heartbeats
-          // and could deadlock if the stage actor needs the consumer actor to process commits.
+          // It must block until the in-flight records of the revoked partitions are committed, see
+          // TransactionalSourceLogic.addToPartitionAssignmentHandler.
           override def onRevoke(revokedTps: Set[TopicPartition], consumer: RestrictedConsumer): Unit =
-            if (revokedTps.nonEmpty) {
-              import pekko.pattern.ask
-              implicit val timeout: Timeout = Timeout(txConsumerSettings.commitTimeout)
-              implicit val ec: ExecutionContext = executionContext
-              Future
-                .sequence(
-                  subSources.values.map(_.stageActor).map(ask(_, Drain(revokedTps, None, Drained))))
-                .onComplete {
-                  case scala.util.Success(_) =>
-                    subSources.values
-                      .map(_.controlAndStageActor.stageActor)
-                      .foreach(_.tell(Revoked(revokedTps.toList), stageActor.ref))
-                  case scala.util.Failure(_) =>
-                    sourceActor.ref.tell(
-                      Status.Failure(new Error("Timeout while draining")),
-                      stageActor.ref)
-                    consumerActor.tell(KafkaConsumerActor.Internal.StopFromStage(id), stageActor.ref)
-                }
+            if (revokedTps.isEmpty) ()
+            else if (waitForDraining(revokedTps)) {
+              subSources.values
+                .map(_.controlAndStageActor.stageActor)
+                .foreach(_.tell(Revoked(revokedTps.toList), stageActor.ref))
+            } else {
+              sourceActor.ref.tell(Status.Failure(new Error("Timeout while draining")), stageActor.ref)
+              consumerActor.tell(KafkaConsumerActor.Internal.StopFromStage(id), stageActor.ref)
             }
 
           override def onLost(lostTps: Set[TopicPartition], consumer: RestrictedConsumer): Unit =
@@ -274,7 +275,22 @@ private[kafka] final class TransactionalSubSource[K, V](
 
           override def onStop(revokedTps: Set[TopicPartition], consumer: RestrictedConsumer): Unit = ()
         }
-        new PartitionAssignmentHelpers.Chain(handler, asyncRevokedCall)
+        new PartitionAssignmentHelpers.Chain(handler, blockingRevokedCall)
+      }
+
+      private def waitForDraining(partitions: Set[TopicPartition]): Boolean = {
+        import pekko.pattern.ask
+        implicit val timeout: Timeout = Timeout(txConsumerSettings.commitTimeout)
+        implicit val ec: ExecutionContext = executionContext
+        try {
+          val drainCommandFutures =
+            subSources.values.map(_.stageActor).map(ask(_, Drain(partitions, None, Drained)))
+          Await.result(Future.sequence(drainCommandFutures), timeout.duration)
+          true
+        } catch {
+          case NonFatal(_) =>
+            false
+        }
       }
     }
   }
