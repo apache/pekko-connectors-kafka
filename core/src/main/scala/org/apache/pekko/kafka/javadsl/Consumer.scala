@@ -420,11 +420,7 @@ object Consumer {
       subscription: ManualSubscription,
       groupId: String,
       commitTimeout: java.time.Duration): Source[CommittableMessage[K, V], Control] =
-    scaladsl.Consumer
-      .committableExternalSource(consumer, subscription, groupId, commitTimeout.toScala)
-      .mapMaterializedValue(new ConsumerControlAsJava(_))
-      .asJava
-      .asInstanceOf[Source[CommittableMessage[K, V], Control]]
+    committableExternalSourceInternal(consumer, subscription, groupId, commitTimeout.toScala)
 
   /**
    * The same as [[#plainExternalSource]] but with offset commit support.
@@ -434,7 +430,17 @@ object Consumer {
       subscription: ManualSubscription,
       groupId: String,
       commitTimeout: FiniteDuration): Source[CommittableMessage[K, V], Control] =
-    committableExternalSource(consumer, subscription, groupId, commitTimeout.toJava)
+    committableExternalSourceInternal(consumer, subscription, groupId, commitTimeout)
+
+  private def committableExternalSourceInternal[K, V](consumer: ActorRef,
+      subscription: ManualSubscription,
+      groupId: String,
+      commitTimeout: FiniteDuration): Source[CommittableMessage[K, V], Control] =
+    scaladsl.Consumer
+      .committableExternalSource[K, V](consumer, subscription, groupId, commitTimeout)
+      .mapMaterializedValue(new ConsumerControlAsJava(_))
+      .asJava
+      .asInstanceOf[Source[CommittableMessage[K, V], Control]]
 
   private def offsetsOnAssignAsScala(
       getOffsetsOnAssign: java.util.function.Function[? >: java.util.Set[TopicPartition],
