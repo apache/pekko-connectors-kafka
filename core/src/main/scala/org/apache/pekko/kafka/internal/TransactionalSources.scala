@@ -174,10 +174,13 @@ private[internal] abstract class TransactionalSourceLogic[K, V, Msg](shape: Sour
       // This is invoked in the KafkaConsumerActor thread when doing poll.
       // Uses async ask to avoid blocking the poll thread, which would prevent heartbeats
       // and could deadlock if the stage actor needs the consumer actor to process commits.
+      // It is also invoked from KafkaConsumer.close() after this stage may already have stopped,
+      // so it must use the captured `sourceActor` rather than `stageActor`, which throws once the
+      // stage has stopped. A throwing callback makes Kafka skip sending LeaveGroup on close.
       override def onRevoke(revokedTps: Set[TopicPartition], consumer: RestrictedConsumer): Unit = {
         import pekko.pattern.ask
         implicit val timeout: Timeout = Timeout(consumerSettings.commitTimeout)
-        ask(stageActor.ref, Drain(revokedTps, None, Drained))
+        ask(sourceActor.ref, Drain(revokedTps, None, Drained))
           .onComplete {
             case scala.util.Success(_) =>
               sourceActor.ref.tell(Revoked(revokedTps.toList), consumerActor)
@@ -260,12 +263,12 @@ private[kafka] final class TransactionalSubSource[K, V](
                   case scala.util.Success(_) =>
                     subSources.values
                       .map(_.controlAndStageActor.stageActor)
-                      .foreach(_.tell(Revoked(revokedTps.toList), stageActor.ref))
+                      .foreach(_.tell(Revoked(revokedTps.toList), sourceActor.ref))
                   case scala.util.Failure(_) =>
                     sourceActor.ref.tell(
                       Status.Failure(new Error("Timeout while draining")),
-                      stageActor.ref)
-                    consumerActor.tell(KafkaConsumerActor.Internal.StopFromStage(id), stageActor.ref)
+                      sourceActor.ref)
+                    consumerActor.tell(KafkaConsumerActor.Internal.StopFromStage(id), sourceActor.ref)
                 }
             }
 
@@ -431,7 +434,7 @@ private final class TransactionalSubSourceStageLogic[K, V](
         log.debug("Draining partitions {}", partitions)
         materializer.scheduleOnce(
           consumerSettings.drainingCheckInterval,
-          () => subSourceActor.ref.tell(Drain(partitions, ack.orElse(Some(sender)), msg), stageActor.ref))
+          () => subSourceActor.ref.tell(Drain(partitions, ack.orElse(Some(sender)), msg), subSourceActor.ref))
       }
     case (sender, DrainingComplete) =>
       completeStage()
