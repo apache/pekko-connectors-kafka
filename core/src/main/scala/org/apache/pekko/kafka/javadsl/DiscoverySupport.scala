@@ -26,7 +26,7 @@ import scala.jdk.FunctionConverters._
 import scala.jdk.FutureConverters._
 
 /**
- * Scala API.
+ * Java API.
  *
  * Reads Kafka bootstrap servers from configured sources via [[org.apache.pekko.discovery.Discovery]] configuration.
  */

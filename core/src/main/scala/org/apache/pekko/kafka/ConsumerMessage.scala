@@ -212,7 +212,7 @@ object ConsumerMessage {
     /**
      * Java API: Get current offset positions
      */
-    def getOffsets: java.util.Map[GroupTopicPartition, Long]
+    def getOffsets: java.util.Map[GroupTopicPartition, java.lang.Long]
 
     /**
      * Internal API.

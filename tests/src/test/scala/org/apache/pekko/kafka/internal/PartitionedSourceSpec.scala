@@ -326,6 +326,35 @@ class PartitionedSourceSpec(_system: ActorSystem)
     sink.cancel()
   }
 
+  it should "seek to the java.lang.Long offsets given through the javadsl" in assertAllStagesStopped {
+    val dummy = new Dummy()
+
+    val getOffsetsOnAssign: java.util.function.Function[java.util.Set[TopicPartition],
+      java.util.concurrent.CompletionStage[java.util.Map[TopicPartition, java.lang.Long]]] = { tps =>
+      val offsets: java.util.Map[TopicPartition, java.lang.Long] =
+        tps.asScala.map(tp => tp -> java.lang.Long.valueOf(300L)).toMap.asJava
+      java.util.concurrent.CompletableFuture.completedFuture(offsets)
+    }
+
+    val sink = pekko.kafka.javadsl.Consumer
+      .plainPartitionedManualOffsetSource(consumerSettings(dummy), Subscriptions.topics(topic), getOffsetsOnAssign)
+      .asScala
+      .runWith(TestSink())
+
+    dummy.started.futureValue should be(Done)
+
+    dummy.assignWithCallback(tp0, tp1)
+
+    eventually {
+      dummy.seeks should contain.allOf(tp0 -> 300L, tp1 -> 300L)
+    }
+
+    sink.request(2)
+    sink.expectNextN(2).map(_.first) should contain.allOf(tp0, tp1)
+
+    sink.cancel()
+  }
+
   it should "seek to given offset" in assertAllStagesStopped {
     val dummy = new Dummy()
 
