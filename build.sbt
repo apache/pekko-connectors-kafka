@@ -121,6 +121,8 @@ lazy val `java-tests` = project
   .dependsOn(core, testkit, `cluster-sharding`, tests % "compile->compile;test->test")
   .disablePlugins(MimaPlugin, SitePlugin)
   .settings(commonSettings)
+  // Keep protoc-generated sources untouched, as in Pekko core.
+  .settings(javafmt / excludeFilter := (javafmt / excludeFilter).value || "OrderMessages.java")
   .addPekkoModuleDependency("pekko-discovery", "test", PekkoCoreDependency.default)
   .addPekkoModuleDependency("pekko-slf4j", "test", PekkoCoreDependency.default)
   .settings(
