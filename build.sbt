@@ -167,3 +167,16 @@ lazy val benchmarks = project
     publish / skip := true,
     Test / parallelExecution := false,
     libraryDependencies ++= Dependencies.benchmarkDependencies)
+
+// Organize imports semantically before applying the usual source formatting.
+// Include projects intentionally omitted from the root's normal aggregation.
+addCommandAlias(
+  "sortImports",
+  Seq(
+    "scalafixEnable",
+    "scalafixAll OrganizeImports",
+    "int-tests/scalafixAll OrganizeImports",
+    "benchmarks/scalafixAll OrganizeImports",
+    "scalafmtAll",
+    "int-tests/scalafmtAll",
+    "benchmarks/scalafmtAll").mkString(";", ";", ""))

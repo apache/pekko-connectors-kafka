@@ -150,6 +150,17 @@ object ProjectSettings extends AutoPlugin {
     testOptions += Tests.Argument(jupiterTestFramework, "-a", "-v", "-q", "-s"),
     scalafmtOnCompile := false,
     javafmtOnCompile := false,
+    // SemanticDB must retain unused-import diagnostics for OrganizeImports.
+    // Informational diagnostics also work when the normal build treats warnings as errors.
+    scalacOptions ++= {
+      if (!semanticdbEnabled.value) Nil
+      else if (scalaBinaryVersion.value == "2.13")
+        Seq("-Wunused:imports", "-Wconf:cat=unused-imports:i")
+      else if (scalaBinaryVersion.value == "3")
+        Seq("-Wunused:imports", "-Wconf:msg=unused import:i")
+      else Nil
+    },
+
     javafmtSortImports := false,
     ThisBuild / mimaReportSignatureProblems := true,
     projectInfoVersion := (if (isSnapshot.value) "snapshot" else version.value))
