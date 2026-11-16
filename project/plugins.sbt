@@ -26,3 +26,4 @@ addSbtPlugin(("com.github.sbt" % "sbt-site-paradox" % "1.7.0").excludeAll(
   "com.lightbend.paradox", "sbt-paradox"))
 
 addSbtPlugin("org.apache.pekko" % "pekko-sbt-paradox" % "1.0.1")
+addSbtPlugin("com.lightbend.paradox" % "sbt-paradox-dependencies" % "0.2.4")
