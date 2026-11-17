@@ -198,6 +198,35 @@ class ProducerSpec(_system: ActorSystem)
     }
   }
 
+  it should "close a producer that is created after the stage failed" in {
+    val client = new ProducerMock[K, V](ProducerMock.handlers.fail)
+    // gate the producer creation so that it is still pending when the stage fails
+    val enrichment = Promise[ProducerSettings[K, V]]()
+    val pSettings = settings
+      .withProducerFactory(_ => client.mock)
+      .withCloseProducerOnStop(true)
+      .withEnrichAsync(_ => enrichment.future)
+    val flow = Flow
+      .fromGraph(
+        new DefaultProducerStage[K, V, NotUsed.type, Msg, Result[K, V, NotUsed.type]](pSettings))
+      .mapAsync(1)(identity)
+
+    val (source, sink) = TestSource[Msg]()
+      .via(flow)
+      .toMat(TestSink())(Keep.both)
+      .run()
+
+    sink.request(1)
+    val sourceError = new Exception("source failed while the producer was being created")
+    source.sendError(sourceError)
+    sink.expectError(sourceError)
+
+    // the producer is only created now, when the stage is already gone
+    enrichment.success(pSettings)
+
+    awaitAssert(client.closed shouldBe true, 3.seconds)
+  }
+
   it should "in case of source error complete emitted messages and push error" in assertAllStagesStopped {
     val input = (1 to 10).map(recordAndMetadata)
 
