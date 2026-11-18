@@ -1,6 +1,15 @@
 ---
 project.description: Produce messages to Apache Kafka topics from Apache Pekko Streams with Apache Pekko Connectors Kafka.
 ---
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  license agreements; and to You under the Apache License, version 2.0:
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+  This file is part of the Apache Pekko project, which was derived from Akka.
+-->
+
 # Producer
 
 A producer publishes messages to Kafka topics. The message itself contains information about what topic and partition to publish to so you can publish to different topics with the same producer.

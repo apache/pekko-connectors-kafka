@@ -1,6 +1,15 @@
 ---
 project.description: React on Kafka rebalancing the partitions assigned to an Apache Pekko Connectors Kafka consumer.
 ---
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  license agreements; and to You under the Apache License, version 2.0:
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+  This file is part of the Apache Pekko project, which was derived from Akka.
+-->
+
 # React on Partition Assignment
 
 Apache Pekko Connectors Kafka allows to react to the Kafka broker's balancing of partitions within a consumer group in two ways:

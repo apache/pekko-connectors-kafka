@@ -1,6 +1,15 @@
 ---
 project.description: Achieve at-least-once semantics with offset committing in Apache Pekko Connectors Kafka.
 ---
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  license agreements; and to You under the Apache License, version 2.0:
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+  This file is part of the Apache Pekko project, which was derived from Akka.
+-->
+
 # At-Least-Once Delivery
 
 At-least-once delivery semantics, the requirement to process every message, is a basic requirement of most applications. 
