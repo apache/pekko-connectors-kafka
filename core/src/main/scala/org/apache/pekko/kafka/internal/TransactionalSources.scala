@@ -36,7 +36,7 @@ import org.apache.kafka.clients.consumer.{ ConsumerConfig, ConsumerGroupMetadata
 import org.apache.kafka.common.{ IsolationLevel, TopicPartition }
 
 import scala.concurrent.duration.FiniteDuration
-import scala.concurrent.{ Await, ExecutionContext, Future }
+import scala.concurrent.{ blocking, Await, ExecutionContext, Future }
 import scala.util.control.NonFatal
 
 /** Internal API */
@@ -198,7 +198,7 @@ private[internal] abstract class TransactionalSourceLogic[K, V, Msg](shape: Sour
     import pekko.pattern.ask
     implicit val timeout: Timeout = Timeout(consumerSettings.commitTimeout)
     try {
-      Await.result(ask(stageActor.ref, Drain(partitions, None, Drained)), timeout.duration)
+      blocking(Await.result(ask(stageActor.ref, Drain(partitions, None, Drained)), timeout.duration))
       true
     } catch {
       case NonFatal(_) =>
@@ -285,7 +285,7 @@ private[kafka] final class TransactionalSubSource[K, V](
         try {
           val drainCommandFutures =
             subSources.values.map(_.stageActor).map(ask(_, Drain(partitions, None, Drained)))
-          Await.result(Future.sequence(drainCommandFutures), timeout.duration)
+          blocking(Await.result(Future.sequence(drainCommandFutures), timeout.duration))
           true
         } catch {
           case NonFatal(_) =>
