@@ -1,3 +1,12 @@
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  license agreements; and to You under the Apache License, version 2.0:
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+  This file is part of the Apache Pekko project, which was derived from Akka.
+-->
+
 # Debugging
 
 Debugging setups with the Apache Pekko Connectors Kafka Connector will be required at times. This page collects a few ideas to start out with in case the connector does not behave as you expected.

@@ -1,6 +1,15 @@
 ---
 project.description: An Apache Pekko Connectors Kafka consumer source can subscribe to Kafka topics within a consumer group, or to specific partitions.
 ---
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  license agreements; and to You under the Apache License, version 2.0:
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+  This file is part of the Apache Pekko project, which was derived from Akka.
+-->
+
 # Subscription
 
 Consumer Sources are created with different types of subscriptions, which control from which topics, partitions and offsets data is to be consumed.
