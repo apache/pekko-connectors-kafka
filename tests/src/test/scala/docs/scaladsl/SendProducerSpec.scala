@@ -32,7 +32,7 @@ class SendProducerSpec extends DocsSpecBase with TestcontainersKafkaLike {
     val topic1 = createTopic(1)
 
     // #record
-    val producer = SendProducer(producerDefaults)
+    val producer = SendProducer.create(producerDefaults)
     try {
       val send: Future[RecordMetadata] = producer
         .send(new ProducerRecord(topic1, "key", "value"))
@@ -53,7 +53,7 @@ class SendProducerSpec extends DocsSpecBase with TestcontainersKafkaLike {
   it should "send a multi-message (with one record)" in {
     val topic1 = createTopic(1)
 
-    val producer = SendProducer(producerDefaults)
+    val producer = SendProducer.create(producerDefaults)
     try {
       // #envelope
       val message = ProducerMessage.multi(Seq(new ProducerRecord(topic1, "key", "value")), "context")
@@ -79,7 +79,7 @@ class SendProducerSpec extends DocsSpecBase with TestcontainersKafkaLike {
     val topic1 = createTopic(1)
 
     // #multiMessage
-    val producer = SendProducer(producerDefaults)
+    val producer = SendProducer.create(producerDefaults)
     try {
       val envelope: ProducerMessage.Envelope[String, String, String] =
         ProducerMessage.multi(Seq(
@@ -107,7 +107,7 @@ class SendProducerSpec extends DocsSpecBase with TestcontainersKafkaLike {
 
   "Mis-configured producer" should "fail the send future" in {
     val topic1 = createTopic(1)
-    val producer = SendProducer(producerDefaults.withBootstrapServers("unkownhost"))
+    val producer = SendProducer.create(producerDefaults.withBootstrapServers("unkownhost"))
     try {
       val send = producer.send(new ProducerRecord(topic1, "key", "value"))
       send.failed.futureValue shouldBe a[org.apache.kafka.common.KafkaException]
