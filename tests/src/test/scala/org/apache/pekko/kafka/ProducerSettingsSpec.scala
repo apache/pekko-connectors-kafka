@@ -127,6 +127,43 @@ class ProducerSettingsSpec
       settings.properties("batch.size") shouldBe "draft-value"
     }
 
+    "show well-known extension properties that hold no secrets in its diagnostic string" in {
+      val conf = ConfigFactory.load().getConfig("pekko.kafka.producer")
+      val settings = ProducerSettings(conf, new ByteArraySerializer, new StringSerializer)
+        .withProperty("schema.registry.url", "http://localhost:8081")
+        .withProperty("specific.avro.reader", "true")
+        .withProperty("basic.auth.credentials.source", "USER_INFO")
+        .withProperty("basic.auth.user.info", "example-user:example-secret")
+
+      val diagnostic = settings.toString
+      diagnostic should include("(schema.registry.url,http://localhost:8081)")
+      diagnostic should include("(specific.avro.reader,true)")
+      diagnostic should include("(basic.auth.credentials.source,USER_INFO)")
+      diagnostic should include("(basic.auth.user.info,[hidden])")
+      (diagnostic should not).include("example-secret")
+    }
+
+    "hide credentials embedded in the schema registry URL in its diagnostic string" in {
+      val conf = ConfigFactory.load().getConfig("pekko.kafka.producer")
+      val url = "http://first:8081,https://example-user:example-secret@second:8081/path"
+      val settings = ProducerSettings(conf, new ByteArraySerializer, new StringSerializer)
+        .withProperty("schema.registry.url", url)
+
+      val diagnostic = settings.toString
+      diagnostic should include("(schema.registry.url,http://first:8081,https://[hidden]@second:8081/path)")
+      (diagnostic should not).include("example-user")
+      (diagnostic should not).include("example-secret")
+      settings.properties("schema.registry.url") shouldBe url
+    }
+
+    "render a property value that Kafka's validators reject" in {
+      val conf = ConfigFactory.load().getConfig("pekko.kafka.producer")
+      val settings = ProducerSettings(conf, new ByteArraySerializer, new StringSerializer)
+        .withProperty("acks", "bogus")
+
+      settings.toString should include("(acks,bogus)")
+    }
+
     "throw IllegalArgumentException if no value serializer defined" in {
       val conf = ConfigFactory
         .parseString(

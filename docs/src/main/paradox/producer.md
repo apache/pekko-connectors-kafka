@@ -65,7 +65,9 @@ When creating a producer stream you need to pass in @apidoc[ProducerSettings$] t
 * tuning parameters
 
 `ProducerSettings.toString` hides the values of Kafka password properties and properties not recognized by Kafka's
-producer configuration. Rendering the diagnostic string does not validate the properties. All properties are still
+producer configuration. A few well-known extension properties that hold no secrets, such as the Confluent
+Schema Registry `schema.registry.url` and `specific.avro.reader`, stay visible; credentials embedded in the registry
+URL are hidden. Rendering the diagnostic string does not validate the properties. All properties are still
 passed unchanged to the Kafka client.
 
 Scala
