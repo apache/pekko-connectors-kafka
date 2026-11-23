@@ -17,14 +17,52 @@
 
 # Release Notes (2.0.x)
 
-## 2.0.0-M1
+@@@ warning
 
-This is milestone release and is aimed at testing this new major version by early adopters. This is experimental. This release should not be used in production.
+Pekko Connectors Kafka 2.x and Pekko 2.x are not binary compatible with their 1.x releases. Libraries built against
+Pekko 1.x or Pekko Connectors Kafka 1.x cannot be trusted to work with Pekko Connectors Kafka 2.x, and need to be
+rebuilt and released for Pekko 2.x. See the @extref:[Pekko 2.0 release notes](pekko:release-notes/releases-2.0.html)
+for the binary compatibility changes in the core Pekko modules.
 
-Java 17 is the minimum supported version. Scala 2.12 support has been dropped.
+Read the @ref:[migration guide](../migration-guide/migration-guide-1.x-2.x.md) before upgrading from
+Pekko Connectors Kafka 1.x.
 
-This milestone release is intended to be used with other Pekko 2.0 milestone module releases.
+@@@
+
+## 2.0.0
+
+Release notes for Apache Pekko Connectors Kafka 2.0.0. This is the first release of a new major version and includes
+the changes from the 2.0.0-M1 milestone release. See the GitHub milestones for
+[2.0.0-M1](https://github.com/apache/pekko-connectors-kafka/milestone/4?closed=1) and
+[2.0.0-M2](https://github.com/apache/pekko-connectors-kafka/milestone/5?closed=1) for a fuller list of changes.
+
+### Main changes
+
+* Pekko 2.0.0 is the new minimum Pekko version
+* Java 17 is the new minimum Java version
+* Scala 2.12 support has been dropped
+* The Kafka client has been upgraded to 4.x ([PR358](https://github.com/apache/pekko-connectors-kafka/pull/358))
+* Deprecated code has been removed ([PR369](https://github.com/apache/pekko-connectors-kafka/pull/369))
+* The Java DSL uses `java.lang.Long` for offsets, accepts `java.time.Duration` and has wider generic parameter types ([PR691](https://github.com/apache/pekko-connectors-kafka/pull/691))
+* `ConsumerSettings`, `ProducerSettings` and `CommitterSettings` reject durations and counts that are not positive ([PR627](https://github.com/apache/pekko-connectors-kafka/pull/627))
+
+### Additions
+
+* `ConsumerSettings.withPartitionAssignmentStrategies` and `withPartitionAssignmentStrategyCooperativeStickyAssignor` to select the partition assignment strategies ([PR506](https://github.com/apache/pekko-connectors-kafka/pull/506))
+* The testkit can start Confluent Platform 8.x (Kafka 4) containers in KRaft mode ([PR646](https://github.com/apache/pekko-connectors-kafka/pull/646))
+
+### Bug Fixes
+
+* Retry offset commits that fail with a transient `TimeoutException` or `CoordinatorLoadInProgressException` ([PR505](https://github.com/apache/pekko-connectors-kafka/pull/505))
+* Clear lastRevoked after use to avoid wiping buffers under cooperative rebalancing ([PR617](https://github.com/apache/pekko-connectors-kafka/pull/617))
+* Do not block the consumer poll thread while a transactional source drains revoked partitions ([PR623](https://github.com/apache/pekko-connectors-kafka/pull/623))
+* Implement `hashCode` on the committer used by committable offsets, consistent with its `equals` ([PR625](https://github.com/apache/pekko-connectors-kafka/pull/625))
+* Propagate `KafkaConnectionFailed` to the owner actor of the consumer actor ([PR626](https://github.com/apache/pekko-connectors-kafka/pull/626))
+* Close Kafka producers that are created after their stage has completed, and close the Kafka consumer when a partition assignment handler fails in `onStop` ([PR650](https://github.com/apache/pekko-connectors-kafka/pull/650))
+* Release all testkit resources when cleanup or cluster startup fails ([PR651](https://github.com/apache/pekko-connectors-kafka/pull/651))
+* `DrainingControl.isShutdown` attaches its callbacks only once, and the Java DSL version waits for the stream to complete ([PR683](https://github.com/apache/pekko-connectors-kafka/pull/683))
+* Let a transactional consumer leave its group promptly when the source stage stops before the consumer actor ([PR697](https://github.com/apache/pekko-connectors-kafka/pull/697))
 
 ### Dependency Changes
 
-* kafka-clients 4.1.2
+* kafka-clients 4.4.0
