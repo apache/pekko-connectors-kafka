@@ -88,8 +88,11 @@ duration or count that is zero or negative, such as `poll-interval`, `stop-timeo
 `max-batch`, now fails with an `IllegalArgumentException` when the settings are created, instead of being accepted.
 An infinite `commit-refresh-interval` is still valid.
 ([PR627](https://github.com/apache/pekko-connectors-kafka/pull/627))
-* Offset commits that fail with a Kafka `TimeoutException` or `CoordinatorLoadInProgressException` are retried until
-`commit-timeout` expires, as was already done for `RebalanceInProgressException`.
+* Offset commits that fail with a Kafka `TimeoutException` or `CoordinatorLoadInProgressException` are retried by the
+consumer actor, as was already done for `RebalanceInProgressException`. `commit-timeout` only limits how long the
+caller waits: when it expires, the returned @scala[`Future`]@java[`CompletionStage`] fails with a
+`CommitTimeoutException`. It does not cancel the retries, so the consumer actor keeps retrying the commit for as long
+as it fails with one of these exceptions.
 ([PR505](https://github.com/apache/pekko-connectors-kafka/pull/505))
 * The Java DSL `Consumer.DrainingControl.isShutdown` completes when the consumer has shut down and the stream has
 completed, as the Scala DSL does. It previously completed as soon as the consumer had shut down. In both DSLs,
