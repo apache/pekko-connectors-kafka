@@ -60,6 +60,10 @@ When creating a consumer source you need to pass in @apidoc[ConsumerSettings] th
 * Kafka consumer tuning parameters
 * assignment strategies
 
+`ConsumerSettings.toString` hides the values of Kafka password properties and properties not recognized by Kafka's
+consumer configuration. Rendering the diagnostic string does not validate the properties. All properties are still
+passed unchanged to the Kafka client.
+
 Apache Pekko Connectors Kafka's defaults for all settings are defined in `reference.conf` which is included in the library JAR.
 
 Important consumer settings
