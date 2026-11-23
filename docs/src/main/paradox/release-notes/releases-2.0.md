@@ -63,6 +63,7 @@ the changes from the 2.0.0-M1 milestone release. See the GitHub milestones for
 * Release all testkit resources when cleanup or cluster startup fails ([PR651](https://github.com/apache/pekko-connectors-kafka/pull/651))
 * `DrainingControl.isShutdown` attaches its callbacks only once, and the Java DSL version waits for the stream to complete ([PR683](https://github.com/apache/pekko-connectors-kafka/pull/683))
 * Let a transactional consumer leave its group promptly when the source stage stops before the consumer actor ([PR697](https://github.com/apache/pekko-connectors-kafka/pull/697))
+* `ConsumerSettings.toString` and `ProducerSettings.toString` hide the values of properties that are not part of Kafka's own consumer or producer configuration, and no longer validate the properties ([PR714](https://github.com/apache/pekko-connectors-kafka/pull/714))
 
 ### Dependency Changes
 

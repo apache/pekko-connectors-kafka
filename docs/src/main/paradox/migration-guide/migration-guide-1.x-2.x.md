@@ -101,6 +101,13 @@ completed, as the Scala DSL does. It previously completed as soon as the consume
 * When the connection checker reports a `KafkaConnectionFailed`, the failure is also sent to the owner actor of the
 `KafkaConsumerActor`, and not only to the stages that requested messages.
 ([PR626](https://github.com/apache/pekko-connectors-kafka/pull/626))
+* `ConsumerSettings.toString` and `ProducerSettings.toString` print `[hidden]` for the value of every property that
+is not defined by Kafka's own consumer or producer configuration, as well as for Kafka password properties. This
+includes properties read by serializers, interceptors and config providers, such as `schema.registry.url`. The
+properties are still passed unchanged to the Kafka client. `toString` also no longer validates the properties: it
+used to throw a Kafka `ConfigException` for a value that Kafka rejects, and that error is now only reported when the
+Kafka client is created.
+([PR714](https://github.com/apache/pekko-connectors-kafka/pull/714))
 
 ## Testkit
 
