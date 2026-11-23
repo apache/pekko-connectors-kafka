@@ -683,8 +683,7 @@ class ConsumerSettings[K, V] @InternalApi private[kafka] (
       propertiesWithMandatoryKeys + (ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG -> "undefined")
     }
     val kafkaClients =
-      ConfigSettings.serializeAndMaskKafkaProperties(myProperties,
-        new org.apache.kafka.clients.consumer.ConsumerConfig(_))
+      ConfigSettings.serializeAndMaskKafkaProperties(myProperties, ConfigSettings.consumerVisibleKafkaPropertyNames)
     "org.apache.pekko.kafka.ConsumerSettings(" +
     s"properties=$kafkaClients," +
     s"keyDeserializer=$keyDeserializerOpt," +

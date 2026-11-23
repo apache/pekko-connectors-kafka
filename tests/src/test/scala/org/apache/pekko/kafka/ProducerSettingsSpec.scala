@@ -103,6 +103,30 @@ class ProducerSettingsSpec
       (s should not).include("schlussel")
     }
 
+    "mask unregistered Kafka property values only in its diagnostic string" in {
+      val conf = ConfigFactory.load().getConfig("pekko.kafka.producer")
+      val key = "example.extension.label"
+      val value = "example-label-value"
+      val settings = ProducerSettings(conf, new ByteArraySerializer, new StringSerializer)
+        .withProperty("bootstrap.servers", "localhost:9092")
+        .withProperty(key, value)
+
+      val diagnostic = settings.toString
+      diagnostic should include(s"($key,[hidden])")
+      (diagnostic should not).include(value)
+      diagnostic should include("(bootstrap.servers,localhost:9092)")
+      settings.properties(key) shouldBe value
+    }
+
+    "render a known property even when its value is not valid Kafka config" in {
+      val conf = ConfigFactory.load().getConfig("pekko.kafka.producer")
+      val settings = ProducerSettings(conf, new ByteArraySerializer, new StringSerializer)
+        .withProperty("batch.size", "draft-value")
+
+      settings.toString should include("(batch.size,draft-value)")
+      settings.properties("batch.size") shouldBe "draft-value"
+    }
+
     "throw IllegalArgumentException if no value serializer defined" in {
       val conf = ConfigFactory
         .parseString(

@@ -401,8 +401,7 @@ class ProducerSettings[K, V] @InternalApi private[kafka] (
       propertiesWithMandatoryKeys + (ProducerConfig.BOOTSTRAP_SERVERS_CONFIG -> "undefined")
     }
     val kafkaClients =
-      ConfigSettings.serializeAndMaskKafkaProperties(myProperties,
-        new org.apache.kafka.clients.producer.ProducerConfig(_))
+      ConfigSettings.serializeAndMaskKafkaProperties(myProperties, ConfigSettings.producerVisibleKafkaPropertyNames)
     "org.apache.pekko.kafka.ProducerSettings(" +
     s"properties=$kafkaClients," +
     s"keySerializer=$keySerializerOpt," +

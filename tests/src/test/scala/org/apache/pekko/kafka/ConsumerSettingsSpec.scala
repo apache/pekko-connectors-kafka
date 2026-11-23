@@ -157,6 +157,30 @@ class ConsumerSettingsSpec
       (s should not).include("schlussel")
     }
 
+    "mask unregistered Kafka property values only in its diagnostic string" in {
+      val conf = ConfigFactory.load().getConfig("pekko.kafka.consumer")
+      val key = "example.extension.label"
+      val value = "example-label-value"
+      val settings = ConsumerSettings(conf, new ByteArrayDeserializer, new StringDeserializer)
+        .withProperty("bootstrap.servers", "localhost:9092")
+        .withProperty(key, value)
+
+      val diagnostic = settings.toString
+      diagnostic should include(s"($key,[hidden])")
+      (diagnostic should not).include(value)
+      diagnostic should include("(bootstrap.servers,localhost:9092)")
+      settings.properties(key) shouldBe value
+    }
+
+    "render a known property even when its value is not valid Kafka config" in {
+      val conf = ConfigFactory.load().getConfig("pekko.kafka.consumer")
+      val settings = ConsumerSettings(conf, new ByteArrayDeserializer, new StringDeserializer)
+        .withProperty("max.poll.records", "draft-value")
+
+      settings.toString should include("(max.poll.records,draft-value)")
+      settings.properties("max.poll.records") shouldBe "draft-value"
+    }
+
     "throw IllegalArgumentException if no value deserializer defined" in {
       val conf = ConfigFactory
         .parseString(

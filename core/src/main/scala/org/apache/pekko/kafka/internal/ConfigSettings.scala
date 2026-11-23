@@ -16,14 +16,17 @@ package org.apache.pekko.kafka.internal
 
 import java.util
 
-import org.apache.pekko
-import pekko.annotation.InternalApi
-import com.typesafe.config.{ Config, ConfigObject }
-
 import scala.annotation.tailrec
 import scala.concurrent.duration.Duration
 import scala.jdk.CollectionConverters._
 import scala.jdk.DurationConverters._
+
+import org.apache.kafka
+
+import org.apache.pekko
+import pekko.annotation.InternalApi
+
+import com.typesafe.config.{ Config, ConfigObject }
 
 /**
  * INTERNAL API
@@ -51,21 +54,24 @@ import scala.jdk.DurationConverters._
     keys.map(key => key -> config.getString(key)).toMap
   }
 
-  import org.apache.kafka
-  import scala.jdk.CollectionConverters._
+  private def visibleKafkaPropertyNames(configDef: kafka.common.config.ConfigDef): Set[String] =
+    configDef.configKeys().asScala.iterator.collect {
+      case (name, key) if key.`type` != kafka.common.config.ConfigDef.Type.PASSWORD => name
+    }.toSet
 
-  def serializeAndMaskKafkaProperties[A <: kafka.common.config.AbstractConfig](
-      properties: Map[String, AnyRef], constructor: java.util.Map[String, AnyRef] => A): String = {
-    val parsedAsKafkaConfig = constructor(properties.asJava)
+  lazy val consumerVisibleKafkaPropertyNames: Set[String] =
+    visibleKafkaPropertyNames(kafka.clients.consumer.ConsumerConfig.configDef())
+
+  lazy val producerVisibleKafkaPropertyNames: Set[String] =
+    visibleKafkaPropertyNames(kafka.clients.producer.ProducerConfig.configDef())
+
+  def serializeAndMaskKafkaProperties(properties: Map[String, AnyRef], visibleNames: Set[String]): String =
     properties.toSeq
-      .map {
-        case (key, _) if parsedAsKafkaConfig.typeOf(key) == kafka.common.config.ConfigDef.Type.PASSWORD =>
-          key -> kafka.common.config.types.Password.HIDDEN
-        case t => t
+      .map { case (key, value) =>
+        key -> (if (visibleNames(key)) value else kafka.common.config.types.Password.HIDDEN)
       }
       .sortBy(_._1)
       .mkString(",")
-  }
 
   def getPotentiallyInfiniteDuration(underlying: Config, path: String): Duration = underlying.getString(path) match {
     case "infinite" => Duration.Inf

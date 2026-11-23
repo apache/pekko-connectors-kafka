@@ -64,6 +64,10 @@ When creating a producer stream you need to pass in @apidoc[ProducerSettings$] t
 * serializers for the keys and values
 * tuning parameters
 
+`ProducerSettings.toString` hides the values of Kafka password properties and properties not recognized by Kafka's
+producer configuration. Rendering the diagnostic string does not validate the properties. All properties are still
+passed unchanged to the Kafka client.
+
 Scala
 : @@ snip [snip](/tests/src/test/scala/docs/scaladsl/ProducerExample.scala) { #settings }
 
