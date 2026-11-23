@@ -55,7 +55,8 @@ the changes from the 2.0.0-M1 milestone release. See the GitHub milestones for
 
 * Retry offset commits that fail with a transient `TimeoutException` or `CoordinatorLoadInProgressException` ([PR505](https://github.com/apache/pekko-connectors-kafka/pull/505))
 * Clear lastRevoked after use to avoid wiping buffers under cooperative rebalancing ([PR617](https://github.com/apache/pekko-connectors-kafka/pull/617))
-* Do not block the consumer poll thread while a transactional source drains revoked partitions ([PR623](https://github.com/apache/pekko-connectors-kafka/pull/623))
+* Transactional producer: abort the transaction when the final commit fails as the stage completes, and do not let a failing abort hide the original stage failure ([PR623](https://github.com/apache/pekko-connectors-kafka/pull/623))
+* Transactional sources wait in the partition revoke callback until the in-flight records of the revoked partitions are drained, so records are not duplicated across a rebalance. The wait is marked as blocking and the dispatcher sizing it needs is described in the @ref:[transactions](../transactions.md#consume-transform-produce-workflow) documentation ([PR695](https://github.com/apache/pekko-connectors-kafka/pull/695))
 * Implement `hashCode` on the committer used by committable offsets, consistent with its `equals` ([PR625](https://github.com/apache/pekko-connectors-kafka/pull/625))
 * Propagate `KafkaConnectionFailed` to the owner actor of the consumer actor ([PR626](https://github.com/apache/pekko-connectors-kafka/pull/626))
 * Close Kafka producers that are created after their stage has completed, and close the Kafka consumer when a partition assignment handler fails in `onStop` ([PR650](https://github.com/apache/pekko-connectors-kafka/pull/650))
