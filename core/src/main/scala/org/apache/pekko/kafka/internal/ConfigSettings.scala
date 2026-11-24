@@ -65,10 +65,32 @@ import com.typesafe.config.{ Config, ConfigObject }
   lazy val producerVisibleKafkaPropertyNames: Set[String] =
     visibleKafkaPropertyNames(kafka.clients.producer.ProducerConfig.configDef())
 
+  /**
+   * Properties that Kafka's client configuration does not define, but that are read by widely used client extensions
+   * (the Confluent Schema Registry serializers and Kafka config providers) and are known not to hold secrets. Their
+   * values stay visible in the diagnostic string. Every other unregistered property is hidden, so a name must only be
+   * added here when its value cannot be a credential. `schema.registry.url` is deliberately left out: a URL can carry
+   * credentials (user info, query parameters) and no sanitization of arbitrary URL text is reliable enough.
+   */
+  private val visibleExtensionPropertyNames: Set[String] = Set(
+    "config.providers",
+    "auto.register.schemas",
+    "use.latest.version",
+    "latest.compatibility.strict",
+    "id.compatibility.strict",
+    "normalize.schemas",
+    "specific.avro.reader",
+    "key.subject.name.strategy",
+    "value.subject.name.strategy",
+    "basic.auth.credentials.source",
+    "bearer.auth.credentials.source")
+
   def serializeAndMaskKafkaProperties(properties: Map[String, AnyRef], visibleNames: Set[String]): String =
     properties.toSeq
       .map { case (key, value) =>
-        key -> (if (visibleNames(key)) value else kafka.common.config.types.Password.HIDDEN)
+        key ->
+        (if (visibleNames(key) || visibleExtensionPropertyNames(key)) value
+         else kafka.common.config.types.Password.HIDDEN)
       }
       .sortBy(_._1)
       .mkString(",")
