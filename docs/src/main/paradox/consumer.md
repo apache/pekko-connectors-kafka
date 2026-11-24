@@ -62,8 +62,8 @@ When creating a consumer source you need to pass in @apidoc[ConsumerSettings] th
 
 `ConsumerSettings.toString` hides the values of Kafka password properties and properties not recognized by Kafka's
 consumer configuration. A few well-known extension properties that hold no secrets, such as the Confluent
-Schema Registry `schema.registry.url` and `specific.avro.reader`, stay visible; credentials embedded in the registry
-URL are hidden. Rendering the diagnostic string does not validate the properties. All properties are still
+Schema Registry `specific.avro.reader` and `auto.register.schemas`, stay visible. `schema.registry.url` is always
+hidden because a URL can carry credentials. Rendering the diagnostic string does not validate the properties. All properties are still
 passed unchanged to the Kafka client.
 
 Apache Pekko Connectors Kafka's defaults for all settings are defined in `reference.conf` which is included in the library JAR.

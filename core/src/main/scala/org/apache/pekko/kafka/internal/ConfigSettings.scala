@@ -69,11 +69,11 @@ import com.typesafe.config.{ Config, ConfigObject }
    * Properties that Kafka's client configuration does not define, but that are read by widely used client extensions
    * (the Confluent Schema Registry serializers and Kafka config providers) and are known not to hold secrets. Their
    * values stay visible in the diagnostic string. Every other unregistered property is hidden, so a name must only be
-   * added here when its value cannot be a credential.
+   * added here when its value cannot be a credential. `schema.registry.url` is deliberately left out: a URL can carry
+   * credentials (user info, query parameters) and no sanitization of arbitrary URL text is reliable enough.
    */
   private val visibleExtensionPropertyNames: Set[String] = Set(
     "config.providers",
-    "schema.registry.url",
     "auto.register.schemas",
     "use.latest.version",
     "latest.compatibility.strict",
@@ -85,21 +85,12 @@ import com.typesafe.config.{ Config, ConfigObject }
     "basic.auth.credentials.source",
     "bearer.auth.credentials.source")
 
-  // `schema.registry.url` may carry credentials, as in `https://user:password@host` (one or more, comma separated)
-  private val urlUserInfo = "://[^@,\\s]*@".r
-
-  private def hideUrlUserInfo(value: AnyRef): String =
-    urlUserInfo.replaceAllIn(String.valueOf(value),
-      java.util.regex.Matcher.quoteReplacement(s"://${kafka.common.config.types.Password.HIDDEN}@"))
-
   def serializeAndMaskKafkaProperties(properties: Map[String, AnyRef], visibleNames: Set[String]): String =
     properties.toSeq
       .map { case (key, value) =>
-        key -> (
-          if (visibleNames(key)) value
-          else if (visibleExtensionPropertyNames(key)) hideUrlUserInfo(value)
-          else kafka.common.config.types.Password.HIDDEN
-        )
+        key ->
+        (if (visibleNames(key) || visibleExtensionPropertyNames(key)) value
+         else kafka.common.config.types.Password.HIDDEN)
       }
       .sortBy(_._1)
       .mkString(",")
