@@ -24,7 +24,11 @@ import sbtlicensereport.SbtLicenseReport.autoImportImpl.dumpLicenseReportAggrega
 object ParadoxSettings {
 
   val themeSettings = Seq(
-    pekkoParadoxGithub := Some("https://github.com/apache/pekko-connectors-kafka"))
+    pekkoParadoxGithub := Some("https://github.com/apache/pekko-connectors-kafka"),
+    pekkoParadoxCopyright :=
+      """Copyright © 2011-2023 <a href="https://www.lightbend.com/">Lightbend, Inc</a>.
+        | Apache Pekko, Pekko, Apache, the Apache logo, and the Apache Pekko project logo are either registered trademarks
+        | or trademarks of The Apache Software Foundation in the United States and other countries.""".stripMargin)
 
   val propertiesSettings = Seq(
     apidocRootPackage := "org.apache.pekko",
