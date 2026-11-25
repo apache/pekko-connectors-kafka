@@ -95,8 +95,10 @@ object ConsumerSettings {
     val connectionCheckerSettings = ConnectionCheckerSettings(config.getConfig(ConnectionCheckerSettings.configPath))
     val partitionHandlerWarning = config.getDuration("partition-handler-warning").toScala
     require(pollInterval > Duration.Zero, "poll-interval must be positive")
-    require(pollTimeout > Duration.Zero, "poll-timeout must be positive")
-    require(stopTimeout > Duration.Zero, "stop-timeout must be positive")
+    // zero is a documented value for poll-timeout (non-blocking poll) and
+    // stop-timeout (streams using `DrainingControl`)
+    require(pollTimeout >= Duration.Zero, "poll-timeout must not be negative")
+    require(stopTimeout >= Duration.Zero, "stop-timeout must not be negative")
     require(closeTimeout > Duration.Zero, "close-timeout must be positive")
     require(commitTimeout > Duration.Zero, "commit-timeout must be positive")
     require(commitTimeWarning > Duration.Zero, "commit-time-warning must be positive")
