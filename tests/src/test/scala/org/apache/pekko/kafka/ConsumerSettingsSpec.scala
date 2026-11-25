@@ -28,6 +28,7 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
 import scala.concurrent.ExecutionContext
+import scala.concurrent.duration.Duration
 
 class ConsumerSettingsSpec
     extends AnyWordSpec
@@ -219,6 +220,41 @@ class ConsumerSettingsSpec
         .withProperty("auto.offset.reset", "bogus")
 
       settings.toString should include("(auto.offset.reset,bogus)")
+    }
+
+    "accept a zero stop-timeout and poll-timeout in config" in {
+      val conf = ConfigFactory
+        .parseString("""
+        pekko.kafka.consumer.stop-timeout = 0 seconds
+        pekko.kafka.consumer.poll-timeout = 0 ms
+        """)
+        .withFallback(ConfigFactory.load())
+        .getConfig("pekko.kafka.consumer")
+      val settings = ConsumerSettings(conf, new ByteArrayDeserializer, new StringDeserializer)
+      settings.stopTimeout should ===(Duration.Zero)
+      settings.pollTimeout should ===(Duration.Zero)
+    }
+
+    "reject a negative stop-timeout in config" in {
+      val conf = ConfigFactory
+        .parseString("pekko.kafka.consumer.stop-timeout = -1 ms")
+        .withFallback(ConfigFactory.load())
+        .getConfig("pekko.kafka.consumer")
+      val exception = intercept[IllegalArgumentException] {
+        ConsumerSettings(conf, new ByteArrayDeserializer, new StringDeserializer)
+      }
+      exception.getMessage should ===("requirement failed: stop-timeout must not be negative")
+    }
+
+    "reject a negative poll-timeout in config" in {
+      val conf = ConfigFactory
+        .parseString("pekko.kafka.consumer.poll-timeout = -1 ms")
+        .withFallback(ConfigFactory.load())
+        .getConfig("pekko.kafka.consumer")
+      val exception = intercept[IllegalArgumentException] {
+        ConsumerSettings(conf, new ByteArrayDeserializer, new StringDeserializer)
+      }
+      exception.getMessage should ===("requirement failed: poll-timeout must not be negative")
     }
 
     "throw IllegalArgumentException if no value deserializer defined" in {
