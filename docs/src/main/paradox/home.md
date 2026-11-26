@@ -21,7 +21,11 @@ This **Apache Pekko Connectors Kafka connector** lets you connect [Apache Kafka]
 
 | Kafka client                                                            | Scala Versions | Apache Pekko version | Apache Pekko Connectors Kafka Connector
 |-------------------------------------------------------------------------|----------------|----------------------|-------------------------
+| 4.4.0+ | 2.13, 3.3  | 2.0.0+            | 2.0.0
+| 3.9.2+ | 2.12, 2.13, 3.3  | 1.1.0+ (but 1.0.0+ should be ok)            | 1.2.0
 | 3.7.1+ | 2.12, 2.13, 3.3  | 1.1.0+ (but 1.0.0+ should be ok)            | 1.1.0
+
+Apache Pekko Connectors Kafka 2.x requires Java 17 or later. See the @ref:[migration guide](migration-guide/migration-guide-1.x-2.x.md) when upgrading from 1.x.
 
 @@@ note
 
@@ -48,7 +52,7 @@ Check even Confluent's [Versions and Interoperability](https://docs.confluent.io
   version2=PekkoVersion
 }
 
-This connector depends on Apache Pekko 1.0.x and note that it is important that all `pekko-*` dependencies are in the same version, so it is recommended to depend on them explicitly to avoid problems with transient dependencies causing an unlucky mix of versions.
+This connector depends on Apache Pekko 2.0.x and note that it is important that all `pekko-*` dependencies are in the same version, so it is recommended to depend on them explicitly to avoid problems with transient dependencies causing an unlucky mix of versions.
 
 Apache Pekko Connectors Kafka APIs accept a typed @apidoc[org.apache.pekko.actor.typed.ActorSystem] or a classic @apidoc[org.apache.pekko.actor.ActorSystem] because both implement the @apidoc[org.apache.pekko.actor.ClassicActorSystemProvider] @scala[trait]@java[interface].
 There are some Apache Pekko Connectors Kafka APIs that only accept classic a @apidoc[org.apache.pekko.actor.ActorRef], such as the @ref[rebalance listener](./consumer-rebalance.md) API, but otherwise there is no difference between running Apache Pekko Connectors Kafka and any other Apache Pekko Streams implementation with a typed @apidoc[org.apache.pekko.actor.typed.ActorSystem]. 
@@ -87,6 +91,7 @@ We want Apache Pekko and Apache Pekko Connectors to strive in a welcoming and op
 @@@ index
 
 * [release notes](release-notes/index.md)
+* [Migration Guide 1.x to 2.x](migration-guide/migration-guide-1.x-2.x.md)
 * [License Report](license-report.md)
 
 @@@
